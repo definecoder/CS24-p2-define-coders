@@ -2,7 +2,7 @@ import AdminSideBar from "./systemAdmin/sidebar";
 
 function Sidebar({role}: {role: string}) {
   return (
-    <AdminSideBar />
+    role === "admin" ? <AdminSideBar /> : <></>
   )
 }
 export default Sidebar;

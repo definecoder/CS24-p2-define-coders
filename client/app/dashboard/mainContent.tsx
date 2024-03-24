@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import {
   CircleUser,
@@ -30,8 +31,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { use, useContext, useEffect } from "react";
+import { NavContext } from "@/hooks/contexts/useNavCtx";
+
+function ok(activeValue: any) {
+  console.log("MainContent role: ", activeValue())
+  return true;
+}
 
 function MainContent({role = "unassigned"}: {role: string}) {
+
+  const activeValue = useContext(NavContext)?.currentActive;
+  useEffect(() => {console.log(activeValue)}, [activeValue]);
+
   return (
     <div className="flex flex-col">
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
@@ -153,7 +165,7 @@ function MainContent({role = "unassigned"}: {role: string}) {
               <p className="text-sm text-muted-foreground">
                 You can start selling as soon as you add a product.
               </p>
-              <Button className="mt-4">Add Product</Button>
+              <Button className="mt-4">Add Product {activeValue}</Button>
             </div>
           </div>
         </main>
