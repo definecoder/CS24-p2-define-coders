@@ -16,12 +16,17 @@ import LandfillManagerSchedules from "./landFillManagerContents/Schedules";
 import LandfillManagerStorageData from "./landFillManagerContents/Storage";
 import LandfillManagerDumpEntries from "./landFillManagerContents/DumpEntry";
 import LandfillManagerSettings from "./landFillManagerContents/Settings";
+import STSManagerDashboard from "./stsManagerContents/Dashboard";
+import STSManagerSchedules from "./stsManagerContents/Schedules";
+import STSManagerStorageData from "./stsManagerContents/Storage";
+import STSManagerDumpEntries from "./stsManagerContents/DumpEntry";
+import STSManagerSettings from "./stsManagerContents/Settings";
 
 function InvalidSate() {
   return (
     <div className="flex flex-1 max-h-[calc(100vh-60px)]">
       <div className="flex flex-col flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm text-lg text-gray-500">
-        <img src="/logoBlack.png" alt="Logo" className="h-1/6"/>
+        <img src="/logoBlack.png" alt="Logo" className="h-1/6" />
         <h1 className="text-3xl  text-black font-semibold md:text-4xl m-2">
           INVALID STATE
         </h1>
@@ -38,7 +43,7 @@ function getContentsOfAdmin(state: string) {
     case admin + "-System":
       return <AdminSystemDataPanel />;
     case admin + "-Schedules":
-        return <AdminSchedulePanel />;
+      return <AdminSchedulePanel />;
     case admin + "-Roles":
       return <AdminRolesManagementPanel />;
     case admin + "-Users":
@@ -63,7 +68,7 @@ function getContentsOfLandfillManager(state: string) {
     case landfillManager + "-Dump Entry":
       return <LandfillManagerDumpEntries />;
     case landfillManager + "-Settings":
-      return <LandfillManagerSettings />;            
+      return <LandfillManagerSettings />;
     default:
       return InvalidSate();
   }
@@ -71,8 +76,16 @@ function getContentsOfLandfillManager(state: string) {
 
 function getContentsOfSTSManager(state: string) {
   switch (state) {
-    case "admin-Dashboard":
-      return <AdminDashboard />;
+    case stsManager + "-Dashboard":
+      return <STSManagerDashboard />;
+    case stsManager + "-Schedules":
+      return <STSManagerSchedules />;
+    case stsManager + "-Storage":
+      return <STSManagerStorageData />;
+    case stsManager + "-Dump Entry":
+      return <STSManagerDumpEntries />;
+    case stsManager + "-Settings":
+      return <STSManagerSettings />;
     default:
       return InvalidSate();
   }
@@ -90,7 +103,8 @@ function getContentsOfUnassigned(state: string) {
 function getDashboardFor(state: string) {
   if (state.startsWith(admin)) return getContentsOfAdmin(state);
   else if (state.startsWith(stsManager)) return getContentsOfSTSManager(state);
-  else if (state.startsWith(landfillManager)) return getContentsOfLandfillManager(state);
+  else if (state.startsWith(landfillManager))
+    return getContentsOfLandfillManager(state);
   else if (state.startsWith(unassigned)) return getContentsOfUnassigned(state);
   else return InvalidSate();
 }
