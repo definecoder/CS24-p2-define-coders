@@ -1,9 +1,11 @@
-import express, { urlencoded } from 'express'
+import express, { urlencoded, Request, Response } from 'express'
 import dotenv from 'dotenv'
 dotenv.config();
 import checkDatabaseConnection from './db/connection';
 
 import { PrismaClient } from '@prisma/client';
+import errorWrapper from './middlewares/errorWrapper';
+import CustomError from './services/CustomError';
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -57,6 +59,44 @@ app.get('/users', async (req, res) => {
 
     
 } )
+
+app.put('/updateUser/:id',  errorWrapper( async (req: Request, res: Response) => {
+
+        const {id} = req.params
+        const {name, email, password} = req.body
+        // check if the user exist
+        const userExists = await prisma.user.findUnique({
+            where: {
+                id: id
+            }
+        });
+
+        
+
+        if (!userExists) {
+            throw new CustomError('User not found', 404);
+        }
+
+
+
+
+
+        const user = await prisma.user.update({
+            where: {
+                id: id
+            },
+            data: {
+                username: name,
+                email,
+                hashedPassword: password
+            }
+        })
+
+        res.json(user)
+    
+} )  )
+
+
 
 
 // get all roles
