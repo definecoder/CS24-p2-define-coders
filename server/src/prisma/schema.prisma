@@ -8,13 +8,133 @@ generator client {
 }
 
 model User {
-    id             String   @id @default(uuid())
-    username       String   @unique
-    email          String   @unique
+    id             String    @id @default(uuid())
+    username       String    @unique
+    email          String    @unique
     hashedPassword String
-    createdAt      DateTime @default(now())
-    updatedAt      DateTime @updatedAt
+    profileName    String?
+    profileImage   String?
+    role           Role      @relation(fields: [roleName], references: [name])
+    roleName       RoleName  @default(UNASSIGNED)
+    sts            STS?
+    landfill       Landfill?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@index([username], name: "username_index")
     @@index([email], name: "email_index")
+}
+
+model Role {
+    id          String           @id @default(uuid())
+    name        RoleName         @unique
+    description String?
+    User        User[]
+    permission  RolePermission[]
+}
+
+model Permission {
+    id          String           @id @default(uuid())
+    name        String           @unique
+    description String?
+    role        RolePermission[]
+}
+
+model RolePermission {
+    id           String     @id @default(uuid())
+    role         Role       @relation(fields: [roleId], references: [id])
+    roleId       String
+    permission   Permission @relation(fields: [permissionId], references: [id])
+    permissionId String
+
+    @@unique([roleId, permissionId], name: "role_permission_unique")
+}
+
+model Vehicle {
+    id                    String                  @id @default(uuid())
+    vehicleNumber         String                  @unique
+    vehicleType           String?
+    capacity              Decimal?
+    STSVehicleEntry       STSVehicleEntry[]
+    LandfillVehicleEntry  LandfillVehicleEntry[]
+    ResourceOilAllocation ResourceOilAllocation[]
+}
+
+model STS {
+    id                String   @id @default(uuid())
+    name              String?
+    wardNumber        String?
+    capacity          Decimal?
+    currentTotalWaste Decimal?
+    latitude          Decimal
+    longitude         Decimal
+
+    manager         User?             @relation(fields: [managerId], references: [id])
+    managerId       String?           @unique
+    STSVehicleEntry STSVehicleEntry[]
+    Route           Route[]
+}
+
+model Landfill {
+    id                String   @id @default(uuid())
+    name              String?
+    capacity          Decimal?
+    currentTotalWaste Decimal?
+    latitude          Decimal
+    longitude         Decimal
+
+    manager              User?                  @relation(fields: [managerId], references: [id])
+    managerId            String?                @unique
+    LandfillVehicleEntry LandfillVehicleEntry[]
+    Route                Route[]
+}
+
+model STSVehicleEntry {
+    id            String    @id @default(uuid())
+    sts           STS       @relation(fields: [stsId], references: [id])
+    stsId         String
+    vehicle       Vehicle   @relation(fields: [vehicleId], references: [id])
+    vehicleId     String
+    volumeOfWaste Decimal?
+    entryTime     DateTime?
+    exitTime      DateTime?
+}
+
+model LandfillVehicleEntry {
+    id            String    @id @default(uuid())
+    landfill      Landfill  @relation(fields: [landfillId], references: [id])
+    landfillId    String
+    vehicle       Vehicle   @relation(fields: [vehicleId], references: [id])
+    vehicleId     String
+    volumeOfWaste Decimal?
+    entryTime     DateTime?
+    exitTime      DateTime?
+}
+
+model ResourceOilAllocation {
+    id            String   @id @default(uuid())
+    vehicle       Vehicle  @relation(fields: [vehicleId], references: [id])
+    vehicleId     String
+    volumeOfWaste Decimal?
+    allocatedOil  Decimal?
+    amountOfTaka  Decimal?
+}
+
+model Route {
+    id                String   @id @default(uuid())
+    sts               STS      @relation(fields: [stsId], references: [id])
+    stsId             String
+    landfill          Landfill @relation(fields: [landfillId], references: [id])
+    landfillId        String
+    distance          Decimal?
+    estimatedDuration Decimal?
+    actualDuration    Decimal?
+}
+
+enum RoleName {
+    SYSTEM_ADMIN
+    LAND_MANAGER
+    STS_MANAGER
+    UNASSIGNED
 }
