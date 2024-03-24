@@ -15,6 +15,7 @@ import {
     Truck,
     Users,
   } from "lucide-react";
+import { stsManager } from "../roles";
 
 export const STSManagerSidebarItemList = [
     {
@@ -38,3 +39,9 @@ export const STSManagerSidebarItemList = [
       title: "Settings",
     },
   ];
+
+  export const stsManagerStateList = () => {
+    STSManagerSidebarItemList.map((item) => {
+      return stsManager + "-" + item.title;
+    });
+  };

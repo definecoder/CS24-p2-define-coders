@@ -15,6 +15,7 @@ import {
     Truck,
     Users,
   } from "lucide-react";
+import { landfillManager } from "../roles";
 
 export const LandfillManagerSidebarItemList = [
     {
@@ -38,3 +39,9 @@ export const LandfillManagerSidebarItemList = [
       title: "Settings",
     },
   ];
+
+  export const landfillManagerStateList = () => {
+    LandfillManagerSidebarItemList.map((item) => {
+      return landfillManager + "-" + item.title;
+    });
+  };
