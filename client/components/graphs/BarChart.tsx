@@ -1,38 +1,57 @@
-import React from "react";
-import { Bar } from "react-chartjs-2";
+"use client";
+import React, { useRef, useEffect } from 'react';
+import { Chart, CategoryScale } from 'chart.js/auto';
+Chart.register(CategoryScale); 
 
 interface ChartDataItem {
-  id: number;
-  year: number;
-  userGain: number;
-  userLost: number;
+  labels: string[];
+  data: number[];
+  backgroundColor: string[];
+  borderColor: string[];
 }
 
-interface BarChartProps {
-  chartData: ChartDataItem[];
-}
+const BarChart: React.FC<ChartDataItem> = ({ labels, data, backgroundColor, borderColor  }) => {
+  const chartRef = useRef<HTMLCanvasElement | null>(null);
+  const chartInstance = useRef<Chart | null>(null);
 
-const BarChart: React.FC<BarChartProps> = ({ chartData }) => {
-  const data = {
-    labels: chartData.map((data) => data.year),
-    datasets: [
-      {
-        label: "Users Gained",
-        data: chartData.map((data) => data.userGain),
-        backgroundColor: [
-          "rgba(75, 192, 192, 1)",
-          "#ecf0f1",
-          "#50AF95",
-          "#f3ba2f",
-          "#2a71d0",
-        ],
-        borderColor: "black",
-        borderWidth: 2,
-      },
-    ],
-  };
+  useEffect(() => {
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
 
-  return <Bar data={data} />;
+    const myChartRef = chartRef.current?.getContext('2d');
+
+    if (myChartRef) {
+     
+      chartInstance.current = new Chart(myChartRef, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'My First Dataset',
+              data: data,
+              backgroundColor: backgroundColor,
+              borderColor: borderColor,
+              borderWidth: 1,
+            },
+          ],
+        },
+      });
+    }
+
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
+  }, []); // Removed [labels, data] dependency array
+
+  return (
+    <div>
+      <canvas ref={chartRef} />
+    </div>
+  );
 };
 
 export default BarChart;
