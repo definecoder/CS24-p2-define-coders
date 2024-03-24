@@ -8,13 +8,32 @@ generator client {
 }
 
 model User {
-    id             String   @id @default(uuid())
-    username       String   @unique
-    email          String   @unique
+    id             String  @id @default(uuid())
+    username       String  @unique
+    email          String  @unique
     hashedPassword String
-    createdAt      DateTime @default(now())
-    updatedAt      DateTime @updatedAt
+    profileName    String?
+    profileImage   String?
+    role           Role    @relation(fields: [roleId], references: [id])
+    roleId         String  @default("299d8911-51c0-4141-b4dd-b0ed98cb9339")
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@index([username], name: "username_index")
     @@index([email], name: "email_index")
+}
+
+model Role {
+    id          String   @id @default(uuid())
+    name        RoleName @unique
+    description String?
+    User        User[]
+}
+
+enum RoleName {
+    SYSTEM_ADMIN
+    LAND_MANAGER
+    STS_MANAGER
+    UNASSIGNED
 }
