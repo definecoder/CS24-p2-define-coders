@@ -2,35 +2,95 @@
 
 import { useContext, useEffect } from "react";
 import { NavContext } from "@/hooks/contexts/useNavCtx";
-import { Button } from "@/components/ui/button";
 import MainSectionHeader from "./mainSectionHeader";
+import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
+import AdminDashboard from "./systemAdminContents/dashboard";
+import AdminSystemDataPanel from "./systemAdminContents/system";
+import AdminSchedulePanel from "./systemAdminContents/Schedule";
+import AdminRolesManagementPanel from "./systemAdminContents/Roles";
+import AdminUserManagementPanel from "./systemAdminContents/Users";
+import AdminBillsManagementPanel from "./systemAdminContents/Bills";
+import AdminSettingsPanel from "./systemAdminContents/Settings";
 
-function MainSection({role = "unassigned"}: {role: string}) {
+function InvalidSate() {
+  return (
+    <div className="flex flex-1 max-h-[calc(100vh-60px)]">
+      <div className="flex flex-col flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm text-lg text-gray-500">
+        <img src="/logoBlack.png" alt="Logo" className="h-1/6"/>
+        <h1 className="text-3xl  text-black font-semibold md:text-4xl m-2">
+          INVALID STATE
+        </h1>
+        The state you are trying to access is invalid.
+      </div>
+    </div>
+  );
+}
 
-  const activeValue = useContext(NavContext)?.currentActive;  
+function getContentsOfAdmin(state: string) {
+  switch (state) {
+    case "admin-Dashboard":
+      return <AdminDashboard />;
+    case "admin-System":
+      return <AdminSystemDataPanel />;
+    case "admin-Schedules":
+        return <AdminSchedulePanel />;
+    case "admin-Roles":
+      return <AdminRolesManagementPanel />;
+    case "admin-Users":
+      return <AdminUserManagementPanel />;
+    case "admin-Bills":
+      return <AdminBillsManagementPanel />;
+    case "admin-Settings":
+      return <AdminSettingsPanel />;
+    default:
+      return InvalidSate();
+  }
+}
+
+function getContentsOfLandfillManager(state: string) {
+  switch (state) {
+    case "admin-Dashboard":
+      return <AdminDashboard />;
+    default:
+      return InvalidSate();
+  }
+}
+
+function getContentsOfSTSManager(state: string) {
+  switch (state) {
+    case "admin-Dashboard":
+      return <AdminDashboard />;
+    default:
+      return InvalidSate();
+  }
+}
+
+function getContentsOfUnassigned(state: string) {
+  switch (state) {
+    case "admin-Dashboard":
+      return <AdminDashboard />;
+    default:
+      return InvalidSate();
+  }
+}
+
+function getDashboardFor(state: string) {
+  if (state.startsWith(admin)) return getContentsOfAdmin(state);
+  else if (state.startsWith(stsManager)) return getContentsOfSTSManager(state);
+  else if (state.startsWith(landfillManager)) return getContentsOfLandfillManager(state);
+  else if (state.startsWith(unassigned)) return getContentsOfUnassigned(state);
+  else return InvalidSate();
+}
+
+function MainSection({ role = "unassigned" }: { role: string }) {
+  const currentState = useContext(NavContext)?.currentActive;
 
   return (
     <div className="flex flex-col">
-        
-        <MainSectionHeader role={role} subsection={activeValue}/>
+      <MainSectionHeader role={role} subsection={currentState} />
 
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          <div className="flex items-center">
-            <h1 className="text-lg font-semibold md:text-2xl">{activeValue}</h1>
-          </div>
-          <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-            <div className="flex flex-col items-center gap-1 text-center">
-              <h3 className="text-2xl font-bold tracking-tight">
-                You have no products
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                You can start selling as soon as you add a product.
-              </p>
-              <Button className="mt-4">Add Product</Button>
-            </div>
-          </div>
-        </main>
-      </div>
-  )
+      {getDashboardFor(currentState)}
+    </div>
+  );
 }
-export default MainSection
+export default MainSection;
