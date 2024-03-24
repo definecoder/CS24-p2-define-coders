@@ -11,6 +11,11 @@ import AdminRolesManagementPanel from "./systemAdminContents/Roles";
 import AdminUserManagementPanel from "./systemAdminContents/Users";
 import AdminBillsManagementPanel from "./systemAdminContents/Bills";
 import AdminSettingsPanel from "./systemAdminContents/Settings";
+import LandfillManagerDashboard from "./landFillManagerContents/Dashboard";
+import LandfillManagerSchedules from "./landFillManagerContents/Schedules";
+import LandfillManagerStorageData from "./landFillManagerContents/Storage";
+import LandfillManagerDumpEntries from "./landFillManagerContents/DumpEntry";
+import LandfillManagerSettings from "./landFillManagerContents/Settings";
 
 function InvalidSate() {
   return (
@@ -28,19 +33,19 @@ function InvalidSate() {
 
 function getContentsOfAdmin(state: string) {
   switch (state) {
-    case "admin-Dashboard":
+    case admin + "-Dashboard":
       return <AdminDashboard />;
-    case "admin-System":
+    case admin + "-System":
       return <AdminSystemDataPanel />;
-    case "admin-Schedules":
+    case admin + "-Schedules":
         return <AdminSchedulePanel />;
-    case "admin-Roles":
+    case admin + "-Roles":
       return <AdminRolesManagementPanel />;
-    case "admin-Users":
+    case admin + "-Users":
       return <AdminUserManagementPanel />;
-    case "admin-Bills":
+    case admin + "-Bills":
       return <AdminBillsManagementPanel />;
-    case "admin-Settings":
+    case admin + "-Settings":
       return <AdminSettingsPanel />;
     default:
       return InvalidSate();
@@ -49,8 +54,16 @@ function getContentsOfAdmin(state: string) {
 
 function getContentsOfLandfillManager(state: string) {
   switch (state) {
-    case "admin-Dashboard":
-      return <AdminDashboard />;
+    case landfillManager + "-Dashboard":
+      return <LandfillManagerDashboard />;
+    case landfillManager + "-Schedules":
+      return <LandfillManagerSchedules />;
+    case landfillManager + "-Storage":
+      return <LandfillManagerStorageData />;
+    case landfillManager + "-Dump Entry":
+      return <LandfillManagerDumpEntries />;
+    case landfillManager + "-Settings":
+      return <LandfillManagerSettings />;            
     default:
       return InvalidSate();
   }
