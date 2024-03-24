@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 
 export const NavContext = createContext<{
-  currentActive: number;
-  setCurrentActive: (value: number) => void;  
+  currentActive: string;
+  setCurrentActive: (value: string) => void;  
 }
->({currentActive: 0, setCurrentActive(x:number) {} });
+>({currentActive: "unassigned-dashboard", setCurrentActive(x:string) {} });
