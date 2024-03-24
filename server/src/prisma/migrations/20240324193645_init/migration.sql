@@ -21,6 +21,8 @@ CREATE TABLE "Role" (
     "id" TEXT NOT NULL,
     "name" "RoleName" NOT NULL,
     "description" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Role_pkey" PRIMARY KEY ("id")
 );
@@ -30,6 +32,8 @@ CREATE TABLE "Permission" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Permission_pkey" PRIMARY KEY ("id")
 );
@@ -39,6 +43,8 @@ CREATE TABLE "RolePermission" (
     "id" TEXT NOT NULL,
     "roleId" TEXT NOT NULL,
     "permissionId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "RolePermission_pkey" PRIMARY KEY ("id")
 );
@@ -49,6 +55,8 @@ CREATE TABLE "Vehicle" (
     "vehicleNumber" TEXT NOT NULL,
     "vehicleType" TEXT,
     "capacity" DECIMAL(65,30),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Vehicle_pkey" PRIMARY KEY ("id")
 );
@@ -63,6 +71,8 @@ CREATE TABLE "STS" (
     "latitude" DECIMAL(65,30) NOT NULL,
     "longitude" DECIMAL(65,30) NOT NULL,
     "managerId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "STS_pkey" PRIMARY KEY ("id")
 );
@@ -76,6 +86,8 @@ CREATE TABLE "Landfill" (
     "latitude" DECIMAL(65,30) NOT NULL,
     "longitude" DECIMAL(65,30) NOT NULL,
     "managerId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Landfill_pkey" PRIMARY KEY ("id")
 );
@@ -88,6 +100,8 @@ CREATE TABLE "STSVehicleEntry" (
     "volumeOfWaste" DECIMAL(65,30),
     "entryTime" TIMESTAMP(3),
     "exitTime" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "STSVehicleEntry_pkey" PRIMARY KEY ("id")
 );
@@ -100,6 +114,8 @@ CREATE TABLE "LandfillVehicleEntry" (
     "volumeOfWaste" DECIMAL(65,30),
     "entryTime" TIMESTAMP(3),
     "exitTime" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "LandfillVehicleEntry_pkey" PRIMARY KEY ("id")
 );
@@ -111,6 +127,8 @@ CREATE TABLE "ResourceOilAllocation" (
     "volumeOfWaste" DECIMAL(65,30),
     "allocatedOil" DECIMAL(65,30),
     "amountOfTaka" DECIMAL(65,30),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "ResourceOilAllocation_pkey" PRIMARY KEY ("id")
 );
@@ -123,6 +141,8 @@ CREATE TABLE "Route" (
     "distance" DECIMAL(65,30),
     "estimatedDuration" DECIMAL(65,30),
     "actualDuration" DECIMAL(65,30),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Route_pkey" PRIMARY KEY ("id")
 );
