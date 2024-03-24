@@ -32,6 +32,9 @@ model Role {
     description String?
     User        User[]
     permission  RolePermission[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Permission {
@@ -39,6 +42,9 @@ model Permission {
     name        String           @unique
     description String?
     role        RolePermission[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model RolePermission {
@@ -47,6 +53,9 @@ model RolePermission {
     roleId       String
     permission   Permission @relation(fields: [permissionId], references: [id])
     permissionId String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@unique([roleId, permissionId], name: "role_permission_unique")
 }
@@ -59,6 +68,9 @@ model Vehicle {
     STSVehicleEntry       STSVehicleEntry[]
     LandfillVehicleEntry  LandfillVehicleEntry[]
     ResourceOilAllocation ResourceOilAllocation[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model STS {
@@ -74,6 +86,9 @@ model STS {
     managerId       String?           @unique
     STSVehicleEntry STSVehicleEntry[]
     Route           Route[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Landfill {
@@ -88,6 +103,9 @@ model Landfill {
     managerId            String?                @unique
     LandfillVehicleEntry LandfillVehicleEntry[]
     Route                Route[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model STSVehicleEntry {
@@ -99,6 +117,9 @@ model STSVehicleEntry {
     volumeOfWaste Decimal?
     entryTime     DateTime?
     exitTime      DateTime?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model LandfillVehicleEntry {
@@ -110,6 +131,9 @@ model LandfillVehicleEntry {
     volumeOfWaste Decimal?
     entryTime     DateTime?
     exitTime      DateTime?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model ResourceOilAllocation {
@@ -119,6 +143,9 @@ model ResourceOilAllocation {
     volumeOfWaste Decimal?
     allocatedOil  Decimal?
     amountOfTaka  Decimal?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Route {
@@ -130,6 +157,9 @@ model Route {
     distance          Decimal?
     estimatedDuration Decimal?
     actualDuration    Decimal?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 enum RoleName {
