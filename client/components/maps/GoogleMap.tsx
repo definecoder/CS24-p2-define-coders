@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { GoogleMap, LoadScript, Marker, Circle, InfoWindow } from '@react-google-maps/api';
+import { threshold } from '@/hooks/functions/threshold';
 
 const MapContainerStyle = {
   width: '100%',
@@ -38,19 +39,22 @@ const GoogleMapComponent: React.FC<MapProps> = ({ coordinates, dumpFills }) => {
   return (
     <LoadScript googleMapsApiKey={apiKey}>
       <GoogleMap
+        id="maps"
         mapContainerStyle={MapContainerStyle}
         center={defaultCenter}
         zoom={12}
       >
         <Marker position={defaultCenter} />
         {coordinates.map((coordinate, index) => {
-          let circleColor = '#00FF00'; // Default to green
+          // let circleColor = '#00FF00'; // Default to green
 
-          if (dumpFills[index] >= 40 && dumpFills[index] <= 80) {
-            circleColor = '#FFFF00'; // Yellow
-          } else if (dumpFills[index] > 80) {
-            circleColor = '#FF0000'; // Red
-          }
+          // if (dumpFills[index] >= 40 && dumpFills[index] <= 80) {
+          //   circleColor = '#FFFF00'; // Yellow
+          // } else if (dumpFills[index] > 80) {
+          //   circleColor = '#FF0000'; // Red
+          // }
+          let circleColor = threshold(dumpFills[index]);
+
 
           return (
             <Circle
@@ -72,7 +76,7 @@ const GoogleMapComponent: React.FC<MapProps> = ({ coordinates, dumpFills }) => {
         {hoveredCircle !== null && (
           <InfoWindow position={coordinates[hoveredCircle]}>
             <div>
-              Data: {dumpFills[hoveredCircle]}%
+              Trash: {dumpFills[hoveredCircle]}%
             </div>
           </InfoWindow>
         )}
