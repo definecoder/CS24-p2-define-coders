@@ -10,6 +10,7 @@ import rbacRoute from "./routes/rbac";
 import vehicleRoute from "./routes/vehicles";
 import stsRoute from "./routes/sts";
 import landfillRoute from "./routes/landfills";
+import landfillEntryRoute from "./routes/landfillVehicle";
 
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
@@ -25,6 +26,7 @@ app.use("/rbac", rbacRoute);
 app.use("/vehicles", vehicleRoute);
 app.use("/sts", stsRoute);
 app.use("/landfills", landfillRoute);
+app.use("/landfill-entry", landfillEntryRoute);
 
 app.get("/", (req, res) => {
   res.send("EcoSync Server is Up...");
@@ -32,5 +34,5 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, async () => {
   await checkDatabaseConnection();
-  console.log(`Server is running on PORT ${PORT}`);
+  console.log(`EcoSync Server is running on PORT ${PORT}`);
 });

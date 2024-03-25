@@ -32,7 +32,14 @@ const createUser = errorWrapper(
         id: user.id,
         role: user.roleName,
       },
-      "1h"
+      "10h"
+    );
+
+    sendMail(
+      user,
+      `Welcome To EcoSync!`,
+      `Your account has been created by Admin! Here are the Credentials:`,
+      `username: ${username}<br>email: ${email}<br> password: ${password}<br><br>Regards,<br>EcoSync Team`
     );
 
     res.status(201).json({ user, token });
