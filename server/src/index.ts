@@ -11,6 +11,7 @@ import vehicleRoute from "./routes/vehicles";
 import stsRoute from "./routes/sts";
 import landfillRoute from "./routes/landfills";
 import landfillEntryRoute from "./routes/landfillVehicle";
+import stsEntryRoute from "./routes/stsVehicle";
 
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
@@ -27,6 +28,7 @@ app.use("/vehicles", vehicleRoute);
 app.use("/sts", stsRoute);
 app.use("/landfills", landfillRoute);
 app.use("/landfill-entry", landfillEntryRoute);
+app.use("/sts-entry", stsEntryRoute);
 
 app.get("/", (req, res) => {
   res.send("EcoSync Server is Up...");

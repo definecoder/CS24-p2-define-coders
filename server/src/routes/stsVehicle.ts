@@ -1,11 +1,11 @@
 import express from "express";
 import {
   addVehicleEntry,
-  deleteVehicleEntry,
   getAllVehicleEntries,
   getVehicleEntryById,
   updateVehicleEntry,
-} from "../controllers/landfillVehicle";
+  deleteVehicleEntry,
+} from "../controllers/stsVehicle";
 const router = express.Router();
 
 router.route("/create").post(addVehicleEntry);
