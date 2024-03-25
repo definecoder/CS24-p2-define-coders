@@ -16,10 +16,11 @@ const Home = () => {
             script.onload = callback;
             document.head.appendChild(script);
         };
+        const apiKey: string = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
 
         loadScript('https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', () => {
             loadScript(
-                `https://maps.googleapis.com/maps/api/js?key=AIzaSyD1HUzeHWo0hXLXknwRgZ_h8bwRIU-_OyU&libraries=places`,
+                `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`,
                 initializeAutocomplete
             );
         });
