@@ -10,9 +10,9 @@ import {
 import { Input } from "@/components/ui/input";
 
 export default function STSManagerSettings() {
-    return (
-      <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
-            <div className="flex items-center hidden">
+  return (
+    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
+      <div className="flex items-center hidden">
         <h1 className="text-lg font-semibold md:text-2xl">SETTINGS</h1>
       </div>
       <div className="flex flex-1 items-center justify-center md:justify-start rounded-lg border border-dashed shadow-sm md:px-10">
@@ -52,6 +52,6 @@ export default function STSManagerSettings() {
           </Card>
         </div>
       </div>
-      </main>
-    );
-  }
+    </main>
+  );
+}
