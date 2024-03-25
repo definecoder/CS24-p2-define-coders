@@ -68,8 +68,49 @@ const login = errorWrapper(async (req: Request, res: Response) => {
 });
 
 const logout = errorWrapper(async (req: Request, res: Response) => {
-  const token = getToken(req) || "";
+  const token = getToken(req) || "no token";
   invalidateToken(token);
+});
+
+const updatePassword = errorWrapper(async (req: Request, res: Response) => {
+  const { oldPassword, newPassword } = req.body;
+  const token = getToken(req) || "no token";
+
+  const decoded = verifyToken(token);
+
+  const { id } = decoded as any;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  if (!user) {
+    throw new CustomError("User not found", 404);
+  }
+
+  const isPasswordValid = await bcrypt.compare(
+    oldPassword,
+    user.hashedPassword
+  );
+
+  if (!isPasswordValid) {
+    throw new CustomError("Invalid Old Password", 403);
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  await prisma.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      hashedPassword,
+    },
+  });
+
+  res.json({ msg: "Password Updated Successfully" });
 });
 
 const resetPasswordInit = errorWrapper(async (req: Request, res: Response) => {
@@ -132,4 +173,11 @@ const resetPasswordConfirm = errorWrapper(
   }
 );
 
-export { createUser, login, logout, resetPasswordInit, resetPasswordConfirm };
+export {
+  createUser,
+  login,
+  logout,
+  resetPasswordInit,
+  resetPasswordConfirm,
+  updatePassword,
+};

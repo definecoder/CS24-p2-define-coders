@@ -5,6 +5,7 @@ import {
   logout,
   resetPasswordConfirm,
   resetPasswordInit,
+  updatePassword,
 } from "../controllers/auth";
 import authChecker from "../middlewares/auth";
 
@@ -15,5 +16,6 @@ router.route("/login").post(login);
 router.route("/logout").get(authChecker, logout);
 router.route("/reset-password/initiate").post(resetPasswordInit);
 router.route("/reset-password/confirm").post(resetPasswordConfirm);
+router.route("/change-password").post(authChecker, updatePassword);
 
 export default router;
