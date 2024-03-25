@@ -19,8 +19,8 @@ const sendOTPMail = async (user: User, otp: string) => {
   let MailGenerator = new Mailgen({
     theme: "default",
     product: {
-      name: "Mailgen",
-      link: "https://mailgen.js/",
+      name: "EcoSync",
+      link: "https://definecoder.github.io/",
     },
   });
 
@@ -65,8 +65,8 @@ const sendMail = async (
   let MailGenerator = new Mailgen({
     theme: "default",
     product: {
-      name: "Mailgen",
-      link: "https://mailgen.js/",
+      name: "EcoSync",
+      link: "https://definecoder.github.io/",
     },
   });
 
