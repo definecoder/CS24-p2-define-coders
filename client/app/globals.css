@@ -74,3 +74,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+  height: 10px; /* Height of the scrollbar */  
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent; /* Color of the track */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border: 2px solid #0F172A; /* Color of the scrollbar handle */  
+  border-radius: 5px; /* Rounded corners of the handle */
+  background: #0f172a3f; /* Color of the scrollbar handle */  
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0F172A; /* Color of the scrollbar handle on hover */
+  border: 2px solid white; /* Color of the scrollbar handle on hover */
+}
