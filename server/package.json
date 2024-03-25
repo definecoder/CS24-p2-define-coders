@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "db": "createdb ecosync",
+    "install": "cd ./src && npx prisma migrate dev --name init",
     "build": "tsc",
     "start": "node build/index.js",
     "dev": "ts-node src/index.ts",
