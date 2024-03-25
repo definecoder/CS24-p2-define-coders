@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
-import { ArrowUpRight } from "lucide-react";
+import { Plus, Truck } from "lucide-react";
 
 export default function AdminSystemDataPanel() {
   return (
@@ -10,9 +10,11 @@ export default function AdminSystemDataPanel() {
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
           <Button size="sm" className="w-full">
+            <Plus size={16}  className="mr-2"/>
             ADD NEW STS
           </Button>
           <Button size="sm" className="w-full">
+            <Truck size={16}  className="mr-2"/>
             ADD NEW VEHICLE
           </Button>
         </div>
