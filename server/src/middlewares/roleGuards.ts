@@ -1,50 +1,18 @@
 import { Request, Response, NextFunction } from "express";
 import errorWrapper from "./errorWrapper";
 import CustomError from "../services/CustomError";
+import { RoleName } from "@prisma/client";
 
-const checkSystemAdmin = errorWrapper(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { role } = req.user;
-
-    if (role !== "SYSTEM_ADMIN") {
-      throw new CustomError(
-        "You are not authorized to perform this action",
-        403
-      );
+const authRole = (roles: RoleName[]) => {
+  return errorWrapper(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const userRole = ((req as any).user as any).role;
+      if (!roles.includes(userRole)) {
+        throw new CustomError("Unauthorized", 401);
+      }
+      next();
     }
+  );
+};
 
-    next();
-  }
-);
-
-const checkSTSManager = errorWrapper(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { role } = req.user;
-
-    if (role !== "STS_MANAGER") {
-      throw new CustomError(
-        "You are not authorized to perform this action",
-        403
-      );
-    }
-
-    next();
-  }
-);
-
-const checkLandfillManager = errorWrapper(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { role } = req.user;
-
-    if (role !== "LAND_MANAGER") {
-      throw new CustomError(
-        "You are not authorized to perform this action",
-        403
-      );
-    }
-
-    next();
-  }
-);
-
-export { checkSystemAdmin, checkSTSManager, checkLandfillManager };
+export { authRole };

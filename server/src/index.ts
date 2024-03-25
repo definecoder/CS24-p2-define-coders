@@ -6,6 +6,7 @@ import { PrismaClient, RoleName } from "@prisma/client";
 import authRoute from "./routes/auth";
 import userRoute from "./routes/users";
 import profileRoute from "./routes/profile";
+import rbacRoute from "./routes/rbac";
 
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ app.use(urlencoded({ extended: true }));
 app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/profile", profileRoute);
+app.use("/rbac", rbacRoute);
 
 app.get("/", (req, res) => {
   res.send("EcoSync Server is Up...");
