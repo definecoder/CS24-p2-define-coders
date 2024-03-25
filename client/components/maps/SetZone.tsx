@@ -2,7 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-const Home = () => {
+interface CoordinateProps {
+    
+    setLatitude: React.Dispatch<React.SetStateAction<string>>;
+    setLongitude: React.Dispatch<React.SetStateAction<string>>;
+  }
+  
+
+const SetZone : React.FC<CoordinateProps> = ({ setLatitude, setLongitude }) =>  {
     const locationInputRef = useRef<HTMLInputElement>(null);
     const latInputRef = useRef<HTMLInputElement>(null);
     const longInputRef = useRef<HTMLInputElement>(null);
@@ -38,20 +45,23 @@ const Home = () => {
             }
             const lat = place.geometry.location.lat();
             const lng = place.geometry.location.lng();
-            latInputRef.current!.value = lat.toString();
-            longInputRef.current!.value = lng.toString();
-            placeNameRef.current!.value = place.name.toString();
+            // latInputRef.current!.value = lat.toString();
+            // longInputRef.current!.value = lng.toString();
+            // placeNameRef.current!.value = place.name.toString();
+            setLatitude(lat.toString());
+            setLongitude(lng.toString());
+
         });
     };
 
     return (
         <div>
             <input type="text" id="location" ref={locationInputRef} />
-            <input type="text" id="lat" ref={latInputRef} readOnly />
+            {/* <input type="text" id="lat" ref={latInputRef} readOnly />
             <input type="text" id="long" ref={longInputRef} readOnly />
-            <input type="text" id="placeName" ref={placeNameRef} readOnly /> 
+            <input type="text" id="placeName" ref={placeNameRef} readOnly />  */}
         </div>
     );
 };
 
-export default Home;
+export default SetZone;
