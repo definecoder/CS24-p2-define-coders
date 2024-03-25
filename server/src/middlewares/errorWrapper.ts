@@ -16,15 +16,11 @@ const errorWrapper = (fn: Function, errorInfo?: ErrorInfo) => {
         const message: string = error?.message || "Something went wrong";
 
         res.status(statusCode).json({ message });
-      }
-
-      if (errorInfo) {
+      } else if (errorInfo) {
         const statusCode: number = errorInfo.statusCode;
         const message: string = errorInfo.message;
         res.status(statusCode).json({ message, details: error.message });
-      }
-
-      res.status(500).json({ message: "Something went wrong" });
+      } else res.status(500).json({ message: "Something went wrong" });
     }
   };
 };
