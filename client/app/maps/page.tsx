@@ -1,5 +1,6 @@
+"use client";
 import GoogleMapComponent from '@/components/maps/GoogleMap'
-import React from 'react'
+import SetZone from '@/components/maps/SetZone';
 
 const Map = () => {
     const coordinates = [
@@ -16,6 +17,8 @@ const Map = () => {
   return (
     <div className='w-full h-screen'>
         <GoogleMapComponent coordinates={coordinates} dumpFills={dumpFills}></GoogleMapComponent>
+       {/* <SetZone></SetZone> */}
+  
     </div>
     
   )
