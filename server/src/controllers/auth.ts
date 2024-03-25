@@ -14,125 +14,140 @@ import { sendMail, sendOTPMail } from "../services/mailService";
 
 const prisma = new PrismaClient();
 
-const createUser = errorWrapper(async (req: Request, res: Response) => {
-  const { username, email, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+const createUser = errorWrapper(
+  async (req: Request, res: Response) => {
+    const { username, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = await prisma.user.create({
-    data: {
-      username,
-      email,
-      hashedPassword,
-    },
-  });
+    const user = await prisma.user.create({
+      data: {
+        username,
+        email,
+        hashedPassword,
+      },
+    });
 
-  const token = generateToken(
-    {
-      id: user.id,
-      role: user.roleName,
-    },
-    "1h"
-  );
+    const token = generateToken(
+      {
+        id: user.id,
+        role: user.roleName,
+      },
+      "1h"
+    );
 
-  res.status(201).json({ user, token });
-});
+    res.status(201).json({ user, token });
+  },
+  { statusCode: 500, message: `Couldn't create user` }
+);
 
-const login = errorWrapper(async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+const login = errorWrapper(
+  async (req: Request, res: Response) => {
+    const { email, password } = req.body;
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
 
-  if (!user) {
-    throw new CustomError("This email do not exists", 404);
-  }
+    if (!user) {
+      throw new CustomError("This email do not exists", 404);
+    }
 
-  const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
+    const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
 
-  if (!isPasswordValid) {
-    throw new Error("Invalid email or password");
-  }
+    if (!isPasswordValid) {
+      throw new Error("Invalid email or password");
+    }
 
-  const token = generateToken(
-    {
-      id: user.id,
-      role: user.roleName,
-    },
-    "1h"
-  );
+    const token = generateToken(
+      {
+        id: user.id,
+        role: user.roleName,
+      },
+      "1h"
+    );
 
-  res.json({ user, token });
-});
+    res.json({ user, token });
+  },
+  { statusCode: 500, message: `Login Failed` }
+);
 
-const logout = errorWrapper(async (req: Request, res: Response) => {
-  const token = getToken(req) || "no token";
-  invalidateToken(token);
-});
+const logout = errorWrapper(
+  async (req: Request, res: Response) => {
+    const token = getToken(req) || "no token";
+    invalidateToken(token);
+  },
+  { statusCode: 500, message: `Logout Failed` }
+);
 
-const updatePassword = errorWrapper(async (req: Request, res: Response) => {
-  const { oldPassword, newPassword } = req.body;
-  const token = getToken(req) || "no token";
+const updatePassword = errorWrapper(
+  async (req: Request, res: Response) => {
+    const { oldPassword, newPassword } = req.body;
+    const token = getToken(req) || "no token";
 
-  const decoded = verifyToken(token);
+    const decoded = verifyToken(token);
 
-  const { id } = decoded as any;
+    const { id } = decoded as any;
 
-  const user = await prisma.user.findUnique({
-    where: {
-      id: id,
-    },
-  });
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
 
-  if (!user) {
-    throw new CustomError("User not found", 404);
-  }
+    if (!user) {
+      throw new CustomError("User not found", 404);
+    }
 
-  const isPasswordValid = await bcrypt.compare(
-    oldPassword,
-    user.hashedPassword
-  );
+    const isPasswordValid = await bcrypt.compare(
+      oldPassword,
+      user.hashedPassword
+    );
 
-  if (!isPasswordValid) {
-    throw new CustomError("Invalid Old Password", 403);
-  }
+    if (!isPasswordValid) {
+      throw new CustomError("Invalid Old Password", 403);
+    }
 
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-  await prisma.user.update({
-    where: {
-      id: user.id,
-    },
-    data: {
-      hashedPassword,
-    },
-  });
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        hashedPassword,
+      },
+    });
 
-  res.json({ msg: "Password Updated Successfully" });
-});
+    res.json({ msg: "Password Updated Successfully" });
+  },
+  { statusCode: 500, message: `Couldn't update password` }
+);
 
-const resetPasswordInit = errorWrapper(async (req: Request, res: Response) => {
-  const { email } = req.body;
-  const otp = randomOTPGenerator().toString();
+const resetPasswordInit = errorWrapper(
+  async (req: Request, res: Response) => {
+    const { email } = req.body;
+    const otp = randomOTPGenerator().toString();
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
 
-  if (!user) {
-    throw new CustomError("This email do not exists", 404);
-  }
+    if (!user) {
+      throw new CustomError("This email do not exists", 404);
+    }
 
-  const otptoken = generateToken({ id: user.id, OTP: otp }, "5m");
+    const otptoken = generateToken({ id: user.id, OTP: otp }, "5m");
 
-  sendOTPMail(user, otp);
+    sendOTPMail(user, otp);
 
-  res.json({ otptoken });
-});
+    res.json({ otptoken });
+  },
+  { statusCode: 500, message: `Password reset failed!` }
+);
 
 const resetPasswordConfirm = errorWrapper(
   async (req: Request, res: Response) => {
@@ -170,6 +185,10 @@ const resetPasswordConfirm = errorWrapper(
     } else {
       throw new CustomError("Wrong OTP", 403);
     }
+  },
+  {
+    statusCode: 500,
+    message: `Password reset failed!`,
   }
 );
 
