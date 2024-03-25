@@ -11,7 +11,7 @@ import authChecker from "../middlewares/auth";
 
 const router = express.Router();
 
-router.route("/create").post(authChecker, createUser); // here system admin guard will also be placed
+router.route("/create").post(createUser); // here auth checker and system admin guard will also be placed
 router.route("/login").post(login);
 router.route("/logout").get(authChecker, logout);
 router.route("/reset-password/initiate").post(resetPasswordInit);
