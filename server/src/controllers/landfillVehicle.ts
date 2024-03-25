@@ -9,7 +9,7 @@ const addVehicleEntry = errorWrapper(async (req: Request, res: Response) => {
 
   const vehicle = await prisma.landfillVehicleEntry.create({
     data: vehicleEntry,
-    select: {
+    include: {
       vehicle: true,
       landfill: true,
     },

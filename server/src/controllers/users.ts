@@ -39,6 +39,10 @@ const updateUser = errorWrapper(
     const { userId } = req.params;
     const userInfo: User = req.body;
 
+    if (userInfo.roleName) {
+      throw new CustomError("Role name can't be updated by current user", 400);
+    }
+
     const userExists = await prisma.user.findUnique({
       where: {
         id: userId,
@@ -49,7 +53,7 @@ const updateUser = errorWrapper(
       throw new CustomError("User not found", 404);
     }
 
-    userInfo.roleName = userExists.roleName; // so that the role doesn't get updated
+    // userInfo.roleName = userExists.roleName; // so that the role doesn't get updated
 
     const user = await prisma.user.update({
       where: {
