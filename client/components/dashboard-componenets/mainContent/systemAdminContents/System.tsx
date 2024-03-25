@@ -3,6 +3,7 @@ import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import { Plus, Truck } from "lucide-react";
 import { StsCreateModal } from "../../../modals/StsModal"
 import { VehicleCreateModal } from "@/components/modals/VehicleModal";
+import { LandfillCreateModal } from "@/components/modals/LandfillModal"; 
 
 export default function AdminSystemDataPanel() {
   return (
@@ -17,10 +18,12 @@ export default function AdminSystemDataPanel() {
             ADD NEW STS
           </Button>
           </StsCreateModal>
-          <Button size="sm" className="w-full">
+          <LandfillCreateModal>
+          <Button variant="outline" size="sm" className="w-full bg-black text-white">
             <Plus size={16}  className="mr-2"/>
             ADD NEW LANDFILL
           </Button>
+          </LandfillCreateModal>
           <VehicleCreateModal>
           <Button variant="outline" size="sm" className="w-full bg-black text-white">
             <Truck size={16}  className="mr-2"/>

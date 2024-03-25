@@ -63,9 +63,9 @@ export const StsCreateModal: React.FC<DialogWrapperProps> = ({
       </DialogTrigger>
       <DialogContent className="w-[825px]">
         <DialogHeader>
-          <DialogTitle>Add New Vehicle</DialogTitle>
+          <DialogTitle>Add New STS</DialogTitle>
           <DialogDescription>
-            Add new vehicle here. Click save when you're done.
+            Add new STS here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
