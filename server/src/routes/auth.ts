@@ -8,10 +8,14 @@ import {
   updatePassword,
 } from "../controllers/auth";
 import authChecker from "../middlewares/auth";
+import { authRole } from "../middlewares/roleGuards";
+import { RoleName } from "@prisma/client";
 
 const router = express.Router();
 
-router.route("/create").post(createUser); // here auth checker and system admin guard will also be placed
+router
+  .route("/create")
+  .post(authChecker, authRole([RoleName.SYSTEM_ADMIN]), createUser);
 router.route("/login").post(login);
 router.route("/logout").get(authChecker, logout);
 router.route("/reset-password/initiate").post(resetPasswordInit);

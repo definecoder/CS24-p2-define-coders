@@ -84,11 +84,8 @@ const logout = errorWrapper(
 const updatePassword = errorWrapper(
   async (req: Request, res: Response) => {
     const { oldPassword, newPassword } = req.body;
-    const token = getToken(req) || "no token";
 
-    const decoded = verifyToken(token);
-
-    const { id } = decoded as any;
+    const { id } = (req as any).user;
 
     const user = await prisma.user.findUnique({
       where: {
