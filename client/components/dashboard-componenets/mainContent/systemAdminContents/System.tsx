@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import { Plus, Truck } from "lucide-react";
+import { StsCreateModal } from "../../../modals/StsModal"
+import { VehicleCreateModal } from "@/components/modals/VehicleModal";
 
 export default function AdminSystemDataPanel() {
   return (
@@ -9,14 +11,22 @@ export default function AdminSystemDataPanel() {
         <h1 className="text-lg font-semibold md:text-2xl">SYSTEM DATA</h1>
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
-          <Button size="sm" className="w-full">
+          <StsCreateModal>
+          <Button variant="outline" size="sm" className="w-full bg-black text-white">
             <Plus size={16}  className="mr-2"/>
             ADD NEW STS
           </Button>
+          </StsCreateModal>
           <Button size="sm" className="w-full">
+            <Plus size={16}  className="mr-2"/>
+            ADD NEW LANDFILL
+          </Button>
+          <VehicleCreateModal>
+          <Button variant="outline" size="sm" className="w-full bg-black text-white">
             <Truck size={16}  className="mr-2"/>
             ADD NEW VEHICLE
           </Button>
+          </VehicleCreateModal>
         </div>
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
