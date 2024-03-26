@@ -11,6 +11,7 @@ import {
   Input,
   SkeletonText,
   Text,
+  Menu, MenuButton, MenuItem, MenuList
 } from '@chakra-ui/react';
 import { FaLocationArrow, FaTimes } from 'react-icons/fa';
 import {
@@ -20,10 +21,59 @@ import {
   DirectionsRenderer,
   useJsApiLoader,
 } from '@react-google-maps/api';
+import { ChevronDownIcon } from '@chakra-ui/icons'
 
 const center = { lat: 23.7244018, lng: 90.38871960 };
 
-function RouteMap() {
+function OptimizedRouteMap() {
+    const [routeType, setRouteType] = useState<string>('Location Based Optimal Route');
+  const [useDropdown, setUseDropdown] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+
+  const suggestionsList: string[] = [
+    'Badda STS',
+    'Dhanmondi STS',
+    'Gulshan STS',
+    'Baridhara STS',
+    'Mohammadpur STS',
+    'Gulistan STS',
+    'Rampura STS',
+    
+   
+  ];
+
+  const landfillList: string[] = [
+    'Amin Bazar',
+    'Chashara',
+  ];
+
+  const handleChangeInputType = () => {
+    setUseDropdown(prev => !prev);
+  };
+
+  const handleChangeRouteType = () => {
+    setRouteType(prevType => prevType === 'Location Based Optimal Route' ? 'STS Based Optimal Route' : 'Location Based Optimal Route');
+    handleChangeInputType();
+};
+
+const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+    setShowSuggestions(true);
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setSearchTerm(suggestion);
+    setShowSuggestions(false);
+  };
+
+  const filteredSuggestions = suggestionsList.filter(suggestion =>
+    suggestion.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  
+
+
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
     libraries: ['places'],
@@ -101,23 +151,66 @@ function RouteMap() {
         m={4}
         bgColor='white'
         shadow='base'
-        minW='container.md'
+        w='100%'
         zIndex='1'
       >
+        <div><b>{routeType}</b>
+        <Button colorScheme='teal' variant='ghost' onClick={handleChangeRouteType}>
+        Change
+      </Button>   
+        </div>
         <HStack spacing={2} justifyContent='space-between'>
           <Box flexGrow={1}>
+          {useDropdown ? (
+            <div>
+            <input
+              type="text"
+              placeholder="Search by STS"
+              value={searchTerm}
+              onChange={handleInputChange}
+              className="border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
+            />
+            {showSuggestions && (
+              <ul className="absolute z-10 mt-1 w-2/5 bg-white rounded-md shadow-lg">
+                {filteredSuggestions.map((suggestion, index) => (
+                  <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          ) : (
             <Autocomplete>
               <Input type='text' placeholder='Origin' ref={originRef} />
             </Autocomplete>
+          )}
           </Box>
           <Box flexGrow={1}>
+          {useDropdown ? (
+            <div>
+            <input
+              type="text"
+              placeholder="Search by Landfill"
+              value={searchTerm}
+              onChange={handleInputChange}
+              className="border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
+            />
+            {showSuggestions && (
+              <ul className="absolute z-10 mt-1 w-2/5 bg-white rounded-md shadow-lg">
+                {filteredSuggestions.map((suggestion, index) => (
+                  <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          ) : (
             <Autocomplete>
-              <Input
-                type='text'
-                placeholder='Destination'
-                ref={destinationRef}
-              />
+              <Input type='text' placeholder='Origin' ref={originRef} />
             </Autocomplete>
+          )}
           </Box>
 
           <ButtonGroup>
@@ -151,4 +244,4 @@ function RouteMap() {
   );
 }
 
-export default RouteMap;
+export default OptimizedRouteMap;
