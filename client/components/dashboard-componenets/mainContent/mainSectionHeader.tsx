@@ -96,7 +96,7 @@ export default function MainSectionHeader({role, subsection}:{role: string, subs
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => setCurrentActive(role + "-Settings")}>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => {router.push("auth/change-password")}}>Change Password</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="text-red-800 bg-red-100 bg-opacity-50" onClick={() => (logout(router))}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
