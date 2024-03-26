@@ -15,8 +15,17 @@ import stsEntryRoute from "./routes/stsVehicle";
 import billRoute from "./routes/bills";
 
 const prisma = new PrismaClient();
+const cors = require("cors");
+
 const PORT = process.env.PORT || 3000;
 const app = express();
+app.use(cors(
+  {
+    origin: "http://localhost:3000",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"]    
+  }
+));
 
 app.use(express.json());
 app.use(urlencoded({ extended: true }));

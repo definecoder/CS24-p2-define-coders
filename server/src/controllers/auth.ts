@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import errorWrapper from "../middlewares/errorWrapper";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import bcrypt from "bcrypt";
 import {
   generateToken,
@@ -16,7 +16,7 @@ const prisma = new PrismaClient();
 
 const createUser = errorWrapper(
   async (req: Request, res: Response) => {
-    const { username, email, password } = req.body;
+    const {username, password, email, roleName} = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
@@ -24,6 +24,7 @@ const createUser = errorWrapper(
         username,
         email,
         hashedPassword,
+        roleName,
       },
     });
 

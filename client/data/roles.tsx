@@ -1,4 +1,5 @@
-export const admin = "admin";
-export const stsManager = "sts-manager";
-export const landfillManager = "landfill-manager";
-export const unassigned = "unassigned";
+export const admin = "SYSTEM_ADMIN";
+export const stsManager = "STS_MANAGER";
+export const landfillManager = "LAND_MANAGER";
+export const unassigned = "UNASSIGNED";
+  
