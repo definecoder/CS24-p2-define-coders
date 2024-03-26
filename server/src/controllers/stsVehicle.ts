@@ -1,29 +1,32 @@
-import { LandfillVehicleEntry, PrismaClient } from "@prisma/client";
+import { PrismaClient, STSVehicleEntry } from "@prisma/client";
 import { Request, Response } from "express";
 import errorWrapper from "../middlewares/errorWrapper";
 import CustomError from "../services/CustomError";
 
 const prisma = new PrismaClient();
 
-const addVehicleEntry = errorWrapper(async (req: Request, res: Response) => {
-  const vehicleEntry: LandfillVehicleEntry = req.body;
+const addVehicleEntry = errorWrapper(
+  async (req: Request, res: Response) => {
+    const vehicleEntry: STSVehicleEntry = req.body;
 
-  const vehicle = await prisma.landfillVehicleEntry.create({
-    data: vehicleEntry,
-    include: {
-      vehicle: true,
-      landfill: true,
-    },
-  });
-  res.status(201).json(vehicle);
-});
+    const vehicle = await prisma.sTSVehicleEntry.create({
+      data: vehicleEntry,
+      include: {
+        sts: true,
+        vehicle: true,
+      },
+    });
+    res.status(201).json(vehicle);
+  },
+  { statusCode: 400, message: "Couldn't add sts" }
+);
 
 const getAllVehicleEntries = errorWrapper(
   async (req: Request, res: Response) => {
-    const vehicles = await prisma.landfillVehicleEntry.findMany({
+    const vehicles = await prisma.sTSVehicleEntry.findMany({
       include: {
+        sts: true,
         vehicle: true,
-        landfill: true,
       },
     });
     res.status(200).json(vehicles);
@@ -34,13 +37,13 @@ const getAllVehicleEntries = errorWrapper(
 const getVehicleEntryById = errorWrapper(
   async (req: Request, res: Response) => {
     const { vehicleEntryId } = req.params;
-    const vehicle = await prisma.landfillVehicleEntry.findUnique({
+    const vehicle = await prisma.sTSVehicleEntry.findUnique({
       where: {
         id: vehicleEntryId,
       },
       include: {
+        sts: true,
         vehicle: true,
-        landfill: true,
       },
     });
 
@@ -52,15 +55,15 @@ const getVehicleEntryById = errorWrapper(
 const updateVehicleEntry = errorWrapper(
   async (req: Request, res: Response) => {
     const { vehicleEntryId } = req.params;
-    const vehicleEntry: LandfillVehicleEntry = req.body;
+    const vehicleEntry: STSVehicleEntry = req.body;
 
-    const vehicleExists = await prisma.landfillVehicleEntry.findUnique({
+    const vehicleExists = await prisma.sTSVehicleEntry.findUnique({
       where: {
         id: vehicleEntryId,
       },
       include: {
+        sts: true,
         vehicle: true,
-        landfill: true,
       },
     });
 
@@ -68,15 +71,11 @@ const updateVehicleEntry = errorWrapper(
       throw new CustomError("Vehicle not found", 404);
     }
 
-    const vehicle = await prisma.landfillVehicleEntry.update({
+    const vehicle = await prisma.sTSVehicleEntry.update({
       where: {
         id: vehicleEntryId,
       },
       data: vehicleEntry,
-      include: {
-        vehicle: true,
-        landfill: true,
-      },
     });
 
     res.status(200).json(vehicle);
@@ -84,27 +83,30 @@ const updateVehicleEntry = errorWrapper(
   { statusCode: 500, message: "Couldn't update vehicle" }
 );
 
-const deleteVehicleEntry = errorWrapper(async (req: Request, res: Response) => {
-  const { vehicleEntryId } = req.params;
+const deleteVehicleEntry = errorWrapper(
+  async (req: Request, res: Response) => {
+    const { vehicleEntryId } = req.params;
 
-  const vehicleExists = await prisma.landfillVehicleEntry.findUnique({
-    where: {
-      id: vehicleEntryId,
-    },
-  });
+    const vehicleExists = await prisma.sTSVehicleEntry.findUnique({
+      where: {
+        id: vehicleEntryId,
+      },
+    });
 
-  if (!vehicleExists) {
-    throw new CustomError("Vehicle not found", 404);
-  }
+    if (!vehicleExists) {
+      throw new CustomError("Vehicle not found", 404);
+    }
 
-  await prisma.landfillVehicleEntry.delete({
-    where: {
-      id: vehicleEntryId,
-    },
-  });
+    await prisma.sTSVehicleEntry.delete({
+      where: {
+        id: vehicleEntryId,
+      },
+    });
 
-  res.status(204).json({ message: "Vehicle deleted successfully" });
-});
+    res.status(204).json({ message: "Vehicle deleted successfully" });
+  },
+  { statusCode: 500, message: "Couldn't delete vehicle" }
+);
 
 export {
   addVehicleEntry,
