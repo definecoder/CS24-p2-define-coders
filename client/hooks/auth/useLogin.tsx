@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import {admin, landfillManager, stsManager, unassigned} from '@/data/roles';
+import { setCookie } from '@/lib/cookieFunctions';
 
-export default function useLogin() {
+export default function useLogin() {  
 
   const [loginData, setloginData] = useState({
     email: "",
@@ -11,6 +13,8 @@ export default function useLogin() {
     
     if (loginData) {
         // Call the login API
+        setCookie('jwtToken', 'NOTUN TOKEN', 1);
+        setCookie('role', admin, 1);
         alert(loginData.email + " " + loginData.password)        
         return true;
     }    
