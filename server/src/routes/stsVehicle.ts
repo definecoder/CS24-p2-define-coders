@@ -5,6 +5,7 @@ import {
   getVehicleEntryById,
   updateVehicleEntry,
   deleteVehicleEntry,
+  getCurrentVehiclesInSTS,
 } from "../controllers/stsVehicle";
 const router = express.Router();
 
@@ -13,5 +14,6 @@ router.route("/").get(getAllVehicleEntries);
 router.route("/:vehicleEntryId").get(getVehicleEntryById);
 router.route("/:vehicleEntryId").put(updateVehicleEntry);
 router.route("/:vehicleEntryId").delete(deleteVehicleEntry);
+router.route("/:stsId/get-current-vehicles").get(getCurrentVehiclesInSTS);
 
 export default router;

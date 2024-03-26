@@ -2,17 +2,17 @@ import express from "express";
 const router = express.Router();
 
 import {
-  getBills,
-  getBill,
-  addBill,
-  updateBill,
-  deleteBill,
+  createBill,
+  editBill,
+  fetchBill,
+  fetchBills,
+  removeBill,
 } from "../controllers/bills";
 
-router.route("/").get(getBills);
-router.route("/create").post(addBill);
-router.route("/:billId").get(getBill);
-router.route("/:billId").put(updateBill);
-router.route("/:billId").delete(deleteBill);
+router.route("/").get(fetchBills);
+router.route("/create").post(createBill);
+router.route("/:billId").get(fetchBill);
+router.route("/:billId").put(editBill);
+router.route("/:billId").delete(removeBill);
 
 export default router;
