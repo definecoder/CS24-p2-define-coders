@@ -9,14 +9,7 @@ import {
   DialogTrigger,
   DialogClose
 } from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -82,7 +75,7 @@ export const StsCreateModal: React.FC<DialogWrapperProps> = ({
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="wardNumber" className="text-right">
              Ward Number
             </Label>
             <Input
@@ -95,19 +88,19 @@ export const StsCreateModal: React.FC<DialogWrapperProps> = ({
           </div>
           
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="capacity" className="text-right">
               Capacity (in Tons)
             </Label>
             <Input
               id="capacity"
-              placeholder="1-100"
+              placeholder="10-1000"
               className="col-span-3"
               value={capacity}
               onChange={(e) => setCapacity(e.target.value)}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="name" className="text-right">
+          <Label htmlFor="location" className="text-right">
               STS Location
             </Label>
             <SetZone setLatitude={setLatitude} setLongitude={setLongitude}></SetZone>
