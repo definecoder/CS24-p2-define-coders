@@ -2,6 +2,13 @@ import { PrismaClient, STSVehicleEntry } from "@prisma/client";
 import { Request, Response } from "express";
 import errorWrapper from "../middlewares/errorWrapper";
 import CustomError from "../services/CustomError";
+import {
+  addStsVehicleEntry,
+  deleteStsVehicleEntry,
+  getAllStsVehicleEntries,
+  getStsVehicleEntryById,
+  updateStsVehicleEntry,
+} from "../services/stsVehicle";
 
 const prisma = new PrismaClient();
 
@@ -9,13 +16,7 @@ const addVehicleEntry = errorWrapper(
   async (req: Request, res: Response) => {
     const vehicleEntry: STSVehicleEntry = req.body;
 
-    const vehicle = await prisma.sTSVehicleEntry.create({
-      data: vehicleEntry,
-      include: {
-        sts: true,
-        vehicle: true,
-      },
-    });
+    const vehicle = await addStsVehicleEntry(vehicleEntry);
     res.status(201).json(vehicle);
   },
   { statusCode: 400, message: "Couldn't add sts" }
@@ -23,12 +24,7 @@ const addVehicleEntry = errorWrapper(
 
 const getAllVehicleEntries = errorWrapper(
   async (req: Request, res: Response) => {
-    const vehicles = await prisma.sTSVehicleEntry.findMany({
-      include: {
-        sts: true,
-        vehicle: true,
-      },
-    });
+    const vehicles = await getAllStsVehicleEntries();
     res.status(200).json(vehicles);
   },
   { statusCode: 500, message: "Couldn't fetch vehicles" }
@@ -37,16 +33,7 @@ const getAllVehicleEntries = errorWrapper(
 const getVehicleEntryById = errorWrapper(
   async (req: Request, res: Response) => {
     const { vehicleEntryId } = req.params;
-    const vehicle = await prisma.sTSVehicleEntry.findUnique({
-      where: {
-        id: vehicleEntryId,
-      },
-      include: {
-        sts: true,
-        vehicle: true,
-      },
-    });
-
+    const vehicle = await getStsVehicleEntryById(vehicleEntryId);
     res.status(200).json(vehicle);
   },
   { statusCode: 500, message: "Couldn't fetch vehicle" }
@@ -57,27 +44,7 @@ const updateVehicleEntry = errorWrapper(
     const { vehicleEntryId } = req.params;
     const vehicleEntry: STSVehicleEntry = req.body;
 
-    const vehicleExists = await prisma.sTSVehicleEntry.findUnique({
-      where: {
-        id: vehicleEntryId,
-      },
-      include: {
-        sts: true,
-        vehicle: true,
-      },
-    });
-
-    if (!vehicleExists) {
-      throw new CustomError("Vehicle not found", 404);
-    }
-
-    const vehicle = await prisma.sTSVehicleEntry.update({
-      where: {
-        id: vehicleEntryId,
-      },
-      data: vehicleEntry,
-    });
-
+    const vehicle = await updateStsVehicleEntry(vehicleEntryId, vehicleEntry);
     res.status(200).json(vehicle);
   },
   { statusCode: 500, message: "Couldn't update vehicle" }
@@ -87,25 +54,31 @@ const deleteVehicleEntry = errorWrapper(
   async (req: Request, res: Response) => {
     const { vehicleEntryId } = req.params;
 
-    const vehicleExists = await prisma.sTSVehicleEntry.findUnique({
-      where: {
-        id: vehicleEntryId,
-      },
-    });
-
-    if (!vehicleExists) {
-      throw new CustomError("Vehicle not found", 404);
-    }
-
-    await prisma.sTSVehicleEntry.delete({
-      where: {
-        id: vehicleEntryId,
-      },
-    });
+    await deleteStsVehicleEntry(vehicleEntryId);
 
     res.status(204).json({ message: "Vehicle deleted successfully" });
   },
   { statusCode: 500, message: "Couldn't delete vehicle" }
+);
+
+const getCurrentVehiclesInSTS = errorWrapper(
+  async (req: Request, res: Response) => {
+    const { stsId } = req.params;
+
+    const vehicles = await prisma.sTSVehicleEntry.findMany({
+      where: {
+        stsId,
+        exitTime: null,
+      },
+      include: {
+        sts: true,
+        vehicle: true,
+      },
+    });
+
+    res.status(200).json(vehicles);
+  },
+  { statusCode: 500, message: "Couldn't fetch vehicles" }
 );
 
 export {
@@ -114,4 +87,5 @@ export {
   getVehicleEntryById,
   updateVehicleEntry,
   deleteVehicleEntry,
+  getCurrentVehiclesInSTS,
 };
