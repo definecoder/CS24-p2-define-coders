@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Head } from "next/document";
+import Wrapper from "./Wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "EcoSync",
-  description: "EcoSync is a platform for managing waste in DNCC.",  
+  description: "EcoSync is a platform for managing waste in DNCC.",
   icons: {
     icon: "/logoBlack.png",
-  }
+  },
 };
 
 export default function RootLayout({
@@ -20,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Wrapper> {children} </Wrapper>
+      </body>
     </html>
   );
 }

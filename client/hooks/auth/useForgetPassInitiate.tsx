@@ -4,16 +4,17 @@ export default function useForgetPassInitiate() {
 
   const [userEmail, setUserEmail] = useState('');
 
-  async function initiate() {
+  async function initiate(setToken: Function) {
     
     if (userEmail) {
         // Call the login API
         alert(userEmail)
-        return {status: true, token: 'matro dilam'};
+        setToken('matro dilam');
+        return true;
     }    
     
     alert("Invalid credentials!");
-    return {status: false, token: ''};
+    return false;
   }
 
   return {userEmail, setUserEmail, initiate};

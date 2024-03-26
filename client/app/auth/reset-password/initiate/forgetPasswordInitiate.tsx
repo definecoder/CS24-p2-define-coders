@@ -7,15 +7,19 @@ import { Label } from "@/components/ui/label";
 
 import { useRouter } from "next/navigation";
 import useForgetPassInitiate from "@/hooks/auth/useForgetPassInitiate";
+import { useContext } from "react";
+import { AuthContext } from "@/hooks/contexts/useAuthCtx";
 
 function ForgetPassInitiateForm() {
   const { userEmail, setUserEmail, initiate } = useForgetPassInitiate();
   const router = useRouter();
 
+  const {setJWTToken} = useContext(AuthContext);
+
   async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const res = await initiate();
-    res.status && router.push("/auth/reset-password/confirm" + "?email=" + userEmail + "&token=" + res.token);
+    const success = await initiate(setJWTToken);
+    success && router.push("/auth/reset-password/confirm" + "?email=" + userEmail);
   }
 
   return (
