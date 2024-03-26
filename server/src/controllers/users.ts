@@ -10,6 +10,8 @@ const getAllUsers = errorWrapper(
     const users = await prisma.user.findMany({
       include: {
         role: true,
+        sts: true,
+        landfill: true,
       },
     });
     res.status(200).json(users);
