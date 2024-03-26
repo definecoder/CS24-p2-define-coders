@@ -1,6 +1,6 @@
 import errorWrapper from "../middlewares/errorWrapper";
 import { Request, Response } from "express";
-import { PrismaClient, RoleName } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -17,7 +17,7 @@ const getUsersByRole = errorWrapper(
     const { roleName } = req.params;
     const users = await prisma.user.findMany({
       where: {
-        roleName: roleName as RoleName,
+        roleName: roleName,
       },
     });
     res.json(users);

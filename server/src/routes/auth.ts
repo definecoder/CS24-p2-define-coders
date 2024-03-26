@@ -9,7 +9,7 @@ import {
 } from "../controllers/auth";
 import authChecker from "../middlewares/auth";
 import { authRole } from "../middlewares/roleGuards";
-import { RoleName } from "@prisma/client";
+import { RoleName } from "../types/rolesTypes";
 
 const router = express.Router();
 

@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import checkDatabaseConnection from "./db/connection";
 
-import { PrismaClient, RoleName } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import errorWrapper from "./middlewares/errorWrapper";
 import CustomError from "./services/CustomError";
 const prisma = new PrismaClient();
@@ -141,7 +141,7 @@ app.get(
 
     const roleData = await prisma.role.findFirst({
       where: {
-        name: role as RoleName,
+        name: role,
       },
     });
 

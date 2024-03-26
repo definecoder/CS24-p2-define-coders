@@ -8,16 +8,19 @@ generator client {
 }
 
 model User {
-    id             String    @id @default(uuid())
-    username       String    @unique
-    email          String    @unique
+    id             String  @id @default(uuid())
+    username       String  @unique
+    email          String  @unique
     hashedPassword String
     profileName    String?
     profileImage   String?
-    role           Role      @relation(fields: [roleName], references: [name])
-    roleName       RoleName  @default(UNASSIGNED)
-    sts            STS?
-    landfill       Landfill?
+    role           Role    @relation(fields: [roleName], references: [name])
+    roleName       String  @default("UNASSIGNED")
+    sts            STS?    @relation(fields: [stsId], references: [id])
+    stsId          String?
+
+    landfill   Landfill? @relation(fields: [landfillId], references: [id])
+    landfillId String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -28,7 +31,7 @@ model User {
 
 model Role {
     id          String           @id @default(uuid())
-    name        RoleName         @unique
+    name        String           @unique
     description String?
     User        User[]
     permission  RolePermission[]
@@ -61,16 +64,22 @@ model RolePermission {
 }
 
 model Vehicle {
-    id                    String                  @id @default(uuid())
-    vehicleNumber         String                  @unique
-    vehicleType           String?
-    capacity              Decimal?
-    STSVehicleEntry       STSVehicleEntry[]
-    LandfillVehicleEntry  LandfillVehicleEntry[]
-    ResourceOilAllocation ResourceOilAllocation[]
+    id                    String  @id @default(uuid())
+    vehicleNumber         String  @unique
+    vehicleType           String
+    capacity              Decimal
+    loadedFuelCostPerKm   Decimal
+    unloadedFuelCostPerKm Decimal
+
+    landFill             Landfill?              @relation(fields: [landFillId], references: [id])
+    landFillId           String?
+    STSVehicleEntry      STSVehicleEntry[]
+    LandfillVehicleEntry LandfillVehicleEntry[]
+    Bill                 Bill[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    Trip      Trip[]
 }
 
 model STS {
@@ -82,30 +91,32 @@ model STS {
     latitude          Decimal
     longitude         Decimal
 
-    manager         User?             @relation(fields: [managerId], references: [id])
-    managerId       String?           @unique
     STSVehicleEntry STSVehicleEntry[]
-    Route           Route[]
+    manager         User[]
+    Trip            Trip[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    Bill      Bill[]
 }
 
 model Landfill {
-    id                String   @id @default(uuid())
-    name              String?
-    capacity          Decimal?
-    currentTotalWaste Decimal?
-    latitude          Decimal
-    longitude         Decimal
+    id                  String   @id @default(uuid())
+    name                String?
+    capacity            Decimal?
+    currentTotalWaste   Decimal?
+    operationalTimeSpan String? // ask about this
+    latitude            Decimal
+    longitude           Decimal
 
-    manager              User?                  @relation(fields: [managerId], references: [id])
-    managerId            String?                @unique
     LandfillVehicleEntry LandfillVehicleEntry[]
-    Route                Route[]
+    manager              User[]
+    Trip                 Trip[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    Bill      Bill[]
+    Vehicle   Vehicle[]
 }
 
 model STSVehicleEntry {
@@ -114,7 +125,7 @@ model STSVehicleEntry {
     stsId         String
     vehicle       Vehicle   @relation(fields: [vehicleId], references: [id])
     vehicleId     String
-    volumeOfWaste Decimal?
+    weightOfWaste Decimal?
     entryTime     DateTime?
     exitTime      DateTime?
 
@@ -128,7 +139,7 @@ model LandfillVehicleEntry {
     landfillId    String
     vehicle       Vehicle   @relation(fields: [vehicleId], references: [id])
     vehicleId     String
-    volumeOfWaste Decimal?
+    weightOfWaste Decimal?
     entryTime     DateTime?
     exitTime      DateTime?
 
@@ -136,35 +147,46 @@ model LandfillVehicleEntry {
     updatedAt DateTime @updatedAt
 }
 
-model ResourceOilAllocation {
-    id            String   @id @default(uuid())
-    vehicle       Vehicle  @relation(fields: [vehicleId], references: [id])
-    vehicleId     String
-    volumeOfWaste Decimal?
-    allocatedOil  Decimal?
-    amountOfTaka  Decimal?
+model Bill {
+    id        String  @id @default(uuid())
+    vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+    vehicleId String
+    sts       STS     @relation(fields: [stsId], references: [id])
+    stsId     String
+
+    landfill   Landfill @relation(fields: [landfillId], references: [id])
+    landfillId String
+
+    Trip   Trip?   @relation(fields: [TripId], references: [id])
+    TripId String?
+
+    weightOfWaste Decimal?
+    allocatedFuel Decimal?
+    allocatedTaka Decimal?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
 
-model Route {
-    id                String   @id @default(uuid())
-    sts               STS      @relation(fields: [stsId], references: [id])
-    stsId             String
-    landfill          Landfill @relation(fields: [landfillId], references: [id])
-    landfillId        String
+model Trip {
+    id         String   @id @default(uuid())
+    sts        STS      @relation(fields: [stsId], references: [id])
+    stsId      String
+    landfill   Landfill @relation(fields: [landfillId], references: [id])
+    landfillId String
+    vehicle    Vehicle  @relation(fields: [vehicleId], references: [id])
+    vehicleId  String
+
+    weightOfWaste Decimal?
+    estimatedFuel Decimal?
+
     distance          Decimal?
     estimatedDuration Decimal?
     actualDuration    Decimal?
 
+    tripStatus String?
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-}
-
-enum RoleName {
-    SYSTEM_ADMIN
-    LAND_MANAGER
-    STS_MANAGER
-    UNASSIGNED
+    Bill      Bill[]
 }
