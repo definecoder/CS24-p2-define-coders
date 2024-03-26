@@ -1,6 +1,6 @@
-import { PrismaClient, Prisma, RoleName } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 
-import bcrypt from "bcrypt";
+import { RoleName } from "../types/rolesTypes";
 
 const prisma = new PrismaClient();
 
@@ -115,36 +115,50 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     vehicleNumber: "13-8272",
     vehicleType: "DUMP_TRUCK",
     capacity: 4,
+    loadedFuelCostPerKm: 10,
+    unloadedFuelCostPerKm: 5,
   },
   {
     vehicleNumber: "13-8273",
     vehicleType: "OPEN_TRUCK",
     capacity: 2,
+    loadedFuelCostPerKm: 14,
+    unloadedFuelCostPerKm: 6,
   },
   {
     vehicleNumber: "13-8274",
     vehicleType: "OPEN_TRUCK",
     capacity: 1,
+    loadedFuelCostPerKm: 6,
+    unloadedFuelCostPerKm: 1,
   },
   {
     vehicleNumber: "13-8275",
     vehicleType: "OPEN_TRUCK",
     capacity: 2,
+    loadedFuelCostPerKm: 20,
+    unloadedFuelCostPerKm: 8,
   },
   {
     vehicleNumber: "13-8276",
     vehicleType: "COMPACTOR",
     capacity: 5,
+    loadedFuelCostPerKm: 25,
+    unloadedFuelCostPerKm: 2,
   },
   {
     vehicleNumber: "13-8277",
     vehicleType: "CONTAINER",
     capacity: 6,
+    loadedFuelCostPerKm: 30,
+    unloadedFuelCostPerKm: 10,
   },
   {
     vehicleNumber: "13-8278",
     vehicleType: "DUMP_TRUCK",
     capacity: 3,
+    loadedFuelCostPerKm: 12,
+    unloadedFuelCostPerKm: 3,
   },
 ];
 

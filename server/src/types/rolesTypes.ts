@@ -1,0 +1,8 @@
+const RoleName = {
+  SYSTEM_ADMIN: "SYSTEM_ADMIN",
+  LAND_MANAGER: "LAND_MANAGER",
+  STS_MANAGER: "STS_MANAGER",
+  UNASSIGNED: "UNASSIGNED",
+};
+
+export { RoleName };
