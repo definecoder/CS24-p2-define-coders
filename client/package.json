@@ -18,6 +18,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@react-google-maps/api": "^2.19.3",
+    "@solarwinter/captchajs": "^0.1.7",
     "@tanstack/react-table": "^8.15.0",
     "chart.js": "^4.4.2",
     "class-variance-authority": "^0.7.0",
@@ -29,6 +30,7 @@
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
+    "react-simple-captcha": "^9.3.1",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7"
