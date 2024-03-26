@@ -1,6 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import {admin, landfillManager, stsManager, unassigned} from '@/data/roles';
+import { setCookie } from '@/lib/cookieFunctions';
+import axios from 'axios';
+import { jwtToken, role } from '@/data/cookieNames';
 
-export default function useLogin() {
+export default function useLogin() {  
 
   const [loginData, setloginData] = useState({
     email: "",
@@ -11,10 +15,21 @@ export default function useLogin() {
     
     if (loginData) {
         // Call the login API
-        alert(loginData.email + " " + loginData.password)        
+        const res = await axios.post('http://localhost:8585/auth/login', {
+            email: loginData.email,
+            password: loginData.password          
+        })
+        res.data.user.roleName.startsWith(admin) ? setCookie(role, admin, 1) : 
+        res.data.user.roleName.startsWith(landfillManager) ? setCookie(role, landfillManager, 1) :
+        res.data.user.roleName.startsWith(stsManager) ? setCookie(role, stsManager, 1) : 
+        res.data.user.roleName.startsWith(unassigned) ? setCookie(role, unassigned, 1) : 
+        setCookie(role, res.data.user.roleName , 1);
+
+        setCookie(jwtToken, res.data.token , 1);
         return true;
     }    
     
+    alert("Invalid credentials!");
     return false;
   }
 

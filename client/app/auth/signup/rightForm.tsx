@@ -7,10 +7,14 @@ import { Label } from "@/components/ui/label";
 
 import useSignup from "../../../hooks/auth/useSignup";
 import { useRouter } from "next/navigation";
+import CaptchaDiv from "@/components/Captcha";
+import { useState } from "react";
 
 function RightForm() {
   const { signupData, setSignUpData, signup } = useSignup();
   const router = useRouter();
+  const [correctCaptcha, setCorrectCaptcha] = useState("");
+  const [userCaptcha, setUserCaptcha] = useState("");
 
   return (
     <div className="flex items-center justify-center py-12">
@@ -25,7 +29,7 @@ function RightForm() {
           onSubmit={async (e) => {
             e.preventDefault();
             const sucess = await signup();
-            sucess && router.push("/dashboard");
+            userCaptcha === correctCaptcha ? sucess && router.push("/dashboard") : alert("Captcha is incorrect");            
           }}
           className="grid gap-4"
         >
@@ -62,6 +66,7 @@ function RightForm() {
               required
             />
           </div>
+          <CaptchaDiv setCorrectCaptcha={setCorrectCaptcha} setUserCaptcha={setUserCaptcha} />
           <Button type="submit" className="w-full">
             Login
           </Button>
