@@ -1,3 +1,4 @@
+import { jwtToken } from '@/data/cookieNames';
 import { setCookie } from '@/lib/cookieFunctions';
 import { useState, useEffect } from 'react';
 
@@ -10,7 +11,7 @@ export default function useForgetPassInitiate() {
     if (userEmail) {
         // Call the login API
         alert(userEmail);
-        setCookie('forgetPassToken', userEmail, 0.01);
+        setCookie(jwtToken, userEmail, 0.01);
         return true;
     }    
     

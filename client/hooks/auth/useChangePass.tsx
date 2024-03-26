@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {admin, landfillManager, stsManager, unassigned} from '@/data/roles';
 import { getCookie, setCookie } from '@/lib/cookieFunctions';
+import { jwtToken } from '@/data/cookieNames';
 
 export default function useChangePass() {  
 
@@ -13,7 +14,7 @@ export default function useChangePass() {
     
     if (passChangeData) {
         // Call the login API
-        const token = getCookie("jwtToken");
+        const token = getCookie(jwtToken);
         alert("Password Changed Successfully!");
         
         return true;

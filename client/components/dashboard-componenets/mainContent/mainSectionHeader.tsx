@@ -37,10 +37,11 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { useContext } from "react";
 import { NavContext } from "@/hooks/contexts/useNavCtx";
 import { eraseCookie } from "@/lib/cookieFunctions";
+import { jwtToken, role } from "@/data/cookieNames";
 
 function logout(router: AppRouterInstance) {
-  eraseCookie("role");
-  eraseCookie("jwtToken");
+  eraseCookie(role);
+  eraseCookie(jwtToken);
   router.push("/auth/login");
 }
 

@@ -11,6 +11,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { getCookie } from "@/lib/cookieFunctions";
+import { jwtToken } from "@/data/cookieNames";
 
 function ForgetPassInitiateForm() {
   const email = useSearchParams().get("email") || "";  
@@ -20,7 +21,7 @@ function ForgetPassInitiateForm() {
 
   async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const sucess = await checkOTPandRestPass({ email, token: getCookie('forgetPassToken') || ""});    
+    const sucess = await checkOTPandRestPass({ email, token: getCookie(jwtToken) || ""});    
     sucess && router.push("/auth/login");
   }
 

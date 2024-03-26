@@ -7,10 +7,11 @@ import { admin , landfillManager, stsManager, unassigned } from "@/data/roles";
 import MainSection from "../../components/dashboard-componenets/mainContent/mainSection";
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/lib/cookieFunctions";
+import { role } from "@/data/cookieNames";
 
 export default function Dashboard() {
 
-  const curRole = getCookie('role') || "";
+  const curRole = getCookie(role) || "";
   const [currentActive, setCurrentActive] = useState(curRole === unassigned ? unassigned + "-My Profile" : curRole + "-Dashboard");  
   const router = useRouter();
 
