@@ -9,8 +9,8 @@ export default function useForgetPassConfirm() {
   async function checkOTPandRestPass({email, token}: {email: string, token: string}) {
     
     if (otp) {
-        // Call the login API
-        alert(otp + " " + token)
+        // Call the login API        
+        alert("Check your email for the reset password link" + otp + " " + token);
         return true;
     }    
     

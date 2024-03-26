@@ -10,19 +10,17 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { useContext } from "react";
-import { AuthContext } from "@/hooks/contexts/useAuthCtx";
+import { getCookie } from "@/lib/cookieFunctions";
 
 function ForgetPassInitiateForm() {
-  const email = useSearchParams().get("email") || "";
-  const {jwtToken} = useContext(AuthContext)
+  const email = useSearchParams().get("email") || "";  
 
   const { otp, setOtp, checkOTPandRestPass } = useForgetPassConfirm();
   const router = useRouter();
 
   async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const sucess = await checkOTPandRestPass({ email, token: jwtToken});    
+    const sucess = await checkOTPandRestPass({ email, token: getCookie('forgetPassToken') || ""});    
     sucess && router.push("/auth/login");
   }
 

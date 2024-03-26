@@ -1,15 +1,16 @@
+import { setCookie } from '@/lib/cookieFunctions';
 import { useState, useEffect } from 'react';
 
 export default function useForgetPassInitiate() {
 
   const [userEmail, setUserEmail] = useState('');
 
-  async function initiate(setToken: Function) {
+  async function initiate() {
     
     if (userEmail) {
         // Call the login API
-        alert(userEmail)
-        setToken('matro dilam');
+        alert(userEmail);
+        setCookie('forgetPassToken', userEmail, 0.01);
         return true;
     }    
     

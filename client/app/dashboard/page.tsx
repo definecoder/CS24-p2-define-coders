@@ -13,12 +13,10 @@ export default function Dashboard() {
   const [currentActive, setCurrentActive] = useState(curRole === unassigned ? unassigned + "-My Profile" : curRole + "-Dashboard");  
   const router = useRouter();
 
-  useEffect(() => {
-    if(curRole === ""){
-      alert('Please login first');
-      router.push('/auth/login');
-    }
-  },[]);  
+  if(curRole === ""){
+    alert('Please login first');
+    router.push('/auth/login');
+  }
 
   console.log('Role: ' + curRole + ' Current Active: ' + currentActive);
 

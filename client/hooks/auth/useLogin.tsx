@@ -13,9 +13,10 @@ export default function useLogin() {
     
     if (loginData) {
         // Call the login API
-        setCookie('jwtToken', 'NOTUN TOKEN', 1);
-        setCookie('role', admin, 1);
-        alert(loginData.email + " " + loginData.password)        
+        loginData.email.startsWith('admin') ? setCookie('role', admin, 1) : 
+        loginData.email.startsWith('landfill') ? setCookie('role', landfillManager, 1) :
+        loginData.email.startsWith('sts') ? setCookie('role', stsManager, 1) : setCookie('role', unassigned, 1);
+        setCookie('jwtToken', 'NOTUN TOKEN', 1);        
         return true;
     }    
     
