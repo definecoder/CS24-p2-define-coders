@@ -244,12 +244,7 @@ export default function AdminUserManagementPanel() {
                   Enter the details of the new user and set his/her role.
                 </DialogDescription>
               </DialogHeader>
-              <form
-              // onSubmit={async (e) => {
-              //   e.preventDefault();
-              //   return await createNewUser();
-              // }}
-              >
+              <form>
                 <div className="grid gap-4 py-4">
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="username" className="text-right">
@@ -325,20 +320,20 @@ export default function AdminUserManagementPanel() {
                     </Select>
                   </div>
                 </div>
-                <DialogFooter>
-                  <Button
+                <DialogFooter>                  
+                  <DialogClose asChild>
+                    <Button>Cancel</Button>
+                  </DialogClose>                  
+                </DialogFooter>
+                <Button
                     type="submit"
                     onClick={async () => {
                       const result = await createNewUser();
-                      return result && alert(result);
+                      if(result) return alert(result);
                     }}
                   >
                     Create User
                   </Button>
-                  <DialogClose asChild>
-                    <Button type="submit">Cancel</Button>
-                  </DialogClose>
-                </DialogFooter>
               </form>
             </DialogContent>
           </Dialog>
