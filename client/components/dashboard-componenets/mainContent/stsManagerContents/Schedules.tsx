@@ -1,6 +1,7 @@
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import OptimizedRouteMap from "@/components/maps/OptimizedRoute";
+import RouteMap from "@/components/maps/RouteMap";
 
 export default function STSManagerSchedules() {
   return (
