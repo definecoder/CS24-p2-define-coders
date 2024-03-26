@@ -13,35 +13,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React , {useState} from "react";
-import SetZone from "../maps/SetZone";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
 }
 
-export const LandfillCreateModal: React.FC<DialogWrapperProps> = ({
+export const RoleCreateModal: React.FC<DialogWrapperProps> = ({
   children,
 }) => {
-    const [landfillName, setLandfill] = useState("");
-    const [capacity, setCapacity] = useState("");
-    const [latitude, setLatitude] = useState("");
-    const [longitude, setLongitude] = useState("");
+    const [description, setDescription] = useState("");
+    const [roleName, setRoleName] = useState("");
     
-  
-
-  
-
-   
-
-
   const handleSaveChanges = () => {
-    // console.log("Vehicle Number:", vehicleNumber);
-    // console.log("Vehicle Type:", vehicleType);
-    // console.log("Capacity:", capacity);
-    console.log(landfillName);
-    console.log(capacity);
-    console.log(latitude);
-    console.log(longitude);
+    console.log("Vehicle Number:", description);
+    console.log("Vehicle Number:", roleName);
+   
   };
 
 
@@ -53,42 +39,35 @@ export const LandfillCreateModal: React.FC<DialogWrapperProps> = ({
       </DialogTrigger>
       <DialogContent className="w-[825px]">
         <DialogHeader>
-          <DialogTitle>Add New Landfill</DialogTitle>
+          <DialogTitle>Add New Role</DialogTitle>
           <DialogDescription>
-            Add new Landfill here. Click save when you're done.
+            Add new role here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Landfill Name
+              Role Name
             </Label>
             <Input
-              id="landfillName"
-              placeholder="X-STS"
+              id="name"
+              placeholder="Vehicle Manager"
               className="col-span-3"
-              value={landfillName}
-              onChange={(e) => setLandfill(e.target.value)}
+              value={roleName}
+              onChange={(e) => setRoleName(e.target.value)}
             />
           </div>
-          
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="capacity" className="text-right">
-              Capacity (in Tons)
+            <Label htmlFor="description" className="text-right">
+              Role Description
             </Label>
             <Input
               id="capacity"
-              placeholder="10-1000"
+              placeholder="1-100"
               className="col-span-3"
-              value={capacity}
-              onChange={(e) => setCapacity(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="location" className="text-right">
-              Landfill Location
-            </Label>
-            <SetZone setLatitude={setLatitude} setLongitude={setLongitude}></SetZone>
           </div>
         </div>
         <DialogFooter>

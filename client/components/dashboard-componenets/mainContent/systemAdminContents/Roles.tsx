@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Cog, UserRoundCog } from "lucide-react";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
+import { RoleCreateModal } from "@/components/modals/RoleModal"; 
 
 export default function AdminRolesManagementPanel() {
   return (
@@ -9,10 +10,12 @@ export default function AdminRolesManagementPanel() {
         <h1 className="text-lg font-semibold md:text-2xl">Roles</h1>
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
-          <Button size="sm" className="w-full">
+          <RoleCreateModal>
+          <Button size="sm" className="w-full bg-black text-white">
             <UserRoundCog size={16} className="mr-2" />
             ADD NEW ROLE
           </Button>
+          </RoleCreateModal>
           <Button size="sm" className="w-full">
             <Cog size={16} className="mr-2" />
             ADD NEW PERMISSON
