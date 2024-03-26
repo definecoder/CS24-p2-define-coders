@@ -73,8 +73,8 @@ function RouteMap() {
       position='relative'
       flexDirection='column'
       alignItems='center'
-      h='100vh'
-      w='100vw'
+      h='100%'
+      w='100%'
     >
       <Box position='absolute' left={0} top={0} h='100%' w='100%'>
         <GoogleMap

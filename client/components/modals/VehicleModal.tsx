@@ -84,6 +84,8 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => handleItemClick('Dump Truck')}>Dump Truck</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleItemClick('Compactor Truck')}>Compactor Truck</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleItemClick('Open Truck')}>Open Truck</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleItemClick('Container Carrier')}>Container Carrier</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           </div>
