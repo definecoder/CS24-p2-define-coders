@@ -1,13 +1,13 @@
 import Image from "next/image";
 
-export default function LeftImage() {
+export default function AppLogo() {
   return (
-    <div className="hidden bg-muted lg:block">
+    <div className="w-full">
         <Image
-          src="/ecoSyncBg.png"
+          src="/logoBlack.png"
           alt="Image"
-          width="1920"
-          height="1080"
+          width="500"
+          height="500"
           className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
