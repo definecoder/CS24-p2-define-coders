@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import errorWrapper from "./errorWrapper";
 import CustomError from "../services/CustomError";
-import { RoleName } from "@prisma/client";
 
-const authRole = (roles: RoleName[]) => {
+const authRole = (roles: string[]) => {
   return errorWrapper(
     async (req: Request, res: Response, next: NextFunction) => {
       const userRole = ((req as any).user as any).role;

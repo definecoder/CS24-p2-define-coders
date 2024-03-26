@@ -2,7 +2,7 @@ import express, { urlencoded, Request, Response } from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import checkDatabaseConnection from "./db/connection";
-import { PrismaClient, RoleName } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import authRoute from "./routes/auth";
 import userRoute from "./routes/users";
 import profileRoute from "./routes/profile";
@@ -12,6 +12,7 @@ import stsRoute from "./routes/sts";
 import landfillRoute from "./routes/landfills";
 import landfillEntryRoute from "./routes/landfillVehicle";
 import stsEntryRoute from "./routes/stsVehicle";
+import billRoute from "./routes/bills";
 
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
@@ -29,6 +30,7 @@ app.use("/sts", stsRoute);
 app.use("/landfills", landfillRoute);
 app.use("/landfill-entry", landfillEntryRoute);
 app.use("/sts-entry", stsEntryRoute);
+app.use("/bills", billRoute);
 
 app.get("/", (req, res) => {
   res.send("EcoSync Server is Up...");
