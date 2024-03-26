@@ -42,6 +42,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import useAddNewUser from "@/hooks/user_data/useAddNewUser";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { unassigned } from "@/data/roles";
 
 const data: Payment[] = [
   {
@@ -175,6 +197,7 @@ export const columns: ColumnDef<Payment>[] = [
 ];
 
 export default function AdminUserManagementPanel() {
+  const { createNewUser, roles, setUserData, userData } = useAddNewUser();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -207,10 +230,118 @@ export default function AdminUserManagementPanel() {
         <h1 className="text-lg font-semibold md:text-2xl">User</h1>
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
-          <Button size="sm" className="w-full">
-            <UserPlus size={16} className="mr-2" />
-            ADD NEW USER
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button size="sm" className="w-full">
+                <UserPlus size={16} className="mr-2" />
+                ADD NEW USER
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>ADD NEW USER</DialogTitle>
+                <DialogDescription>
+                  Enter the details of the new user and set his/her role.
+                </DialogDescription>
+              </DialogHeader>
+              <form
+              // onSubmit={async (e) => {
+              //   e.preventDefault();
+              //   return await createNewUser();
+              // }}
+              >
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="username" className="text-right">
+                      Username
+                    </Label>
+                    <Input
+                      id="username"
+                      type="text"
+                      value={userData.username}
+                      onChange={(e) =>
+                        setUserData({ ...userData, username: e.target.value })
+                      }
+                      className="col-span-3"
+                      required
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="email" className="text-right">
+                      Email
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={userData.email}
+                      onChange={(e) =>
+                        setUserData({ ...userData, email: e.target.value })
+                      }
+                      className="col-span-3"
+                      required
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="password" className="text-right">
+                      Password
+                    </Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      value={userData.password}
+                      onChange={(e) =>
+                        setUserData({ ...userData, password: e.target.value })
+                      }
+                      className="col-span-3"
+                      required
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="role" className="text-right">
+                      Role
+                    </Label>
+                    <Select
+                      value={userData.roleName}
+                      onValueChange={(e) =>
+                        setUserData({ ...userData, roleName: e })
+                      }
+                    >
+                      <SelectTrigger className="col-span-3">
+                        <SelectValue
+                          id="role"
+                          placeholder="Select role for the user"
+                        />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Roles</SelectLabel>
+                          {roles?.map((role) => (
+                            <SelectItem key={role} value={role}>
+                              {role}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button
+                    type="submit"
+                    onClick={async () => {
+                      const result = await createNewUser();
+                      return result && alert(result);
+                    }}
+                  >
+                    Create User
+                  </Button>
+                  <DialogClose asChild>
+                    <Button type="submit">Cancel</Button>
+                  </DialogClose>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <div className="flex flex-1 items-start justify-center rounded-lg border border-dashed shadow-sm px-6">
