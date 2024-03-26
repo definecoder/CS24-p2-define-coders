@@ -74,7 +74,7 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
+            <Label htmlFor="vehicleType" className="text-right">
               Vehicle type
             </Label>
             <DropdownMenu>
@@ -88,7 +88,7 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
           </DropdownMenu>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="capacity" className="text-right">
               Capacity (in Tons)
             </Label>
             <Input
