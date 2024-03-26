@@ -1,6 +1,8 @@
 "use client";
 import GoogleMapComponent from '@/components/maps/GoogleMap'
+import RouteMap from '@/components/maps/RouteMap';
 import SetZone from '@/components/maps/SetZone';
+import { ChakraProvider, theme } from '@chakra-ui/react'
 
 const Map = () => {
     const coordinates = [
@@ -16,9 +18,11 @@ const Map = () => {
       const dumpFills = [30, 25, 81, 45, 70, 50, 90, 60];
   return (
     <div className='w-full h-screen'>
-        <GoogleMapComponent coordinates={coordinates} dumpFills={dumpFills}></GoogleMapComponent>
+        {/* <GoogleMapComponent coordinates={coordinates} dumpFills={dumpFills}></GoogleMapComponent> */}
        {/* <SetZone></SetZone> */}
-  
+       <ChakraProvider theme={theme}>
+      <RouteMap/>
+    </ChakraProvider>
     </div>
     
   )
