@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import useAddNewUser from "@/hooks/user_data/useAddNewUser";
-import { AddNewUserModal } from "@/components/modals/AddNewUserModal";
+import { AddNewUserModal } from "@/components/modals/userControls/AddNewUserModal";
 import UserListTable from "@/components/dataTables/UserList";
 
 export default function AdminUserManagementPanel() {

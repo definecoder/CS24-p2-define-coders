@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Cog, UserRoundCog } from "lucide-react";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
-import { RoleCreateModal } from "@/components/modals/RoleModal"; 
+import { RoleCreateModal } from "@/components/modals/userControls/RoleModal"; 
 
 export default function AdminRolesManagementPanel() {
   return (

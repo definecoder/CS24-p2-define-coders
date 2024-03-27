@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
-import SetZone from "../maps/SetZone";
+import SetZone from "../../maps/SetZone";
 import { UserPlus } from "lucide-react";
 import {
   Select,
@@ -23,7 +23,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../ui/select";
 
 interface DialogWrapperProps {
   children: React.ReactNode;

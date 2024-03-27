@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import { Plus, Truck } from "lucide-react";
-import { StsCreateModal } from "../../../modals/StsModal";
+import { StsCreateModal } from "../../../modals/stsControl/StsModal";
 import { VehicleCreateModal } from "@/components/modals/VehicleModal";
-import { LandfillCreateModal } from "@/components/modals/LandfillModal";
+import { LandfillCreateModal } from "@/components/modals/landfillControl/LandfillModal";
 import UserListTable from "@/components/dataTables/UserList";
 import STSListTable from "@/components/dataTables/STSList";
+import LandFillListTable from "@/components/dataTables/LandFillList";
 
 export default function AdminSystemDataPanel() {
   return (
@@ -55,7 +56,7 @@ export default function AdminSystemDataPanel() {
             <EmptyFillContainer>VEICLE LIST</EmptyFillContainer>
           </div>
           <div className="col-span-1 row-span-1 min-h-48">
-            <EmptyFillContainer>LANDFILL LIST</EmptyFillContainer>
+            <EmptyFillContainer><LandFillListTable /></EmptyFillContainer>
           </div>
         </div>
       </div>

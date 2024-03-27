@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
-import SetZone from "../maps/SetZone";
+import SetZone from "../../maps/SetZone";
 import useCreateLandFill, {
   LandFill,
 } from "@/hooks/entityCreation/useCreateLandfill";

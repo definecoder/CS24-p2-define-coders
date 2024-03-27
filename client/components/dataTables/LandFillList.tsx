@@ -42,21 +42,29 @@ import {
 } from "@/components/ui/table";
 import useGetAllUser from "@/hooks/user_data/useGetAllUser";
 import { DeleteUserModal } from "../modals/userControls/DeleteUserModal";
-import { Copy, EditIcon } from "lucide-react";
+import { Copy, EditIcon, Plus } from "lucide-react";
 import { EditUserModal } from "../modals/userControls/EditUserInfoModal";
 import gettAllRoles from "@/hooks/user_data/useGetAllRole";
 import { roleList } from "@/data/roles";
+import useGetAllSTS from "@/hooks/dataQuery/useGetAllSTS";
+import { EditSTSInfoModal } from "../modals/stsControl/EditSTSInfoModal";
+import { DeleteSTSModal } from "../modals/stsControl/DeleteSTSModal";
+import { ViewSTSInfoModal } from "../modals/stsControl/ViewSTSInfoModal";
+import { StsCreateModal } from "../modals/stsControl/StsModal";
+import useGetAllLandfill from "@/hooks/dataQuery/useGetAllLandfill";
 
-export type User = {
+export type LandFill = {
   id: string;
-  username: string;
-  email: string;
-  role: string;
+  name: string;
+  capacity: string;
+  latitude: string;
+  longitude: string;
+  manager: string[];
 };
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<LandFill>[] = [
   {
-    accessorKey: "id",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -65,32 +73,18 @@ export const columns: ColumnDef<User>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            User ID
+            Landfill Name
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div
-        className="text-center font-medium hover:cursor-pointer hover:scale-110"
-        title="Copy User ID"
-        onClick={() => navigator.clipboard.writeText(row.getValue("id"))}
-      >
-        {row.getValue("id")}
-        <Button
-          variant="ghost"
-          title="Copy User ID"
-          className="h-8 w-8 p-0"
-          onClick={() => navigator.clipboard.writeText(row.getValue("id"))}
-        >
-          <Copy className="h-4 w-4" />
-        </Button>
-      </div>
+      <div className="text-center font-medium">{row.getValue("name")}</div>
     ),
   },
   {
-    accessorKey: "username",
+    accessorKey: "capacity",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -99,78 +93,36 @@ export const columns: ColumnDef<User>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Username
+            Capacity
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("username")}</div>
-    ),
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Email
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("email")}</div>
-    ),
-  },
-  {
-    accessorKey: "role",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Role
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("role")}</div>
+      <div className="text-center font-medium">{row.getValue("capacity")}</div>
     ),
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const user: User = row.original;
+      const sts: LandFill = row.original;
 
       return (
         <div>
-          <DeleteUserModal userInfo={user} />
-          <EditUserModal userInfo={user} />
+          {/* <ViewSTSInfoModal stsInfo={sts} />
+          <EditSTSInfoModal stsInfo={sts} />
+          <DeleteSTSModal stsInfo={sts} /> */}
         </div>
       );
     },
   },
 ];
 
-export default function UserListTable() {
-  const [data, setData] = React.useState<User[]>([]);
-  const {
-    fetchAllUserData,
-    userData,
-  }: { fetchAllUserData: Function; userData: User[] } = useGetAllUser();
+export default function LandFillListTable() {
+  const [data, setData] = React.useState<LandFill[]>([]);
+  const { fetchAllLandfills, landFillData } = useGetAllLandfill();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -180,12 +132,12 @@ export default function UserListTable() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
-    fetchAllUserData();
+    fetchAllLandfills();
   }, []);
 
   React.useEffect(() => {
-    setData(userData);
-  }, [userData]);
+    setData(landFillData);
+  }, [landFillData]);
 
   const table = useReactTable({
     data,
@@ -207,19 +159,20 @@ export default function UserListTable() {
   });
   return (
     <>
-      <div className="flex items-center py-4 gap-4">
+      <div className="font-bold text-lg w-full text-center">MANAGE ALL LANDFILLS</div>
+      <div className="flex justify-between items-center py-4 gap-4">
         <Input
-          placeholder="Search by emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Search by Landfill Name..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+              Filter Landfills <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -295,8 +248,7 @@ export default function UserListTable() {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Total {table.getFilteredRowModel().rows.length} row(s) loaded.
         </div>
         <div className="space-x-2">
           <Button

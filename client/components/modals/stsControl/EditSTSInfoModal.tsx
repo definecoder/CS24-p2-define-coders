@@ -22,7 +22,7 @@ import {
   SelectGroup,
   SelectLabel,
   SelectItem,
-} from "../ui/select";
+} from "../../ui/select";
 import editUser from "@/hooks/user_data/editUser";
 import gettAllRoles from "@/hooks/user_data/useGetAllRole";
 import { number } from "prop-types";

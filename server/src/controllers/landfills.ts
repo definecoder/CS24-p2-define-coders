@@ -19,7 +19,11 @@ const addlandfill = errorWrapper(
 
 const getAllLandfills = errorWrapper(
   async (req: Request, res: Response) => {
-    const landfills = await prisma.landfill.findMany({});
+    const landfills = await prisma.landfill.findMany({
+      include: {
+        manager: true,
+      },
+    });
     res.status(200).json(landfills);
   },
   { statusCode: 500, message: "Couldn't fetch landfills" }

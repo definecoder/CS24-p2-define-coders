@@ -4,7 +4,7 @@ import { jwtToken } from "@/data/cookieNames";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { getCookie } from "@/lib/cookieFunctions";
 import axios from "axios";
-import { STS } from "@/components/modals/EditSTSInfoModal";
+import { STS } from "@/components/modals/stsControl/EditSTSInfoModal";
 
 export default async function editSTS(stsData: STS, managerId: string) {
   if (stsData && managerId) {
