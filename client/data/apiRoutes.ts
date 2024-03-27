@@ -8,5 +8,7 @@ export const apiRoutes = {
     },
     user: {
         getAll: `${baseUrl}/users`,
+        delete: `${baseUrl}/users/`,
+        edit: `${baseUrl}/users/`,
     },
 }
