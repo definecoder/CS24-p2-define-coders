@@ -6,4 +6,7 @@ export const apiRoutes = {
         create: `${baseUrl}/auth/create`,
         logout: `${baseUrl}/auth/logout`,
     },
+    user: {
+        getAll: `${baseUrl}/users`,
+    },
 }
