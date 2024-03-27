@@ -37,11 +37,11 @@ export default function useVehicleListForSTS() {
         unloadedFuelCostPerKm: vehicle.vehicle.unloadedFuelCostPerKm,
         landFillId: vehicle.landFillId,
         entryTime: vehicle.entryTime,
-        landFillName: "vehicle.landfill.landFillName",    
-        stsLattitude: vehicle.sts.stsLattitude,
-        stsLongitude: vehicle.sts.stsLongitude,
-        landfillLattitude: "vehicle.landfill.landfillLattitude",
-        landfillLongitude: "vehicle.landfill.landfillLongitude",
+        landFillName: vehicle.vehicle.landFill.name,    
+        stsLattitude: vehicle.sts.latitude,
+        stsLongitude: vehicle.sts.longitude,
+        landfillLattitude: vehicle.vehicle.landFill.latitude,
+        landfillLongitude: vehicle.vehicle.landFill.longitude,
       }));
       const vehicleNumbers = res.data.map((vehicle: Vehicle) => vehicle.vehicleNumber);
 

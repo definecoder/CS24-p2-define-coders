@@ -52,6 +52,7 @@ import { DeleteSTSModal } from "../modals/DeleteSTSModal";
 import useVehicleList from "@/hooks/vehicles/useVehiclesData";
 import useVehicleListForSTS from "@/hooks/vehicles/useGetVeicleForSTS";
 import { DeleteVehicleModalForSTS } from "../modals/DeleteVehicleModalForSTS";
+import { STSVehicleRelease } from "../modals/STSVehicleReleaseModal";
 
 type Vehicle = {
   entryId: string,
@@ -130,7 +131,7 @@ export const columns: ColumnDef<Vehicle>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("entryTime")}</div>
+      <div className="text-center font-medium">{row.getValue("entryTime".toLocaleString())}</div>
     ),
   },
   {
@@ -162,7 +163,7 @@ export const columns: ColumnDef<Vehicle>[] = [
       return (
         <div>
           <DeleteVehicleModalForSTS vehicleInfo={sts} />
-          {/* <EditSTSInfoModal stsInfo={sts} />  */}
+          <STSVehicleRelease vehicleInfo={sts} />
         </div>
       );
     },
