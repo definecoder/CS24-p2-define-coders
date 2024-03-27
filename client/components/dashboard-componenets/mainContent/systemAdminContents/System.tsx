@@ -35,13 +35,13 @@ export default function AdminSystemDataPanel() {
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-2 grid-flow-row gap-2 md:gap-4 w-full md:h-full max-h-max">
           <div className="col-span-1 row-span-1 min-h-48">
-            <EmptyFillContainer>STS Heatmap</EmptyFillContainer>
+            <EmptyFillContainer>STS LIST</EmptyFillContainer>
           </div>
           <div className="col-span-1 row-span-2 min-h-48">
-            <EmptyFillContainer>STS data</EmptyFillContainer>
+            <EmptyFillContainer>VEICLE LIST</EmptyFillContainer>
           </div>
           <div className="col-span-1 row-span-1 min-h-48">
-            <EmptyFillContainer>Available Veicles</EmptyFillContainer>
+            <EmptyFillContainer>LANDFILL LIST</EmptyFillContainer>
           </div>
         </div>
       </div>
