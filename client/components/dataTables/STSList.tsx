@@ -48,6 +48,7 @@ import gettAllRoles from "@/hooks/user_data/useGetAllRole";
 import { roleList } from "@/data/roles";
 import useGetAllSTS from "@/hooks/dataQuery/useGetAllSTS";
 import { EditSTSInfoModal } from "../modals/EditSTSInfoModal";
+import { DeleteSTSModal } from "../modals/DeleteSTSModal";
 
 export type STS = {
   id: string;
@@ -129,7 +130,7 @@ export const columns: ColumnDef<STS>[] = [
 
       return (
         <div>
-          {/* <DeleteUserModal userInfo={user} /> */}
+          <DeleteSTSModal stsInfo={sts} />
           <EditSTSInfoModal stsInfo={sts} /> 
         </div>
       );
