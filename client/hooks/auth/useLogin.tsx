@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {admin, landfillManager, stsManager, unassigned} from '@/data/roles';
 import { setCookie } from '@/lib/cookieFunctions';
 import axios from 'axios';
-import { jwtToken, role , uid } from '@/data/cookieNames';
+import { jwtToken, role , uid , stsId, username} from '@/data/cookieNames';
 
 export default function useLogin() {  
 
@@ -26,8 +26,13 @@ export default function useLogin() {
         setCookie(role, res.data.user.roleName , 1);
         setCookie(uid, res.data.user.id ,1 );
         setCookie(jwtToken, res.data.token , 1);
+        setCookie(stsId, res.data.stsId, 1);
+        setCookie(username, res.data.username, 1);
+
+        console.log(res);
         return true;
-    }    
+    }   
+    
     
     alert("Invalid credentials!");
     return false;

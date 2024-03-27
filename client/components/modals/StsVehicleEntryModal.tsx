@@ -14,6 +14,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React , {useState, useEffect} from "react";
 
+import { getCookie } from '@/lib/cookieFunctions';
+import { jwtToken, role, uid } from '@/data/cookieNames';
+
 interface DialogWrapperProps {
   children: React.ReactNode;
 }
@@ -23,6 +26,12 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
 }) => {
     const [weightOfWaste, setWeightOfWaste] = useState("");
     const [entryTime, setEntryTime] = useState(new Date().toLocaleString());
+
+    const token = getCookie(jwtToken);
+    const userRole = getCookie(role);
+    const userId = getCookie(uid);
+
+
     
     // useEffect(() => {
     //     const intervalId = setInterval(() => {
@@ -35,7 +44,9 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
   const handleSaveChanges = () => {
     console.log("Vehicle Number:", weightOfWaste);
     console.log("Vehicle Number:", entryTime);
-   
+    console.log("Token:", token);
+    console.log("User Role:", userRole);
+    console.log("User ID:", userId);
   };
 
 
