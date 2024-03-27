@@ -23,4 +23,10 @@ export const apiRoutes = {
         delete: `${baseUrl}/landfills/`,
         edit: `${baseUrl}/landfills/`,
     },
+    rbac: {
+        create: `${baseUrl}/rbac/create`,
+        getByRole: `${baseUrl}/rbac/roles/`,
+        delete: `${baseUrl}/rbac/`,
+        edit: `${baseUrl}/rbac/`,
+    },
 }

@@ -47,6 +47,7 @@ import { EditUserModal } from "../modals/EditUserInfoModal";
 import gettAllRoles from "@/hooks/user_data/useGetAllRole";
 import { roleList } from "@/data/roles";
 import useGetAllSTS from "@/hooks/dataQuery/useGetAllSTS";
+import { EditSTSInfoModal } from "../modals/EditSTSInfoModal";
 
 export type STS = {
   id: string;
@@ -57,7 +58,7 @@ export type STS = {
   longitude: string;
 };
 
-export const columns: ColumnDef<STS>[] = [  
+export const columns: ColumnDef<STS>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -95,7 +96,9 @@ export const columns: ColumnDef<STS>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("wardNumber")}</div>
+      <div className="text-center font-medium">
+        {row.getValue("wardNumber")}
+      </div>
     ),
   },
   {
@@ -122,12 +125,12 @@ export const columns: ColumnDef<STS>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const user: STS = row.original;
+      const sts: STS = row.original;
 
       return (
         <div>
-          {/* <DeleteUserModal userInfo={user} />
-          <EditUserModal userInfo={user} /> */}
+          {/* <DeleteUserModal userInfo={user} /> */}
+          <EditSTSInfoModal stsInfo={sts} /> 
         </div>
       );
     },
@@ -136,10 +139,7 @@ export const columns: ColumnDef<STS>[] = [
 
 export default function STSListTable() {
   const [data, setData] = React.useState<STS[]>([]);
-  const {
-    fetchAllSTS,
-    stsData
-  }= useGetAllSTS();
+  const { fetchAllSTS, stsData } = useGetAllSTS();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
