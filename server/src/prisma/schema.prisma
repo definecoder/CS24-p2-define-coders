@@ -178,6 +178,8 @@ model Trip {
     vehicle    Vehicle  @relation(fields: [vehicleId], references: [id])
     vehicleId  String
 
+    tripStartTime     DateTime?
+    tripEndTime       DateTime?
     weightOfWaste     Decimal?
     shortage          Decimal?
     estimatedFuelCost Decimal?
