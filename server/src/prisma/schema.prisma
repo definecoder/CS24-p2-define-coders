@@ -151,6 +151,7 @@ model LandfillVehicleEntry {
 
 model Bill {
     id        String  @id @default(uuid())
+    billNo    Int     @unique @default(autoincrement())
     vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
     vehicleId String
     sts       STS     @relation(fields: [stsId], references: [id])
