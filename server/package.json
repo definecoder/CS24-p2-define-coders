@@ -16,6 +16,7 @@
   "dependencies": {
     "@prisma/client": "^5.11.0",
     "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mailgen": "^2.0.7",
     "@types/nodemailer": "^6.4.14",
