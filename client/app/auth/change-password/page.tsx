@@ -16,14 +16,14 @@ import { setCookie } from "@/lib/cookieFunctions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function ChangePassword() {
   const router = useRouter();
 
   const { changePass, setPassChangeData } = useChangePass();
 
-  const [correctCaptcha, setCorrectCaptcha] = useState("");
-  const [userCaptcha, setUserCaptcha] = useState("");
+  const [isVerified, setIsCaptchaVerified] = useState<string | null>();
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
@@ -33,8 +33,8 @@ export default function ChangePassword() {
     let timer = setInterval(() => {
       setTime((time) => {
         if (time === 0) {
-          clearInterval(timer);    
-          alert("Time Expired!");      
+          clearInterval(timer);
+          alert("Time Expired!");
           router.push("/dashboard");
           return 0;
         } else return time - 0.5;
@@ -44,15 +44,15 @@ export default function ChangePassword() {
 
   async function submitForm() {
     setPassChangeData({ oldPassword, newPassword });
-    correctCaptcha === userCaptcha &&
-      (await changePass()) &&
-      router.push("/dashboard");
-    correctCaptcha !== userCaptcha && alert("Invalid Captcha!");
+    isVerified && (await changePass()) && router.push("/dashboard");
+    !isVerified && alert("Invalid Captcha!");
   }
 
   return (
     <div className="flex flex-col gap-4 justify-center items-center h-screen w-screen">
-      <Button variant="outline" onClick={() => router.push("/dashboard")}>Back to Dashboard</Button>      
+      <Button variant="outline" onClick={() => router.push("/dashboard")}>
+        Back to Dashboard
+      </Button>
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Change Password</CardTitle>
@@ -62,7 +62,7 @@ export default function ChangePassword() {
             {`${time % 60}`.padStart(2, "0")} mins.
           </CardDescription>
         </CardHeader>
-        <CardContent className="grid gap-4">
+        <CardContent className="grid gap-6">
           <form onSubmit={submitForm}>
             <div className="grid gap-2">
               <Label htmlFor="old-password">Old Password</Label>
@@ -84,10 +84,12 @@ export default function ChangePassword() {
                 required
               />
             </div>
-            <CaptchaDiv
-              setCorrectCaptcha={setCorrectCaptcha}
-              setUserCaptcha={setUserCaptcha}
-            />
+            <div className="mt-3 flex items-center justify-center">
+            <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                onChange={setIsCaptchaVerified}
+              />
+              </div>
           </form>
         </CardContent>
         <CardFooter>
