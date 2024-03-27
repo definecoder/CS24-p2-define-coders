@@ -207,16 +207,16 @@ const stsData: Prisma.STSCreateInput[] = [
     name: "Moheshkhali",
     wardNumber: "13",
     capacity: 1000,
-    latitude: 342.456,
-    longitude: 85.91,
+    latitude: 23.76652752,
+    longitude: 90.4258899
   },
   {
     id: "sts2",
     name: "Gulshan",
     wardNumber: "2",
     capacity: 2000,
-    latitude: 234.456,
-    longitude: 75.912,
+    latitude: 23.76449486,
+    longitude: 90.3879528,
   },
 
   {
@@ -224,8 +224,8 @@ const stsData: Prisma.STSCreateInput[] = [
     name: "Bonani",
     wardNumber: "4",
     capacity: 1500,
-    latitude: 425.456,
-    longitude: 123.912,
+    latitude: 23.73897468,
+    longitude: 90.3750954,
   },
 ];
 
@@ -234,8 +234,8 @@ const landfillData: Prisma.LandfillCreateInput[] = [
     id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
     name: "Amin Bazar",
     capacity: 10000,
-    latitude: 23.7894892,
-    longitude: 90.2669163,
+    latitude: 23.76431111,
+    longitude: 90.3651622,
   },
 ];
 
