@@ -159,8 +159,8 @@ model Bill {
     landfill   Landfill @relation(fields: [landfillId], references: [id])
     landfillId String
 
-    Trip   Trip?   @relation(fields: [TripId], references: [id])
-    TripId String?
+    trip   Trip?   @relation(fields: [tripId], references: [id])
+    tripId String?
 
     weightOfWaste     Decimal?
     allocatedFuelCost Decimal?
