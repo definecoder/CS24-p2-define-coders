@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import { Plus, Truck } from "lucide-react";
-import { StsCreateModal } from "../../../modals/StsModal"
+import { StsCreateModal } from "../../../modals/StsModal";
 import { VehicleCreateModal } from "@/components/modals/VehicleModal";
-import { LandfillCreateModal } from "@/components/modals/LandfillModal"; 
+import { LandfillCreateModal } from "@/components/modals/LandfillModal";
 
 export default function AdminSystemDataPanel() {
   return (
@@ -13,22 +13,34 @@ export default function AdminSystemDataPanel() {
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
           <StsCreateModal>
-          <Button variant="outline" size="sm" className="w-full bg-black text-white">
-            <Plus size={16}  className="mr-2"/>
-            ADD NEW STS
-          </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full bg-black text-white"
+            >
+              <Plus size={16} className="mr-2" />
+              ADD NEW STS
+            </Button>
           </StsCreateModal>
           <LandfillCreateModal>
-          <Button variant="outline" size="sm" className="w-full bg-black text-white">
-            <Plus size={16}  className="mr-2"/>
-            ADD NEW LANDFILL
-          </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full bg-black text-white"
+            >
+              <Plus size={16} className="mr-2" />
+              ADD NEW LANDFILL
+            </Button>
           </LandfillCreateModal>
           <VehicleCreateModal>
-          <Button variant="outline" size="sm" className="w-full bg-black text-white">
-            <Truck size={16}  className="mr-2"/>
-            ADD NEW VEHICLE
-          </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full bg-black text-white"
+            >
+              <Truck size={16} className="mr-2" />
+              ADD NEW VEHICLE
+            </Button>
           </VehicleCreateModal>
         </div>
       </div>

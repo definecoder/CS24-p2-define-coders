@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React , {useState} from "react";
 import SetZone from "../maps/SetZone";
+import useCreateSTS, { STS } from "@/hooks/entityCreation/useCreateSTS";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -28,35 +29,23 @@ export const StsCreateModal: React.FC<DialogWrapperProps> = ({
     const [capacity, setCapacity] = useState("");
     const [latitude, setLatitude] = useState("");
     const [longitude, setLongitude] = useState("");
-    
-  
+    const {createSTS } = useCreateSTS();
 
-  
-
-   
-
-
-  const handleSaveChanges = () => {
-    // console.log("Vehicle Number:", vehicleNumber);
-    // console.log("Vehicle Type:", vehicleType);
-    // console.log("Capacity:", capacity);
-    console.log(stsName);
-    console.log(wardNumber);
-    console.log(capacity);
-    console.log(latitude);
-    console.log(longitude);
+  const handleSaveChanges = async () => {
+    const data:STS = {name: stsName, wardNumber , capacity: parseInt(capacity), latitude: parseFloat(latitude), longitude: parseFloat(longitude)};
+    console.log(data);    
+    alert(await createSTS(data) || "STS data invalid");    
   };
 
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        {/* <Button variant="outline">Edit Profile</Button> */}
+      <DialogTrigger asChild>        
         {children}
       </DialogTrigger>
       <DialogContent className="w-[825px]">
         <DialogHeader>
-          <DialogTitle>Add New STS</DialogTitle>
+          <DialogTitle>ADD NEW STS</DialogTitle>
           <DialogDescription>
             Add new STS here. Click save when you're done.
           </DialogDescription>
@@ -100,12 +89,10 @@ export const StsCreateModal: React.FC<DialogWrapperProps> = ({
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="location" className="text-right">
-              STS Location<br/><br/>
-              Latitude<br/><br/>
-              Longitude
-            </Label>
-            <SetZone setLatitude={setLatitude} setLongitude={setLongitude}></SetZone>
+            
+            
+            <SetZone setLatitude={setLatitude} setLongitude={setLongitude}/>
+            
           </div>
         </div>
         <DialogFooter>

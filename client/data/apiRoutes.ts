@@ -11,4 +11,10 @@ export const apiRoutes = {
         delete: `${baseUrl}/users/`,
         edit: `${baseUrl}/users/`,
     },
+    sts: {
+        create: `${baseUrl}/sts/create`,
+        getAll: `${baseUrl}/sts`,
+        delete: `${baseUrl}/sts/`,
+        edit: `${baseUrl}/sts/`,
+    },
 }
