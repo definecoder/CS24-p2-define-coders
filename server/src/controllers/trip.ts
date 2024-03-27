@@ -82,7 +82,16 @@ const getListOfTrips = errorWrapper(async (req: Request, res: Response) => {
 });
 
 const completeTrip = errorWrapper(async (req: Request, res: Response) => {
-  const { tripId, landfillId, vehicleId, weightOfWaste, entryTime } = req.body;
+  const { tripId, weightOfWaste, entryTime } = req.body;
+
+  const trip = await getTripById(tripId);
+
+  if (!trip) {
+    throw new CustomError("No such trip found", 404);
+  }
+
+  const landfillId = trip.landfillId;
+  const vehicleId = trip.vehicleId;
 
   prisma.landfillVehicleEntry.create({
     data: {
@@ -92,12 +101,6 @@ const completeTrip = errorWrapper(async (req: Request, res: Response) => {
       entryTime,
     },
   });
-
-  const trip = await getTripById(tripId);
-
-  if (!trip) {
-    throw new CustomError("No such trip found", 404);
-  }
 
   const shortage = Number(trip.weightOfWaste) - weightOfWaste;
 
