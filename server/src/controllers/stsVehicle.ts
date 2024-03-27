@@ -72,7 +72,11 @@ const getCurrentVehiclesInSTS = errorWrapper(
       },
       include: {
         sts: true,
-        vehicle: true,
+        vehicle: {
+          include: {
+            landFill: true,
+          },
+        },
       },
     });
 
