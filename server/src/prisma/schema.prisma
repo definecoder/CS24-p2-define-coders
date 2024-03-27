@@ -64,12 +64,14 @@ model RolePermission {
 }
 
 model Vehicle {
-    id                    String  @id @default(uuid())
-    vehicleNumber         String  @unique
+    id                    String   @id @default(uuid())
+    vehicleNumber         String   @unique
     vehicleType           String
     capacity              Decimal
     loadedFuelCostPerKm   Decimal
     unloadedFuelCostPerKm Decimal
+    currentLatitude       Decimal?
+    currentLongitude      Decimal?
 
     landFill             Landfill               @relation(fields: [landFillId], references: [id])
     landFillId           String
