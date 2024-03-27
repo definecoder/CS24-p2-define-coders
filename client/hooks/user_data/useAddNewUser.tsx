@@ -1,3 +1,5 @@
+"use client";
+import { apiRoutes } from "@/data/apiRoutes";
 import { jwtToken } from "@/data/cookieNames";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { getCookie } from "@/lib/cookieFunctions";
@@ -12,14 +14,14 @@ export default function useAddNewUser() {
     username: "",
   });
 
-  function isValid(useData: any) {
+  function isValid(userData: any) {
     const validRegex =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     return (
-      useData.email.match(validRegex) &&
-      useData.roleName !== "" &&
-      useData.password !== "" &&
-      useData.username !== ""
+      userData.email.match(validRegex) &&
+      userData.roleName !== "" &&
+      userData.password !== "" &&
+      userData.username !== ""
     );
   }
 
@@ -31,17 +33,16 @@ export default function useAddNewUser() {
 
   async function createNewUser() {
     if (userData && isValid(userData)) {
-      // call the api to create the user
-      const res = await axios.post(
-        "http://localhost:8585/auth/create",
-        userData,
-        {
-          headers: {            
-            Authorization: `Bearer ${getCookie(jwtToken)}`,
+      try {
+        const res = await axios.post(apiRoutes.auth.create, userData, {
+          headers: {
+            Authorization: `Bearer ${await getCookie(jwtToken)}`,
           },
-        }
-      );
-      return "user created successfully";
+        });
+        return "user created successfully";
+      } catch (error: any) {
+        return error.message?.toString() || "error creating user";
+      }
     }
 
     return null;
