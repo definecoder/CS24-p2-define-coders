@@ -6,11 +6,11 @@ import { getCookie } from "@/lib/cookieFunctions";
 import axios from "axios";
 import { STS } from "@/components/modals/EditSTSInfoModal";
 
-export default async function editSTS(stsData: STS, manager: string) {
-  if (stsData && manager) {
+export default async function editSTS(stsData: STS, managerId: string) {
+  if (stsData && managerId) {
     try {
       const res1 = await axios.put(
-        apiRoutes.user.edit + manager,
+        apiRoutes.user.edit + managerId,
         {          
           stsId: stsData.id,
         },
@@ -20,10 +20,11 @@ export default async function editSTS(stsData: STS, manager: string) {
           },
         }
       );
+      const {manager, ...payload} = {...stsData};
       const res2 = await axios.put(
         apiRoutes.sts.edit + stsData.id,
         {
-          ...stsData,
+          ...payload,
         },
         {
           headers: {
