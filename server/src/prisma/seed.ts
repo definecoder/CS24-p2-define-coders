@@ -332,6 +332,15 @@ async function main() {
     console.log(newStsVehicleEntry);
   }
 
+  console.log("Seeding trips...");
+
+  for (const trip of tripData) {
+    const newTrip = await prisma.trip.create({
+      data: trip,
+    });
+    console.log(newTrip);
+  }
+
   console.log("Seeding completed!");
 }
 

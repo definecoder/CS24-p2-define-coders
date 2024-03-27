@@ -177,6 +177,7 @@ model Trip {
     vehicleId  String
 
     weightOfWaste     Decimal?
+    shortage          Decimal?
     estimatedFuelCost Decimal?
 
     distance          Decimal?

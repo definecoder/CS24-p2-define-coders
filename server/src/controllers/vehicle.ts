@@ -1,3 +1,4 @@
+import { Prisma } from "./../../node_modules/.prisma/client/index.d";
 import { PrismaClient, Vehicle } from "@prisma/client";
 import { Request, Response } from "express";
 import errorWrapper from "../middlewares/errorWrapper";
@@ -63,10 +64,37 @@ const removeVehicle = errorWrapper(
   { statusCode: 500, message: "Couldn't delete vehicle" }
 );
 
+const getVehiclesOnQuery = errorWrapper(async (req: Request, res: Response) => {
+  const { landFillId, vehicleType, vehicleNumber } = req.query;
+
+  let where: Prisma.VehicleWhereInput | undefined = undefined;
+  if (landFillId || vehicleType || vehicleNumber) {
+    where = {};
+    if (landFillId) {
+      where.landFillId = landFillId as string;
+    }
+
+    if (vehicleType) {
+      where.vehicleType = vehicleType as string;
+    }
+
+    if (vehicleNumber) {
+      where.vehicleNumber = vehicleNumber as string;
+    }
+  }
+
+  const vehicles = await prisma.vehicle.findMany({
+    where,
+  });
+
+  res.json(vehicles);
+});
+
 export {
   createVehicle,
   fetchAllVehicles,
   fetchVehicleById,
   editVehicle,
   removeVehicle,
+  getVehiclesOnQuery,
 };
