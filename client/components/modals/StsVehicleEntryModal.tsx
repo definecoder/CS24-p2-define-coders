@@ -27,8 +27,11 @@ interface DialogWrapperProps {
 export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
   children,
 }) => {
-    const { entryTime, setEntryTime,vehicleId, setVehicleId, VehicleEntry } = useVehicleEntry();
+    const { entryTime,setEntryTime, vehicleId, setVehicleId, VehicleEntry } = useVehicleEntry();
     const { vehicleList, vehicleNumberList, getVehicleList } = useVehicleList();
+
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
    
     const [weightOfWaste, setWeightOfWaste] = useState("");
     const callVehcilse = async () => {
@@ -40,17 +43,52 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
     }, []);
 
    
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(event.target.value);
+      setShowSuggestions(true);
+    };
+    const handleSuggestionClick = (suggestion: string) => {
+      setSearchTerm(suggestion);
+      setShowSuggestions(false);
+    };
 
+    const filteredSuggestions = vehicleNumberList.filter((suggestion) =>
+    suggestion.toString().toLowerCase().includes(searchTerm.toString().toLowerCase())
+  );
 
+  const getVehicleIdByNumber = (vehicleNumber: string): string | undefined => {
+    const vehicle = vehicleList.find(vehicle => vehicle.vehicleNumber === vehicleNumber);
+    if (vehicle) {
+        return vehicle.id.toString();
+    }
+    
+    // If vehicle is not found, return undefined
+    return "no vehicle";
+};
+
+   
     
     
   const handleSaveChanges = async () => {
+    setVehicleId(searchTerm);
     
-    console.log("Vehicle Number:", weightOfWaste);
-    console.log("Vehicle Number:", entryTime);
-    console.log(vehicleList);
-    console.log(vehicleNumberList);
+    
+   // console.log(vehicleId);
+    //console.log(entryTime);
+    const vehicleId = getVehicleIdByNumber(searchTerm);
+
+    try {
+      console.log(vehicleList);
+      const postEntry = await VehicleEntry({
+        vehicleIds: vehicleId,
+        entryTimes: entryTime,
+      });
+      
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+   
 
 
   return (
@@ -67,18 +105,30 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-            Weight of Waste
+        <div>
+          <Label htmlFor="description" className="text-right">
+              Vehicle Number
             </Label>
-            <Input
-              id="weightOfWaste"
-              placeholder="Waste Volume (in Tons)"
-              className="col-span-3"
-              value={weightOfWaste}
-              onChange={(e) => setWeightOfWaste(e.target.value)}
-            />
-          </div>
+                <input
+                  type="text"
+                  placeholder="Search by Vehicle Number"
+                  value={searchTerm}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 mx-4 px-1 py-2 rounded-md focus:outline-none focus:border-blue-500"
+                />
+                {showSuggestions && (
+                  <ul className="absolute z-10 mt-1 mx-[120px] w-2/5 bg-white rounded-md shadow-lg">
+                    {filteredSuggestions.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleSuggestionClick(suggestion)}
+                      >
+                        {suggestion}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="description" className="text-right">
               Entry Time
@@ -91,6 +141,8 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
               onChange={(e) => setEntryTime(e.target.value)}
             />
           </div>
+          
+          
         </div>
         <DialogFooter>
         <DialogClose asChild>
