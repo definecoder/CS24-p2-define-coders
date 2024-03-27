@@ -6,8 +6,6 @@ import axios from 'axios';
 import { jwtToken, role , uid , stsId, username, curActive} from '@/data/cookieNames';
 import { apiRoutes } from "@/data/apiRoutes";
 
-export default function useLogin() {  
-
 
 export default function useLogin() {
   const [loginData, setloginData] = useState({
