@@ -45,21 +45,28 @@ const SetZone : React.FC<CoordinateProps> = ({ setLatitude, setLongitude }) =>  
             }
             const lat = place.geometry.location.lat();
             const lng = place.geometry.location.lng();
-            // latInputRef.current!.value = lat.toString();
-            // longInputRef.current!.value = lng.toString();
+            latInputRef.current!.value = lat.toString();
+            longInputRef.current!.value = lng.toString();
             // placeNameRef.current!.value = place.name.toString();
-            setLatitude(lat.toString());
-            setLongitude(lng.toString());
+            setLatitude(latInputRef.current!.value);
+            setLongitude(longInputRef.current!.value);
 
         });
     };
+    const handleLatitudeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setLatitude(event.target.value);
+      };
+    
+      const handleLongitudeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setLongitude(event.target.value);
+      };
 
     return (
         <div>
             <input type="text" id="location" ref={locationInputRef} />
-            {/* <input type="text" id="lat" ref={latInputRef} readOnly />
-            <input type="text" id="long" ref={longInputRef} readOnly />
-            <input type="text" id="placeName" ref={placeNameRef} readOnly />  */}
+            <input type="text" placeholder='Latitude' id="lat" ref={latInputRef} onChange={handleLatitudeChange} />
+      <input type="text" id="long" placeholder='Longitude' ref={longInputRef} onChange={handleLongitudeChange} />
+            {/* <input type="text" id="placeName" ref={placeNameRef} readOnly />  */}
         </div>
     );
 };

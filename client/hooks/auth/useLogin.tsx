@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {admin, landfillManager, stsManager, unassigned} from '@/data/roles';
 import { setCookie } from '@/lib/cookieFunctions';
 import axios from 'axios';
-import { jwtToken, role } from '@/data/cookieNames';
+import { jwtToken, role , uid } from '@/data/cookieNames';
 
 export default function useLogin() {  
 
@@ -24,7 +24,7 @@ export default function useLogin() {
         res.data.user.roleName.startsWith(stsManager) ? setCookie(role, stsManager, 1) : 
         res.data.user.roleName.startsWith(unassigned) ? setCookie(role, unassigned, 1) : 
         setCookie(role, res.data.user.roleName , 1);
-
+        setCookie(uid, res.data.user.id ,1 );
         setCookie(jwtToken, res.data.token , 1);
         return true;
     }    

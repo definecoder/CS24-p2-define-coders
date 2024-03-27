@@ -101,7 +101,9 @@ export const StsCreateModal: React.FC<DialogWrapperProps> = ({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="location" className="text-right">
-              STS Location
+              STS Location<br/><br/>
+              Latitude<br/><br/>
+              Longitude
             </Label>
             <SetZone setLatitude={setLatitude} setLongitude={setLongitude}></SetZone>
           </div>
