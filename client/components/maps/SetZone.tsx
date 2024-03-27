@@ -71,7 +71,7 @@ const SetZone: React.FC<CoordinateProps> = ({ setLatitude, setLongitude }) => {
   return (
     <>
       <Label htmlFor="location" className="text-right">
-        STS Location
+        Location Name
       </Label>
       <Input
         type="text"
@@ -80,7 +80,7 @@ const SetZone: React.FC<CoordinateProps> = ({ setLatitude, setLongitude }) => {
         className="col-span-3"
       />
       <Label htmlFor="location" className="text-right">
-        STS Location
+        Coordinates
       </Label>
       <div className="flex gap-2 col-span-3">
         <Input

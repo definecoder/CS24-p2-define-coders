@@ -57,7 +57,7 @@ export const StsCreateModal: React.FC<DialogWrapperProps> = ({
             </Label>
             <Input
               id="stsName"
-              placeholder="X-STS"
+              placeholder="STS Name here"
               className="col-span-3"
               value={stsName}
               onChange={(e) => setStsName(e.target.value)}
