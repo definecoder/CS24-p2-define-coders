@@ -71,8 +71,8 @@ model Vehicle {
     loadedFuelCostPerKm   Decimal
     unloadedFuelCostPerKm Decimal
 
-    landFill             Landfill?              @relation(fields: [landFillId], references: [id])
-    landFillId           String?
+    landFill             Landfill               @relation(fields: [landFillId], references: [id])
+    landFillId           String
     STSVehicleEntry      STSVehicleEntry[]
     LandfillVehicleEntry LandfillVehicleEntry[]
     Bill                 Bill[]
@@ -160,9 +160,8 @@ model Bill {
     Trip   Trip?   @relation(fields: [TripId], references: [id])
     TripId String?
 
-    weightOfWaste Decimal?
-    allocatedFuel Decimal?
-    allocatedTaka Decimal?
+    weightOfWaste     Decimal?
+    allocatedFuelCost Decimal?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -177,8 +176,8 @@ model Trip {
     vehicle    Vehicle  @relation(fields: [vehicleId], references: [id])
     vehicleId  String
 
-    weightOfWaste Decimal?
-    estimatedFuel Decimal?
+    weightOfWaste     Decimal?
+    estimatedFuelCost Decimal?
 
     distance          Decimal?
     estimatedDuration Decimal?

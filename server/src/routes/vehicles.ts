@@ -1,18 +1,18 @@
 import express from "express";
 import {
-  addVehicle,
-  deleteVehicle,
-  getAllVehicles,
-  getVehicleById,
-  updateVehicle,
+  createVehicle,
+  editVehicle,
+  fetchAllVehicles,
+  fetchVehicleById,
+  removeVehicle,
 } from "../controllers/vehicle";
 
 const router = express.Router();
 
-router.route("/create").post(addVehicle);
-router.route("/").get(getAllVehicles);
-router.route("/:vehicleId").get(getVehicleById);
-router.route("/:vehicleId").put(updateVehicle);
-router.route("/:vehicleId").delete(deleteVehicle);
+router.route("/create").post(createVehicle);
+router.route("/").get(fetchAllVehicles);
+router.route("/:vehicleId").get(fetchVehicleById);
+router.route("/:vehicleId").put(editVehicle);
+router.route("/:vehicleId").delete(removeVehicle);
 
 export default router;

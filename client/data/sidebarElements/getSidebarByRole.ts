@@ -5,7 +5,7 @@ import { STSManagerSidebarItemList } from "./stsManagerSidebar";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { UnassignedSidebarItemList } from "./unassignedSidebar";
 
-interface SidebarElement {Icon: LucideIcon, title: string}
+export interface SidebarElement {Icon: LucideIcon, title: string}
 
 export const getSidebarElements = (role: string):SidebarElement[] => {
     if (role === admin) return AdminSidebarItemList;

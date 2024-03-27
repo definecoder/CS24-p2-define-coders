@@ -1,14 +1,13 @@
 import { Bill, PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import errorWrapper from "../middlewares/errorWrapper";
-import CustomError from "../services/CustomError";
 import {
   addBill,
   deleteBill,
   getBill,
   getBills,
   updateBill,
-} from "../services/bills";
+} from "../services/billServices";
 
 const prisma = new PrismaClient();
 

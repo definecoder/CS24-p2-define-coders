@@ -7,7 +7,7 @@ import {
   getToken,
   invalidateToken,
   verifyToken,
-} from "../services/Token";
+} from "../services/token";
 import CustomError from "../services/CustomError";
 import { randomOTPGenerator, randomPasswordGenerator } from "../services/utils";
 import { sendMail, sendOTPMail } from "../services/mailService";
@@ -16,7 +16,7 @@ const prisma = new PrismaClient();
 
 const createUser = errorWrapper(
   async (req: Request, res: Response) => {
-    const {username, password, email, roleName} = req.body;
+    const { username, password, email, roleName } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({

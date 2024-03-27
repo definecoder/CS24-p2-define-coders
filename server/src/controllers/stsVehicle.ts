@@ -81,6 +81,28 @@ const getCurrentVehiclesInSTS = errorWrapper(
   { statusCode: 500, message: "Couldn't fetch vehicles" }
 );
 
+const getLeftVehiclesInSTS = errorWrapper(
+  async (req: Request, res: Response) => {
+    const { stsId } = req.params;
+
+    const vehicles = await prisma.sTSVehicleEntry.findMany({
+      where: {
+        stsId,
+        exitTime: {
+          not: null,
+        },
+      },
+      include: {
+        sts: true,
+        vehicle: true,
+      },
+    });
+
+    res.status(200).json(vehicles);
+  },
+  { statusCode: 500, message: "Couldn't fetch vehicles" }
+);
+
 export {
   addVehicleEntry,
   getAllVehicleEntries,
@@ -88,4 +110,5 @@ export {
   updateVehicleEntry,
   deleteVehicleEntry,
   getCurrentVehiclesInSTS,
+  getLeftVehiclesInSTS,
 };

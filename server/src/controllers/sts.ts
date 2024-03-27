@@ -33,6 +33,9 @@ const getSTSById = errorWrapper(
       where: {
         id: stsId,
       },
+      include: {
+        manager: true,
+      },
     });
 
     res.json(sts);
