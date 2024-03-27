@@ -10,7 +10,7 @@ export default function useVehicleEntry() {
   const [entryTime, setEntryTime] = useState(new Date().toLocaleString());
   const [vehicleId, setVehicleId] = useState("Default");
   
-  async function VehicleEntry(data: { vehicleIds: string; entryTimes: string }) {
+  async function VehicleEntry(data: { vehicleIds: string | undefined; entryTimes: string }) {
     const userStsId = getCookie(stsId);
     // console.log(stsId);
      console.log(data.vehicleIds);

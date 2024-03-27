@@ -2,6 +2,7 @@ import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import OptimizedRouteMap from "@/components/maps/OptimizedRoute";
 import RouteMap from "@/components/maps/RouteMap";
+import { StsVehicleTable } from "@/components/dataTables/StsVehicleList";
 
 export default function STSManagerSchedules() {
   return (
@@ -11,6 +12,7 @@ export default function STSManagerSchedules() {
           <div className="col-span-1 row-span-2 min-h-48">
             <EmptyFillContainer>
               UPCOMING - CRITICAL FIRST SCHEDULES
+              <StsVehicleTable></StsVehicleTable>
             </EmptyFillContainer>
           </div>
           {/* <div className="col-span-1 row-span-1 min-h-48">
