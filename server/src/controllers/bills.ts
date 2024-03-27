@@ -96,11 +96,13 @@ const createBillFromTrip = errorWrapper(
 );
 
 const getListOfBills = errorWrapper(async (req: Request, res: Response) => {
-  const { landfillId, day } = req.query;
+  const { landfillId, day, billNo } = req.query;
+
+  const billNumber = parseInt(billNo as string, 10);
 
   let where: Prisma.BillWhereInput | undefined = undefined;
 
-  if (landfillId || day) {
+  if (landfillId || day || billNo) {
     where = {};
     if (landfillId) {
       where.landfillId = landfillId as string;
@@ -114,6 +116,10 @@ const getListOfBills = errorWrapper(async (req: Request, res: Response) => {
       where.createdAt = {
         gte: thresholdDate.toISOString(),
       };
+    }
+
+    if (billNo) {
+      where.billNo = billNumber as number;
     }
   }
 
