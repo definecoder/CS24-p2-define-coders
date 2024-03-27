@@ -31,7 +31,7 @@ const getSTSById = errorWrapper(
     const { stsId } = req.params;
     const sts = await prisma.sTS.findUnique({
       where: {
-        id: stsId,    
+        id: stsId,
       },
       include: {
         manager: true,

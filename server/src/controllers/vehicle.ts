@@ -8,7 +8,7 @@ import {
   getAllVehicles,
   getVehicleById,
   updateVehicle,
-} from "../services/vehicles";
+} from "../services/vehicleServices";
 
 const prisma = new PrismaClient();
 

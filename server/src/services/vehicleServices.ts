@@ -1,7 +1,7 @@
 import { PrismaClient, Vehicle } from "@prisma/client";
 import { Request, Response } from "express";
 import errorWrapper from "../middlewares/errorWrapper";
-import CustomError from "../services/CustomError";
+import CustomError from "./CustomError";
 
 const prisma = new PrismaClient();
 

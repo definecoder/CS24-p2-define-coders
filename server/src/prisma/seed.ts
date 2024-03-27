@@ -1,6 +1,7 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 
 import { RoleName } from "../types/rolesTypes";
+import { TripStatus } from "../types/tripStatus";
 
 const prisma = new PrismaClient();
 
@@ -112,25 +113,43 @@ const userData: Prisma.UserCreateInput[] = [
 
 const vehicleData: Prisma.VehicleCreateInput[] = [
   {
+    id: "vid1",
     vehicleNumber: "13-8272",
     vehicleType: "DUMP_TRUCK",
     capacity: 4,
     loadedFuelCostPerKm: 10,
     unloadedFuelCostPerKm: 5,
+    landFill: {
+      connect: {
+        id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
+      },
+    },
   },
   {
+    id: "vid2",
     vehicleNumber: "13-8273",
     vehicleType: "OPEN_TRUCK",
     capacity: 2,
     loadedFuelCostPerKm: 14,
     unloadedFuelCostPerKm: 6,
+    landFill: {
+      connect: {
+        id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
+      },
+    },
   },
   {
+    id: "vid3",
     vehicleNumber: "13-8274",
     vehicleType: "OPEN_TRUCK",
     capacity: 1,
     loadedFuelCostPerKm: 6,
     unloadedFuelCostPerKm: 1,
+    landFill: {
+      connect: {
+        id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
+      },
+    },
   },
   {
     vehicleNumber: "13-8275",
@@ -138,6 +157,11 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     capacity: 2,
     loadedFuelCostPerKm: 20,
     unloadedFuelCostPerKm: 8,
+    landFill: {
+      connect: {
+        id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
+      },
+    },
   },
   {
     vehicleNumber: "13-8276",
@@ -145,6 +169,11 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     capacity: 5,
     loadedFuelCostPerKm: 25,
     unloadedFuelCostPerKm: 2,
+    landFill: {
+      connect: {
+        id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
+      },
+    },
   },
   {
     vehicleNumber: "13-8277",
@@ -152,6 +181,11 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     capacity: 6,
     loadedFuelCostPerKm: 30,
     unloadedFuelCostPerKm: 10,
+    landFill: {
+      connect: {
+        id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
+      },
+    },
   },
   {
     vehicleNumber: "13-8278",
@@ -159,11 +193,17 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     capacity: 3,
     loadedFuelCostPerKm: 12,
     unloadedFuelCostPerKm: 3,
+    landFill: {
+      connect: {
+        id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
+      },
+    },
   },
 ];
 
 const stsData: Prisma.STSCreateInput[] = [
   {
+    id: "sts1",
     name: "Moheshkhali",
     wardNumber: "13",
     capacity: 1000,
@@ -171,6 +211,7 @@ const stsData: Prisma.STSCreateInput[] = [
     longitude: 85.91,
   },
   {
+    id: "sts2",
     name: "Gulshan",
     wardNumber: "2",
     capacity: 2000,
@@ -179,6 +220,7 @@ const stsData: Prisma.STSCreateInput[] = [
   },
 
   {
+    id: "sts3",
     name: "Bonani",
     wardNumber: "4",
     capacity: 1500,
@@ -189,10 +231,56 @@ const stsData: Prisma.STSCreateInput[] = [
 
 const landfillData: Prisma.LandfillCreateInput[] = [
   {
+    id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
     name: "Amin Bazar",
     capacity: 10000,
     latitude: 23.7894892,
     longitude: 90.2669163,
+  },
+];
+
+const stsVehicleEntryData: Prisma.STSVehicleEntryCreateInput[] = [
+  {
+    id: "sv1",
+    sts: {
+      connect: {
+        id: "sts1",
+      },
+    },
+    vehicle: {
+      connect: {
+        id: "vid1",
+      },
+    },
+    weightOfWaste: 100,
+    entryTime: new Date(),
+    exitTime: new Date(),
+  },
+];
+
+const tripData: Prisma.TripCreateInput[] = [
+  {
+    id: "trip1",
+    sts: {
+      connect: {
+        id: "sts1",
+      },
+    },
+    landfill: {
+      connect: {
+        id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
+      },
+    },
+    vehicle: {
+      connect: {
+        id: "vid1",
+      },
+    },
+    weightOfWaste: 100,
+    distance: 100,
+    estimatedDuration: 100,
+    estimatedFuelCost: 102323,
+    tripStatus: TripStatus.PENDING,
   },
 ];
 
@@ -212,13 +300,12 @@ async function main() {
     });
     console.log(newUser);
   }
-
-  console.log("Seeding vehicles...");
-  for (const vehicle of vehicleData) {
-    const newVehicle = await prisma.vehicle.create({
-      data: vehicle,
+  console.log("Seeding landfills...");
+  for (const landfill of landfillData) {
+    const newLandfill = await prisma.landfill.create({
+      data: landfill,
     });
-    console.log(newVehicle);
+    console.log(newLandfill);
   }
 
   console.log("Seeding STS...");
@@ -229,12 +316,20 @@ async function main() {
     console.log(newSts);
   }
 
-  console.log("Seeding landfills...");
-  for (const landfill of landfillData) {
-    const newLandfill = await prisma.landfill.create({
-      data: landfill,
+  console.log("Seeding vehicles...");
+  for (const vehicle of vehicleData) {
+    const newVehicle = await prisma.vehicle.create({
+      data: vehicle,
     });
-    console.log(newLandfill);
+    console.log(newVehicle);
+  }
+
+  console.log("Seeding STS Vehicle Entries...");
+  for (const stsVehicleEntry of stsVehicleEntryData) {
+    const newStsVehicleEntry = await prisma.sTSVehicleEntry.create({
+      data: stsVehicleEntry,
+    });
+    console.log(newStsVehicleEntry);
   }
 
   console.log("Seeding completed!");
