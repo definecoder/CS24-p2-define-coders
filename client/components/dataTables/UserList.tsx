@@ -41,39 +41,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useGetAllUser from "@/hooks/user_data/useGetAllUser";
-
-// const data: User[] = [
-//   {
-//     id: "m5gr84i9",
-//     username: "316",
-//     role: "asuccess",
-//     email: "aken99@yahoo.com",
-//   },
-//   {
-//     id: "m5gr84i9",
-//     username: "316",
-//     role: "bsuccess",
-//     email: "bken99@yahoo.com",
-//   },
-//   {
-//     id: "m5gr84i9",
-//     username: "316",
-//     role: "csuccess",
-//     email: "cken99@yahoo.com",
-//   },
-//   {
-//     id: "m5gr84i9",
-//     username: "316",
-//     role: "dsuccess",
-//     email: "dken99@yahoo.com",
-//   },
-//   {
-//     id: "m5gr84i9",
-//     username: "316",
-//     role: "esuccess",
-//     email: "eken99@yahoo.com",
-//   },
-// ];
+import { DeleteUserModal } from "../modals/DeleteUserModal";
+import { Copy, EditIcon } from "lucide-react";
+import { EditUserModal } from "../modals/EditUserInfoModal";
+import gettAllRoles from "@/hooks/user_data/useGetAllRole";
+import { roleList } from "@/data/roles";
 
 export type User = {
   id: string;
@@ -100,7 +72,21 @@ export const columns: ColumnDef<User>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("id")}</div>
+      <div
+        className="text-center font-medium hover:cursor-pointer hover:scale-110"
+        title="Copy User ID"
+        onClick={() => navigator.clipboard.writeText(row.getValue("id"))}
+      >
+        {row.getValue("id")}
+        <Button
+          variant="ghost"
+          title="Copy User ID"
+          className="h-8 w-8 p-0"
+          onClick={() => navigator.clipboard.writeText(row.getValue("id"))}
+        >
+          <Copy className="h-4 w-4" />
+        </Button>
+      </div>
     ),
   },
   {
@@ -167,37 +153,24 @@ export const columns: ColumnDef<User>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const user = row.original;
+      const user: User = row.original;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(user.id)}
-            >
-              Copy User ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Delete User</DropdownMenuItem>
-            <DropdownMenuItem>Edit User Details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div>
+          <DeleteUserModal userInfo={user} />
+          <EditUserModal userInfo={user} />
+        </div>
       );
     },
   },
 ];
 
 export default function UserListTable() {
-
   const [data, setData] = React.useState<User[]>([]);
-  const {fetchAllUserData, userData}:{fetchAllUserData: Function, userData: User[]} = useGetAllUser();
+  const {
+    fetchAllUserData,
+    userData,
+  }: { fetchAllUserData: Function; userData: User[] } = useGetAllUser();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -206,10 +179,10 @@ export default function UserListTable() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  React.useEffect(() => {    
-    fetchAllUserData();    
+  React.useEffect(() => {
+    fetchAllUserData();
   }, []);
-  
+
   React.useEffect(() => {
     setData(userData);
   }, [userData]);
