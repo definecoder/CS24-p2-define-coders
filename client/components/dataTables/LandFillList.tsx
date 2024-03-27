@@ -52,6 +52,9 @@ import { DeleteSTSModal } from "../modals/stsControl/DeleteSTSModal";
 import { ViewSTSInfoModal } from "../modals/stsControl/ViewSTSInfoModal";
 import { StsCreateModal } from "../modals/stsControl/StsModal";
 import useGetAllLandfill from "@/hooks/dataQuery/useGetAllLandfill";
+import { ViewLandFIllInfoModal } from "../modals/landfillControl/ViewLandfillInfoModal";
+import { EditLandfillInfoModal } from "../modals/landfillControl/EditLandfillInfoModal";
+import { DeleteLandfillModal } from "../modals/landfillControl/DeleteLandfillModal";
 
 export type LandFill = {
   id: string;
@@ -107,13 +110,13 @@ export const columns: ColumnDef<LandFill>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const sts: LandFill = row.original;
+      const landfill: LandFill = row.original;
 
       return (
         <div>
-          {/* <ViewSTSInfoModal stsInfo={sts} />
-          <EditSTSInfoModal stsInfo={sts} />
-          <DeleteSTSModal stsInfo={sts} /> */}
+          <ViewLandFIllInfoModal landfillInfo={landfill} />
+          <EditLandfillInfoModal landfillInfo={landfill} />
+          <DeleteLandfillModal landfillInfo={landfill} />
         </div>
       );
     },
