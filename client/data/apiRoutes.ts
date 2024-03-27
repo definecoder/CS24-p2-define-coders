@@ -16,6 +16,9 @@ export const apiRoutes = {
         getAll: `${baseUrl}/sts`,
         delete: `${baseUrl}/sts/`,
         edit: `${baseUrl}/sts/`,
+        vehicle: {            
+            delete: `${baseUrl}/sts-entry/`,            
+        },
     },
     landfill: {
         create: `${baseUrl}/landfills/create`,

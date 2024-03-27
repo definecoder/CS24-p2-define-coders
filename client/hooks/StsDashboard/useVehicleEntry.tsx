@@ -2,41 +2,37 @@ import { useState } from 'react';
 import {admin, landfillManager, stsManager, unassigned} from '@/data/roles';
 import { setCookie, getCookie } from '@/lib/cookieFunctions';
 import axios from 'axios';
-import { jwtToken, role , uid , stsId, username} from '@/data/cookieNames';
+import { jwtToken, role , uid , username, stsId} from '@/data/cookieNames';
+import { uri } from '@/data/constant';
 
 export default function useVehicleEntry() {  
 
-  const [loginData, setloginData] = useState({
-    email: "",
-    password: "",
-  });
+  const [entryTime, setEntryTime] = useState(new Date().toLocaleString());
+  const [vehicleId, setVehicleId] = useState("Default");
+  
+  async function VehicleEntry(data: { vehicleIds: string | undefined; entryTimes: string }) {
+    const userStsId = getCookie(stsId);
+    // console.log(stsId);
+     console.log(data.vehicleIds);
+     console.log(data.entryTimes);
+    
+    try {
+      const isoString = new Date(data.entryTimes).toISOString();
+      const res = await axios.post('http://localhost:8585/sts-entry/create', {
+        stsId : "sts1",
+        vehicleId: data.vehicleIds,
+        entryTime: isoString
+    });
+    //use the response from here
+    console.log(res.data);
 
-  async function login() {
+      return true;
+    } catch (error: any) {
+      alert(error.message?.toString() || "error logging in");
+      return false;
+    }
     
-    if (loginData) {
-        // Call the login API
-        const res = await axios.post('http://localhost:8585/auth/login', {
-            email: loginData.email,
-            password: loginData.password          
-        })
-        // res.data.user.roleName.startsWith(admin) ? setCookie(role, admin, 1) : 
-        // res.data.user.roleName.startsWith(landfillManager) ? setCookie(role, landfillManager, 1) :
-        // res.data.user.roleName.startsWith(stsManager) ? setCookie(role, stsManager, 1) : 
-        // res.data.user.roleName.startsWith(unassigned) ? setCookie(role, unassigned, 1) : 
-        // setCookie(role, res.data.user.roleName , 1);
-        // setCookie(uid, res.data.user.id ,1 );
-        // setCookie(jwtToken, res.data.token , 1);
-        // setCookie(stsId, res.data.stsId, 1);
-        // setCookie(username, res.data.username, 1);
-
-        console.log(res);
-        return true;
-    }   
-    
-    
-    alert("Invalid credentials!");
-    return false;
   }
 
-  return {loginData, setloginData, login};
+  return {entryTime, setEntryTime,vehicleId, setVehicleId, VehicleEntry};
 }

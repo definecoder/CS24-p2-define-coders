@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import errorWrapper from "./errorWrapper";
 import CustomError from "../services/CustomError";
-import { getToken, verifyToken } from "../services/token";
+import { getToken, verifyToken } from "../services/Token";
 
 const authChecker = errorWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
