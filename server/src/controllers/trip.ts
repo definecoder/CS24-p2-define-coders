@@ -10,6 +10,7 @@ import {
   getStsVehicleEntryById,
   updateStsVehicleEntry,
 } from "../services/stsVehicle";
+import { TripStatus } from "../types/tripStatus";
 
 const prisma = new PrismaClient();
 
@@ -50,8 +51,9 @@ const createTrip = errorWrapper(async (req: Request, res: Response) => {
     weightOfWaste,
     distance,
     estimatedDuration,
+    tripStartTime: exitTime,
     estimatedFuelCost: new Prisma.Decimal(estimatedCost),
-    tripStatus: "PENDING",
+    tripStatus: TripStatus.PENDING,
   };
 
   const newTrip = await addTrip(trip as Trip);
@@ -59,14 +61,18 @@ const createTrip = errorWrapper(async (req: Request, res: Response) => {
 });
 
 const getListOfTrips = errorWrapper(async (req: Request, res: Response) => {
-  const { tripStatus } = req.query;
+  const { tripStatus, landfillId } = req.query;
 
   let where: Prisma.TripWhereInput | undefined = undefined;
 
-  if (tripStatus) {
-    where = {
-      tripStatus: tripStatus as string,
-    };
+  if (tripStatus || landfillId) {
+    where = {};
+    if (tripStatus) {
+      where.tripStatus = tripStatus as string;
+    }
+    if (landfillId) {
+      where.landfillId = landfillId as string;
+    }
   }
 
   const trips = await prisma.trip.findMany({
@@ -95,16 +101,23 @@ const completeTrip = errorWrapper(async (req: Request, res: Response) => {
 
   const shortage = Number(trip.weightOfWaste) - weightOfWaste;
 
-  // calculate actual duration
+  const tripStartTime = new Date(trip.tripStartTime as Date);
+
+  const entryTimeConverted = new Date(entryTime);
+
+  let duration =
+    (entryTimeConverted.getTime() - tripStartTime.getTime()) / (1000 * 60);
 
   const completedTrip = await prisma.trip.update({
     where: {
       id: tripId,
     },
     data: {
-      tripStatus: "COMPLETED",
+      tripStatus: TripStatus.DELIVERED,
       weightOfWaste,
       shortage,
+      tripEndTime: entryTime,
+      actualDuration: duration,
     },
   });
 
