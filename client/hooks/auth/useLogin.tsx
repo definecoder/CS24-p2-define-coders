@@ -2,7 +2,7 @@ import { useState } from "react";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { setCookie } from "@/lib/cookieFunctions";
 import axios from "axios";
-import { jwtToken, role } from "@/data/cookieNames";
+import { jwtToken, role, curActive } from "@/data/cookieNames";
 import { apiRoutes } from "@/data/apiRoutes";
 
 export default function useLogin() {
@@ -19,7 +19,7 @@ export default function useLogin() {
           password: loginData.password,
         });
         res.data.user.roleName.startsWith(admin)
-          ? setCookie(role, admin, 1)
+          ? setCookie(role, admin, 1) 
           : res.data.user.roleName.startsWith(landfillManager)
           ? setCookie(role, landfillManager, 1)
           : res.data.user.roleName.startsWith(stsManager)
@@ -28,6 +28,7 @@ export default function useLogin() {
           ? setCookie(role, unassigned, 1)
           : setCookie(role, res.data.user.roleName, 1);
 
+        setCookie(curActive, res.data.user.roleName === unassigned ? unassigned + "-My Profile" : res.data.user.roleName + "-Dashboard", 1);
         setCookie(jwtToken, res.data.token, 1);
         return true;
       } catch (error: any) {
