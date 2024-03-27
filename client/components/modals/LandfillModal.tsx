@@ -7,13 +7,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose
+  DialogClose,
 } from "@/components/ui/dialog";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React , {useState} from "react";
+import React, { useState } from "react";
 import SetZone from "../maps/SetZone";
+import useCreateLandFill, {
+  LandFill,
+} from "@/hooks/entityCreation/useCreateLandfill";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -22,28 +25,21 @@ interface DialogWrapperProps {
 export const LandfillCreateModal: React.FC<DialogWrapperProps> = ({
   children,
 }) => {
-    const [landfillName, setLandfill] = useState("");
-    const [capacity, setCapacity] = useState("");
-    const [latitude, setLatitude] = useState("");
-    const [longitude, setLongitude] = useState("");
-    
-  
+  const [landfillName, setLandfill] = useState("");
+  const [capacity, setCapacity] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+  const { createLandfill } = useCreateLandFill();
 
-  
-
-   
-
-
-  const handleSaveChanges = () => {
-    // console.log("Vehicle Number:", vehicleNumber);
-    // console.log("Vehicle Type:", vehicleType);
-    // console.log("Capacity:", capacity);
-    console.log(landfillName);
-    console.log(capacity);
-    console.log(latitude);
-    console.log(longitude);
+  const handleSaveChanges = async () => {
+    const data: LandFill = {
+      name: landfillName,
+      capacity: parseInt(capacity),
+      latitude: parseFloat(latitude),
+      longitude: parseFloat(longitude),
+    };
+    alert((await createLandfill(data)) || "Landfill data invalid");
   };
-
 
   return (
     <Dialog>
@@ -71,7 +67,7 @@ export const LandfillCreateModal: React.FC<DialogWrapperProps> = ({
               onChange={(e) => setLandfill(e.target.value)}
             />
           </div>
-          
+
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="capacity" className="text-right">
               Capacity (in Tons)
@@ -85,18 +81,19 @@ export const LandfillCreateModal: React.FC<DialogWrapperProps> = ({
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="location" className="text-right">
-              Landfill Location
-            </Label>
-            <SetZone setLatitude={setLatitude} setLongitude={setLongitude}></SetZone>
+            <SetZone
+              setLatitude={setLatitude}
+              setLongitude={setLongitude}
+            ></SetZone>
           </div>
         </div>
         <DialogFooter>
-        <DialogClose asChild>
-        <Button type="button" onClick={handleSaveChanges}>Save changes</Button>
-        </DialogClose>
+          <DialogClose asChild>
+            <Button type="button" onClick={handleSaveChanges}>
+              Save changes
+            </Button>
+          </DialogClose>
         </DialogFooter>
-      
       </DialogContent>
     </Dialog>
   );

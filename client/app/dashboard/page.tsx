@@ -8,17 +8,18 @@ import MainSection from "../../components/dashboard-componenets/mainContent/main
 import { useRouter } from "next/navigation";
 import { getCookie } from "@/lib/cookieFunctions";
 import { curActive, role } from "@/data/cookieNames";
+import { set } from "react-hook-form";
 
 export default function Dashboard() {
 
-  const curRole = getCookie(role) || "";
-  const [currentActive, setCurrentActive] = useState(getCookie(curActive) || "");
+  const [curRole, setCurrentRole] = useState("");
+  const [currentActive, setCurrentActive] = useState("");
   const router = useRouter();
-
-  if(curRole === ""){
-    alert('Please login first');
-    router.push('/auth/login');
-  }
+  
+  useEffect(() => {
+    setCurrentRole(getCookie(role));
+    setCurrentActive(getCookie(curActive));
+  }, []);
 
   console.log('Role: ' + curRole + ' Current Active: ' + currentActive);
         

@@ -40,7 +40,7 @@ export function setCookie(name: string, value: string, days: number) {
 }
 
 export function getCookie(name: string, context?: any) {
-    if (process.browser) {
+    if (typeof window !== 'undefined') {
         // Client-side
         var nameEQ = name + "=";
         var ca = document.cookie.split(';');
@@ -66,7 +66,7 @@ export function getCookie(name: string, context?: any) {
 }
 
 export function eraseCookie(name: string) {
-    if (process.browser) {
+    if (typeof window !== 'undefined') {
         // Client-side
         document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     } else {
