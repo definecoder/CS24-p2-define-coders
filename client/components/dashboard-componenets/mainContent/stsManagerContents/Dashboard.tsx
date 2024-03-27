@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import { Cog, UserRoundCog } from "lucide-react";
+import { StsVehicleEntryModal } from "@/components/modals/StsVehicleEntryModal"; 
 
 export default function STSManagerDashboard() {
     return (
@@ -11,10 +12,12 @@ export default function STSManagerDashboard() {
         </h1>
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
-          <Button size="sm" className="w-full">
+          <StsVehicleEntryModal>
+          <Button size="sm" className="w-full bg-black text-white">
             <UserRoundCog size={16} className="mr-2" />
             NEW DUMPING ENTRY
           </Button>
+          </StsVehicleEntryModal>
           <Button size="sm" className="w-full">
             <Cog size={16} className="mr-2" />
             NEW STORAGE

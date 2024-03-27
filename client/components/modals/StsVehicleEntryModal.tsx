@@ -12,21 +12,29 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React , {useState} from "react";
+import React , {useState, useEffect} from "react";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
 }
 
-export const RoleCreateModal: React.FC<DialogWrapperProps> = ({
+export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
   children,
 }) => {
-    const [description, setDescription] = useState("");
-    const [roleName, setRoleName] = useState("");
+    const [weightOfWaste, setWeightOfWaste] = useState("");
+    const [entryTime, setEntryTime] = useState(new Date().toLocaleString());
+    
+    // useEffect(() => {
+    //     const intervalId = setInterval(() => {
+    //         setEntryTime(new Date().toLocaleString());
+    //     }, 1000);
+    //     return () => clearInterval(intervalId);
+    // }, []);
+
     
   const handleSaveChanges = () => {
-    console.log("Vehicle Number:", description);
-    console.log("Vehicle Number:", roleName);
+    console.log("Vehicle Number:", weightOfWaste);
+    console.log("Vehicle Number:", entryTime);
    
   };
 
@@ -39,34 +47,34 @@ export const RoleCreateModal: React.FC<DialogWrapperProps> = ({
       </DialogTrigger>
       <DialogContent className="w-[825px]">
         <DialogHeader>
-          <DialogTitle>Add New Role</DialogTitle>
+          <DialogTitle>Add Vehicle Entry</DialogTitle>
           <DialogDescription>
-            Add new role here. Click save when you're done.
+            Add new entry here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Role Name
+            Weight of Waste
             </Label>
             <Input
-              id="name"
-              placeholder="Vehicle Manager"
+              id="weightOfWaste"
+              placeholder="Waste Volume (in Tons)"
               className="col-span-3"
-              value={roleName}
-              onChange={(e) => setRoleName(e.target.value)}
+              value={weightOfWaste}
+              onChange={(e) => setWeightOfWaste(e.target.value)}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="description" className="text-right">
-              Role Description
+              Entry Time
             </Label>
             <Input
-              id="capacity"
-              placeholder="1-100"
+              id="entryTime"
+              placeholder="hh:mm dd:mm:yy"
               className="col-span-3"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={entryTime}
+              onChange={(e) => setEntryTime(e.target.value)}
             />
           </div>
         </div>
