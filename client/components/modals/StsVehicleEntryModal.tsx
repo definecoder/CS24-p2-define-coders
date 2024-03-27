@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,7 +16,9 @@ import { Label } from "@/components/ui/label";
 import React , {useState, useEffect} from "react";
 
 import { getCookie } from '@/lib/cookieFunctions';
-import { jwtToken, role, uid } from '@/data/cookieNames';
+import useVehicleEntry from "@/hooks/StsDashboard/useVehicleEntry";
+import useVehicleList from "@/hooks/vehicles/useVehiclesData";
+
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -24,29 +27,29 @@ interface DialogWrapperProps {
 export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
   children,
 }) => {
+    const { entryTime, setEntryTime,vehicleId, setVehicleId, VehicleEntry } = useVehicleEntry();
+    const { vehicleList, vehicleNumberList, getVehicleList } = useVehicleList();
+   
     const [weightOfWaste, setWeightOfWaste] = useState("");
-    const [entryTime, setEntryTime] = useState(new Date().toLocaleString());
+    const callVehcilse = async () => {
+      const sucess = await getVehicleList();
+    };
+    
+    useEffect(() => {
+      callVehcilse();
+    }, []);
 
-    const token = getCookie(jwtToken);
-    const userRole = getCookie(role);
-    const userId = getCookie(uid);
+   
 
 
     
-    // useEffect(() => {
-    //     const intervalId = setInterval(() => {
-    //         setEntryTime(new Date().toLocaleString());
-    //     }, 1000);
-    //     return () => clearInterval(intervalId);
-    // }, []);
-
     
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
+    
     console.log("Vehicle Number:", weightOfWaste);
     console.log("Vehicle Number:", entryTime);
-    console.log("Token:", token);
-    console.log("User Role:", userRole);
-    console.log("User ID:", userId);
+    console.log(vehicleList);
+    console.log(vehicleNumberList);
   };
 
 
