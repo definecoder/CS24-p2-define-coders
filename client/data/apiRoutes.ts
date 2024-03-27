@@ -11,4 +11,25 @@ export const apiRoutes = {
         delete: `${baseUrl}/users/`,
         edit: `${baseUrl}/users/`,
     },
+    sts: {
+        create: `${baseUrl}/sts/create`,
+        getAll: `${baseUrl}/sts`,
+        delete: `${baseUrl}/sts/`,
+        edit: `${baseUrl}/sts/`,
+        vehicle: {            
+            delete: `${baseUrl}/sts-entry/`,            
+        },
+    },
+    landfill: {
+        create: `${baseUrl}/landfills/create`,
+        getAll: `${baseUrl}/landfills`,
+        delete: `${baseUrl}/landfills/`,
+        edit: `${baseUrl}/landfills/`,
+    },
+    rbac: {
+        create: `${baseUrl}/rbac/create`,
+        getByRole: `${baseUrl}/rbac/roles/`,
+        delete: `${baseUrl}/rbac/`,
+        edit: `${baseUrl}/rbac/`,
+    },
 }
