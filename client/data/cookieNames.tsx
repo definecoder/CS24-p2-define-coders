@@ -4,3 +4,6 @@ export const uid='userid';
 export const username='username';
 export const stsId='stsId';
 export const curActive = "curActivee";
+export const landfillId = "landfillId";
+export const landfillName = "landfillName";
+export const stsName = "stsName";

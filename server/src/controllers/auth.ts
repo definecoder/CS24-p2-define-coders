@@ -54,7 +54,11 @@ const login = errorWrapper(
 
     const user = await prisma.user.findUnique({
       where: {
-        email,
+        email,        
+      },
+      include: {
+        landfill: true,
+        sts: true,
       },
     });
 
