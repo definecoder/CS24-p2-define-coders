@@ -40,34 +40,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useGetAllUser from "@/hooks/user_data/useGetAllUser";
-import { DeleteUserModal } from "../modals/userControls/DeleteUserModal";
-import { Copy, EditIcon } from "lucide-react";
-import { EditUserModal } from "../modals/userControls/EditUserInfoModal";
-import gettAllRoles from "@/hooks/user_data/useGetAllRole";
-import { roleList } from "@/data/roles";
-import useGetAllSTS from "@/hooks/dataQuery/useGetAllSTS";
-import { EditSTSInfoModal } from "../modals/stsControl/EditSTSInfoModal";
-import { DeleteSTSModal } from "../modals/stsControl/DeleteSTSModal";
-import useVehicleList from "@/hooks/vehicles/useVehiclesData";
-import useVehicleListForSTS from "@/hooks/vehicles/useGetVeicleForSTS";
-import { DeleteVehicleModalForSTS } from "../modals/DeleteVehicleModalForSTS";
 import useGetAllVehicleList from "@/hooks/vehicles/useGetAllVehicleList";
 import { DeleteVehicleModal } from "../modals/vehicleControl/DeleteVehicleModal";
 import { EditVehicleInfoModal } from "../modals/vehicleControl/EditVehicleInfoModal";
+import useGetAllPendingBillList from "@/hooks/bills/useGetAllPendingBillList";
+import { Package, PackageCheck, PackageX } from "lucide-react";
 
-type Vehicle = {
+export type Trip = {
   id: string,
+  stsName: string,
+  landFillName: string,
   vehicleNumber: string,
   vehicleType: string,
-  capacity: string,
-  loadedFuelCostPerKm: string,
-  unloadedFuelCostPerKm: string,
-  landFillId: string,
-  landFillName: string,  
+  weightOfWaste: number,
+  shortage: number,
+  loadedFuelCostPerKm: number,
+  unloadedFuelCostPerKm: number,
+  capacity: number,
+  estimatedFuelCost: number,
+  distance: number,
+  estimatedDuration: number,
+  actualDuration: number,
 };
 
-export const columns: ColumnDef<Vehicle>[] = [
+export const columns: ColumnDef<Trip>[] = [
   {
     accessorKey: "vehicleNumber",
     header: ({ column }) => {
@@ -89,7 +85,7 @@ export const columns: ColumnDef<Vehicle>[] = [
     ),
   },
   {
-    accessorKey: "vehicleType",
+    accessorKey: "stsName",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -98,7 +94,7 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Vehicle Type
+            STS Name
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -106,12 +102,12 @@ export const columns: ColumnDef<Vehicle>[] = [
     },
     cell: ({ row }) => (
       <div className="text-center font-medium">
-        {row.getValue("vehicleType")}
+        {row.getValue("stsName")}
       </div>
     ),
   },
   {
-    accessorKey: "capacity",
+    accessorKey: "weightOfWaste",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -120,18 +116,18 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Capacity
+            Weight of Waste
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("capacity") + " Ton"}</div>
+      <div className="text-center font-medium">{row.getValue("weightOfWaste") + " Ton"}</div>
     ),
   },
   {
-    accessorKey: "landFillName",
+    accessorKey: "estimatedFuelCost",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -140,18 +136,18 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Land Fill Name
+            Estimated Fuel Cost
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("landFillName")}</div>
+      <div className="text-center font-medium">{row.getValue("estimatedFuelCost")}</div>
     ),
   },
   {
-    accessorKey: "loadedFuelCostPerKm",
+    accessorKey: "estimatedDuration",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -160,18 +156,18 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Unloaded Cost
+            Estimated Duration
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("loadedFuelCostPerKm")}</div>
+      <div className="text-center font-medium">{row.getValue("estimatedDuration")}</div>
     ),
   },
   {
-    accessorKey: "unloadedFuelCostPerKm",
+    accessorKey: "actualDuration",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -180,35 +176,35 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Loaded cost
+            Actual Duration
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("unloadedFuelCostPerKm")}</div>
+      <div className="text-center font-medium">{row.getValue("actualDuration")}</div>
     ),
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const vehicle: Vehicle = row.original;
+      const vehicle: Trip = row.original;
 
       return (
         <div>
-            <DeleteVehicleModal vehicleInfo={vehicle} />          
-            <EditVehicleInfoModal vehicleInfo={vehicle} />
+            {/* <DeleteVehicleModal vehicleInfo={vehicle} />          
+            <EditVehicleInfoModal vehicleInfo={vehicle} /> */}
         </div>
       );
     },
   },
 ];
 
-export default function AllVehicleList() {
-  const [data, setData] = React.useState<Vehicle[]>([]);
-  const { getVehicleList, vehicleList } = useGetAllVehicleList();
+export default function PendingBillList() {
+  const [data, setData] = React.useState<Trip[]>([]);
+  const { getTripList, tripList } = useGetAllPendingBillList();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -218,12 +214,12 @@ export default function AllVehicleList() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
-    getVehicleList();
+    getTripList("c4028362-6c17-4cf0-9b0e-ae20acfa2fbd");
   }, []);
 
   React.useEffect(() => {
-    setData(vehicleList);
-  }, [vehicleList]);
+    setData(tripList);
+  }, [tripList]);
 
   const table = useReactTable({
     data,
@@ -245,7 +241,7 @@ export default function AllVehicleList() {
   });
   return (
     <>
-    <div className="font-bold text-2xl w-full text-center">MANAGE ALL VEHICLES</div>
+    <div className="font-bold text-2xl w-full text-center">PENDING BILL LIST</div>
       <div className="flex items-center py-4 gap-4">
         <Input
           placeholder="Search by vehicle number..."
@@ -325,7 +321,11 @@ export default function AllVehicleList() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {tripList.length > 0 ? <div className="flex items-center justify-center text-muted-foreground gap-3 text-lg">
+                  <PackageX />No bills include this vehicle number.
+                  </div> : <div className="flex items-center justify-center text-muted-foreground gap-3 text-lg">
+                  <PackageCheck />No pending bills.
+                  </div>}                  
                 </TableCell>
               </TableRow>
             )}
@@ -334,8 +334,7 @@ export default function AllVehicleList() {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Total {table.getFilteredRowModel().rows.length} row(s) rendered.
         </div>
         <div className="space-x-2">
           <Button

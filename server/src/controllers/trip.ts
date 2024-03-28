@@ -61,6 +61,7 @@ const createTrip = errorWrapper(async (req: Request, res: Response) => {
 });
 
 const getListOfTrips = errorWrapper(async (req: Request, res: Response) => {
+
   const { tripStatus, landfillId } = req.query;
 
   let where: Prisma.TripWhereInput | undefined = undefined;
@@ -79,9 +80,10 @@ const getListOfTrips = errorWrapper(async (req: Request, res: Response) => {
   const trips = await prisma.trip.findMany({
     where,
     include: {
+      sts: true,
+      landfill: true,
       vehicle: true,
-      sts: true
-    }
+    },
   });
   res.json(trips);
 });

@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose
+  DialogClose,
 } from "@/components/ui/dialog";
 import {
   DropdownMenu,
@@ -20,7 +20,18 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React , {useState} from "react";
+import React, { useEffect, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import useGetAllLandfill from "@/hooks/dataQuery/useGetAllLandfill";
+import useCreateVehicle from "@/hooks/entityCreation/useCreateVehicle";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -29,23 +40,38 @@ interface DialogWrapperProps {
 export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
   children,
 }) => {
-    const [vehicleNumber, setVehicleNumber] = useState("");
-    const [vehicleType, setVehicleType] = useState("Select Type");
-    const [capacity, setCapacity] = useState("");
+  const [vehicleNumber, setVehicleNumber] = useState("");
+  const [vehicleType, setVehicleType] = useState("Dump Truck");
+  const [capacity, setCapacity] = useState<number>();
+  const [loadedFuelCostPerKm, setLoadedFuelCostPerKm] = useState<number>();
+  const [unloadedFuelCostPerKm, setUnloadedFuelCostPerKm] = useState<number>();
+  const [assignedLandfill, setAssignedLandfill] = useState<string>("");
+  const {createVehicle} = useCreateVehicle();
+  const vehicleTypeList = [
+    "Dump Truck",
+    "Compactor Truck",
+    "Open Truck",
+    "Container Carrier",
+  ];
+  const { landFillData, fetchAllLandfills } = useGetAllLandfill();
 
-    const handleItemClick = (text: string) => {
-        setVehicleType(text);
-    };
+  useEffect(() => {}, [landFillData]);
 
-   
-
-
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     console.log("Vehicle Number:", vehicleNumber);
     console.log("Vehicle Type:", vehicleType);
     console.log("Capacity:", capacity);
+    //alert(assignedLandfill);
+    const res = await createVehicle({
+      vehicleNumber,
+      vehicleType,
+      capacity: capacity || 0,
+      loadedFuelCostPerKm: loadedFuelCostPerKm || 0,
+      unloadedFuelCostPerKm: unloadedFuelCostPerKm || 0,
+      landFillId: assignedLandfill,
+    })
+    if(res) return alert(res);
   };
-
 
   return (
     <Dialog>
@@ -61,53 +87,127 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+          <div className="grid grid-cols-6 items-center gap-4">
+            <Label htmlFor="name" className="text-right col-span-2">
               Vehicle Number
             </Label>
             <Input
               id="vehicleNumber"
-              placeholder="X-Metro-Ka-123456"
-              className="col-span-3"
+              placeholder="Dhaka-Metro-Ka-123456"
+              className="col-span-4"
               value={vehicleNumber}
               onChange={(e) => setVehicleNumber(e.target.value)}
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="vehicleType" className="text-right">
-              Vehicle type
+          <div className="grid grid-cols-6 items-center gap-4">
+            <Label htmlFor="vehicleType" className="text-right col-span-2">
+              Vehicle Type
             </Label>
-            <DropdownMenu>
-            <DropdownMenuTrigger className="w-[200px]">{vehicleType}</DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>Car Types</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => handleItemClick('Dump Truck')}>Dump Truck</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleItemClick('Compactor Truck')}>Compactor Truck</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleItemClick('Open Truck')}>Open Truck</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleItemClick('Container Carrier')}>Container Carrier</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            <Select
+              value={vehicleType}
+              onValueChange={(e) => setVehicleType(e)}
+            >
+              <SelectTrigger className="col-span-4">
+                <SelectValue
+                  id="vehicleType"
+                  placeholder="Select vehicle type from the list"
+                />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Vehicle Type</SelectLabel>
+                  {vehicleTypeList.map((type: string, index: number) => (
+                    <SelectItem key={index} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="capacity" className="text-right">
+          <div className="grid grid-cols-6 items-center gap-4">
+            <Label htmlFor="capacity" className="text-right col-span-2">
               Capacity (in Tons)
             </Label>
             <Input
               id="capacity"
               placeholder="1-100"
-              className="col-span-3"
+              className="col-span-4"
+              type="number"
               value={capacity}
-              onChange={(e) => setCapacity(e.target.value)}
+              onChange={(e) => setCapacity(parseInt(e.target.value))}
             />
+          </div>
+          <div className="grid grid-cols-6 items-center gap-4">
+            <Label
+              htmlFor="loadedFuelCostPerKm"
+              className="text-right col-span-2"
+            >
+              Loaded fuel cost <br /> per km (in BDT)
+            </Label>
+            <Input
+              id="loadedFuelCostPerKm"
+              placeholder="5000"
+              type="number"
+              className="col-span-4"
+              value={loadedFuelCostPerKm}
+              onChange={(e) =>
+                setLoadedFuelCostPerKm(parseFloat(e.target.value) || undefined)
+              }
+            />
+          </div>
+          <div className="grid grid-cols-6 items-center gap-4">
+            <Label
+              htmlFor="unloadedFuelCostPerKm"
+              className="text-right col-span-2"
+            >
+              Loaded fuel cost <br /> per km (in BDT)
+            </Label>
+            <Input
+              id="unloadedFuelCostPerKm"
+              type="number"
+              placeholder="2000"
+              className="col-span-4"
+              value={unloadedFuelCostPerKm}
+              onChange={(e) =>
+                setUnloadedFuelCostPerKm(parseFloat(e.target.value) || undefined)
+              }
+            />
+          </div>
+          <div className="grid grid-cols-6 items-center gap-4">
+            <Label htmlFor="assignedLandfill" className="text-right col-span-2">
+              Assigned Landfill
+            </Label>
+            <Select
+              value={assignedLandfill}
+              onValueChange={(e) => setAssignedLandfill(e)}
+            >
+              <SelectTrigger className="col-span-4">
+                <SelectValue
+                  id="assignedLandfill"
+                  placeholder="Select assigned landfill from the list"
+                />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Landfills</SelectLabel>
+                  {landFillData.map((landfill, index: number) => (
+                    <SelectItem key={index} value={landfill.id}>
+                      {landfill.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <DialogFooter>
-        <DialogClose asChild>
-        <Button type="button" onClick={handleSaveChanges}>Save changes</Button>
-        </DialogClose>
+          <DialogClose asChild>
+            <Button type="button" onClick={handleSaveChanges}>
+              Save changes
+            </Button>
+          </DialogClose>
         </DialogFooter>
-      
       </DialogContent>
     </Dialog>
   );

@@ -139,7 +139,7 @@ export const EditLandfillInfoModal = ({ landfillInfo }: { landfillInfo: LandFill
                 if (result) return alert(result);
               }}
             >
-              Update STS
+              Update Landfill
             </Button>
           </DialogFooter>
         </form>

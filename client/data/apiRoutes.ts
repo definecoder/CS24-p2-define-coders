@@ -38,4 +38,11 @@ export const apiRoutes = {
         delete: `${baseUrl}/vehicles/`,
         edit: `${baseUrl}/vehicles/`,
     },
+    trip: {
+        create: `${baseUrl}/trips/create`,
+        getAll: `${baseUrl}/trips`,
+        delete: `${baseUrl}/trips/`,
+        edit: `${baseUrl}/trips/`,
+        search: `${baseUrl}/trips/search`,
+    },
 }
