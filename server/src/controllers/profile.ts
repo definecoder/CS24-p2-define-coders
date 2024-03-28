@@ -2,7 +2,7 @@ import errorWrapper from "../middlewares/errorWrapper";
 import { PrismaClient, User } from "@prisma/client";
 import { Request, Response } from "express";
 import CustomError from "../services/CustomError";
-import { getToken, verifyToken } from "../services/Token";
+import { getToken, verifyToken } from "../services/token";
 
 const prisma = new PrismaClient();
 

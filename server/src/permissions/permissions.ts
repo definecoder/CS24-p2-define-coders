@@ -1,4 +1,5 @@
 import { User, PrismaClient, Permission } from "@prisma/client";
+import CustomError from "../services/CustomError";
 
 const prisma = new PrismaClient();
 
@@ -9,12 +10,30 @@ const PERMISSIONS = {
   UPDATE_USER_ROLE: "UPDATE_USER_ROLE",
 };
 
-const canCreateUser = (user: User) => {
-  const permittedRoles = getPermittedRoles(PERMISSIONS.CREATE_USER);
-  return permittedRoles.includes(user.roleName);
+const getPermittedRoleNames = async (permissionName: string) => {
+  const permission = await prisma.permission.findUnique({
+    where: {
+      name: permissionName,
+    },
+  });
+
+  if (!permission) {
+    throw new CustomError("Permission not found", 404);
+  }
+
+  const roles = await prisma.role.findMany({
+    where: {
+      permissions: {
+        some: {
+          id: permission.id,
+        },
+      },
+    },
+  });
+
+  let roleNames = roles.map((role) => role.name);
+
+  return roleNames;
 };
 
-const getPermittedRoles = (permission: string) => {
-  const permittedRoles: string[] = [];
-  return permittedRoles;
-};
+export { PERMISSIONS, getPermittedRoleNames };
