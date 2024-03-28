@@ -103,18 +103,23 @@ const addPermissionToRole = errorWrapper(
       throw new CustomError("Permission not found", 404);
     }
 
-    const rolePermission = await prisma.rolePermission.create({
+    const newRole = await prisma.role.update({
+      where: {
+        name: roleName,
+      },
       data: {
-        roleId: role.id,
-        permissionId: permission.id,
+        permissions: {
+          connect: {
+            id: permission.id,
+          },
+        },
       },
       include: {
-        permission: true,
-        role: true,
+        permissions: true,
       },
     });
 
-    res.json(rolePermission);
+    res.json(newRole);
   },
   { statusCode: 500, message: "Couldn't add permission to role" }
 );
@@ -142,12 +147,19 @@ const removePermissionFromRole = errorWrapper(
       throw new CustomError("Permission not found", 404);
     }
 
-    const rolePermission = await prisma.rolePermission.deleteMany({
+    const rolePermission = await prisma.role.update({
       where: {
-        AND: {
-          roleId: role.id,
-          permissionId: permission.id,
+        name: roleName,
+      },
+      data: {
+        permissions: {
+          disconnect: {
+            id: permission.id,
+          },
         },
+      },
+      include: {
+        permissions: true,
       },
     });
 
@@ -158,10 +170,9 @@ const removePermissionFromRole = errorWrapper(
 
 const getAllRolePermissions = errorWrapper(
   async (req: Request, res: Response) => {
-    const rolePermissions = await prisma.rolePermission.findMany({
+    const rolePermissions = await prisma.role.findMany({
       include: {
-        role: true,
-        permission: true,
+        permissions: true,
       },
     });
 
@@ -184,22 +195,17 @@ const getRolesFromPermission = errorWrapper(
       throw new CustomError("Permission not found", 404);
     }
 
-    const roles = await prisma.rolePermission.findMany({
+    const roles = await prisma.role.findMany({
       where: {
-        permissionId: permission.id,
-      },
-      include: {
-        role: true,
+        permissions: {
+          some: {
+            id: permission.id,
+          },
+        },
       },
     });
 
-    let roleNames = roles.map((role) => role.role.name);
-
-    // remove duplicates
-
-    roleNames = roleNames.filter(
-      (role, index) => roleNames.indexOf(role) === index
-    );
+    let roleNames = roles.map((role) => role.name);
 
     res.json(roleNames);
   },
