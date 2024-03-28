@@ -59,8 +59,6 @@ model RolePermission {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-
-    @@unique([roleId, permissionId], name: "role_permission_unique")
 }
 
 model Vehicle {

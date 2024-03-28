@@ -7,6 +7,25 @@ const prisma = new PrismaClient();
 
 const hashedP = "$2b$10$glYOMtehNGf7iiKqxQruIO1MJEZAqo2NU.NgI3T2wr.hRaZOjZ96.";
 
+const permissionData: Prisma.PermissionCreateInput[] = [
+  {
+    name: "CREATE_USER",
+    description: "Create User Permission",
+  },
+  {
+    name: "GET_ALL_USERS",
+    description: "Get All Users Permission",
+  },
+  {
+    name: "DELETE_USER",
+    description: "Delete User Permission",
+  },
+  {
+    name: "UPDATE_USER_ROLE",
+    description: "Update User Role Permission",
+  },
+];
+
 const roleData: Prisma.RoleCreateInput[] = [
   {
     name: RoleName.LAND_MANAGER,
@@ -291,6 +310,15 @@ async function main() {
       data: role,
     });
     console.log(newRole);
+  }
+
+  console.log("Seeding permissions...");
+
+  for (const permission of permissionData) {
+    const newPermission = await prisma.permission.create({
+      data: permission,
+    });
+    console.log(newPermission);
   }
 
   console.log("Seeding users...");
