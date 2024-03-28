@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { UserRoundCog, Cog } from "lucide-react";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
+import PendingBillList from "@/components/dataTables/PendingBillList";
 
 export default function LandfillManagerBillsManagementPanel() {
     return (
@@ -18,7 +19,7 @@ export default function LandfillManagerBillsManagementPanel() {
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
         <div className="grid grid-cols-1 grid-flow-row gap-2 md:gap-4 w-full h-full max-h-max">
           <div className="min-h-40">
-            <EmptyFillContainer>Pending Bills</EmptyFillContainer>
+            <EmptyFillContainer><PendingBillList /></EmptyFillContainer>
           </div>
           <div className="min-h-40">
             <EmptyFillContainer>Bill History</EmptyFillContainer>

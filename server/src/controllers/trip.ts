@@ -59,18 +59,36 @@ const createTrip = errorWrapper(async (req: Request, res: Response) => {
 });
 
 const getListOfTrips = errorWrapper(async (req: Request, res: Response) => {
-  const { tripStatus } = req.query;
+  const { tripStatus, landFillId } = req.query;
 
   let where: Prisma.TripWhereInput | undefined = undefined;
 
   if (tripStatus) {
     where = {
+      tripStatus: tripStatus as string,      
+    };
+  }
+
+  if (landFillId) {
+    where = {
+      landfillId: landFillId as string, 
+    };
+  }
+
+  if (tripStatus && landFillId) {
+    where = {
       tripStatus: tripStatus as string,
+      landfillId: landFillId as string,
     };
   }
 
   const trips = await prisma.trip.findMany({
     where,
+    include: {
+      sts: true,
+      landfill: true,
+      vehicle: true,
+    },
   });
   res.json(trips);
 });
