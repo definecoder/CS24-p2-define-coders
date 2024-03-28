@@ -1,5 +1,6 @@
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
-import LanfFillUpcomingVehicles from "../../../dataTables/LandFillUpcomingVehicle"
+import LanfFillUpcomingVehicles from "../../../dataTables/LandFillUpcomingVehicle";
+import LandFillDeliveredVehicles from "../../../dataTables/LandFillDeliveredVehicles"
 
 export default function LandfillManagerSchedules() {
   return (
@@ -14,7 +15,10 @@ export default function LandfillManagerSchedules() {
             
           </div>
           <div className="col-span-1 row-span-1 min-h-48">
-            <EmptyFillContainer>DISPATCH HISTORY</EmptyFillContainer>
+            <EmptyFillContainer>DISPATCH HISTORY
+              <LandFillDeliveredVehicles />
+              
+            </EmptyFillContainer>
           </div>
           <div className="col-span-1 row-span-1 min-h-48">
             <EmptyFillContainer>MAP TRACKING</EmptyFillContainer>

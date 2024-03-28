@@ -118,46 +118,6 @@ export const columns: ColumnDef<Vehicle>[] = [
     ),
   },
   {
-    accessorKey: "tripStartTime",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Trip Start Time
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("tripStartTime".toLocaleString())}</div>
-    ),
-  },
-  {
-    accessorKey: "estimatedDuration",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Estimated Duration
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("estimatedDuration")}</div>
-    ),
-  },
-  {
     accessorKey: "distance",
     header: ({ column }) => {
       return (
@@ -174,7 +134,47 @@ export const columns: ColumnDef<Vehicle>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("distance")}</div>
+      <div className="text-center font-medium">{row.getValue("distance".toLocaleString())}</div>
+    ),
+  },
+  {
+    accessorKey: "actualDuration",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center items-center">
+          <Button
+            variant="ghost"
+            className="text-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Actual Duration
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-center font-medium">{row.getValue("actualDuration")}</div>
+    ),
+  },
+  {
+    accessorKey: "estimatedFuelCost",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center items-center">
+          <Button
+            variant="ghost"
+            className="text-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Estimated Fuel Cost
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-center font-medium">{row.getValue("estimatedFuelCost")}</div>
     ),
   },
   {
@@ -197,46 +197,8 @@ export const columns: ColumnDef<Vehicle>[] = [
       <div className="text-center font-medium">{row.getValue("weightOfWaste")}</div>
     ),
   },
-  {
-    accessorKey: "stsId",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            STS Name
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("stsId")}</div>
-    ),
-  },
-  {
-    accessorKey: "capacity",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Capacity
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("capacity")}</div>
-    ),
-  },
+  
+  
   {
     id: "actions",
     enableHiding: false,
