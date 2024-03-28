@@ -49,4 +49,7 @@ export const apiRoutes = {
         makeBill: `${baseUrl}/bills/create-from-trip/
         `,
     },
+    profile: {
+        getProfile: `${baseUrl}/profile`,
+    }
 }

@@ -7,12 +7,18 @@ import { PersonIcon } from "@radix-ui/react-icons";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { EditIcon, Factory } from "lucide-react";
+import {useEffect} from "react";
 
 export default function ProfilePage() {
-  const userId = useParams().userId.toString();
+
   const router = useRouter();
-  //const { userData } = useGetUserProfile(userId);
-  const RolePlace = "Station";
+  const { user, getUserDetails } = useGetUserProfile(); // Destructure user and getUserDetails
+  const RolePlace = 'Station';
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+
 
   return (
     <div className="w-screen h-screen ">
@@ -24,7 +30,7 @@ export default function ProfilePage() {
       >
         Back to Dashboard
       </Button>
-      <div className="absolute top-[85px] w-4/5 mx-40 my-24 border-2 border-red-500 h-4/6 flex">
+      <div className="absolute top-[85px] w-4/5 mx-40 my-24  h-4/6 flex">
       <div className="h-full w-96 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground p-10 rounded-xl flex flex-col justify-center items-center gap-8">
         <Avatar className="w-24 h-24">
           <AvatarFallback>
@@ -33,7 +39,7 @@ export default function ProfilePage() {
         </Avatar>
         <h1 className="font-bold text-xl">Profile Page</h1>
         <div className="flex flex-col justify-center items-center">
-          <h1><span className="font-bold">ID: </span>{userId}</h1>
+          <h1><span className="font-bold">ID: </span></h1>
           {/* <p><span className="font-bold">Email: </span>{userData.email}</p>
           <p><span className="font-bold">Role: </span>{userData.role}</p>
           <p><span className="font-bold">Name: </span>{userData.name}</p>
@@ -55,7 +61,7 @@ export default function ProfilePage() {
   
         <h1 className="font-bold text-xl">{RolePlace} Details</h1>
         <div className="flex flex-col justify-center items-center">
-          <h1><span className="font-bold">ID: </span>{userId}</h1>
+          <h1><span className="font-bold">ID: </span></h1>
           {/* <p><span className="font-bold">Email: </span>{userData.email}</p>
           <p><span className="font-bold">Role: </span>{userData.role}</p>
           <p><span className="font-bold">Name: </span>{userData.name}</p>
