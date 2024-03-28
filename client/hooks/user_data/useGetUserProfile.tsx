@@ -37,9 +37,32 @@ type LandfillType = {
 }
 
 export default function useGetUserProfile() {
-  const [user, setUser] = useState<User | undefined>(); // Initialize with undefined
-  const [stsDetails, setStsDetails] = useState<STSType | undefined>();
-  const [landfillDetails, setLandfillDetails] = useState<LandfillType | undefined>();
+  const [user, setUser] = useState<User >({
+    id: '',
+    username: '',
+    email: '',
+    profileName: '',
+     roleName: '',
+    roleDescription: '',
+  }); // Initialize with undefined
+  const [stsDetails, setStsDetails] = useState<STSType >({
+    stsId: '',
+    stsName: '',
+    stsWardNumber: '',
+    stsCapacity: '',
+    stsCurrentTotalWaste: '',
+    stsLatitude: '',
+    stsLongitude: '',
+  });
+
+  const [landfillDetails, setLandfillDetails] = useState<LandfillType>({
+    landfillId: null,
+    landFillName: '',
+    landFillCapacity: '',
+    landFillCurrentWaste: '',
+    landfillLatitude: '',
+    landFillLongitude: '',
+  });
 
   async function getUserDetails() {
     try {
@@ -125,5 +148,5 @@ export default function useGetUserProfile() {
     console.log(landfillDetails)
   }, [user, stsDetails, landfillDetails]); // Call getUserDetails when the component mounts
 
-  return { user, getUserDetails };
+  return { user, stsDetails, landfillDetails, getUserDetails };
 }

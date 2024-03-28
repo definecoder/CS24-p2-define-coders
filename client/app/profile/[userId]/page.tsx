@@ -9,10 +9,39 @@ import { useRouter } from "next/navigation";
 import { EditIcon, Factory } from "lucide-react";
 import {useEffect} from "react";
 
+type User = {
+  id: string;
+  username: string;
+  email: string;
+  profileName: string;
+   roleName: string;
+  roleDescription: string;
+ 
+};
+
+type STSType = {
+  stsId: string ;
+  stsName: string;
+  stsWardNumber: string;
+  stsCapacity: string;
+  stsCurrentTotalWaste: string;
+  stsLatitude: string;
+  stsLongitude: string;
+}
+
+type LandfillType = {
+ landfillId: string ;
+  landFillName: string;
+  landFillCapacity: string;
+  landFillCurrentWaste: string;
+  landfillLatitude: string;
+  landFillLongitude: string;
+}
+
 export default function ProfilePage() {
 
   const router = useRouter();
-  const { user, getUserDetails } = useGetUserProfile(); // Destructure user and getUserDetails
+  const { user, stsDetails, landfillDetails, getUserDetails} = useGetUserProfile(); // Destructure user and getUserDetails
   const RolePlace = 'Station';
 
   useEffect(() => {
@@ -40,10 +69,10 @@ export default function ProfilePage() {
         <h1 className="font-bold text-xl">Profile Page</h1>
         <div className="flex flex-col justify-center items-center">
           <h1><span className="font-bold">ID: </span></h1>
-          {/* <p><span className="font-bold">Email: </span>{userData.email}</p>
-          <p><span className="font-bold">Role: </span>{userData.role}</p>
-          <p><span className="font-bold">Name: </span>{userData.name}</p>
-          <p><span className="font-bold">Assigned Area: </span>{userData.assignedArea}</p> */}
+          <p><span className="font-bold">Email: </span>{user.email}</p>
+          <p><span className="font-bold">Role: </span>{user.roleName}</p>
+          <p><span className="font-bold">Name: </span>{user.profileName}</p>
+          <p><span className="font-bold">Assigned Area: </span>{user.roleDescription}</p>
         </div>
         <Button
         variant="outline"
