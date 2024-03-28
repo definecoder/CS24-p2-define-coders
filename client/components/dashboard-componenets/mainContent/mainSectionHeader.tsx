@@ -1,4 +1,5 @@
-import Link from "next/link";
+"use client";
+
 import {
   CircleUser,
   CircleUserRound,
@@ -36,8 +37,18 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useContext } from "react";
 import { NavContext } from "@/hooks/contexts/useNavCtx";
-import { eraseCookie } from "@/lib/cookieFunctions";
-import { jwtToken, role } from "@/data/cookieNames";
+import { eraseCookie, getCookie } from "@/lib/cookieFunctions";
+import {
+  curActive,
+  jwtToken,
+  landfillName,
+  role,
+  stsId,
+  stsName,
+  username,
+} from "@/data/cookieNames";
+import { get } from "http";
+import { landfillManager, stsManager } from "@/data/roles";
 
 function logout(router: AppRouterInstance) {
   eraseCookie(role);
@@ -55,7 +66,7 @@ export default function MainSectionHeader({
   const router = useRouter();
   const { currentActive, setCurrentActive } = useContext(NavContext);
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 justify-between">
       {/* Sheet for displaying menu in small screens */}
       <Sheet>
         <SheetTrigger asChild>
@@ -72,20 +83,38 @@ export default function MainSectionHeader({
       </Sheet>
 
       {/* Main content of header */}
-      <div className="w-full flex-1">
-        <form>
+      <div className="min-w-80">
+        <form className="w-full">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
               placeholder="Search users, truck, sts..."
-              className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+              className="w-full appearance-none bg-background pl-8 shadow-none"
             />
           </div>
         </form>
       </div>
 
+      <div className="hidden xl:block">
+        {getCookie(curActive)?.startsWith(stsManager) &&
+          (getCookie(stsName) ? (
+            <><b>YOUR STS : </b><span> {getCookie(stsName)} </span></>
+          ) : (
+            <>{"NO STS ASSIGNED"}</>
+          ))}
+
+        {getCookie(curActive)?.startsWith(landfillManager) &&
+          (getCookie(landfillName) ? (
+            <><b>YOUR LANDFILL : </b><span> {getCookie(landfillName)} </span></>
+          ) : (
+            <>{"NO LANDFILL ASSIGNED"}</>
+          ))}        
+      </div>
+
       {/* Profile Icon and dropdown menu */}
+      <div className="flex gap-4 items-center">
+      {getCookie(username)}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="icon" className="rounded-full">
@@ -114,7 +143,7 @@ export default function MainSectionHeader({
             }}
           >
             Change Password
-          </DropdownMenuItem>          
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="text-red-800 bg-red-100 bg-opacity-50"
@@ -123,7 +152,7 @@ export default function MainSectionHeader({
             Logout
           </DropdownMenuItem>
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu></div>
     </header>
   );
 }

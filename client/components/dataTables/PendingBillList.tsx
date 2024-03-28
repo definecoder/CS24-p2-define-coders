@@ -45,6 +45,9 @@ import { DeleteVehicleModal } from "../modals/vehicleControl/DeleteVehicleModal"
 import { EditVehicleInfoModal } from "../modals/vehicleControl/EditVehicleInfoModal";
 import useGetAllPendingBillList from "@/hooks/bills/useGetAllPendingBillList";
 import { Package, PackageCheck, PackageX } from "lucide-react";
+import { getCookie } from "@/lib/cookieFunctions";
+import { landfillId, landfillName } from "@/data/cookieNames";
+import { BillCreationModal } from "../modals/billControl/BillCreationModal";
 
 export type Trip = {
   id: string,
@@ -190,12 +193,13 @@ export const columns: ColumnDef<Trip>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const vehicle: Trip = row.original;
+      const trip: Trip = row.original;
 
       return (
         <div>
             {/* <DeleteVehicleModal vehicleInfo={vehicle} />          
             <EditVehicleInfoModal vehicleInfo={vehicle} /> */}
+            <BillCreationModal tripInfo={trip} />
         </div>
       );
     },
@@ -214,7 +218,7 @@ export default function PendingBillList() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
-    getTripList("c4028362-6c17-4cf0-9b0e-ae20acfa2fbd");
+    getTripList(getCookie(landfillId) || "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd");
   }, []);
 
   React.useEffect(() => {

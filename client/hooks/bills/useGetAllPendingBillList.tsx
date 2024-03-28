@@ -11,7 +11,7 @@ export default function useGetAllPendingBillList() {
 
   async function getTripList(landfillId: string) {
     try {
-      const res = await axios.get(apiRoutes.trip.search + "?tripStatus=COMPLETED&landFillId=" + landfillId, {
+      const res = await axios.get(apiRoutes.trip.search + "?tripStatus=DELIVERED&landFillId=" + landfillId, {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
       });
       // Assuming the response data is an array of vehicles
