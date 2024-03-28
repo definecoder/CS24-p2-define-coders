@@ -9,12 +9,14 @@ const PERMISSIONS = {
   UPDATE_USER_ROLE: "UPDATE_USER_ROLE",
 };
 
-const canCreateUser = (user: User) => {
-  const permittedRoles = getPermittedRoles(PERMISSIONS.CREATE_USER);
-  return permittedRoles.includes(user.roleName);
-};
+// const canCreateUser = (user: User) => {
+//   const permittedRoles = getPermittedRoles(PERMISSIONS.CREATE_USER);
+//   return permittedRoles.includes(user.roleName);
+// };
 
 const getPermittedRoles = (permission: string) => {
   const permittedRoles: string[] = [];
   return permittedRoles;
 };
+
+export { PERMISSIONS, getPermittedRoles };
