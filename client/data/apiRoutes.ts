@@ -28,7 +28,7 @@ export const apiRoutes = {
     },
     rbac: {
         create: `${baseUrl}/rbac/create`,
-        getByRole: `${baseUrl}/rbac/roles/`,
+        getByRole: `${baseUrl}/rbac/roles/get/`,
         delete: `${baseUrl}/rbac/`,
         edit: `${baseUrl}/rbac/`,
     },
@@ -46,7 +46,7 @@ export const apiRoutes = {
         search: `${baseUrl}/trips/search`,
     },
     bills: {
-        makeBill: `${baseUrl}/bills/create-from-trip/
-        `,
+        makeBill: `${baseUrl}/bills/create-from-trip/`,
+        search: `${baseUrl}/bills/search`,
     },
 }

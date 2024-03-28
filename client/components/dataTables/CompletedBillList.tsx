@@ -48,25 +48,50 @@ import { Package, PackageCheck, PackageX } from "lucide-react";
 import { getCookie } from "@/lib/cookieFunctions";
 import { landfillId, landfillName } from "@/data/cookieNames";
 import { BillCreationModal } from "../modals/billControl/BillCreationModal";
+import useGetAllCompletedBillList from "@/hooks/bills/useGetAllCompletedBillList";
+import { BillViewModal } from "../modals/billControl/BillViewModal";
 
-export type Trip = {
-  id: string,
-  stsName: string,
-  landFillName: string,
-  vehicleNumber: string,
-  vehicleType: string,
-  weightOfWaste: number,
-  shortage: number,
-  loadedFuelCostPerKm: number,
-  unloadedFuelCostPerKm: number,
-  capacity: number,
-  estimatedFuelCost: number,
-  distance: number,
-  estimatedDuration: number,
-  actualDuration: number,
+export type Bill = {
+  id: string;
+  billNo: string;
+  stsName: string;
+  landFillName: string;
+  vehicleNumber: string;
+  vehicleType: string;
+  weightOfWaste: number;
+  shortage: number;
+  loadedFuelCostPerKm: number;
+  unloadedFuelCostPerKm: number;
+  capacity: number;
+  estimatedFuelCost: number;
+  distance: number;
+  estimatedDuration: number;
+  actualDuration: number;
+  allocatedFuelCost: number;
+  tripId: string;
 };
 
-export const columns: ColumnDef<Trip>[] = [
+export const columns: ColumnDef<Bill>[] = [
+  {
+    accessorKey: "billNo",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center items-center">
+          <Button
+            variant="ghost"
+            className="text-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Bill Number
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-center font-medium">{row.getValue("billNo")}</div>
+    ),
+  },
   {
     accessorKey: "vehicleNumber",
     header: ({ column }) => {
@@ -84,7 +109,9 @@ export const columns: ColumnDef<Trip>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("vehicleNumber")}</div>
+      <div className="text-center font-medium">
+        {row.getValue("vehicleNumber")}
+      </div>
     ),
   },
   {
@@ -104,9 +131,7 @@ export const columns: ColumnDef<Trip>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">
-        {row.getValue("stsName")}
-      </div>
+      <div className="text-center font-medium">{row.getValue("stsName")}</div>
     ),
   },
   {
@@ -126,11 +151,13 @@ export const columns: ColumnDef<Trip>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("weightOfWaste") + " Ton"}</div>
+      <div className="text-center font-medium">
+        {row.getValue("weightOfWaste") + " Ton"}
+      </div>
     ),
   },
   {
-    accessorKey: "estimatedFuelCost",
+    accessorKey: "allocatedFuelCost",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -139,36 +166,18 @@ export const columns: ColumnDef<Trip>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Estimated Fuel Cost
+            Allocated Fuel Cost
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("estimatedFuelCost")}</div>
+      <div className="text-center font-medium">
+        {row.getValue("allocatedFuelCost")}
+      </div>
     ),
-  },
-  {
-    accessorKey: "estimatedDuration",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Estimated Duration
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("estimatedDuration")}</div>
-    ),
-  },
+  },  
   {
     accessorKey: "actualDuration",
     header: ({ column }) => {
@@ -186,20 +195,22 @@ export const columns: ColumnDef<Trip>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("actualDuration")}</div>
+      <div className="text-center font-medium">
+        {row.getValue("actualDuration")}
+      </div>
     ),
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const trip: Trip = row.original;
+      const bill: Bill = row.original;
 
       return (
         <div>
-            {/* <DeleteVehicleModal vehicleInfo={vehicle} />          
+          {/* <DeleteVehicleModal vehicleInfo={vehicle} />          
             <EditVehicleInfoModal vehicleInfo={vehicle} /> */}
-            <BillCreationModal tripInfo={trip} />
+          <BillViewModal billInfo={bill} />
         </div>
       );
     },
@@ -207,8 +218,8 @@ export const columns: ColumnDef<Trip>[] = [
 ];
 
 export default function PendingBillList() {
-  const [data, setData] = React.useState<Trip[]>([]);
-  const { getTripList, tripList } = useGetAllPendingBillList();
+  const [data, setData] = React.useState<Bill[]>([]);
+  const { billList, getbillList } = useGetAllCompletedBillList();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -218,12 +229,14 @@ export default function PendingBillList() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
-    getTripList(getCookie(landfillId) || "");
+    getbillList(
+      getCookie(landfillId) || "",
+    );
   }, []);
 
   React.useEffect(() => {
-    setData(tripList);
-  }, [tripList]);
+    setData(billList);
+  }, [billList]);
 
   const table = useReactTable({
     data,
@@ -245,11 +258,15 @@ export default function PendingBillList() {
   });
   return (
     <>
-    <div className="font-bold text-2xl w-full text-center">PENDING BILL LIST</div>
+      <div className="font-bold text-2xl w-full text-center">
+        COMPLETED BILL LIST
+      </div>
       <div className="flex items-center py-4 gap-4">
         <Input
           placeholder="Search by vehicle number..."
-          value={(table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
             table.getColumn("vehicleNumber")?.setFilterValue(event.target.value)
           }
@@ -325,11 +342,17 @@ export default function PendingBillList() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  {tripList.length > 0 ? <div className="flex items-center justify-center text-muted-foreground gap-3 text-lg">
-                  <PackageX />No bills include this vehicle number.
-                  </div> : <div className="flex items-center justify-center text-muted-foreground gap-3 text-lg">
-                  <PackageCheck />No pending bills.
-                  </div>}                  
+                  {billList.length > 0 ? (
+                    <div className="flex items-center justify-center text-muted-foreground gap-3 text-lg">
+                      <PackageX />
+                      No bills include this vehicle number.
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center text-muted-foreground gap-3 text-lg">
+                      <PackageCheck />
+                      No pending bills.
+                    </div>
+                  )}
                 </TableCell>
               </TableRow>
             )}

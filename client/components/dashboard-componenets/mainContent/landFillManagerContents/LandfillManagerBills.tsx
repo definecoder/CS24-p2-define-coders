@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { UserRoundCog, Cog } from "lucide-react";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import PendingBillList from "@/components/dataTables/PendingBillList";
+import CompletedBillList from "@/components/dataTables/CompletedBillList";
 
 export default function LandfillManagerBillsManagementPanel() {
     return (
@@ -22,7 +23,7 @@ export default function LandfillManagerBillsManagementPanel() {
             <EmptyFillContainer><PendingBillList /></EmptyFillContainer>
           </div>
           <div className="min-h-40">
-            <EmptyFillContainer>Bill History</EmptyFillContainer>
+            <EmptyFillContainer><CompletedBillList /></EmptyFillContainer>
           </div>          
         </div>
       </div>
