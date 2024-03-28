@@ -81,7 +81,7 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Name
+            Vehicle Number
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -163,7 +163,7 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Estimated Duration
+            Distance
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -183,7 +183,7 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Distance
+            Weight Of Waste
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
