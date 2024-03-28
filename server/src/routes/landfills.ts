@@ -9,10 +9,10 @@ import {
 
 const router = express.Router();
 
-router.route("/create").post(addlandfill);
+router.route("/create").post(addlandfill); // add permission
 router.route("/").get(getAllLandfills);
 router.route("/:landfillId").get(getLandfillById);
-router.route("/:landfillId").put(updateLandfill);
-router.route("/:landfillId").delete(deleteLandfill);
+router.route("/:landfillId").put(updateLandfill); //  add permission
+router.route("/:landfillId").delete(deleteLandfill); // add permision
 
 export default router;
