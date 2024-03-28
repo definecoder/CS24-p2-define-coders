@@ -204,7 +204,7 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
 const stsData: Prisma.STSCreateInput[] = [
   {
     id: "sts1",
-    name: "Mohakhali",
+    name: "Mohakhali STS",
     wardNumber: "13",
     capacity: 1000,
     currentTotalWaste: 900,
@@ -213,7 +213,7 @@ const stsData: Prisma.STSCreateInput[] = [
   },
   {
     id: "sts2",
-    name: "Gulshan",
+    name: "Gulshan STS",
     wardNumber: "2",
     capacity: 2000,
     currentTotalWaste: 1200,
@@ -223,7 +223,7 @@ const stsData: Prisma.STSCreateInput[] = [
 
   {
     id: "sts3",
-    name: "Bonani",
+    name: "Bonani STS",
     wardNumber: "4",
     capacity: 1500,
     currentTotalWaste: 200,
@@ -232,7 +232,7 @@ const stsData: Prisma.STSCreateInput[] = [
   },
   {
     id: "sts4",
-    name: "Badda",
+    name: "Badda STS",
     wardNumber: "4",
     capacity: 1500,
     currentTotalWaste: 900,
@@ -241,7 +241,7 @@ const stsData: Prisma.STSCreateInput[] = [
   },
   {
     id: "sts5",
-    name: "Jatrabari",
+    name: "Jatrabari STS",
     wardNumber: "4",
     capacity: 1500,
     currentTotalWaste: 200,
