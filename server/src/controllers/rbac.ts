@@ -171,8 +171,15 @@ const removePermissionFromRole = errorWrapper(
 const getAllRolePermissions = errorWrapper(
   async (req: Request, res: Response) => {
     const rolePermissions = await prisma.role.findMany({
-      include: {
+      select: {
+        name: true,
+
         permissions: true,
+        _count: {
+          select: {
+            permissions: true,
+          },
+        },
       },
     });
 
