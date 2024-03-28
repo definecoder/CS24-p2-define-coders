@@ -59,7 +59,7 @@ const getPermissions = errorWrapper(
   async (req: Request, res: Response) => {
     const permissions = await prisma.permission.findMany({});
 
-    const permissionNames = permissions.map((permission) => permission.name);
+    const permissionNames = permissions;
 
     res.json(permissionNames);
   },

@@ -23,17 +23,14 @@ export default function AdminRolesManagementPanel() {
         </div>
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-        <div className="grid grid-cols-2 md:grid-cols-7 grid-rows-9 grid-flow-row gap-2 md:gap-4 w-full md:h-full max-h-max">
-          <div className="col-span-2 row-span-3 min-h-36">
+        <div className="grid grid-cols-3 md:grid-cols-8 grid-rows-9 grid-flow-row gap-2 md:gap-4 w-full md:h-full max-h-max">
+          <div className="col-span-3 row-span-5 min-h-36">
             <EmptyFillContainer>Roles List</EmptyFillContainer>
           </div>
-          <div className="col-span-2 md:col-span-5 row-span-9">
+          <div className="col-span-3 md:col-span-5 row-span-9">
             <EmptyFillContainer>Permisson List</EmptyFillContainer>
-          </div>
-          <div className="col-span-2 row-span-3 min-h-36">
-            <EmptyFillContainer>Role Distribution chart</EmptyFillContainer>
-          </div>
-          <div className="col-span-2 row-span-3 min-h-36">
+          </div>          
+          <div className="col-span-3 row-span-4 min-h-36">
             <EmptyFillContainer>Role Requests</EmptyFillContainer>
           </div>
         </div>
