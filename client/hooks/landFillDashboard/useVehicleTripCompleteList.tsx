@@ -5,14 +5,19 @@ import { uri } from '@/data/constant';
 type Vehicle = {
   tripId: string,
   weightOfWaste: string,
+  shortage: string,
   vehicleNumber: string,
-  stsId: string,
+  stsName: string,
   vehicleType: string,
   distance: string,
+  actualDuration: string,
+  estimatedFuelCost: string,
   tripStartTime: string,
+  tripEndTime: string,
   estimatedDuration: string
   tripStatus: string
   capacity: string,
+
   
 };
 
@@ -27,12 +32,15 @@ export default function useVehicleTripCompleteList() {
       const AllVehicle: Vehicle[] = res.data.map((vehicle: any) => ({
         tripId: vehicle.id,
   weightOfWaste: `${vehicle.weightOfWaste} tons`,
+  shortage: vehicle.shortage,
   vehicleNumber: vehicle.vehicle.vehicleNumber,
-  stsId: vehicle.sts.name,
+  stsName: vehicle.sts.name,
   vehicleType: vehicle.vehicle.vehicleType,
   distance: `${vehicle.distance} km`,
   tripStartTime: vehicle.tripStartTime,
   estimatedDuration: `${vehicle.estimatedDuration} mins`,
+  estimatedFuelCost: `${vehicle.estimatedFuelCost} tk`,
+  actualDuration: `${vehicle.actualDuration} mins`,
   tripStatus: vehicle.tripStatus,
   capacity: vehicle.vehicle.capacity
       }));
