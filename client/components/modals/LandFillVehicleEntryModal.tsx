@@ -32,64 +32,44 @@ import editSTS from "@/hooks/entityCreation/editSTS";
 import getUserByRole from "@/hooks/user_data/getUserByRole";
 import VehicleRelaseRoute from "../maps/VehicleReleaseRoute";
 import useVehicleReleaseFromSTS from "@/hooks/StsDashboard/useVehicleReleaseFromSTS";
+import useUpcomingVehicle from "@/hooks/landFillDashboard/useUpcomingVehiclesList";
+import useTripComplete from "@/hooks/landFillDashboard/useTripComplete";
 
 
 type Vehicle = {
-  entryId: string,
-  id: string,
+  tripId: string,
+  weightOfWaste: string,
   vehicleNumber: string,
+  stsId: string,
   vehicleType: string,
+  distance: string,
+  tripStartTime: string,
+  estimatedDuration: string
+  tripStatus: string
   capacity: string,
-  loadedFuelCostPerKm: string,
-  unloadedFuelCostPerKm: string,
-  landFillId: string,
-  entryTime: string,
-  landFillName: string,    
-  stsLattitude: string,
-  stsLongitude: string,
-  landfillLattitude: string,
-  landfillLongitude: string,
+  
 };
 
-export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => {
+export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => {
   const [vehicleData, setVehicleData] = useState(vehicleInfo);
   const [weightOfWaste , setWeightOfWaste] = useState("");
-  const [exitTime, setExitTime] = useState(new Date().toLocaleString());
+  const [entryTime, setEntryTime] = useState(new Date().toLocaleString());
   const [stsCoordinate, setStsCoordinate] = useState("");
   const [landFillCoordinate, setLandFillCoordinate] = useState("");
   const [distance, setDistance] = useState<string>("");
-  const [duration, setDuration] = useState<string>("");const { VehicleReleaseFromSTS } = useVehicleReleaseFromSTS();
+  const [duration, setDuration] = useState<string>("");
+  const { TripComplete } = useTripComplete();
 
- 
- 
-// const dummyCoordinates[
-//   23.76652752, 90.4258899
-// 23.76449486, 90.3879528
-// 23.73897468, 90.3750954
-// 23.76431111, 90.3651622
-// 23.77393625, 90.3814204
-// 23.76461481, 90.3915441
-// 23.77089053, 90.4042765
-// 23.72965447, 90.3873709
-// ]
-// {
-//   "stsVehicleId": "sv1",
-//   "weightOfWaste" : 2,
-//   "exitTime" : "2024-03-27T08:00:00Z",
-//   "distance": "156.3",
-//   "estimatedDuration": "23"
-// }
+
 
  
   const handleSaveChanges = async () => {
     try {
      
-      const postEntry = await VehicleReleaseFromSTS({
-        stsVehicleId: vehicleInfo.entryId,
-    weightOfWaste: weightOfWaste,
-    exitTime: exitTime,
-    distance: distance,
-    estimatedDuration: duration
+      const postEntry = await TripComplete({
+        tripId: vehicleInfo.tripId,
+        weightOfWaste: weightOfWaste,
+        entryTime: entryTime,
       });
       
     } catch (error) {
@@ -110,7 +90,7 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
       <DialogContent className="max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="mt-4 text-xl sm:text-2xl">
-            Vehicle Release Details
+            Vehicle Entry Details
           </DialogTitle>
           <DialogDescription>
             <div className="mt-4 flex flex-col justify-center items-start text-left p-4 rounded-lg border shadow-xl text-md">
@@ -119,30 +99,26 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
                 {vehicleInfo.vehicleNumber}
               </h1>
               <p>
-              <span className="font-bold">Entry Time: </span>
-                {vehicleInfo.entryTime}
+                <span className="font-bold">Vehicle Type: </span>
+                {vehicleInfo.vehicleType}
+              </p>
+              <p>
+              <span className="font-bold">STS Name: </span>
+                {vehicleInfo.stsId}
               </p>
               <p>
                 <span className="font-bold">Capacity: </span>
                 {vehicleInfo.capacity}
               </p>
               <p>
-                <span className="font-bold">Landfill Name: </span>
-                {vehicleInfo.landFillName}
+                <span className="font-bold">Distance: </span>
+                {vehicleInfo.distance}
               </p>
               <p>
-                <span className="font-bold">Optimized Route: </span>
-                <VehicleRelaseRoute 
-                vehicleOriginLatitude={vehicleInfo.stsLattitude}
-                vehicleOriginLongitude={vehicleInfo.stsLongitude}
-                vehicleDestinationLatitude={vehicleInfo.landfillLattitude}
-                vehicleDestinationLongitude={vehicleInfo.landfillLongitude}
-                setDistance={setDistance}
-                setDuration={setDuration}
-                distance={distance}
-                duration={duration}
-                />
+                <span className="font-bold">Trip Start Time: </span>
+                {vehicleInfo.tripStartTime}
               </p>
+            
               
             </div>
           </DialogDescription>
@@ -154,7 +130,7 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
             </Label>
             <Input
               id="weightOfWaste"
-              placeholder="Volume (in tons)"
+              placeholder={vehicleInfo.weightOfWaste}
               className="col-span-3"
               value={weightOfWaste}
               onChange={(e) => setWeightOfWaste(e.target.value)}
@@ -163,14 +139,14 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
           
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="capacity" className="text-right">
-              Deparature Time
+              LandFill Entry Time
             </Label>
             <Input
               id="capacity"
               placeholder="1-100"
               className="col-span-3"
-              value={exitTime}
-              onChange={(e) => setExitTime(e.target.value)}
+              value={entryTime}
+              onChange={(e) => setEntryTime(e.target.value)}
             />
           </div>
         </div>
