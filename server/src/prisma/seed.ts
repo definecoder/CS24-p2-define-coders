@@ -208,8 +208,8 @@ const stsData: Prisma.STSCreateInput[] = [
     wardNumber: "13",
     capacity: 1000,
     currentTotalWaste: 700,
-    latitude: 23.76652752,
-    longitude: 90.4258899
+    latitude: 23.7031879,
+    longitude: 90.35564201
   },
   {
     id: "sts2",

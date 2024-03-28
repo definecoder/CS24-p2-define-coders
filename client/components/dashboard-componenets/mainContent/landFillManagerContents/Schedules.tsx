@@ -3,6 +3,7 @@ import GoogleMapComponent from '@/components/maps/GoogleMap'
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import LanfFillUpcomingVehicles from "../../../dataTables/LandFillUpcomingVehicle";
 import LandFillDeliveredVehicles from "../../../dataTables/LandFillDeliveredVehicles"
+import { AllStsMapShow } from '@/components/maps/AllStsShow';
 
 export default function LandfillManagerSchedules() {
   const coordinates = [
@@ -35,7 +36,7 @@ export default function LandfillManagerSchedules() {
           </div>
           <div className="col-span-1 row-span-1 min-h-48">
             <EmptyFillContainer>MAP TRACKING
-            <GoogleMapComponent coordinates={coordinates} dumpFills={dumpFills}></GoogleMapComponent>
+            <AllStsMapShow />
             </EmptyFillContainer>
           </div>          
         </div>
