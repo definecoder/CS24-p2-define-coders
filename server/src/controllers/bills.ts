@@ -68,17 +68,18 @@ const createBillFromTrip = errorWrapper(
   async (req: Request, res: Response) => {
     const { tripId, allocatedFuelCost } = req.body;
 
-    const trip = await prisma.trip.update({
-      where: {
-        id: tripId,
-      },
-      data: {
-        tripStatus: TripStatus.BILLED,
-      },
-      }).catch((err) => {
+    const trip = await prisma.trip
+      .update({
+        where: {
+          id: tripId,
+        },
+        data: {
+          tripStatus: TripStatus.BILLED,
+        },
+      })
+      .catch((err) => {
         throw new CustomError("Couldn't update trip", 500);
-      }
-    );
+      });
 
     if (!trip) {
       throw new CustomError("No such trip found", 404);
