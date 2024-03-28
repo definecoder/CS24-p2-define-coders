@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import ReactToPrint from 'react-to-print';
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,8 +34,10 @@ import useGetAllLandfill from "@/hooks/dataQuery/useGetAllLandfill";
 import editVehicle from "@/hooks/vehicles/editVehicle";
 import makeBill from "@/hooks/bills/makeBill";
 import { Bill } from "@/components/dataTables/CompletedBillList";
+import Link from "next/link";
 
 export const BillViewModal = ({ billInfo }: { billInfo: Bill }) => {
+    const componentRef = React.useRef();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -56,9 +59,12 @@ export const BillViewModal = ({ billInfo }: { billInfo: Bill }) => {
           </DialogDescription>
         </DialogHeader>
         <form>
-          <div className="m-4 p-4 border bg-primary-foreground text-primary flex flex-col gap-4">
-          <div className="flex justify-center">              
+        
+          <div className="m-4 p-4 border bg-primary-foreground text-primary flex flex-col gap-4 max-w-[525px]">          
+          <div className="flex justify-between items-center mb-2">              
+          
                 <span><b>Bill number:</b>&nbsp; {billInfo.billNo}</span>              
+                <img src="logoBlack.png" alt="logo" className="w-16 h-16" />
             </div>
             <div className="flex justify-between">
               <div>
@@ -119,8 +125,13 @@ export const BillViewModal = ({ billInfo }: { billInfo: Bill }) => {
             <div className="flex justify-center text-lg m-2">
             <span><b>ALLOCATED BILL:&nbsp; {billInfo.allocatedFuelCost} BDT </b></span>
             </div>
-          </div>          
+          </div>
+          
+        
           <DialogFooter>
+            <div className="w-full flex justify-center mt-2">
+
+            <Link href={{ pathname: '/billPrint', query: { ...billInfo } }}>
             <Button
               type="submit"
               onClick={async () => {
@@ -131,8 +142,10 @@ export const BillViewModal = ({ billInfo }: { billInfo: Bill }) => {
                 // if (result) return alert(result);
               }}
             >
-              GENERATE BILL
+              PRINT BILL
             </Button>
+            </Link>    
+            </div>
           </DialogFooter>
         </form>
       </DialogContent>

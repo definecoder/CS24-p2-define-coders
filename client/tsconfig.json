@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
+    "allowJs": true,    
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -12,6 +12,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "downlevelIteration": true,
+    "target": "es2015",
     "plugins": [
       {
         "name": "next"
