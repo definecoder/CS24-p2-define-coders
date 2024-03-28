@@ -2,6 +2,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 import { RoleName } from "../types/rolesTypes";
 import { TripStatus } from "../types/tripStatus";
+import { PERMISSIONS } from "../permissions/permissions";
 
 const prisma = new PrismaClient();
 
@@ -23,6 +24,45 @@ const roleData: Prisma.RoleCreateInput[] = [
   {
     name: RoleName.UNASSIGNED,
     description: "Unassigned Role",
+  },
+];
+
+const permissionData: Prisma.PermissionCreateInput[] = [
+  {
+    name: PERMISSIONS.CREATE_USER,
+    description: "Create User Permission",
+  },
+  {
+    name: PERMISSIONS.GET_ALL_USERS,
+    description: "Get All Users Permission",
+  },
+  {
+    name: PERMISSIONS.DELETE_USER,
+    description: "Delete User Permission",
+  },
+];
+
+const roleAssignments = [
+  {
+    roleName: RoleName.SYSTEM_ADMIN,
+    permissions: [
+      PERMISSIONS.CREATE_USER,
+      PERMISSIONS.GET_ALL_USERS,
+      PERMISSIONS.DELETE_USER,
+    ],
+  },
+
+  {
+    roleName: RoleName.LAND_MANAGER,
+    permissions: [PERMISSIONS.GET_ALL_USERS],
+  },
+  {
+    roleName: RoleName.STS_MANAGER,
+    permissions: [PERMISSIONS.GET_ALL_USERS],
+  },
+  {
+    roleName: RoleName.UNASSIGNED,
+    permissions: [],
   },
 ];
 
@@ -204,58 +244,58 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
 const stsData: Prisma.STSCreateInput[] = [
   {
     id: "sts1",
-    name: "Mohakhali",
+    name: "Mohakhali STS",
     wardNumber: "13",
     capacity: 1000,
-    currentTotalWaste: 700,
-    latitude: 23.7031879,
-    longitude: 90.35564201
+    currentTotalWaste: 900,
+    latitude: 23.777742178642388,
+    longitude: 90.40575221162331
   },
   {
     id: "sts2",
-    name: "Gulshan",
+    name: "Gulshan STS",
     wardNumber: "2",
     capacity: 2000,
     currentTotalWaste: 1200,
-    latitude: 23.76449486,
-    longitude: 90.3879528,
+    latitude: 23.792464932754005,
+    longitude: 90.40782465254337
   },
 
   {
     id: "sts3",
-    name: "Bonani",
+    name: "Bonani STS",
     wardNumber: "4",
     capacity: 1500,
     currentTotalWaste: 200,
-    latitude: 23.73897468,
-    longitude: 90.3750954,
+    latitude: 23.793630794902622,
+    longitude: 90.40660514416635
   },
   {
     id: "sts4",
-    name: "Badda",
+    name: "Badda STS",
     wardNumber: "4",
     capacity: 1500,
     currentTotalWaste: 900,
-    latitude: 23.7592645,
-    longitude: 90.42032866,
+    latitude: 23.78042151306244,
+    longitude: 90.42669427037866
   },
   {
     id: "sts5",
-    name: "Jatrabari",
+    name: "Jatrabari STS",
     wardNumber: "4",
     capacity: 1500,
     currentTotalWaste: 200,
-    latitude: 23.7615071,
-    longitude: 90.38945549,
+    latitude: 23.710484797357275,
+    longitude: 90.43479693063576
   },
   {
     id: "sts6",
-    name: "Uttara",
+    name: "Motijheel",
     wardNumber: "4",
     capacity: 1500,
-    currentTotalWaste: 200,
-    latitude: 23.7888633,
-    longitude: 90.36152261,
+    currentTotalWaste: 1400,
+    latitude: 23.72800766871942,
+    longitude: 90.41902325467944
   },
 ];
 
@@ -321,6 +361,38 @@ async function main() {
       data: role,
     });
     console.log(newRole);
+  }
+
+  console.log("Seeding permissions...");
+
+  for (const permission of permissionData) {
+    const newPermission = await prisma.permission.create({
+      data: permission,
+    });
+    console.log(newPermission);
+  }
+
+  console.log("Assigning permissions to roles...");
+
+  for (const roleAssignment of roleAssignments) {
+    for (const permission of roleAssignment.permissions) {
+      const role = await prisma.role.update({
+        where: {
+          name: roleAssignment.roleName,
+        },
+        data: {
+          permissions: {
+            connect: {
+              name: permission,
+            },
+          },
+        },
+        include: {
+          permissions: true,
+        },
+      });
+      console.log(role);
+    }
   }
 
   console.log("Seeding users...");
