@@ -100,7 +100,7 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
             />
           </div>
           <div className="grid grid-cols-6 items-center gap-4">
-            <Label htmlFor="Manager" className="text-right col-span-2">
+            <Label htmlFor="vehicleType" className="text-right col-span-2">
               Vehicle Type
             </Label>
             <Select
@@ -109,13 +109,13 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
             >
               <SelectTrigger className="col-span-4">
                 <SelectValue
-                  id="role"
-                  placeholder="Select manager from the list"
+                  id="vehicleType"
+                  placeholder="Select vehicle type from the list"
                 />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Roles</SelectLabel>
+                  <SelectLabel>Vehicle Type</SelectLabel>
                   {vehicleTypeList.map((type: string, index: number) => (
                     <SelectItem key={index} value={type}>
                       {type}

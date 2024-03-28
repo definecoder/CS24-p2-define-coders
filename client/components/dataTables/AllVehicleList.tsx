@@ -54,6 +54,7 @@ import useVehicleListForSTS from "@/hooks/vehicles/useGetVeicleForSTS";
 import { DeleteVehicleModalForSTS } from "../modals/DeleteVehicleModalForSTS";
 import useGetAllVehicleList from "@/hooks/vehicles/useGetAllVehicleList";
 import { DeleteVehicleModal } from "../modals/vehicleControl/DeleteVehicleModal";
+import { EditVehicleInfoModal } from "../modals/vehicleControl/EditVehicleInfoModal";
 
 type Vehicle = {
   id: string,
@@ -197,9 +198,8 @@ export const columns: ColumnDef<Vehicle>[] = [
 
       return (
         <div>
-            <DeleteVehicleModal vehicleInfo={vehicle} />
-          {/* <DeleteVehicleModalForSTS vehicleInfo={sts} /> */}
-          {/* <EditSTSInfoModal stsInfo={sts} />  */}
+            <DeleteVehicleModal vehicleInfo={vehicle} />          
+            <EditVehicleInfoModal vehicleInfo={vehicle} />
         </div>
       );
     },
