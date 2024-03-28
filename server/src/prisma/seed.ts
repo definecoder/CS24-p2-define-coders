@@ -2,29 +2,11 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 import { RoleName } from "../types/rolesTypes";
 import { TripStatus } from "../types/tripStatus";
+import { PERMISSIONS } from "../permissions/permissions";
 
 const prisma = new PrismaClient();
 
 const hashedP = "$2b$10$glYOMtehNGf7iiKqxQruIO1MJEZAqo2NU.NgI3T2wr.hRaZOjZ96.";
-
-const permissionData: Prisma.PermissionCreateInput[] = [
-  {
-    name: "CREATE_USER",
-    description: "Create User Permission",
-  },
-  {
-    name: "GET_ALL_USERS",
-    description: "Get All Users Permission",
-  },
-  {
-    name: "DELETE_USER",
-    description: "Delete User Permission",
-  },
-  {
-    name: "UPDATE_USER_ROLE",
-    description: "Update User Role Permission",
-  },
-];
 
 const roleData: Prisma.RoleCreateInput[] = [
   {
@@ -42,6 +24,45 @@ const roleData: Prisma.RoleCreateInput[] = [
   {
     name: RoleName.UNASSIGNED,
     description: "Unassigned Role",
+  },
+];
+
+const permissionData: Prisma.PermissionCreateInput[] = [
+  {
+    name: PERMISSIONS.CREATE_USER,
+    description: "Create User Permission",
+  },
+  {
+    name: PERMISSIONS.GET_ALL_USERS,
+    description: "Get All Users Permission",
+  },
+  {
+    name: PERMISSIONS.DELETE_USER,
+    description: "Delete User Permission",
+  },
+];
+
+const roleAssignments = [
+  {
+    roleName: RoleName.SYSTEM_ADMIN,
+    permissions: [
+      PERMISSIONS.CREATE_USER,
+      PERMISSIONS.GET_ALL_USERS,
+      PERMISSIONS.DELETE_USER,
+    ],
+  },
+
+  {
+    roleName: RoleName.LAND_MANAGER,
+    permissions: [PERMISSIONS.GET_ALL_USERS],
+  },
+  {
+    roleName: RoleName.STS_MANAGER,
+    permissions: [PERMISSIONS.GET_ALL_USERS],
+  },
+  {
+    roleName: RoleName.UNASSIGNED,
+    permissions: [],
   },
 ];
 
@@ -319,6 +340,29 @@ async function main() {
       data: permission,
     });
     console.log(newPermission);
+  }
+
+  console.log("Assigning permissions to roles...");
+
+  for (const roleAssignment of roleAssignments) {
+    for (const permission of roleAssignment.permissions) {
+      const role = await prisma.role.update({
+        where: {
+          name: roleAssignment.roleName,
+        },
+        data: {
+          permissions: {
+            connect: {
+              name: permission,
+            },
+          },
+        },
+        include: {
+          permissions: true,
+        },
+      });
+      console.log(role);
+    }
   }
 
   console.log("Seeding users...");
