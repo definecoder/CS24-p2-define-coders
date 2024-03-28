@@ -45,4 +45,8 @@ export const apiRoutes = {
         edit: `${baseUrl}/trips/`,
         search: `${baseUrl}/trips/search`,
     },
+    bills: {
+        makeBill: `${baseUrl}/bills/create-from-trip/
+        `,
+    },
 }
