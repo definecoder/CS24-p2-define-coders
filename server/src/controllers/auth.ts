@@ -7,7 +7,7 @@ import {
   getToken,
   invalidateToken,
   verifyToken,
-} from "../services/token";
+} from "../services/Token";
 import CustomError from "../services/CustomError";
 import { randomOTPGenerator, randomPasswordGenerator } from "../services/utils";
 import { sendMail, sendOTPMail } from "../services/mailService";

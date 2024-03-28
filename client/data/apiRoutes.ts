@@ -28,7 +28,7 @@ export const apiRoutes = {
     },
     rbac: {
         create: `${baseUrl}/rbac/create`,
-        getByRole: `${baseUrl}/rbac/roles/`,
+        getByRole: `${baseUrl}/rbac/roles/get/`,
         delete: `${baseUrl}/rbac/`,
         edit: `${baseUrl}/rbac/`,
     },

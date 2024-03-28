@@ -2,7 +2,7 @@ import errorWrapper from "../middlewares/errorWrapper";
 import { PrismaClient, User } from "@prisma/client";
 import { Request, Response } from "express";
 import CustomError from "../services/CustomError";
-import { getToken, verifyToken } from "../services/token";
+import { getToken, verifyToken } from "../services/Token";
 
 const prisma = new PrismaClient();
 
@@ -15,6 +15,8 @@ const getUserById = errorWrapper(
       },
       include: {
         role: true,
+        sts: true,
+        landfill: true
       },
     });
 
