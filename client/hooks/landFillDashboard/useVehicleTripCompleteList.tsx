@@ -27,7 +27,7 @@ export default function useVehicleTripCompleteList() {
 
   async function VehcileTripCompleteList() {
     try {
-      const res = await axios.get('http://localhost:8585/trips/search?tripStatus=PENDING&landfillId=c4028362-6c17-4cf0-9b0e-ae20acfa2fbd');
+      const res = await axios.get('http://localhost:8585/trips/search?tripStatus=DELIVERED&landfillId=c4028362-6c17-4cf0-9b0e-ae20acfa2fbd');
       // Assuming the response data is an array of vehicles
       const AllVehicle: Vehicle[] = res.data.map((vehicle: any) => ({
         tripId: vehicle.id,
