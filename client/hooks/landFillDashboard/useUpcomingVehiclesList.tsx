@@ -28,7 +28,7 @@ export default function useUpcomingVehicle() {
         tripId: vehicle.id,
   weightOfWaste: `${vehicle.weightOfWaste} tons`,
   vehicleNumber: vehicle.vehicle.vehicleNumber,
-  stsId: vehicle.stsId,
+  stsId: vehicle.sts.name,
   vehicleType: vehicle.vehicle.vehicleType,
   distance: `${vehicle.distance} km`,
   tripStartTime: vehicle.tripStartTime,

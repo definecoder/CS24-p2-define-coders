@@ -79,7 +79,8 @@ const getListOfTrips = errorWrapper(async (req: Request, res: Response) => {
   const trips = await prisma.trip.findMany({
     where,
     include: {
-      vehicle: true
+      vehicle: true,
+      sts: true
     }
   });
   res.json(trips);

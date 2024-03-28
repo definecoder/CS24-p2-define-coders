@@ -41,19 +41,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useGetAllUser from "@/hooks/user_data/useGetAllUser";
-import { DeleteUserModal } from "../modals/DeleteUserModal";
 import { Copy, EditIcon } from "lucide-react";
-import { EditUserModal } from "../modals/EditUserInfoModal";
+
 import gettAllRoles from "@/hooks/user_data/useGetAllRole";
 import { roleList } from "@/data/roles";
 import useGetAllSTS from "@/hooks/dataQuery/useGetAllSTS";
-import { EditSTSInfoModal } from "../modals/EditSTSInfoModal";
-import { DeleteSTSModal } from "../modals/DeleteSTSModal";
+
 import useVehicleList from "@/hooks/vehicles/useVehiclesData";
 import useVehicleListForSTS from "@/hooks/vehicles/useGetVeicleForSTS";
 import { DeleteVehicleModalForSTS } from "../modals/DeleteVehicleModalForSTS";
 import { STSVehicleRelease } from "../modals/STSVehicleReleaseModal";
 import useUpcomingVehicle from "@/hooks/landFillDashboard/useUpcomingVehiclesList";
+import { LandfillVehicleEntryModal } from "../modals/LandFillVehicleEntryModal";
 
 type Vehicle = {
     tripId: string,
@@ -203,7 +202,7 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            STS Id
+            STS Name
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -243,6 +242,7 @@ export const columns: ColumnDef<Vehicle>[] = [
         <div>
           {/* <DeleteVehicleModalForSTS vehicleInfo={sts} />
           <STSVehicleRelease vehicleInfo={sts} /> */}
+          <LandfillVehicleEntryModal vehicleInfo={sts} />
         </div>
       );
     },
@@ -291,9 +291,9 @@ export default function LanfFillUpcomingVehicles() {
       <div className="flex items-center py-4 gap-4">
         <Input
           placeholder="Search by Vehicle Name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("vehicleNumber")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
