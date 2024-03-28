@@ -28,7 +28,7 @@ type STSType = {
 }
 
 type LandfillType = {
- landfillId: string | null;
+ landfillId: string ;
   landFillName: string;
   landFillCapacity: string;
   landFillCurrentWaste: string;
@@ -56,7 +56,7 @@ export default function useGetUserProfile() {
   });
 
   const [landfillDetails, setLandfillDetails] = useState<LandfillType>({
-    landfillId: null,
+    landfillId: '',
     landFillName: '',
     landFillCapacity: '',
     landFillCurrentWaste: '',
@@ -69,8 +69,8 @@ export default function useGetUserProfile() {
       const res = await axios.get(apiRoutes.profile.getProfile, {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
       });
-
-      if (res.data.roleName === "STS_MANAGER") {
+        console.log(res.data);
+      if (res.data.roleName === "STS_MANAGER" ) {
         const userDetails: User = {
           id: res.data.id,
           username: res.data.username,
@@ -82,19 +82,24 @@ export default function useGetUserProfile() {
        
         };
 
-        const ResStsDetails: STSType = {
-           stsId: res.data.sts.id,
-        stsName: res.data.sts.name,
-        stsWardNumber: res.data.sts.wardNumber,
-        stsCapacity: res.data.sts.capacity,
-        stsCurrentTotalWaste: res.data.sts.currentTotalWaste,
-        stsLatitude: res.data.sts.latitude,
-        stsLongitude: res.data.sts.longitude,
+        if(res.data.stsId){
+          const ResStsDetails: STSType = {
+            stsId: res.data.sts.id,
+         stsName: res.data.sts.name,
+         stsWardNumber: res.data.sts.wardNumber,
+         stsCapacity: res.data.sts.capacity,
+         stsCurrentTotalWaste: res.data.sts.currentTotalWaste,
+         stsLatitude: res.data.sts.latitude,
+         stsLongitude: res.data.sts.longitude,
+         }
+         setStsDetails(ResStsDetails);
         }
 
+        
+
         setUser(userDetails);
-        setStsDetails(ResStsDetails);
-      } else if(res.data.roleName === "LAND_MANAGER") {
+        
+      } else if(res.data.roleName === "LAND_MANAGER" ) {
 
         const userDetails: User = {
           id: res.data.id,
@@ -107,18 +112,24 @@ export default function useGetUserProfile() {
        
         };
 
-        const ResLandDetails: LandfillType = {
+        if(res.data.landfillId){
+          const ResLandDetails: LandfillType = {
          
-        landfillId: res.data.landfill.id,
-        landFillName: res.data.landfill.name,
-        landFillCapacity: res.data.landfill.capacity,
-        landFillCurrentWaste: res.data.landfill.currentTotalWaste,
-        landfillLatitude: res.data.landfill.latitude,
-        landFillLongitude: res.data.landfill.longitude,
-        };
+            landfillId: res.data.landfill.id,
+            landFillName: res.data.landfill.name,
+            landFillCapacity: res.data.landfill.capacity,
+            landFillCurrentWaste: res.data.landfill.currentTotalWaste,
+            landfillLatitude: res.data.landfill.latitude,
+            landFillLongitude: res.data.landfill.longitude,
+            };
+            setLandfillDetails(ResLandDetails);
+
+        }
+
+       
 
         setUser(userDetails);
-        setLandfillDetails(ResLandDetails);
+       
        
       }else{
         const userDetails: User = {

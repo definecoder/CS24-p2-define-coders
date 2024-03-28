@@ -7,7 +7,7 @@ import { PersonIcon } from "@radix-ui/react-icons";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { EditIcon, Factory } from "lucide-react";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 type User = {
   id: string;
@@ -42,10 +42,13 @@ export default function ProfilePage() {
 
   const router = useRouter();
   const { user, stsDetails, landfillDetails, getUserDetails} = useGetUserProfile(); // Destructure user and getUserDetails
+  const [role, setRole] = useState<string>("Role Name");
   const RolePlace = 'Station';
 
   useEffect(() => {
     getUserDetails();
+    setRole(user.roleName);
+
   }, []);
 
 
@@ -59,6 +62,7 @@ export default function ProfilePage() {
       >
         Back to Dashboard
       </Button>
+      <div className="absolute top-[20px] right-[100px] text-3xl text-white">{role}</div>
       <div className="absolute top-[85px] w-4/5 mx-40 my-24  h-4/6 flex">
       <div className="h-full w-96 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground p-10 rounded-xl flex flex-col justify-center items-center gap-8">
         <Avatar className="w-24 h-24">
@@ -72,7 +76,7 @@ export default function ProfilePage() {
           <p><span className="font-bold">Email: </span>{user.email}</p>
           <p><span className="font-bold">Role: </span>{user.roleName}</p>
           <p><span className="font-bold">Name: </span>{user.profileName}</p>
-          <p><span className="font-bold">Assigned Area: </span>{user.roleDescription}</p>
+          <p><span className="font-bold">Role Description: </span>{user.roleDescription}</p>
         </div>
         <Button
         variant="outline"
@@ -88,15 +92,32 @@ export default function ProfilePage() {
         
         <Factory className="w-24 h-24" />
   
-        <h1 className="font-bold text-xl">{RolePlace} Details</h1>
-        <div className="flex flex-col justify-center items-center">
-          <h1><span className="font-bold">ID: </span></h1>
-          {/* <p><span className="font-bold">Email: </span>{userData.email}</p>
-          <p><span className="font-bold">Role: </span>{userData.role}</p>
-          <p><span className="font-bold">Name: </span>{userData.name}</p>
-          <p><span className="font-bold">Assigned Area: </span>{userData.assignedArea}</p> */}
+        {user?.roleName === 'STS_MANAGER' && <div>
+        <div className="font-bold text-2xl mb-4">STS Details</div>
+        <p><span className="font-bold">Id: </span>{stsDetails.stsId}</p>
+          <p><span className="font-bold">STS Name: </span>{stsDetails.stsName}</p>
+          <p><span className="font-bold">Ward Number: </span>{stsDetails.stsWardNumber}</p>
+          <p><span className="font-bold">Capacity: </span>{stsDetails.stsCapacity}</p>
+          <p><span className="font-bold">Current Total Waste: </span>{stsDetails.stsCurrentTotalWaste}</p>
+          <p><span className="font-bold">Coordinate: </span>{stsDetails.stsLatitude}, {stsDetails.stsLongitude}</p>
+
+
         </div>
         
+        }
+      {user?.roleName === 'LAND_MANAGER' && <div>
+        <div className="font-bold text-2xl my-4">Landfill Details</div>
+        <p><span className="font-bold">ID: </span>{landfillDetails.landfillId}</p>
+          <p><span className="font-bold">Landfill Name: </span>{landfillDetails.landFillName}</p>
+          <p><span className="font-bold">Capacity: </span>{landfillDetails.landFillCapacity}</p>
+          <p><span className="font-bold">Current Total Waste: </span>{landfillDetails.landFillCurrentWaste}</p>
+          <p><span className="font-bold">Coordinate: </span>{landfillDetails.landfillLatitude}, {landfillDetails.landFillLongitude}</p>
+
+
+        </div>}
+      {user?.roleName !== 'STS_MANAGER' && user?.roleName !== 'LAND_MANAGER' && (
+        <div>Oops! Your role has not assigned yet</div>
+      )}
       </div>
       </div>
     </div>
