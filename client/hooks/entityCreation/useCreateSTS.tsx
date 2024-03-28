@@ -34,6 +34,7 @@ export default function useCreateSTS() {
             Authorization: `Bearer ${await getCookie(jwtToken)}`,
           },
         });
+        window.location.reload();
         return "STS Aadded successfully";
       } catch (error: any) {
         return error.message?.toString() || "Error creating STS";

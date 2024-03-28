@@ -41,14 +41,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useGetAllUser from "@/hooks/user_data/useGetAllUser";
-import { DeleteUserModal } from "../modals/DeleteUserModal";
-import { Copy, EditIcon } from "lucide-react";
-import { EditUserModal } from "../modals/EditUserInfoModal";
+import { DeleteUserModal } from "../modals/userControls/DeleteUserModal";
+import { Copy, EditIcon, Plus } from "lucide-react";
+import { EditUserModal } from "../modals/userControls/EditUserInfoModal";
 import gettAllRoles from "@/hooks/user_data/useGetAllRole";
 import { roleList } from "@/data/roles";
 import useGetAllSTS from "@/hooks/dataQuery/useGetAllSTS";
-import { EditSTSInfoModal } from "../modals/EditSTSInfoModal";
-import { DeleteSTSModal } from "../modals/DeleteSTSModal";
+import { EditSTSInfoModal } from "../modals/stsControl/EditSTSInfoModal";
+import { DeleteSTSModal } from "../modals/stsControl/DeleteSTSModal";
+import { ViewSTSInfoModal } from "../modals/stsControl/ViewSTSInfoModal";
+import { StsCreateModal } from "../modals/stsControl/StsModal";
 
 export type STS = {
   id: string;
@@ -57,6 +59,7 @@ export type STS = {
   capacity: string;
   latitude: string;
   longitude: string;
+  manager: string[];
 };
 
 export const columns: ColumnDef<STS>[] = [
@@ -129,9 +132,10 @@ export const columns: ColumnDef<STS>[] = [
       const sts: STS = row.original;
 
       return (
-        <div>
-          <DeleteSTSModal stsInfo={sts} />
+        <div>          
+          <ViewSTSInfoModal stsInfo={sts} /> 
           <EditSTSInfoModal stsInfo={sts} /> 
+          <DeleteSTSModal stsInfo={sts} />
         </div>
       );
     },
@@ -177,7 +181,8 @@ export default function STSListTable() {
   });
   return (
     <>
-      <div className="flex items-center py-4 gap-4">
+      <div className="font-bold text-lg w-full text-center">MANAGE ALL STS</div>
+      <div className="flex justify-between items-center py-4 gap-4">
         <Input
           placeholder="Search by STS Name..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -186,10 +191,10 @@ export default function STSListTable() {
           }
           className="max-w-sm"
         />
-        <DropdownMenu>
+         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+              Filter STS <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -265,8 +270,7 @@ export default function STSListTable() {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Total {table.getFilteredRowModel().rows.length} row(s) loaded.
         </div>
         <div className="space-x-2">
           <Button

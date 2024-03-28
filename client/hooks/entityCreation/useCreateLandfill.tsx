@@ -32,6 +32,7 @@ export default function useCreateLandFill() {
             Authorization: `Bearer ${await getCookie(jwtToken)}`,
           },
         });
+        window.location.reload();
         return "Landfill Aadded successfully";
       } catch (error: any) {
         return error.message?.toString() || "Error creating Landfill";
