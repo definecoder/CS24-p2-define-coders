@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import { Plus, Truck } from "lucide-react";
-import { StsCreateModal } from "../../../modals/StsModal";
+import { StsCreateModal } from "../../../modals/stsControl/StsModal";
 import { VehicleCreateModal } from "@/components/modals/VehicleModal";
-import { LandfillCreateModal } from "@/components/modals/LandfillModal";
+import { LandfillCreateModal } from "@/components/modals/landfillControl/LandfillModal";
 import UserListTable from "@/components/dataTables/UserList";
 import STSListTable from "@/components/dataTables/STSList";
+import LandFillListTable from "@/components/dataTables/LandFillList";
+import AllVehicleList from "@/components/dataTables/AllVehicleList";
 
 export default function AdminSystemDataPanel() {
   return (
@@ -47,16 +49,16 @@ export default function AdminSystemDataPanel() {
         </div>
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-        <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-2 grid-flow-row gap-2 md:gap-4 w-full md:h-full max-h-max">
-          <div className="col-span-1 row-span-1 min-h-48">
+        <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-2 md:gap-4 w-full md:h-full max-h-max">
+          <div className="col-span-1 min-h-48">
             <EmptyFillContainer><STSListTable /></EmptyFillContainer>
           </div>
-          <div className="col-span-1 row-span-2 min-h-48">
-            <EmptyFillContainer>VEICLE LIST</EmptyFillContainer>
-          </div>
-          <div className="col-span-1 row-span-1 min-h-48">
-            <EmptyFillContainer>LANDFILL LIST</EmptyFillContainer>
-          </div>
+          <div className="col-span-1 min-h-48">
+            <EmptyFillContainer><LandFillListTable /></EmptyFillContainer>
+          </div>          
+          <div className="md:col-span-2 min-h-48">
+            <EmptyFillContainer><AllVehicleList /></EmptyFillContainer>
+          </div>        
         </div>
       </div>
     </main>

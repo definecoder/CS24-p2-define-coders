@@ -46,17 +46,29 @@ import { Copy, EditIcon } from "lucide-react";
 import { EditUserModal } from "../modals/userControls/EditUserInfoModal";
 import gettAllRoles from "@/hooks/user_data/useGetAllRole";
 import { roleList } from "@/data/roles";
+import useGetAllSTS from "@/hooks/dataQuery/useGetAllSTS";
+import { EditSTSInfoModal } from "../modals/stsControl/EditSTSInfoModal";
+import { DeleteSTSModal } from "../modals/stsControl/DeleteSTSModal";
+import useVehicleList from "@/hooks/vehicles/useVehiclesData";
+import useVehicleListForSTS from "@/hooks/vehicles/useGetVeicleForSTS";
+import { DeleteVehicleModalForSTS } from "../modals/DeleteVehicleModalForSTS";
+import useGetAllVehicleList from "@/hooks/vehicles/useGetAllVehicleList";
+import { DeleteVehicleModal } from "../modals/vehicleControl/DeleteVehicleModal";
 
-export type User = {
-  id: string;
-  username: string;
-  email: string;
-  role: string;
+type Vehicle = {
+  id: string,
+  vehicleNumber: string,
+  vehicleType: string,
+  capacity: string,
+  loadedFuelCostPerKm: string,
+  unloadedFuelCostPerKm: string,
+  landFillId: string,
+  landFillName: string,  
 };
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<Vehicle>[] = [
   {
-    accessorKey: "id",
+    accessorKey: "vehicleNumber",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -65,32 +77,40 @@ export const columns: ColumnDef<User>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            User ID
+            Vehicle Number
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div
-        className="text-center font-medium hover:cursor-pointer hover:scale-110"
-        title="Copy User ID"
-        onClick={() => navigator.clipboard.writeText(row.getValue("id"))}
-      >
-        {row.getValue("id")}
-        <Button
-          variant="ghost"
-          title="Copy User ID"
-          className="h-8 w-8 p-0"
-          onClick={() => navigator.clipboard.writeText(row.getValue("id"))}
-        >
-          <Copy className="h-4 w-4" />
-        </Button>
+      <div className="text-center font-medium">{row.getValue("vehicleNumber")}</div>
+    ),
+  },
+  {
+    accessorKey: "vehicleType",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center items-center">
+          <Button
+            variant="ghost"
+            className="text-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Vehicle Type
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-center font-medium">
+        {row.getValue("vehicleType")}
       </div>
     ),
   },
   {
-    accessorKey: "username",
+    accessorKey: "capacity",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -99,18 +119,18 @@ export const columns: ColumnDef<User>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Username
+            Capacity
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("username")}</div>
+      <div className="text-center font-medium">{row.getValue("capacity") + " Ton"}</div>
     ),
   },
   {
-    accessorKey: "email",
+    accessorKey: "landFillName",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -119,18 +139,18 @@ export const columns: ColumnDef<User>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Email
+            Land Fill Name
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("email")}</div>
+      <div className="text-center font-medium">{row.getValue("landFillName")}</div>
     ),
   },
   {
-    accessorKey: "role",
+    accessorKey: "loadedFuelCostPerKm",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -139,38 +159,56 @@ export const columns: ColumnDef<User>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Role
+            Unloaded Cost
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("role")}</div>
+      <div className="text-center font-medium">{row.getValue("loadedFuelCostPerKm")}</div>
+    ),
+  },
+  {
+    accessorKey: "unloadedFuelCostPerKm",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center items-center">
+          <Button
+            variant="ghost"
+            className="text-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Loaded cost
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-center font-medium">{row.getValue("unloadedFuelCostPerKm")}</div>
     ),
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const user: User = row.original;
+      const vehicle: Vehicle = row.original;
 
       return (
         <div>
-          <DeleteUserModal userInfo={user} />
-          <EditUserModal userInfo={user} />
+            <DeleteVehicleModal vehicleInfo={vehicle} />
+          {/* <DeleteVehicleModalForSTS vehicleInfo={sts} /> */}
+          {/* <EditSTSInfoModal stsInfo={sts} />  */}
         </div>
       );
     },
   },
 ];
 
-export default function UserListTable() {
-  const [data, setData] = React.useState<User[]>([]);
-  const {
-    fetchAllUserData,
-    userData,
-  }: { fetchAllUserData: Function; userData: User[] } = useGetAllUser();
+export default function AllVehicleList() {
+  const [data, setData] = React.useState<Vehicle[]>([]);
+  const { getVehicleList, vehicleList } = useGetAllVehicleList();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -180,12 +218,12 @@ export default function UserListTable() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
-    fetchAllUserData();
+    getVehicleList();
   }, []);
 
   React.useEffect(() => {
-    setData(userData);
-  }, [userData]);
+    setData(vehicleList);
+  }, [vehicleList]);
 
   const table = useReactTable({
     data,
@@ -207,19 +245,20 @@ export default function UserListTable() {
   });
   return (
     <>
+    <div className="font-bold text-2xl w-full text-center">MANAGE ALL VEHICLES</div>
       <div className="flex items-center py-4 gap-4">
         <Input
-          placeholder="Search by emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Search by vehicle number..."
+          value={(table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("vehicleNumber")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+              Filter Vehicles <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

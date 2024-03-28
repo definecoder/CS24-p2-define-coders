@@ -6,39 +6,37 @@ import { getCookie } from "@/lib/cookieFunctions";
 import axios from "axios";
 import { useState, useEffect, use } from "react";
 
-export type STS = {
+type LandFill = {
     id: string;
-    name: string;
-    wardNumber: string;
+    name: string;  
     capacity: string;
     latitude: string;
     longitude: string;
     manager: string[];
   };
 
-export default function useGetAllSTS() {
-  const [stsData, setSTSData] = useState<STS[]>([]);
+export default function useGetAllLandfill() {
+  const [landFillData, setLandfillData] = useState<LandFill[]>([]);
 
-  async function fetchAllSTS() {
+  async function fetchAllLandfills() {
     try {
-      const res = await axios.get(apiRoutes.sts.getAll, {
+      const res = await axios.get(apiRoutes.landfill.getAll, {
         headers: {
           Authorization: `Bearer ${await getCookie(jwtToken)}`,
         },
       });
-      const stsList = res.data.map((sts: any) => {
+      const landfillList = res.data.map((sts: any) => {
         return {
           id: sts.id,
           name: sts.name,
-          wardNumber: sts.wardNumber,
           capacity: sts.capacity,
           latitude: sts.latitude,
           longitude: sts.longitude,
           manager: sts.manager.map((manager: any) => manager.username),
         };
       });
-      await setSTSData(stsList);
-      console.log(stsList);
+      await setLandfillData(landfillList);
+      console.log(landfillList);
     } catch (error: any) {
       alert("Error fetching sts data... Are you authorized?");
       console.log(error.message);
@@ -46,8 +44,8 @@ export default function useGetAllSTS() {
   }
 
   useEffect(() => {
-    fetchAllSTS();
+    fetchAllLandfills();
   }, []);
 
-  return {fetchAllSTS, stsData};
+  return {fetchAllLandfills, landFillData};
 }
