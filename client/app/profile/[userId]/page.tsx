@@ -11,7 +11,7 @@ import { EditIcon, Factory } from "lucide-react";
 export default function ProfilePage() {
   const userId = useParams().userId.toString();
   const router = useRouter();
-  const { userData } = useGetUserProfile(userId);
+  //const { userData } = useGetUserProfile(userId);
   const RolePlace = "Station";
 
   return (
@@ -34,10 +34,10 @@ export default function ProfilePage() {
         <h1 className="font-bold text-xl">Profile Page</h1>
         <div className="flex flex-col justify-center items-center">
           <h1><span className="font-bold">ID: </span>{userId}</h1>
-          <p><span className="font-bold">Email: </span>{userData.email}</p>
+          {/* <p><span className="font-bold">Email: </span>{userData.email}</p>
           <p><span className="font-bold">Role: </span>{userData.role}</p>
           <p><span className="font-bold">Name: </span>{userData.name}</p>
-          <p><span className="font-bold">Assigned Area: </span>{userData.assignedArea}</p>
+          <p><span className="font-bold">Assigned Area: </span>{userData.assignedArea}</p> */}
         </div>
         <Button
         variant="outline"
@@ -56,10 +56,10 @@ export default function ProfilePage() {
         <h1 className="font-bold text-xl">{RolePlace} Details</h1>
         <div className="flex flex-col justify-center items-center">
           <h1><span className="font-bold">ID: </span>{userId}</h1>
-          <p><span className="font-bold">Email: </span>{userData.email}</p>
+          {/* <p><span className="font-bold">Email: </span>{userData.email}</p>
           <p><span className="font-bold">Role: </span>{userData.role}</p>
           <p><span className="font-bold">Name: </span>{userData.name}</p>
-          <p><span className="font-bold">Assigned Area: </span>{userData.assignedArea}</p>
+          <p><span className="font-bold">Assigned Area: </span>{userData.assignedArea}</p> */}
         </div>
         
       </div>
