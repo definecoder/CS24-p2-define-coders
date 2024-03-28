@@ -115,6 +115,7 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
                   value={searchTerm}
                   onChange={handleInputChange}
                   className="border border-gray-300 mx-4 px-1 py-2 rounded-md focus:outline-none focus:border-blue-500"
+                
                 />
                 {showSuggestions && (
                   <ul className="absolute z-10 mt-1 mx-[120px] w-2/5 bg-white rounded-md shadow-lg">

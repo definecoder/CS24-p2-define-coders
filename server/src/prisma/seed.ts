@@ -204,19 +204,21 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
 const stsData: Prisma.STSCreateInput[] = [
   {
     id: "sts1",
-    name: "Moheshkhali",
+    name: "Mohakhali",
     wardNumber: "13",
     capacity: 1000,
-    latitude: 342.456,
-    longitude: 85.91,
+    currentTotalWaste: 700,
+    latitude: 23.7031879,
+    longitude: 90.35564201
   },
   {
     id: "sts2",
     name: "Gulshan",
     wardNumber: "2",
     capacity: 2000,
-    latitude: 234.456,
-    longitude: 75.912,
+    currentTotalWaste: 1200,
+    latitude: 23.76449486,
+    longitude: 90.3879528,
   },
 
   {
@@ -224,8 +226,36 @@ const stsData: Prisma.STSCreateInput[] = [
     name: "Bonani",
     wardNumber: "4",
     capacity: 1500,
-    latitude: 425.456,
-    longitude: 123.912,
+    currentTotalWaste: 200,
+    latitude: 23.73897468,
+    longitude: 90.3750954,
+  },
+  {
+    id: "sts4",
+    name: "Badda",
+    wardNumber: "4",
+    capacity: 1500,
+    currentTotalWaste: 900,
+    latitude: 23.7592645,
+    longitude: 90.42032866,
+  },
+  {
+    id: "sts5",
+    name: "Jatrabari",
+    wardNumber: "4",
+    capacity: 1500,
+    currentTotalWaste: 200,
+    latitude: 23.7615071,
+    longitude: 90.38945549,
+  },
+  {
+    id: "sts6",
+    name: "Uttara",
+    wardNumber: "4",
+    capacity: 1500,
+    currentTotalWaste: 200,
+    latitude: 23.7888633,
+    longitude: 90.36152261,
   },
 ];
 
@@ -234,8 +264,8 @@ const landfillData: Prisma.LandfillCreateInput[] = [
     id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
     name: "Amin Bazar",
     capacity: 10000,
-    latitude: 23.7894892,
-    longitude: 90.2669163,
+    latitude: 23.76431111,
+    longitude: 90.3651622,
   },
 ];
 

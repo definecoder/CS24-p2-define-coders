@@ -1,4 +1,4 @@
-import { Bill, PrismaClient } from "@prisma/client";
+import { Bill, Prisma, PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import errorWrapper from "../middlewares/errorWrapper";
 import {
@@ -8,6 +8,8 @@ import {
   getBills,
   updateBill,
 } from "../services/billServices";
+import { getTripById } from "../services/tripServices";
+import CustomError from "../services/CustomError";
 
 const prisma = new PrismaClient();
 
@@ -61,4 +63,84 @@ const removeBill = errorWrapper(
   { statusCode: 500, message: "Couldn't delete bill" }
 );
 
-export { createBill, fetchBills, fetchBill, editBill, removeBill };
+const createBillFromTrip = errorWrapper(
+  async (req: Request, res: Response) => {
+    const { tripId, allocatedFuelCost } = req.body;
+
+    const trip = await getTripById(tripId);
+
+    if (!trip) {
+      throw new CustomError("No such trip found", 404);
+    }
+
+    const bill = await prisma.bill.create({
+      data: {
+        vehicleId: trip.vehicleId,
+        stsId: trip.stsId,
+        landfillId: trip.landfillId,
+        tripId: trip.id,
+        weightOfWaste: trip.weightOfWaste,
+        allocatedFuelCost,
+      },
+      include: {
+        trip: true,
+        vehicle: true,
+        sts: true,
+        landfill: true,
+      },
+    });
+
+    res.status(201).json(bill);
+  },
+  { statusCode: 500, message: "Couldn't create bill" }
+);
+
+const getListOfBills = errorWrapper(async (req: Request, res: Response) => {
+  const { landfillId, day, billNo } = req.query;
+
+  const billNumber = parseInt(billNo as string, 10);
+
+  let where: Prisma.BillWhereInput | undefined = undefined;
+
+  if (landfillId || day || billNo) {
+    where = {};
+    if (landfillId) {
+      where.landfillId = landfillId as string;
+    }
+    if (day) {
+      const days = parseInt(day as string, 10);
+
+      const thresholdDate = new Date();
+      thresholdDate.setDate(thresholdDate.getDate() - days);
+
+      where.createdAt = {
+        gte: thresholdDate.toISOString(),
+      };
+    }
+
+    if (billNo) {
+      where.billNo = billNumber as number;
+    }
+  }
+
+  const bills = await prisma.bill.findMany({
+    where,
+    include: {
+      trip: true,
+      vehicle: true,
+      sts: true,
+      landfill: true,
+    },
+  });
+  res.json(bills);
+});
+
+export {
+  createBill,
+  fetchBills,
+  fetchBill,
+  editBill,
+  removeBill,
+  createBillFromTrip,
+  getListOfBills,
+};

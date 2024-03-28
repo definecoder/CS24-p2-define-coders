@@ -151,6 +151,7 @@ model LandfillVehicleEntry {
 
 model Bill {
     id        String  @id @default(uuid())
+    billNo    Int     @unique @default(autoincrement())
     vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
     vehicleId String
     sts       STS     @relation(fields: [stsId], references: [id])
@@ -159,8 +160,8 @@ model Bill {
     landfill   Landfill @relation(fields: [landfillId], references: [id])
     landfillId String
 
-    Trip   Trip?   @relation(fields: [TripId], references: [id])
-    TripId String?
+    trip   Trip?   @relation(fields: [tripId], references: [id])
+    tripId String?
 
     weightOfWaste     Decimal?
     allocatedFuelCost Decimal?
@@ -178,6 +179,8 @@ model Trip {
     vehicle    Vehicle  @relation(fields: [vehicleId], references: [id])
     vehicleId  String
 
+    tripStartTime     DateTime?
+    tripEndTime       DateTime?
     weightOfWaste     Decimal?
     shortage          Decimal?
     estimatedFuelCost Decimal?
