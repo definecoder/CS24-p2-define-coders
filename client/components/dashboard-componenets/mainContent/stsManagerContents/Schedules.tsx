@@ -3,6 +3,7 @@ import { ChakraProvider, theme } from "@chakra-ui/react";
 import OptimizedRouteMap from "@/components/maps/OptimizedRoute";
 import RouteMap from "@/components/maps/RouteMap";
 import STSVehicleList from "@/components/dataTables/StsVehicleList";
+import GetStsCoordinateForRoute from "@/components/maps/getStsCoordinateForRoute";
 
 export default function STSManagerSchedules() {
   return (
@@ -20,9 +21,7 @@ export default function STSManagerSchedules() {
           </div> */}
           <div className="col-span-1 row-span-2 min-h-48">
             <EmptyFillContainer>
-              <ChakraProvider theme={theme}>
-                <OptimizedRouteMap />
-              </ChakraProvider>
+              <GetStsCoordinateForRoute />
             </EmptyFillContainer>
           </div>
         </div>

@@ -19,10 +19,16 @@ type StsShow = {
     lng: number,
 };
 
+type StsRouteType = {
+    coordinate: string,
+    name: string,
+}
+
 export default function useGetAllSTS() {  
     const [stsList, setSTSList] = useState<STS[]>([]); // Initialize with an empty array of STS objects
     const [storagePercentage, setStoragePercentage] = useState<number[]>([]); 
     const [stsCoordinate, setStsCoordinate] = useState<StsShow[]>([]);
+    const [stsRoute, setStsRoute] = useState<StsRouteType[]>([]);
 
     async function getAllSTS() {
         try {
@@ -49,8 +55,16 @@ export default function useGetAllSTS() {
             const percentages: number[] = AllSTS.map((data: STS) => {
                 const capacity = parseFloat(data.capacity);
                 const currentTotalWaste = parseFloat(data.currentTotalWaste);
-                return (currentTotalWaste / capacity) * 100;
+                const percentage = (currentTotalWaste / capacity) * 100;
+                return parseFloat(percentage.toFixed(2));
             });
+            
+            const stsRouteCalc: StsRouteType[] = AllSTS.map((data: STS) => ({
+                coordinate: `${data.latitude}, ${data.longitude}`,
+                name: data.name
+            }));
+
+            setStsRoute(stsRouteCalc);
 
             setStsCoordinate(stsCoordinates);
             setSTSList(AllSTS);
@@ -62,11 +76,12 @@ export default function useGetAllSTS() {
             return false;
         }
     }
-    useEffect(() => {
-        console.log(storagePercentage);
-        console.log(stsCoordinate);
-    }, [storagePercentage, stsCoordinate]);
+    // useEffect(() => {
+    //     console.log(storagePercentage);
+    //     console.log(stsCoordinate);
+    //     console.log(stsRoute);
+    // }, [storagePercentage, stsCoordinate]);
 
 
-    return { stsList, storagePercentage, stsCoordinate, getAllSTS };
+    return { stsList, stsRoute, storagePercentage, stsCoordinate, getAllSTS };
 }

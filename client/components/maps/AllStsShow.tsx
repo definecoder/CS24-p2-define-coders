@@ -27,5 +27,5 @@ export const AllStsMapShow = () => {
         getAllSTS();
     }, []);
 
-    return <GoogleMapComponent coordinates={stsCoordinate} dumpFills={dumpFills} />;
+    return <GoogleMapComponent coordinates={stsCoordinate} dumpFills={storagePercentage} />;
 };
