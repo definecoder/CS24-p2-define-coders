@@ -8,14 +8,15 @@ import {
   updatePassword,
 } from "../controllers/auth";
 import authChecker from "../middlewares/auth";
-import { authRole } from "../middlewares/roleGuards";
+import { authRole, authorizer } from "../middlewares/authorizer";
 import { RoleName } from "../types/rolesTypes";
+import { PERMISSIONS } from "../permissions/permissions";
 
 const router = express.Router();
 
 router
   .route("/create")
-  .post(authChecker, authRole([RoleName.SYSTEM_ADMIN]), createUser);
+  .post(authChecker, authorizer(PERMISSIONS.CREATE_USER), createUser);
 router.route("/login").post(login);
 router.route("/logout").get(authChecker, logout);
 router.route("/reset-password/initiate").post(resetPasswordInit);
