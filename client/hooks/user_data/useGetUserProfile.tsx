@@ -14,6 +14,10 @@ type User = {
   profileName: string;
    roleName: string;
   roleDescription: string;
+
+  userCreated: string;
+  userUpdated: string;
+
  
 };
 
@@ -25,6 +29,9 @@ type STSType = {
   stsCurrentTotalWaste: string;
   stsLatitude: string;
   stsLongitude: string;
+
+  roleCreated: string;
+  roleUpdated: string;
 }
 
 type LandfillType = {
@@ -34,6 +41,9 @@ type LandfillType = {
   landFillCurrentWaste: string;
   landfillLatitude: string;
   landFillLongitude: string;
+
+  roleCreated: string;
+  roleUpdated: string;
 }
 
 export default function useGetUserProfile() {
@@ -44,6 +54,8 @@ export default function useGetUserProfile() {
     profileName: '',
      roleName: '',
     roleDescription: '',
+    userCreated: '',
+    userUpdated: ''
   }); // Initialize with undefined
   const [stsDetails, setStsDetails] = useState<STSType >({
     stsId: '',
@@ -53,6 +65,8 @@ export default function useGetUserProfile() {
     stsCurrentTotalWaste: '',
     stsLatitude: '',
     stsLongitude: '',
+    roleCreated: '',
+    roleUpdated: ''
   });
 
   const [landfillDetails, setLandfillDetails] = useState<LandfillType>({
@@ -62,6 +76,8 @@ export default function useGetUserProfile() {
     landFillCurrentWaste: '',
     landfillLatitude: '',
     landFillLongitude: '',
+    roleCreated: '',
+    roleUpdated: ''
   });
 
   async function getUserDetails() {
@@ -70,7 +86,7 @@ export default function useGetUserProfile() {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
         
       });
-        console.log(res.data);
+        // console.log(res.data);
       if (res.data.roleName === "STS_MANAGER" ) {
         const userDetails: User = {
           id: res.data.id,
@@ -79,6 +95,10 @@ export default function useGetUserProfile() {
           profileName: res.data.profileName,
             roleName: res.data.roleName,
         roleDescription: res.data.role.description,
+
+        userCreated: res.data.createdAt,
+        userUpdated: res.data.updatedAt
+
 
        
         };
@@ -92,6 +112,9 @@ export default function useGetUserProfile() {
          stsCurrentTotalWaste: res.data.sts.currentTotalWaste,
          stsLatitude: res.data.sts.latitude,
          stsLongitude: res.data.sts.longitude,
+
+         roleCreated: res.data.role.createdAt,
+         roleUpdated: res.data.role.updatedAt
          }
          setStsDetails(ResStsDetails);
         }
@@ -110,7 +133,8 @@ export default function useGetUserProfile() {
             roleName: res.data.roleName,
         roleDescription: res.data.role.description,
 
-       
+        userCreated: res.data.createdAt,
+        userUpdated: res.data.updatedAt
         };
 
         if(res.data.landfillId){
@@ -122,6 +146,9 @@ export default function useGetUserProfile() {
             landFillCurrentWaste: res.data.landfill.currentTotalWaste,
             landfillLatitude: res.data.landfill.latitude,
             landFillLongitude: res.data.landfill.longitude,
+
+            roleCreated: res.data.role.createdAt,
+            roleUpdated: res.data.role.updatedAt
             };
             setLandfillDetails(ResLandDetails);
 
@@ -138,7 +165,8 @@ export default function useGetUserProfile() {
             roleName: res.data.roleName,
         roleDescription: res.data.role.description,
 
-       
+        userCreated: res.data.createdAt,
+        userUpdated: res.data.updatedAt
         };
 
         
@@ -153,7 +181,8 @@ export default function useGetUserProfile() {
             roleName: res.data.roleName,
         roleDescription: res.data.role.description,
 
-       
+        userCreated: res.data.createdAt,
+        userUpdated: res.data.updatedAt
         };
         setUser(userDetails);
 

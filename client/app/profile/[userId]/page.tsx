@@ -9,7 +9,16 @@ import { useRouter } from "next/navigation";
 import { EditIcon, Factory, CircleUser } from "lucide-react";
 import {useEffect, useState} from "react";
 import { ProfileEditModal } from "@/components/modals/ProfileEditModal";
+import useGetAllRole from "@/hooks/user_data/useGetAllRole";
 
+type RolesWithPermisson = {
+  id: string;
+  name: string;
+  permissions: [{
+    name: string;
+    description: string;
+}]
+};
 
 
 export default function ProfilePage() {
@@ -17,11 +26,18 @@ export default function ProfilePage() {
   const router = useRouter();
   const { user, stsDetails, landfillDetails, getUserDetails} = useGetUserProfile(); // Destructure user and getUserDetails
   const [role, setRole] = useState<string>("Role Name");
+  // const [permissions, setPermissions] = useState<RolesWithPermisson[]>([]);
   const RolePlace = 'Station';
-
+  const { fetchAllRoles, roles, rolesWithPermissions } = useGetAllRole();
   useEffect(() => {
-    getUserDetails();
-    setRole(user.roleName);
+    const fetchData = async () => {
+      await getUserDetails();
+      await fetchAllRoles();
+     
+      setRole(user.roleName);
+    };
+  
+    fetchData();
 
   }, []);
 
@@ -64,7 +80,7 @@ export default function ProfilePage() {
         
         <Factory className="w-24 h-24" />
   
-        {user?.roleName === 'STS_MANAGER' && <div>
+        {user?.roleName === 'STS_MANAGER' && stsDetails?.stsId?.toString().length > 1 &&<div>
         <div className="font-bold text-2xl mb-4">STS Details</div>
         <p><span className="font-bold">Id: </span>{stsDetails.stsId}</p>
           <p><span className="font-bold">STS Name: </span>{stsDetails.stsName}</p>
@@ -77,16 +93,59 @@ export default function ProfilePage() {
         </div>
         
         }
-      {user?.roleName === 'LAND_MANAGER' && <div>
-        <div className="font-bold text-2xl my-4">Landfill Details</div>
+
+{user?.roleName === 'STS_MANAGER' && stsDetails?.stsId?.toString().length < 1 && <div>
+      <div className="font-bold text-2xl my-4">STS Not Assigned</div>
+    Call your admin to assign your STS.
+  </div>
+        }
+{user?.roleName === 'STS_MANAGER' && rolesWithPermissions.some(role => role.name === 'STS_MANAGER') && (
+  <div>
+    <h1><b>STS Manager Permissions:</b></h1>
+    <ul>
+      {rolesWithPermissions
+        .find(role => role.name === 'STS_MANAGER')
+        ?.permissions.map(permission => (
+          <li key={permission.name}>
+            <strong>{permission.name}:</strong> {permission.description}
+          </li>
+        ))}
+    </ul>
+  </div>
+)}
+
+
+      {user?.roleName === 'LAND_MANAGER' && landfillDetails?.landfillId?.toString().length > 1 &&<div>
+        <div className="font-bold text-2xl my-4">Landfill Details </div>
         <p><span className="font-bold">ID: </span>{landfillDetails.landfillId}</p>
           <p><span className="font-bold">Landfill Name: </span>{landfillDetails.landFillName}</p>
           <p><span className="font-bold">Capacity: </span>{landfillDetails.landFillCapacity}</p>
           <p><span className="font-bold">Current Total Waste: </span>{landfillDetails.landFillCurrentWaste}</p>
           <p><span className="font-bold">Coordinate: </span>{landfillDetails.landfillLatitude}, {landfillDetails.landFillLongitude}</p>
-
-
         </div>}
+
+        {user?.roleName === 'LAND_MANAGER' && landfillDetails?.landfillId?.toString().length < 1 && (
+             <div>
+                   <div className="font-bold text-2xl my-4">LandFill Not Assigned</div>
+                 Call your admin to assign your Landfill.
+             </div>
+           )}
+
+{user?.roleName === 'LAND_MANAGER' && rolesWithPermissions.some(role => role.name === 'LAND_MANAGER') && (
+  <div>
+    <h1><b>Land Manager Permissions:</b></h1>
+    <ul>
+      {rolesWithPermissions
+        .find(role => role.name === 'LAND_MANAGER')
+        ?.permissions.map(permission => (
+          <li key={permission.name}>
+            <strong>{permission.name}:</strong> {permission.description}
+          </li>
+        ))}
+    </ul>
+  </div>
+)}
+
         {user?.roleName === 'SYSTEM_ADMIN' && <div>
         <div className="font-bold text-2xl my-4">Admin</div>
           <div>You are admin</div>
@@ -94,6 +153,23 @@ export default function ProfilePage() {
       {user?.roleName !== 'STS_MANAGER' && user?.roleName !== 'LAND_MANAGER' && user?.roleName !== 'SYSTEM_ADMIN' && (
         <div>Oops! Your role has not assigned yet</div>
       )}
+
+{user?.roleName === 'SYSTEM_ADMIN' && rolesWithPermissions.some(role => role.name === 'SYSTEM_ADMIN') && (
+  <div>
+    <h1><b>System Admin Permissions:</b></h1>
+    <ul>
+      {rolesWithPermissions
+        .find(role => role.name === 'SYSTEM_ADMIN')
+        ?.permissions.map(permission => (
+          <li key={permission.name}>
+            <strong>{permission.name}:</strong> {permission.description}
+          </li>
+        ))}
+    </ul>
+  </div>
+)}
+
+      
       </div>
       </div>
     </div>
