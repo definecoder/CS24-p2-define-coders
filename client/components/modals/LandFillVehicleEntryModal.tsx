@@ -35,6 +35,10 @@ import useVehicleReleaseFromSTS from "@/hooks/StsDashboard/useVehicleReleaseFrom
 import useUpcomingVehicle from "@/hooks/landFillDashboard/useUpcomingVehiclesList";
 import useTripComplete from "@/hooks/landFillDashboard/useTripComplete";
 
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 
 type Vehicle = {
   tripId: string,
@@ -61,6 +65,11 @@ export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicl
   const { TripComplete } = useTripComplete();
 
 
+  const [selectedDateTime, setSelectedDateTime] = useState<Date>(new Date());
+
+const handleDateChange = (date: Date) => {
+  setSelectedDateTime(date);
+};
 
  
   const handleSaveChanges = async () => {
@@ -69,7 +78,7 @@ export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicl
       const postEntry = await TripComplete({
         tripId: vehicleInfo.tripId,
         weightOfWaste: weightOfWaste,
-        entryTime: entryTime,
+        entryTime: selectedDateTime.toISOString()//entryTime,
       });
       
     } catch (error) {
@@ -141,13 +150,24 @@ export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicl
             <Label htmlFor="capacity" className="text-right">
               LandFill Entry Time
             </Label>
-            <Input
+            {/* <Input
               id="capacity"
               placeholder="1-100"
               className="col-span-3"
               value={entryTime}
               onChange={(e) => setEntryTime(e.target.value)}
-            />
+            /> */}
+             <div className="flex flex-col">
+    {/* Other component content */}
+    <DatePicker
+      selected={selectedDateTime}
+      onChange={handleDateChange}
+      showTimeSelect
+      timeFormat="hh:mm aa"
+      dateFormat="dd/MM/yy hh:mm aa" // Set desired date format
+      locale="en-GB"
+    />
+  </div>
           </div>
         </div>
         <DialogFooter>
