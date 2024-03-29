@@ -10,6 +10,7 @@ import { EditIcon, Factory, CircleUser } from "lucide-react";
 import {useEffect, useState} from "react";
 import { ProfileEditModal } from "@/components/modals/ProfileEditModal";
 import useGetAllRole from "@/hooks/user_data/useGetAllRole";
+import { UpdateStsStorage } from "@/components/modals/stsControl/updateSTSStorage";
 
 type RolesWithPermisson = {
   id: string;
@@ -89,8 +90,9 @@ export default function ProfilePage() {
           <p><span className="font-bold">Current Total Waste: </span>{stsDetails.stsCurrentTotalWaste}</p>
           <p><span className="font-bold">Coordinate: </span>{stsDetails.stsLatitude}, {stsDetails.stsLongitude}</p>
 
-
+          <UpdateStsStorage />
         </div>
+      
         
         }
 

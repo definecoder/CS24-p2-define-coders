@@ -93,6 +93,8 @@ const handleDateChange = (date: Date) => {
         vehicleIds: vehicleId,
         entryTimes: selectedDateTime.toISOString(),
       });
+
+      window.location.reload();
       
     } catch (error) {
       console.error("Error:", error);
