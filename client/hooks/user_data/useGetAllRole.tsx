@@ -41,7 +41,7 @@ export default function useGetAllRole() {
           )};
       }));
       await setRoles([unassigned, admin, landfillManager, stsManager]);      
-      console.log(roles);
+      // console.log(roles);
     } catch (error: any) {
       alert("Error fetching roles... Are you authorized?");
       console.log(error.message);
@@ -49,6 +49,7 @@ export default function useGetAllRole() {
   }
 
   useEffect(() => {
+    
     fetchAllRoles();
   }, []);
 
