@@ -99,10 +99,9 @@ const getLeftVehiclesInSTS = errorWrapper(
       include: {
         sts: true,
         vehicle: {
-          include:{
-            landFill: true
-
-          }
+          include: {
+            landFill: true,
+          },
         },
       },
     });
@@ -110,6 +109,20 @@ const getLeftVehiclesInSTS = errorWrapper(
     res.status(200).json(vehicles);
   },
   { statusCode: 500, message: "Couldn't fetch vehicles" }
+);
+
+const getAvailableVehiclesForSTS = errorWrapper(
+  async (req: Request, res: Response) => {
+    const { stsId } = req.params;
+
+    const vehicles = await prisma.$queryRaw`
+    SELECT * FROM "Vehicle" WHERE "id" NOT IN ( 
+      SELECT "vehicleId" FROM "STSVehicleEntry" WHERE "stsId" = ${stsId} AND "exitTime" IS NULL
+    )
+    `;
+
+    res.status(200).json(vehicles);
+  }
 );
 
 export {
@@ -120,4 +133,5 @@ export {
   deleteVehicleEntry,
   getCurrentVehiclesInSTS,
   getLeftVehiclesInSTS,
+  getAvailableVehiclesForSTS,
 };
