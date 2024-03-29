@@ -192,7 +192,7 @@ export const columns: ColumnDef<Vehicle>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("weightOfWaste") + " Ton"}</div>
+      <div className="text-center font-medium">{row.getValue("weightOfWaste")}</div>
     ),
   },
   {
@@ -275,13 +275,13 @@ export default function LanfFillUpcomingVehicles() {
     initialState: {
       pagination: {
         pageIndex: 0,
-        pageSize: 5,
+        pageSize: 4,
       },
     },
   });
   return (
     <>
-    <div className="flex justify-center font-bold text-2xl">UPCOMING TRIPS</div>
+    <div className="flex justify-center font-bold text-2xl">UPCOMING VEHICLES</div>
       <div className="flex items-center pb-4 gap-4">
         <Input
           placeholder="Search by Vehicle Name..."

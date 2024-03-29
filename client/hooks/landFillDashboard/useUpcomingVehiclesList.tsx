@@ -27,7 +27,7 @@ export default function useUpcomingVehicle() {
       // Assuming the response data is an array of vehicles
       const AllVehicle: Vehicle[] = res.data.map((vehicle: any) => ({
         tripId: vehicle.id,
-  weightOfWaste: `${vehicle.weightOfWaste} tons`,
+  weightOfWaste: `${vehicle.weightOfWaste} Tons`,
   vehicleNumber: vehicle.vehicle.vehicleNumber,
   stsId: vehicle.sts.name,
   vehicleType: vehicle.vehicle.vehicleType,

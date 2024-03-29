@@ -53,6 +53,8 @@ import { DeleteVehicleModalForSTS } from "../modals/DeleteVehicleModalForSTS";
 import { STSVehicleRelease } from "../modals/STSVehicleReleaseModal";
 import useVehicleTripCompleteList from "@/hooks/landFillDashboard/useVehicleTripCompleteList";
 import { LandfillVehicleEntryModal } from "../modals/LandFillVehicleEntryModal";
+import { getCookie } from "@/lib/cookieFunctions";
+import { landfillId } from "@/data/cookieNames";
 
 type Vehicle = {
     tripId: string,
@@ -218,7 +220,7 @@ export const columns: ColumnDef<Vehicle>[] = [
 
 export default function LanfFillDeliveredVehicles() {
   const [data, setData] = React.useState<Vehicle[]>([]);
-  const { vehicleList, VehcileTripCompleteList } = useVehicleTripCompleteList();
+  const { vehicleList, VehcileTripCompleteList } = useVehicleTripCompleteList(getCookie(landfillId));
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -255,6 +257,9 @@ export default function LanfFillDeliveredVehicles() {
   });
   return (
     <>
+      <div className="font-bold text-2xl w-full text-center">
+        RECIEVED VEHICLES
+      </div>
       <div className="flex items-center py-4 gap-4">
         <Input
           placeholder="Search by Vehicle Name..."

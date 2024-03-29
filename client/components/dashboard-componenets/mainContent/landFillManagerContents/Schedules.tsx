@@ -26,18 +26,11 @@ export default function LandfillManagerSchedules() {
               <LanfFillUpcomingVehicles />
             </EmptyFillContainer>
           </div>
-          <div className="col-span-1 row-span-1 min-h-48">
-            <EmptyFillContainer>
-              DISPATCH HISTORY
+          <div className="col-span-2 row-span-1 min-h-48">
+            <EmptyFillContainer>              
               <LandFillDeliveredVehicles />
             </EmptyFillContainer>
-          </div>
-          <div className="col-span-1 row-span-1 min-h-48">
-            <EmptyFillContainer>
-              MAP TRACKING
-              
-            </EmptyFillContainer>
-          </div>
+          </div>          
         </div>
       </div>
     </main>

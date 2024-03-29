@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { use, useEffect, useState } from "react";
-import { Send, Trash } from "lucide-react";
+import { Download, LucideArrowDownWideNarrow, Send, Trash, Truck } from "lucide-react";
 import deleteUser from "@/hooks/user_data/deleteUser";
 import {
   Select,
@@ -79,9 +79,10 @@ export const LandfillVehicleEntryModal = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" title="Edit STS Info" className="h-8 w-8 p-0">
-          <Send className="h-4 w-4" />
-        </Button>
+        <Button title={"Vehicle " + vehicleInfo.vehicleNumber + " has arrived?"} className="px-3 py-1 bg-black text-white flex gap-2">
+          {/* <div className="flex gap-2 mr-4 px-2 py-1 rounded-sm bg-card shadow-md"><Truck className="h-4 w-4" /> ENTRY</div> */}
+          <Truck className="h-4 w-4" /> ENTRY
+        </Button>        
       </DialogTrigger>
       <DialogContent className="max-w-[425px]">
         <DialogHeader>

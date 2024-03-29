@@ -41,7 +41,10 @@ const GoogleMapComponent: React.FC<MapProps> = ({ coordinates, dumpFills }) => {
 
   return (
     <>
-    <div className='flex justify-end mb-2 mr-2 hover:p'><Button onClick={() => {window.location.reload()}}>Refresh</Button></div>    
+    <div className='flex justify-between mb-2 mr-2 hover:p'>
+      <h1 className='text-xl font-bold'> STS DUMP LOAD HEATMAP </h1>
+      <Button onClick={() => {window.location.reload()}}>Refresh</Button>
+      </div>    
     <LoadScript googleMapsApiKey={apiKey}>      
       <GoogleMap
         id="maps"
