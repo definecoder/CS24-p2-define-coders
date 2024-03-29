@@ -18,6 +18,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
+import { updatePermisson } from "@/hooks/user_data/updatePermisson";
 
 type RolesWithPermisson = {
   id: string;
@@ -58,7 +59,7 @@ function PermissonList() {
 
   useEffect(() => {
     setRoles(rolesWithPermissions);
-    setSelectedRole(rolesWithPermissions[0]?.name);
+    //setSelectedRole(rolesWithPermissions[0]?.name);
   }, [rolesWithPermissions]);
 
   const [selectedRole, setSelectedRole] = useState<string>();
@@ -171,7 +172,15 @@ function PermissonList() {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction>Confirm</AlertDialogAction>
+                      <AlertDialogAction
+                        onClick={async () => {
+                          msg && alert(await updatePermisson(msg));
+                          await fetchAllRoles();
+                          setMsg(undefined);
+                        }}
+                      >
+                        Confirm
+                      </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
