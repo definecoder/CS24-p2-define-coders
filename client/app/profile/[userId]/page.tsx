@@ -6,37 +6,10 @@ import useGetUserProfile from "@/hooks/user_data/useGetUserProfile";
 import { PersonIcon } from "@radix-ui/react-icons";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { EditIcon, Factory } from "lucide-react";
+import { EditIcon, Factory, CircleUser } from "lucide-react";
 import {useEffect, useState} from "react";
 
-type User = {
-  id: string;
-  username: string;
-  email: string;
-  profileName: string;
-   roleName: string;
-  roleDescription: string;
- 
-};
 
-type STSType = {
-  stsId: string ;
-  stsName: string;
-  stsWardNumber: string;
-  stsCapacity: string;
-  stsCurrentTotalWaste: string;
-  stsLatitude: string;
-  stsLongitude: string;
-}
-
-type LandfillType = {
- landfillId: string ;
-  landFillName: string;
-  landFillCapacity: string;
-  landFillCurrentWaste: string;
-  landfillLatitude: string;
-  landFillLongitude: string;
-}
 
 export default function ProfilePage() {
 
@@ -62,8 +35,10 @@ export default function ProfilePage() {
       >
         Back to Dashboard
       </Button>
-      <div className="absolute top-[20px] right-[100px] text-3xl text-white">{role}</div>
-      <div className="absolute top-[85px] w-4/5 mx-40 my-24  h-4/6 flex">
+      <div className="absolute top-[20px] right-[100px] text-3xl text-white flex">
+      {user.roleName}<CircleUser className="mx-2 h-8 w-8" />
+      </div>
+      <div className="absolute top-[85px] w-4/5 mx-40 my-24  h-4/6 flex ">
       <div className="h-full w-96 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground p-10 rounded-xl flex flex-col justify-center items-center gap-8">
         <Avatar className="w-24 h-24">
           <AvatarFallback>
