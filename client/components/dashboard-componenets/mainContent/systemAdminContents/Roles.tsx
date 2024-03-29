@@ -3,6 +3,7 @@ import { Cog, UserRoundCog } from "lucide-react";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import { RoleCreateModal } from "@/components/modals/userControls/RoleModal";
 import PermissonList from "@/components/lists/PermissonList";
+import { RoleDeleteModal } from "@/components/modals/userControls/RoleDeleteModal";
 
 export default function AdminRolesManagementPanel() {
   return (
@@ -17,6 +18,12 @@ export default function AdminRolesManagementPanel() {
               ADD NEW ROLE
             </Button>
           </RoleCreateModal>
+          <RoleDeleteModal>
+            <Button size="sm" className="w-full bg-black text-white">
+              <UserRoundCog size={16} className="mr-2" />
+              DELETE ROLE
+            </Button>
+          </RoleDeleteModal>
           <Button size="sm" className="w-full">
             <Cog size={16} className="mr-2" />
             ADD NEW PERMISSON
