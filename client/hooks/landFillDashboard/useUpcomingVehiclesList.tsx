@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { uri } from '@/data/constant';
+import { apiRoutes } from '@/data/apiRoutes';
 
 type Vehicle = {
   tripId: string,
@@ -20,9 +21,9 @@ export default function useUpcomingVehicle() {
   const [vehicleList, setVehicleList] = useState<Vehicle[]>([]); // Initialize with an empty array of Vehicle objects
   const [vehicleNumberList, setVehicleNumberList] = useState<string[]>([]); 
 
-  async function UpcomingVehicle() {
+  async function UpcomingVehicle(landFillId: string) {
     try {
-      const res = await axios.get('http://localhost:8585/trips/search?tripStatus=PENDING&landfillId=c4028362-6c17-4cf0-9b0e-ae20acfa2fbd');
+      const res = await axios.get(apiRoutes.landfill.getAllIncomingVehicles + landFillId);
       // Assuming the response data is an array of vehicles
       const AllVehicle: Vehicle[] = res.data.map((vehicle: any) => ({
         tripId: vehicle.id,

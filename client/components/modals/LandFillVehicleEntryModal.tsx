@@ -71,6 +71,8 @@ export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicl
         weightOfWaste: weightOfWaste,
         entryTime: entryTime,
       });
+
+      window.location.reload();
       
     } catch (error) {
       console.error("Error:", error);

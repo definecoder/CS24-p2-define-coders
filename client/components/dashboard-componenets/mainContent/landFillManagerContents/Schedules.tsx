@@ -6,17 +6,17 @@ import LandFillDeliveredVehicles from "../../../dataTables/LandFillDeliveredVehi
 import { AllStsMapShow } from '@/components/maps/AllStsShow';
 
 export default function LandfillManagerSchedules() {
-  const coordinates = [
-    { lat: 23.7031879, lng: 90.35564201 },
-    { lat: 23.6856870, lng: 90.44630134 },
-    { lat: 23.6843407, lng: 90.56538359 },
-    { lat: 23.7588160, lng: 90.52911986 },
-    { lat: 23.7592645, lng: 90.42032866 },
-    { lat: 23.7615071, lng: 90.38945549 },
-    { lat: 23.7888633, lng: 90.36152261 }
-  ];
+  // const coordinates = [
+  //   { lat: 23.7031879, lng: 90.35564201 },
+  //   { lat: 23.6856870, lng: 90.44630134 },
+  //   { lat: 23.6843407, lng: 90.56538359 },
+  //   { lat: 23.7588160, lng: 90.52911986 },
+  //   { lat: 23.7592645, lng: 90.42032866 },
+  //   { lat: 23.7615071, lng: 90.38945549 },
+  //   { lat: 23.7888633, lng: 90.36152261 }
+  // ];
 
-  const dumpFills = [30, 25, 81, 45, 70, 50, 90, 60];
+  // const dumpFills = [30, 25, 81, 45, 70, 50, 90, 60];
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
