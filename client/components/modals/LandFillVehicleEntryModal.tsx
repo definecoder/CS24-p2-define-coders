@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose
+  DialogClose,
 } from "@/components/ui/dialog";
 
 import { Input } from "@/components/ui/input";
@@ -35,24 +35,26 @@ import useVehicleReleaseFromSTS from "@/hooks/StsDashboard/useVehicleReleaseFrom
 import useUpcomingVehicle from "@/hooks/landFillDashboard/useUpcomingVehiclesList";
 import useTripComplete from "@/hooks/landFillDashboard/useTripComplete";
 
-
 type Vehicle = {
-  tripId: string,
-  weightOfWaste: string,
-  vehicleNumber: string,
-  stsId: string,
-  vehicleType: string,
-  distance: string,
-  tripStartTime: string,
-  estimatedDuration: string
-  tripStatus: string
-  capacity: string,
-  
+  tripId: string;
+  weightOfWaste: string;
+  vehicleNumber: string;
+  stsId: string;
+  vehicleType: string;
+  distance: string;
+  tripStartTime: string;
+  estimatedDuration: string;
+  tripStatus: string;
+  capacity: string;
 };
 
-export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => {
+export const LandfillVehicleEntryModal = ({
+  vehicleInfo,
+}: {
+  vehicleInfo: Vehicle;
+}) => {
   const [vehicleData, setVehicleData] = useState(vehicleInfo);
-  const [weightOfWaste , setWeightOfWaste] = useState("");
+  const [weightOfWaste, setWeightOfWaste] = useState("");
   const [entryTime, setEntryTime] = useState(new Date().toLocaleString());
   const [stsCoordinate, setStsCoordinate] = useState("");
   const [landFillCoordinate, setLandFillCoordinate] = useState("");
@@ -60,12 +62,8 @@ export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicl
   const [duration, setDuration] = useState<string>("");
   const { TripComplete } = useTripComplete();
 
-
-
- 
   const handleSaveChanges = async () => {
     try {
-     
       const postEntry = await TripComplete({
         tripId: vehicleInfo.tripId,
         weightOfWaste: weightOfWaste,
@@ -73,14 +71,10 @@ export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicl
       });
 
       window.location.reload();
-      
     } catch (error) {
       console.error("Error:", error);
     }
-    
-  
   };
-  
 
   return (
     <Dialog>
@@ -105,7 +99,7 @@ export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicl
                 {vehicleInfo.vehicleType}
               </p>
               <p>
-              <span className="font-bold">STS Name: </span>
+                <span className="font-bold">STS Name: </span>
                 {vehicleInfo.stsId}
               </p>
               <p>
@@ -120,8 +114,6 @@ export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicl
                 <span className="font-bold">Trip Start Time: </span>
                 {vehicleInfo.tripStartTime}
               </p>
-            
-              
             </div>
           </DialogDescription>
         </DialogHeader>
@@ -138,7 +130,7 @@ export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicl
               onChange={(e) => setWeightOfWaste(e.target.value)}
             />
           </div>
-          
+
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="capacity" className="text-right">
               LandFill Entry Time
@@ -153,9 +145,11 @@ export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicl
           </div>
         </div>
         <DialogFooter>
-        <DialogClose asChild>
-        <Button type="button" onClick={handleSaveChanges}>Save changes</Button>
-        </DialogClose>
+          <DialogClose asChild>
+            <Button type="button" onClick={handleSaveChanges}>
+              Save changes
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

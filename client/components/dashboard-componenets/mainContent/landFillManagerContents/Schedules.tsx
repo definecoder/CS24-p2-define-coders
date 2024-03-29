@@ -1,9 +1,9 @@
 "use client";
-import GoogleMapComponent from '@/components/maps/GoogleMap'
+import GoogleMapComponent from "@/components/maps/GoogleMap";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import LanfFillUpcomingVehicles from "../../../dataTables/LandFillUpcomingVehicle";
-import LandFillDeliveredVehicles from "../../../dataTables/LandFillDeliveredVehicles"
-import { AllStsMapShow } from '@/components/maps/AllStsShow';
+import LandFillDeliveredVehicles from "../../../dataTables/LandFillDeliveredVehicles";
+import { AllStsMapShow } from "@/components/maps/AllStsShow";
 
 export default function LandfillManagerSchedules() {
   // const coordinates = [
@@ -21,24 +21,23 @@ export default function LandfillManagerSchedules() {
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-2 grid-flow-row gap-2 md:gap-4 w-full md:h-full max-h-max">
-        <div className="col-span-2 row-span-1 min-h-48">
-            <EmptyFillContainer>UPCOMING - CRITICAL FIRST SCHEDULES
-
-            <LanfFillUpcomingVehicles />
+          <div className="col-span-2 row-span-1 min-h-48">
+            <EmptyFillContainer>
+              <LanfFillUpcomingVehicles />
             </EmptyFillContainer>
-            
           </div>
           <div className="col-span-1 row-span-1 min-h-48">
-            <EmptyFillContainer>DISPATCH HISTORY
+            <EmptyFillContainer>
+              DISPATCH HISTORY
               <LandFillDeliveredVehicles />
+            </EmptyFillContainer>
+          </div>
+          <div className="col-span-1 row-span-1 min-h-48">
+            <EmptyFillContainer>
+              MAP TRACKING
               
             </EmptyFillContainer>
           </div>
-          <div className="col-span-1 row-span-1 min-h-48">
-            <EmptyFillContainer>MAP TRACKING
-            <AllStsMapShow />
-            </EmptyFillContainer>
-          </div>          
         </div>
       </div>
     </main>
