@@ -7,11 +7,15 @@ const prisma = new PrismaClient();
 
 const getAllRoles = errorWrapper(
   async (req: Request, res: Response) => {
-    const roles = await prisma.role.findMany({});
+    const roles = await prisma.role.findMany({
+      include: {
+        User: true,        
+      },
+    });
 
-    const roleNames = roles.map((role) => role.name);
+    // const roleNames = roles.map((role) => role.name);
 
-    res.json(roleNames);
+    res.json(roles);
   },
   { statusCode: 500, message: "Couldn't fetch roles" }
 );

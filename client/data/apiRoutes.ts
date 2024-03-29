@@ -31,6 +31,8 @@ export const apiRoutes = {
         getByRole: `${baseUrl}/rbac/roles/get/`,
         delete: `${baseUrl}/rbac/`,
         edit: `${baseUrl}/rbac/`,
+        getAllRolesWithPermisson: `${baseUrl}/rbac/all`,
+        fetchAllPermissons: `${baseUrl}/rbac/permissions`,
     },
     vehicle: {
         create: `${baseUrl}/vehicles/create`,
