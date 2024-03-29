@@ -4,8 +4,7 @@ import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import { RoleCreateModal } from "@/components/modals/userControls/RoleModal";
 import PermissonList from "@/components/lists/PermissonList";
 
-
-export default function AdminRolesManagementPanel() {  
+export default function AdminRolesManagementPanel() {
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
       <div className="flex items-center justify-between">
@@ -25,22 +24,12 @@ export default function AdminRolesManagementPanel() {
         </div>
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-        <div className="grid grid-cols-3 md:grid-cols-8 grid-rows-9 grid-flow-row gap-2 md:gap-4 w-full md:h-full max-h-max">
-          <div className="col-span-3 row-span-5 min-h-36">
-            <EmptyFillContainer>
-              Roles List              
-            </EmptyFillContainer>
-          </div>
-          <div className="col-span-3 md:col-span-5 row-span-9">
-            <EmptyFillContainer>
-              <h1 className="text-2xl p-4 w-full text-center mb-2"><b>PERMISSON LIST</b> BY ROLE</h1>
-              <PermissonList />
-            </EmptyFillContainer>
-          </div>
-          <div className="col-span-3 row-span-4 min-h-36">
-            <EmptyFillContainer>Role Requests</EmptyFillContainer>
-          </div>
-        </div>
+        <EmptyFillContainer>
+          <h1 className="text-2xl p-4 w-full text-center mb-2">
+            <b>PERMISSON LIST</b> BY ROLE
+          </h1>
+          <PermissonList />
+        </EmptyFillContainer>
       </div>
     </main>
   );
