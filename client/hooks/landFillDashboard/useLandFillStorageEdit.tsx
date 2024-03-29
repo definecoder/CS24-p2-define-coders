@@ -4,10 +4,10 @@ import axios from 'axios';
 import { jwtToken, stsId } from '@/data/cookieNames'; // Ensure these variables are properly defined
 import { apiRoutes } from '@/data/apiRoutes';
 
-export default function useUpdateSts() {
-  async function UpdateSts(data: {
+export default function useLandFillStorageEdit() {
+  async function UpdateLandfillStorage(data: {
     storedData: number;
-    stsId: string; 
+    landfillId: string; 
   }) {
     
 
@@ -16,12 +16,11 @@ export default function useUpdateSts() {
         currentTotalWaste: data.storedData,
        
       };
-     // console.log("hettt");
-     // console.log(data.storedData);
+      console.log(data.storedData);
 
 
       const res = await axios.put(
-        apiRoutes.sts.edit + data.stsId,
+        apiRoutes.landfill.edit + data.landfillId,
         editedProfile,
         {
           headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
@@ -30,12 +29,12 @@ export default function useUpdateSts() {
 
    
       window.location.reload();
-      return "Wastege Entry in STS Successful";
+      return "Wastage Released From Landfill";
     } catch (error: any) {
       alert(error.message?.toString() || 'Error Editing');
       return false;
     }
   }
 
-  return { UpdateSts };
+  return { UpdateLandfillStorage };
 }

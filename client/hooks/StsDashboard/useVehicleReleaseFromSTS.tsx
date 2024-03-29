@@ -38,9 +38,9 @@ const durationWithoutUnit = parseFloat(data.estimatedDuration.replace("mins", ""
     estimatedDuration: durationWithoutUnit
     });
     //use the response from here
-    console.log(res.data);
-
-      return true;
+  //  console.log(res.data);
+    window.location.reload();
+      return "Vehicle Released Successfully";
     } catch (error: any) {
       alert(error.message?.toString() || "error logging in");
       return false;

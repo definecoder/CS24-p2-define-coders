@@ -34,9 +34,9 @@ export default function useTripComplete() {
         entryTime: isoString,
     });
     //use the response from here
-    console.log(res.data);
+    window.location.reload();
 
-      return true;
+      return "Trip Complete Successful";
     } catch (error: any) {
       alert(error.message?.toString() || "error logging in");
       return false;

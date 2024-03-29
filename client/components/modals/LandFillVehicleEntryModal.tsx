@@ -80,7 +80,7 @@ const handleDateChange = (date: Date) => {
         weightOfWaste: weightOfWaste,
         entryTime: selectedDateTime.toISOString()//entryTime,
       });
-      window.location.reload();
+      if(postEntry) return alert(postEntry);
     } catch (error) {
       console.error("Error:", error);
     }

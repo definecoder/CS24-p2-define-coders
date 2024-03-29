@@ -94,7 +94,7 @@ const handleDateChange = (date: Date) => {
         entryTimes: selectedDateTime.toISOString(),
       });
 
-      window.location.reload();
+      if(postEntry) return alert(postEntry);
       
     } catch (error) {
       console.error("Error:", error);

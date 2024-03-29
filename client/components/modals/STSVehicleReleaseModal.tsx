@@ -80,7 +80,8 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
     distance: distance,
     estimatedDuration: duration
       });
-      window.location.reload();
+      // window.location.reload();
+      if(postEntry) return alert(postEntry);
       
     } catch (error) {
       console.error("Error:", error);

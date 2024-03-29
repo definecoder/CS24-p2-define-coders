@@ -18,6 +18,7 @@ import { Send, Trash,EditIcon  } from "lucide-react";
 import useEditProfileInfo from "@/hooks/user_data/useEditProfileInfo";
 import useGetUserProfile from "@/hooks/user_data/useGetUserProfile";
 import useUpdateSts from "@/hooks/StsDashboard/useUpdateSts";
+import useLandFillStorageEdit from "@/hooks/landFillDashboard/useLandFillStorageEdit";
 
 
 type User = {
@@ -31,27 +32,27 @@ type User = {
 };
 
 
-export const UpdateStsStorage = () => {
+export const UpdateLandfillStorageModal = () => {
   
 
-  const { user, stsDetails, landfillDetails, getUserDetails} = useGetUserProfile(); 
+  const { user, landfillDetails, getUserDetails} = useGetUserProfile(); 
  
 
   const [username , setUsername] = useState<string>(user.username);
   const [profilename , setProfilename] = useState<string>(user.profileName);
-  const [wastageEntry , setWastageEntry] = useState<string>(stsDetails.stsCurrentTotalWaste);
+  const [wastageEntry , setWastageEntry] = useState<string>(landfillDetails.landFillCurrentWaste);
   
-  const { UpdateSts } = useUpdateSts();
+  const { UpdateLandfillStorage } = useLandFillStorageEdit();
 
 
 
  
   const handleSaveChanges = async () => {
     try {
-        const remainingCapacity = parseInt(stsDetails.stsCurrentTotalWaste) + parseInt(wastageEntry);
-        const postEntry = await UpdateSts({
+        const remainingCapacity = parseInt(landfillDetails.landFillCurrentWaste) - parseInt(wastageEntry);
+        const postEntry = await UpdateLandfillStorage({
           storedData: remainingCapacity,
-          stsId: stsDetails.stsId
+          landfillId: landfillDetails.landfillId
         });
 
         if(postEntry) return alert(postEntry);
@@ -76,29 +77,26 @@ export const UpdateStsStorage = () => {
       <DialogContent className="max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="mt-4 text-xl sm:text-2xl">
-           Entry Dump In STS
+           Release Dump In Landfill
           </DialogTitle>
           <DialogDescription>
             <div className="mt-4 flex flex-col justify-center items-start text-left p-4 rounded-lg border shadow-xl text-md">
               <h1>
-                <span className="font-bold">STS ID: </span>
-                {stsDetails.stsId}
+                <span className="font-bold">Landfill ID: </span>
+                {landfillDetails.landfillId}
               </h1>
               <p>
                 <span className="font-bold">Name: </span>
-                {stsDetails.stsName}
+                {landfillDetails.landFillName}
               </p>
               <p>
-              <p>
-                <span className="font-bold">Ward Number: </span>
-                {stsDetails.stsWardNumber}
-              </p>
+              
               <span className="font-bold">Capacity: </span>
-                {stsDetails.stsCapacity}
+                {landfillDetails.landFillCapacity}
               </p>
               <p>
                 <span className="font-bold">Current Total Waste: </span>
-                {stsDetails.stsCurrentTotalWaste}
+                {landfillDetails.landFillCurrentWaste}
               </p>
              
             
@@ -109,7 +107,7 @@ export const UpdateStsStorage = () => {
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-             Entry Wastage
+             Release Wastage
             </Label>
             <Input
               id="weight of waste"

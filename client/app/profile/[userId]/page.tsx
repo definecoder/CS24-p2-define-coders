@@ -11,6 +11,7 @@ import {useEffect, useState} from "react";
 import { ProfileEditModal } from "@/components/modals/ProfileEditModal";
 import useGetAllRole from "@/hooks/user_data/useGetAllRole";
 import { UpdateStsStorage } from "@/components/modals/stsControl/updateSTSStorage";
+import { UpdateLandfillStorageModal } from "@/components/modals/landfillControl/updateLandfillStorage";
 
 type RolesWithPermisson = {
   id: string;
@@ -124,6 +125,7 @@ export default function ProfilePage() {
           <p><span className="font-bold">Capacity: </span>{landfillDetails.landFillCapacity}</p>
           <p><span className="font-bold">Current Total Waste: </span>{landfillDetails.landFillCurrentWaste}</p>
           <p><span className="font-bold">Coordinate: </span>{landfillDetails.landfillLatitude}, {landfillDetails.landFillLongitude}</p>
+        <UpdateLandfillStorageModal />
         </div>}
 
         {user?.roleName === 'LAND_MANAGER' && landfillDetails?.landfillId?.toString().length < 1 && (
@@ -153,7 +155,7 @@ export default function ProfilePage() {
           <div>You are admin</div>
         </div>}
       {user?.roleName !== 'STS_MANAGER' && user?.roleName !== 'LAND_MANAGER' && user?.roleName !== 'SYSTEM_ADMIN' && (
-        <div>Oops! Your role has not assigned yet</div>
+        <div>Wait! Your role has not assigned yet</div>
       )}
 
 {user?.roleName === 'SYSTEM_ADMIN' && rolesWithPermissions.some(role => role.name === 'SYSTEM_ADMIN') && (

@@ -72,6 +72,8 @@ export const ProfileEditModal = ({ profileInfo }: { profileInfo: User }) => {
         username : username,
         profileName: profilename
       });
+
+      if(postEntry) return alert(postEntry);
       
     } catch (error) {
       console.error("Error:", error);
