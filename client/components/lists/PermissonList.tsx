@@ -19,6 +19,7 @@ import {
 } from "../ui/alert-dialog";
 import { Button } from "../ui/button";
 import { updatePermisson } from "@/hooks/user_data/updatePermisson";
+import { Pointer, SquareMousePointer } from "lucide-react";
 
 type RolesWithPermisson = {
   id: string;
@@ -65,7 +66,7 @@ function PermissonList() {
   const [selectedRole, setSelectedRole] = useState<string>();
 
   return (
-    <>
+    <div className="flex flex-col flex-grow">
       <RadioGroup
         className="flex flex-wrap justify-center content-center gap-4 w-full mb-2"
         onValueChange={(e) => setSelectedRole(e)}
@@ -188,32 +189,9 @@ function PermissonList() {
           </div>
         </div>
       ) : (
-        <EmptyFillContainer>
-          <h1 className="text-lg">Select a role to view permissions</h1>
-        </EmptyFillContainer>
+        <h1 className="text-2xl flex-grow flex flex-col justify-center items-center gap-5"><Pointer size={56} />Select a role from above to view permissions</h1>
       )}
-    </>
+    </div>
   );
 }
 export default PermissonList;
-
-{
-  /* <AlertDialog>
-  <AlertDialogTrigger asChild>
-    <Button variant="outline">Show Dialog</Button>
-  </AlertDialogTrigger>
-  <AlertDialogContent>
-    <AlertDialogHeader>
-      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-      <AlertDialogDescription>
-        This action cannot be undone. This will permanently delete your account
-        and remove your data from our servers.
-      </AlertDialogDescription>
-    </AlertDialogHeader>
-    <AlertDialogFooter>
-      <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <AlertDialogAction>Continue</AlertDialogAction>
-    </AlertDialogFooter>
-  </AlertDialogContent>
-</AlertDialog>; */
-}

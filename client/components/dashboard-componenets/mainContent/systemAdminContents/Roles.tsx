@@ -23,8 +23,8 @@ export default function AdminRolesManagementPanel() {
           </Button>
         </div>
       </div>
-      <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-        <EmptyFillContainer>
+      <div className="flex max-w-[90vw] md:max-w-[100vw] items-center justify-center rounded-lg border border-dashed shadow-sm h-full">
+        <EmptyFillContainer className="flex flex-col">
           <h1 className="text-2xl p-4 w-full text-center mb-2">
             <b>PERMISSON LIST</b> BY ROLE
           </h1>
