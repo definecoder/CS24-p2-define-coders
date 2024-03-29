@@ -14,12 +14,12 @@ model User {
     hashedPassword String
     profileName    String?
     profileImage   String?
-    role           Role    @relation(fields: [roleName], references: [name])
+    role           Role    @relation(fields: [roleName], references: [name], onDelete: Cascade)
     roleName       String  @default("UNASSIGNED")
-    sts            STS?    @relation(fields: [stsId], references: [id])
+    sts            STS?    @relation(fields: [stsId], references: [id], onDelete: Cascade)
     stsId          String?
 
-    landfill   Landfill? @relation(fields: [landfillId], references: [id])
+    landfill   Landfill? @relation(fields: [landfillId], references: [id], onDelete: Cascade)
     landfillId String?
 
     createdAt DateTime @default(now())
@@ -61,7 +61,7 @@ model Vehicle {
     currentLatitude       Decimal?
     currentLongitude      Decimal?
 
-    landFill             Landfill               @relation(fields: [landFillId], references: [id])
+    landFill             Landfill               @relation(fields: [landFillId], references: [id], onDelete: Cascade)
     landFillId           String
     STSVehicleEntry      STSVehicleEntry[]
     LandfillVehicleEntry LandfillVehicleEntry[]
@@ -111,9 +111,9 @@ model Landfill {
 
 model STSVehicleEntry {
     id            String    @id @default(uuid())
-    sts           STS       @relation(fields: [stsId], references: [id])
+    sts           STS       @relation(fields: [stsId], references: [id], onDelete: Cascade)
     stsId         String
-    vehicle       Vehicle   @relation(fields: [vehicleId], references: [id])
+    vehicle       Vehicle   @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
     vehicleId     String
     weightOfWaste Decimal?
     entryTime     DateTime?
@@ -125,9 +125,9 @@ model STSVehicleEntry {
 
 model LandfillVehicleEntry {
     id            String    @id @default(uuid())
-    landfill      Landfill  @relation(fields: [landfillId], references: [id])
+    landfill      Landfill  @relation(fields: [landfillId], references: [id], onDelete: Cascade)
     landfillId    String
-    vehicle       Vehicle   @relation(fields: [vehicleId], references: [id])
+    vehicle       Vehicle   @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
     vehicleId     String
     weightOfWaste Decimal?
     entryTime     DateTime?
@@ -140,15 +140,15 @@ model LandfillVehicleEntry {
 model Bill {
     id        String  @id @default(uuid())
     billNo    Int     @unique @default(autoincrement())
-    vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+    vehicle   Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
     vehicleId String
-    sts       STS     @relation(fields: [stsId], references: [id])
+    sts       STS     @relation(fields: [stsId], references: [id], onDelete: Cascade)
     stsId     String
 
-    landfill   Landfill @relation(fields: [landfillId], references: [id])
+    landfill   Landfill @relation(fields: [landfillId], references: [id], onDelete: Cascade)
     landfillId String
 
-    trip   Trip?   @relation(fields: [tripId], references: [id])
+    trip   Trip?   @relation(fields: [tripId], references: [id], onDelete: Cascade)
     tripId String?
 
     weightOfWaste     Decimal?
@@ -160,11 +160,11 @@ model Bill {
 
 model Trip {
     id         String   @id @default(uuid())
-    sts        STS      @relation(fields: [stsId], references: [id])
+    sts        STS      @relation(fields: [stsId], references: [id], onDelete: Cascade)
     stsId      String
-    landfill   Landfill @relation(fields: [landfillId], references: [id])
+    landfill   Landfill @relation(fields: [landfillId], references: [id], onDelete: Cascade)
     landfillId String
-    vehicle    Vehicle  @relation(fields: [vehicleId], references: [id])
+    vehicle    Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
     vehicleId  String
 
     tripStartTime     DateTime?

@@ -14,6 +14,8 @@ import {
 
 const router = express.Router();
 
+// everything for this file will be under rbac Permission only for system admins
+
 router.route("/roles").post(addRole).get(getAllRoles);
 router
   .route("/roles/:roleName/permissions/:permissionName")

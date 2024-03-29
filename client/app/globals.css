@@ -98,3 +98,7 @@
   background: #0F172A; /* Color of the scrollbar handle on hover */
   border: 2px solid white; /* Color of the scrollbar handle on hover */
 }
+
+nextjs-portal {
+  display: none;
+}
