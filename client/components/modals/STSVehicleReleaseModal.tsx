@@ -32,7 +32,9 @@ import editSTS from "@/hooks/entityCreation/editSTS";
 import getUserByRole from "@/hooks/user_data/getUserByRole";
 import VehicleRelaseRoute from "../maps/VehicleReleaseRoute";
 import useVehicleReleaseFromSTS from "@/hooks/StsDashboard/useVehicleReleaseFromSTS";
+import DatePicker from "react-datepicker";
 
+import "react-datepicker/dist/react-datepicker.css";
 
 type Vehicle = {
   entryId: string,
@@ -60,25 +62,12 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
   const [distance, setDistance] = useState<string>("");
   const [duration, setDuration] = useState<string>("");const { VehicleReleaseFromSTS } = useVehicleReleaseFromSTS();
 
- 
- 
-// const dummyCoordinates[
-//   23.76652752, 90.4258899
-// 23.76449486, 90.3879528
-// 23.73897468, 90.3750954
-// 23.76431111, 90.3651622
-// 23.77393625, 90.3814204
-// 23.76461481, 90.3915441
-// 23.77089053, 90.4042765
-// 23.72965447, 90.3873709
-// ]
-// {
-//   "stsVehicleId": "sv1",
-//   "weightOfWaste" : 2,
-//   "exitTime" : "2024-03-27T08:00:00Z",
-//   "distance": "156.3",
-//   "estimatedDuration": "23"
-// }
+  const [selectedDateTime, setSelectedDateTime] = useState<Date>(new Date());
+
+  const handleDateChange = (date: Date) => {
+    setSelectedDateTime(date);
+  };
+  
 
  
   const handleSaveChanges = async () => {
@@ -87,7 +76,7 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
       const postEntry = await VehicleReleaseFromSTS({
         stsVehicleId: vehicleInfo.entryId,
     weightOfWaste: weightOfWaste,
-    exitTime: exitTime,
+    exitTime: selectedDateTime.toISOString(),
     distance: distance,
     estimatedDuration: duration
       });
@@ -165,13 +154,24 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
             <Label htmlFor="capacity" className="text-right">
               Deparature Time
             </Label>
-            <Input
+            {/* <Input
               id="capacity"
               placeholder="1-100"
               className="col-span-3"
               value={exitTime}
               onChange={(e) => setExitTime(e.target.value)}
-            />
+            /> */}
+            <div className="flex flex-col">
+    {/* Other component content */}
+    <DatePicker
+      selected={selectedDateTime}
+      onChange={handleDateChange}
+      showTimeSelect
+      timeFormat="hh:mm aa"
+      dateFormat="dd/MM/yy hh:mm aa" // Set desired date format
+      locale="en-GB"
+    />
+  </div>
           </div>
         </div>
         <DialogFooter>

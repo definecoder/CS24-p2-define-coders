@@ -19,6 +19,10 @@ import { getCookie } from '@/lib/cookieFunctions';
 import useVehicleEntry from "@/hooks/StsDashboard/useVehicleEntry";
 import useVehicleList from "@/hooks/vehicles/useVehiclesData";
 
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -41,6 +45,12 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
     useEffect(() => {
       callVehcilse();
     }, []);
+
+    const [selectedDateTime, setSelectedDateTime] = useState<Date>(new Date());
+
+const handleDateChange = (date: Date) => {
+  setSelectedDateTime(date);
+};
 
    
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,7 +91,7 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
       console.log(vehicleList);
       const postEntry = await VehicleEntry({
         vehicleIds: vehicleId,
-        entryTimes: entryTime,
+        entryTimes: selectedDateTime.toISOString(),
       });
       
     } catch (error) {
@@ -134,13 +144,24 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
             <Label htmlFor="description" className="text-right">
               Entry Time
             </Label>
-            <Input
+            {/* <Input
               id="entryTime"
               placeholder="hh:mm dd:mm:yy"
               className="col-span-3"
               value={entryTime}
               onChange={(e) => setEntryTime(e.target.value)}
-            />
+            /> */}
+            <div className="flex flex-col">
+    {/* Other component content */}
+    <DatePicker
+      selected={selectedDateTime}
+      onChange={handleDateChange}
+      showTimeSelect
+      timeFormat="hh:mm aa"
+      dateFormat="dd/MM/yy hh:mm aa" // Set desired date format
+      locale="en-GB"
+    />
+  </div>
           </div>
           
           

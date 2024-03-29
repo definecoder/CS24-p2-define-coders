@@ -375,7 +375,7 @@ const stsData: Prisma.STSCreateInput[] = [
   },
   {
     id: "sts6",
-    name: "Motijheel",
+    name: "Motijheel STS",
     wardNumber: "4",
     capacity: 1500,
     currentTotalWaste: 1400,

@@ -2,6 +2,7 @@
 import useGetAllSTS from "@/hooks/stsdata/useGetAllSTS";
 import GoogleMapComponent from "@/components/maps/GoogleMap";
 import * as React from "react";
+import useGetUserProfile from "@/hooks/user_data/useGetUserProfile";
 
 type StsShow = {
     lat: number;
@@ -11,6 +12,7 @@ type StsShow = {
 
 export const AllStsMapShow: React.FC = () => {
     const { getAllSTS, stsCoordinate, storagePercentage } = useGetAllSTS();
+
     const [coordinates, setCoordinates] = React.useState<StsShow[]>([]);    
 
 //     const staticCoordinates: StsShow[] = [
@@ -34,9 +36,11 @@ export const AllStsMapShow: React.FC = () => {
     }, [stsCoordinate]);
 
 
+
     React.useEffect(() => {
         getMapData();
     }, []);    
+
 
     return coordinates && <GoogleMapComponent coordinates={coordinates} dumpFills={storagePercentage} />;
 };
