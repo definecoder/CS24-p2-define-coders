@@ -51,5 +51,6 @@ export const apiRoutes = {
     },
     profile: {
         getProfile: `${baseUrl}/profile`,
+        edit: `${baseUrl}/profile`,
     }
 }

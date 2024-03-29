@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { EditIcon, Factory, CircleUser } from "lucide-react";
 import {useEffect, useState} from "react";
+import { ProfileEditModal } from "@/components/modals/ProfileEditModal";
 
 
 
@@ -50,16 +51,12 @@ export default function ProfilePage() {
           <h1><span className="font-bold">ID: </span></h1>
           <p><span className="font-bold">Email: </span>{user.email}</p>
           <p><span className="font-bold">Role: </span>{user.roleName}</p>
-          <p><span className="font-bold">Name: </span>{user.profileName}</p>
+          <p><span className="font-bold">Profile Name: </span>{user.profileName}</p>
+          <p><span className="font-bold">Username: </span>{user.username}</p>
           <p><span className="font-bold">Role Description: </span>{user.roleDescription}</p>
         </div>
-        <Button
-        variant="outline"
-        className="w-24"
-        onClick={() => router.push("/dashboard")}
-      ><EditIcon className="h-4 w-4" />
-        Edit
-      </Button>
+        <ProfileEditModal profileInfo={user}/>
+     
       </div>
 
 
@@ -90,7 +87,11 @@ export default function ProfilePage() {
 
 
         </div>}
-      {user?.roleName !== 'STS_MANAGER' && user?.roleName !== 'LAND_MANAGER' && (
+        {user?.roleName === 'SYSTEM_ADMIN' && <div>
+        <div className="font-bold text-2xl my-4">Admin</div>
+          <div>You are admin</div>
+        </div>}
+      {user?.roleName !== 'STS_MANAGER' && user?.roleName !== 'LAND_MANAGER' && user?.roleName !== 'SYSTEM_ADMIN' && (
         <div>Oops! Your role has not assigned yet</div>
       )}
       </div>

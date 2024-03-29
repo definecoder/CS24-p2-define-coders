@@ -68,6 +68,7 @@ export default function useGetUserProfile() {
     try {
       const res = await axios.get(apiRoutes.profile.getProfile, {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
+        
       });
         console.log(res.data);
       if (res.data.roleName === "STS_MANAGER" ) {
@@ -125,11 +126,23 @@ export default function useGetUserProfile() {
             setLandfillDetails(ResLandDetails);
 
         }
-
-       
-
         setUser(userDetails);
        
+      }else if(res.data.roleName === "SYSTEM_ADMIN" ) {
+
+        const userDetails: User = {
+          id: res.data.id,
+          username: res.data.username,
+          email: res.data.email,
+          profileName: res.data.profileName,
+            roleName: res.data.roleName,
+        roleDescription: res.data.role.description,
+
+       
+        };
+
+        
+        setUser(userDetails);
        
       }else{
         const userDetails: User = {
@@ -153,11 +166,11 @@ export default function useGetUserProfile() {
     }
   }
 
-  useEffect(() => {
-    console.log(user);
-    console.log(stsDetails);
-    console.log(landfillDetails)
-  }, [user, stsDetails, landfillDetails]); // Call getUserDetails when the component mounts
+  // useEffect(() => {
+  //   console.log(user);
+  //   console.log(stsDetails);
+  //   console.log(landfillDetails)
+  // }, [user, stsDetails, landfillDetails]); // Call getUserDetails when the component mounts
 
   return { user, stsDetails, landfillDetails, getUserDetails };
 }
