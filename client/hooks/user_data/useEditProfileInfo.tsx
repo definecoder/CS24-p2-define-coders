@@ -16,8 +16,7 @@ export default function useEditProfileInfo() {
         username: data.username,
         profileName: data.profileName,
       };
-    //   console.log(data.username);
-    //   console.log(data.profileName);
+
 
       const res = await axios.put(
         apiRoutes.profile.edit,
@@ -27,8 +26,7 @@ export default function useEditProfileInfo() {
         }
       );
 
-      // Handle the response as needed
-    //   console.log(res.data);
+   
 
       return true;
     } catch (error: any) {
