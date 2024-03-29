@@ -27,10 +27,12 @@ export const apiRoutes = {
         edit: `${baseUrl}/landfills/`,
     },
     rbac: {
-        create: `${baseUrl}/rbac/create`,
+        create: `${baseUrl}/rbac/roles`,
         getByRole: `${baseUrl}/rbac/roles/get/`,
-        delete: `${baseUrl}/rbac/`,
-        edit: `${baseUrl}/rbac/`,
+        delete: `${baseUrl}/rbac/roles/delete/`,
+        edit: `${baseUrl}/rbac/roles/`,
+        getAllRolesWithPermisson: `${baseUrl}/rbac/all`,
+        fetchAllPermissons: `${baseUrl}/rbac/permissions`,
     },
     vehicle: {
         create: `${baseUrl}/vehicles/create`,

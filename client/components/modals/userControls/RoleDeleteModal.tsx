@@ -13,19 +13,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import addNewRole from "@/hooks/user_data/addNewRole";
+import deleteRole from "@/hooks/user_data/deleteRole";
 import React , {useState} from "react";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
 }
 
-export const RoleCreateModal: React.FC<DialogWrapperProps> = ({
+export const RoleDeleteModal: React.FC<DialogWrapperProps> = ({
   children,
 }) => {
     const [roleName, setRoleName] = useState("");
     
   const handleSaveChanges = async () => {
-    await addNewRole(roleName);
+    await deleteRole(roleName);
     window.location.reload();
   };
 
@@ -38,15 +39,15 @@ export const RoleCreateModal: React.FC<DialogWrapperProps> = ({
       </DialogTrigger>
       <DialogContent className="w-[825px]">
         <DialogHeader>
-          <DialogTitle>Add New Role</DialogTitle>
+          <DialogTitle>Delete Role</DialogTitle>
           <DialogDescription>
-            Add new role here. Click save when you're done.
+            Select a role to delete. Click delete when you're done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Role Name
+              Select Role
             </Label>
             <Input
               id="name"
@@ -59,7 +60,9 @@ export const RoleCreateModal: React.FC<DialogWrapperProps> = ({
         </div>
         <DialogFooter>
         <DialogClose asChild>
-        <Button type="button" onClick={handleSaveChanges}>Save changes</Button>
+        <div><Button type="button" className="mr-3">Cancel</Button>
+        <Button type="button" onClick={handleSaveChanges}>DELETE</Button>        
+        </div>
         </DialogClose>
         </DialogFooter>
       
