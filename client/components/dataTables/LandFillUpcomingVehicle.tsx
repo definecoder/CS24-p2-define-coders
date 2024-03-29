@@ -53,6 +53,9 @@ import { DeleteVehicleModalForSTS } from "../modals/DeleteVehicleModalForSTS";
 import { STSVehicleRelease } from "../modals/STSVehicleReleaseModal";
 import useUpcomingVehicle from "@/hooks/landFillDashboard/useUpcomingVehiclesList";
 import { LandfillVehicleEntryModal } from "../modals/LandFillVehicleEntryModal";
+import { getCookie } from "@/lib/cookieFunctions";
+import { landfillId } from "@/data/cookieNames";
+import formatTimestamp from "@/lib/formatTimestamp";
 
 type Vehicle = {
     tripId: string,
@@ -122,14 +125,14 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Trip Start Time
+            Departed At
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("tripStartTime".toLocaleString())}</div>
+      <div className="text-center font-medium">{formatTimestamp(row.getValue("tripStartTime".toLocaleString()))}</div>
     ),
   },
   {
@@ -182,7 +185,7 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Weight Of Waste
+            Weight
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -213,26 +216,6 @@ export const columns: ColumnDef<Vehicle>[] = [
     ),
   },
   {
-    accessorKey: "capacity",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Capacity
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("capacity")}</div>
-    ),
-  },
-  {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
@@ -260,8 +243,12 @@ export default function LanfFillUpcomingVehicles() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  async function getAllUpcomingVehicles() {
+    await UpcomingVehicle(await getCookie(landfillId));
+  }
+
   React.useEffect(() => {
-    UpcomingVehicle();
+    getAllUpcomingVehicles();
   }, []);
 
   React.useEffect(() => {
@@ -284,11 +271,18 @@ export default function LanfFillUpcomingVehicles() {
       columnFilters,
       columnVisibility,
       rowSelection,
+    },  
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: 4,
+      },
     },
   });
   return (
     <>
-      <div className="flex items-center py-4 gap-4">
+    <div className="flex justify-center font-bold text-2xl">UPCOMING VEHICLES</div>
+      <div className="flex items-center pb-4 gap-4">
         <Input
           placeholder="Search by Vehicle Name..."
           value={(table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""}
@@ -376,8 +370,7 @@ export default function LanfFillUpcomingVehicles() {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Showing {data.length} entries
         </div>
         <div className="space-x-2">
           <Button

@@ -7,13 +7,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose
+  DialogClose,
 } from "@/components/ui/dialog";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { use, useEffect, useState } from "react";
-import { Send, Trash } from "lucide-react";
+import { Download, LucideArrowDownWideNarrow, Send, Trash, Truck } from "lucide-react";
 import deleteUser from "@/hooks/user_data/deleteUser";
 import {
   Select,
@@ -41,28 +41,32 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 type Vehicle = {
-  tripId: string,
-  weightOfWaste: string,
-  vehicleNumber: string,
-  stsId: string,
-  vehicleType: string,
-  distance: string,
-  tripStartTime: string,
-  estimatedDuration: string
-  tripStatus: string
-  capacity: string,
-  
+  tripId: string;
+  weightOfWaste: string;
+  vehicleNumber: string;
+  stsId: string;
+  vehicleType: string;
+  distance: string;
+  tripStartTime: string;
+  estimatedDuration: string;
+  tripStatus: string;
+  capacity: string;
 };
 
-export const LandfillVehicleEntryModal = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => {
+export const LandfillVehicleEntryModal = ({
+  vehicleInfo,
+}: {
+  vehicleInfo: Vehicle;
+}) => {
   const [vehicleData, setVehicleData] = useState(vehicleInfo);
-  const [weightOfWaste , setWeightOfWaste] = useState("");
+  const [weightOfWaste, setWeightOfWaste] = useState("");
   const [entryTime, setEntryTime] = useState(new Date().toLocaleString());
   const [stsCoordinate, setStsCoordinate] = useState("");
   const [landFillCoordinate, setLandFillCoordinate] = useState("");
   const [distance, setDistance] = useState<string>("");
   const [duration, setDuration] = useState<string>("");
   const { TripComplete } = useTripComplete();
+
 
 
   const [selectedDateTime, setSelectedDateTime] = useState<Date>(new Date());
@@ -72,29 +76,28 @@ const handleDateChange = (date: Date) => {
 };
 
  
+
   const handleSaveChanges = async () => {
     try {
-     
       const postEntry = await TripComplete({
         tripId: vehicleInfo.tripId,
         weightOfWaste: weightOfWaste,
         entryTime: selectedDateTime.toISOString()//entryTime,
       });
-      
+
+      window.location.reload();
     } catch (error) {
       console.error("Error:", error);
     }
-    
-  
   };
-  
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" title="Edit STS Info" className="h-8 w-8 p-0">
-          <Send className="h-4 w-4" />
-        </Button>
+        <Button title={"Vehicle " + vehicleInfo.vehicleNumber + " has arrived?"} className="px-3 py-1 bg-black text-white flex gap-2">
+          {/* <div className="flex gap-2 mr-4 px-2 py-1 rounded-sm bg-card shadow-md"><Truck className="h-4 w-4" /> ENTRY</div> */}
+          <Truck className="h-4 w-4" /> ENTRY
+        </Button>        
       </DialogTrigger>
       <DialogContent className="max-w-[425px]">
         <DialogHeader>
@@ -112,7 +115,7 @@ const handleDateChange = (date: Date) => {
                 {vehicleInfo.vehicleType}
               </p>
               <p>
-              <span className="font-bold">STS Name: </span>
+                <span className="font-bold">STS Name: </span>
                 {vehicleInfo.stsId}
               </p>
               <p>
@@ -127,8 +130,6 @@ const handleDateChange = (date: Date) => {
                 <span className="font-bold">Trip Start Time: </span>
                 {vehicleInfo.tripStartTime}
               </p>
-            
-              
             </div>
           </DialogDescription>
         </DialogHeader>
@@ -145,7 +146,7 @@ const handleDateChange = (date: Date) => {
               onChange={(e) => setWeightOfWaste(e.target.value)}
             />
           </div>
-          
+
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="capacity" className="text-right">
               LandFill Entry Time
@@ -171,9 +172,11 @@ const handleDateChange = (date: Date) => {
           </div>
         </div>
         <DialogFooter>
-        <DialogClose asChild>
-        <Button type="button" onClick={handleSaveChanges}>Save changes</Button>
-        </DialogClose>
+          <DialogClose asChild>
+            <Button type="button" onClick={handleSaveChanges}>
+              Save changes
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
