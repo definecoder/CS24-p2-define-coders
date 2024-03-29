@@ -2,10 +2,13 @@
 import React, { useState } from 'react';
 import { GoogleMap, LoadScript, Marker, Circle, InfoWindow } from '@react-google-maps/api';
 import { threshold } from '@/hooks/functions/threshold';
+import { Button } from '../ui/button';
 
 const MapContainerStyle = {
   width: '100%',
-  height: '100%',
+  height: 'calc(100% - 44px)',
+  borderRadius: '12px',
+  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
 };
 
 const defaultCenter = {
@@ -37,7 +40,9 @@ const GoogleMapComponent: React.FC<MapProps> = ({ coordinates, dumpFills }) => {
   };
 
   return (
-    <LoadScript googleMapsApiKey={apiKey}>
+    <>
+    <div className='flex justify-end mb-2 mr-2 hover:p'><Button onClick={() => {window.location.reload()}}>Refresh</Button></div>    
+    <LoadScript googleMapsApiKey={apiKey}>      
       <GoogleMap
         id="maps"
         mapContainerStyle={MapContainerStyle}
@@ -82,6 +87,7 @@ const GoogleMapComponent: React.FC<MapProps> = ({ coordinates, dumpFills }) => {
         )}
       </GoogleMap>
     </LoadScript>
+    </>
   );
 };
 

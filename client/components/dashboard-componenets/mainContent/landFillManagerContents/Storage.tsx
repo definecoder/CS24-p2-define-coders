@@ -1,8 +1,22 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Cog, UserRoundCog } from "lucide-react";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
+import { AllStsMapShow } from "@/components/maps/AllStsShow";
+import useGetAllSTS from "@/hooks/stsdata/useGetAllSTS";
+import { use, useEffect, useState } from "react";
+import GoogleMapComponent from "@/components/maps/GoogleMap";
 
 export default function LandfillManagerStorageData() {
+  const { getAllSTS, stsCoordinate, storagePercentage } = useGetAllSTS();  
+
+  useEffect(() => {
+    getAllSTS();
+  }, []);
+
+  useEffect(() => {    
+  }, [stsCoordinate, storagePercentage]);
+
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
       <div className="flex items-center justify-between">
@@ -22,7 +36,13 @@ export default function LandfillManagerStorageData() {
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
         <div className="grid grid-cols-1 lg:grid-cols-8 lg:grid-rows-6 grid-flow-row gap-4 w-full h-full">
           <div className="lg:col-span-4 lg:row-span-4 min-h-36">
-            <EmptyFillContainer>Dumping history</EmptyFillContainer>
+            <EmptyFillContainer>
+              
+                <GoogleMapComponent
+                  coordinates={stsCoordinate}
+                  dumpFills={storagePercentage}                  
+                />
+            </EmptyFillContainer>
           </div>
           <div className="lg:col-span-4 lg:row-span-4 min-h-36">
             <EmptyFillContainer>Storage history</EmptyFillContainer>
