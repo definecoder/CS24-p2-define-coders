@@ -55,14 +55,20 @@ model Vehicle {
     id                    String   @id @default(uuid())
     vehicleNumber         String   @unique
     vehicleType           String
-    capacity              Decimal
-    loadedFuelCostPerKm   Decimal
-    unloadedFuelCostPerKm Decimal
+    capacity              Decimal  @db.Decimal(10, 2)
+    loadedFuelCostPerKm   Decimal  @db.Decimal(10, 2)
+    unloadedFuelCostPerKm Decimal  @db.Decimal(10, 2)
     currentLatitude       Decimal?
     currentLongitude      Decimal?
 
-    landFill             Landfill               @relation(fields: [landFillId], references: [id], onDelete: Cascade)
-    landFillId           String
+    landFill   Landfill @relation(fields: [landFillId], references: [id], onDelete: Cascade)
+    landFillId String
+    sts        STS      @relation(fields: [stsId], references: [id], onDelete: Cascade)
+    stsId      String
+
+    duration Decimal? @db.Decimal(10, 2)
+    distance Decimal? @db.Decimal(10, 2)
+
     STSVehicleEntry      STSVehicleEntry[]
     LandfillVehicleEntry LandfillVehicleEntry[]
     Bill                 Bill[]
@@ -73,13 +79,14 @@ model Vehicle {
 }
 
 model STS {
-    id                String   @id @default(uuid())
+    id                String    @id @default(uuid())
     name              String?
     wardNumber        String?
-    capacity          Decimal?
-    currentTotalWaste Decimal?
+    capacity          Decimal?  @db.Decimal(10, 2)
+    currentTotalWaste Decimal?  @db.Decimal(10, 2)
     latitude          Decimal
     longitude         Decimal
+    Vehicle           Vehicle[]
 
     STSVehicleEntry STSVehicleEntry[]
     manager         User[]
@@ -93,8 +100,8 @@ model STS {
 model Landfill {
     id                  String   @id @default(uuid())
     name                String?
-    capacity            Decimal?
-    currentTotalWaste   Decimal?
+    capacity            Decimal? @db.Decimal(10, 2)
+    currentTotalWaste   Decimal? @db.Decimal(10, 2)
     operationalTimeSpan String? // ask about this
     latitude            Decimal
     longitude           Decimal
@@ -115,7 +122,7 @@ model STSVehicleEntry {
     stsId         String
     vehicle       Vehicle   @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
     vehicleId     String
-    weightOfWaste Decimal?
+    weightOfWaste Decimal?  @db.Decimal(10, 2)
     entryTime     DateTime?
     exitTime      DateTime?
 
@@ -129,7 +136,7 @@ model LandfillVehicleEntry {
     landfillId    String
     vehicle       Vehicle   @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
     vehicleId     String
-    weightOfWaste Decimal?
+    weightOfWaste Decimal?  @db.Decimal(10, 2)
     entryTime     DateTime?
     exitTime      DateTime?
 
@@ -151,8 +158,8 @@ model Bill {
     trip   Trip?   @relation(fields: [tripId], references: [id], onDelete: Cascade)
     tripId String?
 
-    weightOfWaste     Decimal?
-    allocatedFuelCost Decimal?
+    weightOfWaste     Decimal? @db.Decimal(10, 2)
+    allocatedFuelCost Decimal? @db.Decimal(10, 2)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -169,13 +176,13 @@ model Trip {
 
     tripStartTime     DateTime?
     tripEndTime       DateTime?
-    weightOfWaste     Decimal?
-    shortage          Decimal?
-    estimatedFuelCost Decimal?
+    weightOfWaste     Decimal?  @db.Decimal(10, 2)
+    shortage          Decimal?  @db.Decimal(10, 2)
+    estimatedFuelCost Decimal?  @db.Decimal(10, 2)
 
-    distance          Decimal?
-    estimatedDuration Decimal?
-    actualDuration    Decimal?
+    distance          Decimal? @db.Decimal(10, 2)
+    estimatedDuration Decimal? @db.Decimal(10, 2)
+    actualDuration    Decimal? @db.Decimal(10, 2)
 
     tripStatus String?
 
