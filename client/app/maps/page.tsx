@@ -3,6 +3,7 @@ import { AllStsMapShow } from '@/components/maps/AllStsShow';
 import GoogleMapComponent from '@/components/maps/GoogleMap'
 import RouteMap from '@/components/maps/RouteMap';
 import SetZone from '@/components/maps/SetZone';
+import GetVehicleCoordinateRoute from '@/components/maps/getVehicleCoordinate';
 import { ChakraProvider, theme } from '@chakra-ui/react'
 
 type StsShow = {
@@ -32,7 +33,9 @@ const Map = () => {
        {/* <ChakraProvider theme={theme}>
       <RouteMap/>
     </ChakraProvider> */}
-    <AllStsMapShow />
+    {/* <AllStsMapShow /> */}
+
+    <GetVehicleCoordinateRoute />
     </div>
     
   )
