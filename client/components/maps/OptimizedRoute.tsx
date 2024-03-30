@@ -25,6 +25,17 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { set } from "react-hook-form";
+import { Crosshair } from "lucide-react";
 
 const center = { lat: 23.7244018, lng: 90.3887196 };
 
@@ -35,14 +46,18 @@ type StsRouteType = {
 
 type MapProps = {
   coordinates: StsRouteType[];
+  landFillCoordinates: StsRouteType[];
 };
 
-const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) => {
+const OptimizedRouteMap: React.FC<MapProps> = ({
+  coordinates,
+  landFillCoordinates,
+}) => {
   const [routeType, setRouteType] = useState<string>(
-    "Location Based Optimal Route"
+    "STS TO LANDFILL OPTIMAL ROUTE"
   );
-  const [useDropdown, setUseDropdown] = useState<boolean>(false);
-  const [useLandDropdown, setUseLandDropdown] = useState<boolean>(false);
+  const [useDropdown, setUseDropdown] = useState<boolean>(true);
+  const [useLandDropdown, setUseLandDropdown] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
 
@@ -51,27 +66,21 @@ const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) => {
 
   //coordinate data stuffs
   const [allCoordinates, setAllCoordinates] = useState<string[]>([]);
-  const [landFilCoord, setLandFillCoord] = useState<StsRouteType>({
-    coordinate: "23.7244018, 90.3887196",
-    name: "Amin Bazar",
-  });
+  const [landFilCoords, setLandFillCoords] = useState<StsRouteType[]>([]);
 
-  const suggestionsList: string[] = [
-    "23.7751927, 90.3810282",
-    "Dhanmondi STS",
-    "Gulshan STS",
-    "Baridhara STS",
-    "Mohammadpur STS",
-    "Gulistan STS",
-    "Rampura STS",
-  ];
+  const [landfillList, setLandfillList] = useState<string[]>([]);
 
   useEffect(() => {
     const coordinateArray: string[] = coordinates.map((route) => route.name);
     setAllCoordinates(coordinateArray);
   }, [coordinates]);
 
-  const landfillList: string[] = ["Amin Bazar"];
+  useEffect(() => {
+    //const coordinateArray: string[] = coordinates.map((route) => route.coordinate);
+    setLandFillCoords(landFillCoordinates);
+    setLandfillList(landFillCoordinates.map((route) => route.name));
+    console.log(landfillList);
+  }, [landFillCoordinates]);
 
   //input studds
 
@@ -84,9 +93,9 @@ const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) => {
 
   const handleChangeRouteType = () => {
     setRouteType((prevType) =>
-      prevType === "Location Based Optimal Route"
-        ? "STS to Landfill Optimal Route"
-        : "Location Based Optimal Route"
+      prevType === "LOCATION BASED OPTIMAL ROUTE"
+        ? "STS TO LANDFILL OPTIMAL ROUTE"
+        : "LOCATION BASED OPTIMAL ROUTE"
     );
     handleChangeInputType();
     handleLandChangeInputType();
@@ -94,7 +103,7 @@ const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-    setShowSuggestions(true);
+    // setShowSuggestions(true);
   };
   const handleLandInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -176,13 +185,15 @@ const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) => {
         setDuration(results.routes[0].legs[0].duration?.text || "");
       }
     } else {
-      const stsCoord = getSTSCoodrdinateByName(searchTerm);
+      const stsCoord = getSTSCoodrdinateByName(coordinates[parseInt(searchTerm)].name);
       const newString = stsCoord.substring(0, 11);
-      console.log(stsCoord);
+      //console.log(stsCoord);
       const directionsService = new google.maps.DirectionsService();
       const results = await directionsService.route({
         origin: stsCoord,
-        destination: landFilCoord.coordinate,
+        destination:
+          landFilCoords.find((landfill) => landfill.name === landfillList[parseInt(landTerm)])
+            ?.coordinate || "",
         travelMode: google.maps.TravelMode.DRIVING,
       });
 
@@ -233,94 +244,61 @@ const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) => {
       </Box>
       <Box
         p={4}
-        borderRadius="lg"
-        m={4}
-        bgColor="white"
+        borderRadius={10}
+        m={-1}
+        bgColor="#f1f8ff"
         shadow="base"
         w="100%"
         zIndex="1"
       >
-        <div>
+        <div className="pb-3 text-center text-lg">
           <b>{routeType}</b>
-          <Button
+          {/* <Button
             colorScheme="teal"
             variant="ghost"
             onClick={handleChangeRouteType}
           >
             Change
-          </Button>
+          </Button> */}
         </div>
-        <HStack spacing={2} justifyContent="space-between">
-          <Box flexGrow={1}>
-            {useDropdown ? (
-              <div>
-                <input
-                  type="text"
-                  placeholder="Search by STS"
-                  value={searchTerm}
-                  onChange={handleInputChange}
-                  className="border border-gray-300 px-1 py-2 rounded-md focus:outline-none focus:border-blue-500"
-                />
-                {showSuggestions && (
-                  <ul className="absolute z-10 mt-1 w-2/5 bg-white rounded-md shadow-lg">
-                    {filteredSuggestions.map((suggestion, index) => (
-                      <li
-                        key={index}
-                        onClick={() => handleSuggestionClick(suggestion)}
-                      >
-                        {suggestion}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ) : (
-              <Autocomplete>
-                <Input type="text" placeholder="Origin" ref={originRef} />
-              </Autocomplete>
-            )}
-          </Box>
-          <Box flexGrow={1}>
-            {useLandDropdown ? (
-              <div>
-                <input
-                  type="text"
-                  placeholder="Search by Landfill"
-                  value={landTerm}
-                  onChange={handleLandInputChange}
-                  className="border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
-                />
-                {showLandSuggestion && (
-                  <ul className="absolute z-10 mt-1 w-2/5 bg-white rounded-md shadow-lg">
-                    {landFilteredSuggestions.map((suggestion, index) => (
-                      <li
-                        key={index}
-                        onClick={() => handleLandSuggestionClick(suggestion)}
-                      >
-                        {suggestion}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ) : (
-              <Autocomplete>
-                <Input
-                  type="text"
-                  placeholder="Destination"
-                  ref={destinationRef}
-                />
-              </Autocomplete>
-            )}
-          </Box>
-
-          <ButtonGroup>
+        <div className="grid grid-flow-row grid-cols-3 gap-2">
+          <Select value={searchTerm} onValueChange={(e) => setSearchTerm(e)}>
+            <SelectTrigger>
+              <SelectValue id="STS" placeholder="Select a STS" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>STS</SelectLabel>
+                {coordinates.map((coordinate, index) => (
+                  <SelectItem key={index} value={index.toString()}>
+                    {coordinate.name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select value={landTerm} onValueChange={(e) => setLandterm(e)}>
+            <SelectTrigger>
+              <SelectValue id="Landfill" placeholder="Select a Landfill" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Landfill</SelectLabel>
+                {landfillList.map((landfill, index) => (
+                  <SelectItem key={index} value={index.toString()}>
+                    {landfill}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <ButtonGroup className="flex justify-center">
             <Button
               colorScheme="facebook"
               type="submit"
               onClick={calculateRoute}
             >
-              Calculate Route
+              Calculate
             </Button>
             <IconButton
               aria-label="Clear Route"
@@ -328,13 +306,19 @@ const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) => {
               onClick={clearRoute}
             />
           </ButtonGroup>
-        </HStack>
+        </div>
+
         <HStack spacing={4} mt={4} justifyContent="space-between">
-          <Text>Distance: {distance} </Text>
-          <Text>Duration: {duration} </Text>
+          <Text>
+            <b>Distance:</b> {distance}{" "}
+          </Text>
+          <Text>
+            <b>Duration:</b> {duration}{" "}
+          </Text>
           <IconButton
             aria-label="Center Back"
-            icon={<FaLocationArrow />}
+            title="Go to center"
+            icon={<Crosshair size={20} />}
             isRound
             onClick={() => {
               if (map) {
