@@ -1,22 +1,37 @@
 import { Button } from "@/components/ui/button";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import { Cog, UserRoundCog } from "lucide-react";
-import { StsVehicleEntryModal } from "@/components/modals/StsVehicleEntryModal"; 
+import { StsVehicleEntryModal } from "@/components/modals/StsVehicleEntryModal";
+import { stsId } from "@/data/cookieNames";
+import useGetstsDatabyID from "@/hooks/StsDashboard/getStsDataById";
+import { useEffect } from "react";
+import { getCookie } from "@/lib/cookieFunctions";
+import { PieChart } from "@mantine/charts";
+import LanfFillUpcomingVehiclesInDashboard from "@/components/dataTables/LandFillUpcomingVehicleInDashboard";
+import STSVehicleList from "@/components/dataTables/StsVehicleList";
 
 export default function STSManagerDashboard() {
-    return (
-      <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
-           <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold md:text-2xl">
-          STS Dashboard
-        </h1>
+  const { getstsDatabyID, stsData } = useGetstsDatabyID();
+
+  useEffect(() => {
+    getstsDatabyID(getCookie(stsId));
+  }, []);
+
+  useEffect(() => {
+    // alert(JSON.stringify(stsData))
+  }, [stsData]);
+
+  return (
+    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-semibold md:text-2xl">STS Dashboard</h1>
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
           <StsVehicleEntryModal>
-          <Button size="sm" className="w-full bg-black text-white">
-            <UserRoundCog size={16} className="mr-2" />
-            NEW DUMPING ENTRY
-          </Button>
+            <Button size="sm" className="w-full bg-black text-white">
+              <UserRoundCog size={16} className="mr-2" />
+              NEW DUMPING ENTRY
+            </Button>
           </StsVehicleEntryModal>
           <Button size="sm" className="w-full">
             <Cog size={16} className="mr-2" />
@@ -25,27 +40,60 @@ export default function STSManagerDashboard() {
         </div>
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-        <div className="grid grid-rows-1 grid-cols-1 lg:grid-cols-10 lg:grid-rows-7 grid-flow-row gap-4 w-full h-full">
-          <div className="lg:col-span-2 lg:row-span-3 min-h-36">
-            <EmptyFillContainer>Storage Status</EmptyFillContainer>
+        <div className="grid grid-flow-row gap-4 md:grid-cols-8 grid-cols-1 w-full h-full">
+          <div className="md:col-span-2 min-h-36">
+            <EmptyFillContainer className="flex md:flex-col justify-around md:justify-center md:gap-6 items-center max-h-min">
+              <div className="text-center color-black flex flex-col items-center justify-center gap-5">
+                {" "}
+                <div>
+                  <b> STORAGE STATUS OF </b>
+                  <br />
+                  <b>OF {stsData?.name?.toUpperCase()} </b>
+                </div>
+                <div>
+                  {" "}
+                  <b>{stsData?.graphData?.emptyPercentage}%</b> EMPTY
+                  <br />
+                  <b>{stsData?.graphData?.fullPercentage}%</b> FULL
+                </div>
+              </div>
+              {stsData?.graphData?.empty !== undefined &&
+              stsData?.graphData?.full !== undefined ? (
+                <PieChart
+                  // labels={["30% EMPTY", "70% FULL"]}
+                  data={[
+                    {
+                      name:
+                        stsData?.graphData?.emptyPercentage + "% EMPTY",
+                      value: stsData?.graphData?.empty,
+                      color: "rgb(121, 121, 121)",
+                    },
+                    {
+                      name: stsData?.graphData?.fullPercentage + "% FULL",
+                      value: (stsData?.graphData?.full),
+                      color: "rgb(0, 0, 0)",
+                    },
+                  ]}
+                  withTooltip
+                  // background={["rgb(121, 121, 121)", "rgb(0, 0, 0)"]}
+                />
+              ) : (
+                "loading..."
+              )}
+            </EmptyFillContainer>
           </div>
-          <div className="lg:col-span-4 lg:row-span-3 min-h-36">
-            <EmptyFillContainer>Upcoming Gari</EmptyFillContainer>
+          <div className="md:col-span-6 min-h-36">
+            <EmptyFillContainer>
+              <STSVehicleList />
+            </EmptyFillContainer>
           </div>
-          <div className="lg:col-span-4 lg:row-span-3 min-h-36">
-            <EmptyFillContainer>Dumping History</EmptyFillContainer>
-          </div>
-          <div className="lg:col-span-3 lg:row-span-2 min-h-36">
-            <EmptyFillContainer>Dump graph</EmptyFillContainer>
-          </div>
-          <div className="lg:col-span-7 lg:row-span-4 min-h-52">
-            <EmptyFillContainer>MAP</EmptyFillContainer>
-          </div>
-          <div className="lg:col-span-3 lg:row-span-2 min-h-36">
-            <EmptyFillContainer>Storage Graph</EmptyFillContainer>
+          <div className="md:col-span-8 min-h-36">
+            <EmptyFillContainer>
+              available gari
+            </EmptyFillContainer>
           </div>
         </div>
       </div>
-      </main>
-    );
-  }
+    </main>
+  );
+}
