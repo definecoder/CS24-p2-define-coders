@@ -65,6 +65,7 @@ type Vehicle = {
   unloadedFuelCostPerKm: string,
   landFillId: string,
   landFillName: string,  
+  stsId: string,
 };
 
 export const columns: ColumnDef<Vehicle>[] = [
