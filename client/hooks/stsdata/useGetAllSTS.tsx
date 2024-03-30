@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { uri } from '@/data/constant';
+import { jwtToken } from "@/data/cookieNames";
+import { getCookie } from "@/lib/cookieFunctions";
+import { apiRoutes } from '@/data/apiRoutes';
 type STS = {
     id: string,
     name: string,
@@ -32,7 +35,9 @@ export default function useGetAllSTS() {
 
     async function getAllSTS() {
         try {
-            const res = await axios.get('http://localhost:8585/sts');
+            const res = await axios.get(apiRoutes.sts.getAll, {
+                headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
+              });
             // Assuming the response data is an array of STS
             const AllSTS: STS[] = res.data.map((data: any) => ({
                 id: data.id,

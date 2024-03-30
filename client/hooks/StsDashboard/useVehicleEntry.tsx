@@ -4,6 +4,7 @@ import { setCookie, getCookie } from '@/lib/cookieFunctions';
 import axios from 'axios';
 import { jwtToken, role , uid , username, stsId} from '@/data/cookieNames';
 import { uri } from '@/data/constant';
+import { apiRoutes } from '@/data/apiRoutes';
 
 export default function useVehicleEntry() {  
 
@@ -18,10 +19,12 @@ export default function useVehicleEntry() {
     
     try {
       const isoString = new Date(data.entryTimes).toISOString();
-      const res = await axios.post('http://localhost:8585/sts-entry/create', {
+      const res = await axios.post(apiRoutes.sts.vehicle.create, {
         stsId : "sts1",
         vehicleId: data.vehicleIds,
         entryTime: isoString
+    }, {
+      headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
     });
     //use the response from here
     //console.log(res.data);

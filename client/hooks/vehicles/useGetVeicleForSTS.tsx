@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { uri } from '@/data/constant';
+import { jwtToken } from "@/data/cookieNames";
+import { getCookie } from "@/lib/cookieFunctions";
 
 type Vehicle = {
   entryId: string,
@@ -25,7 +27,9 @@ export default function useVehicleListForSTS() {
 
   async function getVehicleList() {
     try {
-      const res = await axios.get('http://localhost:8585/sts-entry/sts1/get-current-vehicles');
+      const res = await axios.get('http://localhost:8585/sts-entry/sts1/get-current-vehicles', {
+        headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
+      });
       // Assuming the response data is an array of vehicles
       const AllVehicle: Vehicle[] = res.data.map((vehicle: any) => ({
         entryId: vehicle.id,
