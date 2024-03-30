@@ -3,64 +3,44 @@ dotenv.config();
 
 import { PrismaClient } from "@prisma/client";
 
+import pq from "js-priority-queue";
+
+import { Vehicle } from "../types/vehicle";
 import {
-  Client,
-  DirectionsResponse,
-  TravelMode,
-} from "@googlemaps/google-maps-services-js";
+  getSortedSTSFromLandfill,
+  getSortedVehicles,
+} from "../services/optmization";
 
 const prisma = new PrismaClient();
 
-const client = new Client({});
-
-const getSortedVehicles = async () => {
-  const vehicles = await prisma.$queryRaw`
-    SELECT * FROM "Vehicle"
-    ORDER BY ("loadedFuelCostPerKm" / "capacity") DESC
-    `;
-  return vehicles;
-};
-
-const getSortedSTSFromLandfill = async (landfillId: string) => {
-  const landfill = await prisma.landfill.findUnique({
-    where: {
-      id: landfillId,
-    },
-  });
-
-  const lat = 24.882116;
-  const lon = 91.85636;
-  const lat2 = 24.886767;
-  const lon2 = 91.886949;
-
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""; // Ensure apiKey is defined
-
-  const response: DirectionsResponse = await client.directions({
-    params: {
-      origin: `${lat},${lon}`,
-      destination: `${lat2},${lon2}`,
-      key: apiKey,
-      mode: TravelMode.driving,
-    },
-  });
-
-  const duration = response.data?.routes[0]?.legs[0]?.duration?.value;
-
-  const durationInMinutes = (duration ? duration / 60 : 0).toFixed(2);
-
-  return durationInMinutes;
-};
-
 const getSchedule = async () => {
-  //   const vehicles = await getSortedVehicles();
+  const vehicles: Vehicle[] = await getSortedVehicles();
 
   //   console.log(vehicles);
 
-  const duration = await getSortedSTSFromLandfill(
+  const stsList = await getSortedSTSFromLandfill(
     "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd"
   );
 
-  console.log(duration);
+  const queue = new pq({
+    comparator: (a: Vehicle, b: Vehicle) => {
+      if (a.busyTime && b.busyTime) {
+        return a.busyTime - b.busyTime;
+      }
+      return 0; // Return a default value of 0 when a.busyTime or b.busyTime is undefined
+    },
+  });
+  // enter all vehicles in the queue, with the priority being the emergency factor
+
+  vehicles.forEach((vehicle: Vehicle) => {
+    queue.queue(vehicle);
+  });
+
+  for (let i = 0; i < queue.length; i++) {
+    console.log(queue.dequeue());
+  }
+
+  //   console.log(stsList);
 };
 
 getSchedule();

@@ -61,8 +61,14 @@ model Vehicle {
     currentLatitude       Decimal?
     currentLongitude      Decimal?
 
-    landFill             Landfill               @relation(fields: [landFillId], references: [id], onDelete: Cascade)
-    landFillId           String
+    landFill   Landfill @relation(fields: [landFillId], references: [id], onDelete: Cascade)
+    landFillId String
+    sts        STS      @relation(fields: [stsId], references: [id], onDelete: Cascade)
+    stsId      String
+
+    duration Decimal? @db.Decimal(10, 2)
+    distance Decimal? @db.Decimal(10, 2)
+
     STSVehicleEntry      STSVehicleEntry[]
     LandfillVehicleEntry LandfillVehicleEntry[]
     Bill                 Bill[]
@@ -73,13 +79,14 @@ model Vehicle {
 }
 
 model STS {
-    id                String   @id @default(uuid())
+    id                String    @id @default(uuid())
     name              String?
     wardNumber        String?
-    capacity          Decimal? @db.Decimal(10, 2)
-    currentTotalWaste Decimal? @db.Decimal(10, 2)
+    capacity          Decimal?  @db.Decimal(10, 2)
+    currentTotalWaste Decimal?  @db.Decimal(10, 2)
     latitude          Decimal
     longitude         Decimal
+    Vehicle           Vehicle[]
 
     STSVehicleEntry STSVehicleEntry[]
     manager         User[]

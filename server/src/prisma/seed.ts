@@ -249,6 +249,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts1",
+      },
+    },
+    duration: 20,
   },
   {
     id: "vid2",
@@ -262,6 +268,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts2",
+      },
+    },
+    duration: 18,
   },
   {
     id: "vid3",
@@ -275,6 +287,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts3",
+      },
+    },
+    duration: 17,
   },
   {
     vehicleNumber: "13-8275",
@@ -287,6 +305,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts1",
+      },
+    },
+    duration: 21,
   },
   {
     vehicleNumber: "13-8276",
@@ -299,6 +323,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts4",
+      },
+    },
+    duration: 28,
   },
   {
     vehicleNumber: "13-8277",
@@ -311,6 +341,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts1",
+      },
+    },
+    duration: 26,
   },
   {
     vehicleNumber: "13-8278",
@@ -323,6 +359,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts2",
+      },
+    },
+    duration: 45,
   },
 ];
 
