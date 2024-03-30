@@ -1,4 +1,3 @@
-
 import { ChakraProvider, theme } from "@chakra-ui/react";
 import OptimizedRouteMap from "@/components/maps/OptimizedRoute";
 import RouteMap from "@/components/maps/RouteMap";
@@ -6,55 +5,49 @@ import STSVehicleList from "@/components/dataTables/StsVehicleList";
 
 import useGetAllSTS from "@/hooks/stsdata/useGetAllSTS";
 import * as React from "react";
-import {useState, useEffect} from "react";
-
-
+import { useState, useEffect } from "react";
+import useGetAllLandfill from "@/hooks/dataQuery/useGetAllLandfill";
 
 type StsRouteType = {
-  coordinate: string,
-  name: string,
-}
+  coordinate: string;
+  name: string;
+};
 
 export default function GetStsCoordinateForRoute() {
-    const {stsList, getAllSTS, stsRoute  } = useGetAllSTS();
-    const [coordinates, setCoordinates] = useState<string[]>([]);
-    const [stsName, setStsName] = useState<string[]>([]);
-    const [stsRouting , setStsRouting] = useState<StsRouteType[]>([]);
-    
-    
+  const { stsList, getAllSTS, stsRoute } = useGetAllSTS();
+  const [coordinates, setCoordinates] = useState<string[]>([]);
+  const [stsName, setStsName] = useState<string[]>([]);
+  const [stsRouting, setStsRouting] = useState<StsRouteType[]>([]);
+  const [landFIllRouting, setLandFIllRouting] = useState<StsRouteType[]>([]);
+  const { fetchAllLandfills, landFillData } = useGetAllLandfill();
 
-    // const suggestionsList: string[] = [
-    //     "23.7751927, 90.3810282",
-    //     "Bolbacchan STS",
-    //     "Gulshan STS",
-    //     "Baridhara STS",
-    //     "Mohammadpur STS",
-    //     "Gulistan STS",
-    //     "Rampura STS",
-    //   ];
-    
-    //   const landfillList: string[] = ["23.7618195, 90.3833253","Amin Bazar", "Chashara"];
+  useEffect(() => {
+    getAllSTS();  
+    fetchAllLandfills();
+  }, []);
 
-    
-
-      useEffect(() => {
-        getAllSTS();
-console.log(stsRoute);
-
-        
-    }, []);
-    useEffect(() => {
-      const coordinateArray: string[] = stsRoute.map(route => route.coordinate);
-      setCoordinates(coordinateArray);
-      setStsRouting(stsRoute);
+  useEffect(() => {
+    const coordinateArray: string[] = stsRoute.map((route) => route.coordinate);
+    setCoordinates(coordinateArray);
+    setStsRouting(stsRoute);
+    console.log(coordinateArray);
+    console.log(stsRoute);
   }, [stsRoute]);
-      
 
-   
-        console.log(coordinates);
+  useEffect(() => {
+    const landfilllist: StsRouteType[] = landFillData.map((route) => {
+      return {
+        coordinate: route.latitude + ", " + route.longitude,
+        name: route.name,      
+      };
+    });
+    setLandFIllRouting(landfilllist);
+    console.log(landfilllist);
+  }, [landFillData]);
+
   return (
-              <ChakraProvider theme={theme}>
-                <OptimizedRouteMap coordinates={stsRouting}/>
-              </ChakraProvider>
+    <ChakraProvider theme={theme}>
+      <OptimizedRouteMap coordinates={stsRouting} landFillCoordinates={landFIllRouting} />
+    </ChakraProvider>
   );
 }

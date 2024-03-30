@@ -20,6 +20,7 @@ type Vehicle = {
   stsLongitude: string;
   landfillLattitude: string;
   landfillLongitude: string;
+  stsId: string;
 };
 
 export default function useGetAllVehicleList() {
@@ -41,6 +42,7 @@ export default function useGetAllVehicleList() {
         unloadedFuelCostPerKm: vehicle.unloadedFuelCostPerKm,
         landFillId: vehicle.landFillId,
         landFillName: vehicle.landFill.name,
+        stsId: vehicle.stsId,
       }));
       const vehicleNumbers = res.data.map(
         (vehicle: Vehicle) => vehicle.vehicleNumber

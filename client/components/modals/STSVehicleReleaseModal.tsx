@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose
+  DialogClose,
 } from "@/components/ui/dialog";
 
 import { Input } from "@/components/ui/input";
@@ -37,25 +37,29 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 type Vehicle = {
-  entryId: string,
-  id: string,
-  vehicleNumber: string,
-  vehicleType: string,
-  capacity: string,
-  loadedFuelCostPerKm: string,
-  unloadedFuelCostPerKm: string,
-  landFillId: string,
-  entryTime: string,
-  landFillName: string,    
-  stsLattitude: string,
-  stsLongitude: string,
-  landfillLattitude: string,
-  landfillLongitude: string,
+  entryId: string;
+  id: string;
+  vehicleNumber: string;
+  vehicleType: string;
+  capacity: string;
+  loadedFuelCostPerKm: string;
+  unloadedFuelCostPerKm: string;
+  landFillId: string;
+  entryTime: string;
+  landFillName: string;
+  stsLattitude: string;
+  stsLongitude: string;
+  landfillLattitude: string;
+  landfillLongitude: string;
 };
 
-export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => {
+export const STSVehicleRelease = ({
+  vehicleInfo,
+}: {
+  vehicleInfo: Vehicle;
+}) => {
   const [vehicleData, setVehicleData] = useState(vehicleInfo);
-  const [weightOfWaste , setWeightOfWaste] = useState("");
+  const [weightOfWaste, setWeightOfWaste] = useState("");
   const [exitTime, setExitTime] = useState(new Date().toLocaleString());
   const [stsCoordinate, setStsCoordinate] = useState("");
   const [landFillCoordinate, setLandFillCoordinate] = useState("");
@@ -68,29 +72,22 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
   const handleDateChange = (date: Date) => {
     setSelectedDateTime(date);
   };
-  
 
- 
   const handleSaveChanges = async () => {
     try {
-     
       const postEntry = await VehicleReleaseFromSTS({
         stsVehicleId: vehicleInfo.entryId,
-    weightOfWaste: weightOfWaste,
-    exitTime: selectedDateTime.toISOString(),
-    distance: distance,
-    estimatedDuration: duration
+        weightOfWaste: weightOfWaste,
+        exitTime: selectedDateTime.toISOString(),
+        distance: distance,
+        estimatedDuration: duration,
       });
       // window.location.reload();
-      if(postEntry) return alert(postEntry);
-      
+      if(postEntry) return alert(postEntry);      
     } catch (error) {
       console.error("Error:", error);
     }
-    
-  
   };
-  
 
   return (
     <Dialog>
@@ -111,7 +108,7 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
                 {vehicleInfo.vehicleNumber}
               </h1>
               <p>
-              <span className="font-bold">Entry Time: </span>
+                <span className="font-bold">Entry Time: </span>
                 {vehicleInfo.entryTime}
               </p>
               <p>
@@ -124,18 +121,17 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
               </p>
               <p>
                 <span className="font-bold">Optimized Route: </span>
-                <VehicleRelaseRoute 
-                vehicleOriginLatitude={vehicleInfo.stsLattitude}
-                vehicleOriginLongitude={vehicleInfo.stsLongitude}
-                vehicleDestinationLatitude={vehicleInfo.landfillLattitude}
-                vehicleDestinationLongitude={vehicleInfo.landfillLongitude}
-                setDistance={setDistance}
-                setDuration={setDuration}
-                distance={distance}
-                duration={duration}
+                <VehicleRelaseRoute
+                  vehicleOriginLatitude={vehicleInfo.stsLattitude}
+                  vehicleOriginLongitude={vehicleInfo.stsLongitude}
+                  vehicleDestinationLatitude={vehicleInfo.landfillLattitude}
+                  vehicleDestinationLongitude={vehicleInfo.landfillLongitude}
+                  setDistance={setDistance}
+                  setDuration={setDuration}
+                  distance={distance}
+                  duration={duration}
                 />
               </p>
-              
             </div>
           </DialogDescription>
         </DialogHeader>
@@ -152,7 +148,7 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
               onChange={(e) => setWeightOfWaste(e.target.value)}
             />
           </div>
-          
+
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="capacity" className="text-right">
               Deparature Time
@@ -165,22 +161,24 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
               onChange={(e) => setExitTime(e.target.value)}
             /> */}
             <div className="flex flex-col">
-    {/* Other component content */}
-    <DatePicker
-      selected={selectedDateTime}
-      onChange={handleDateChange}
-      showTimeSelect
-      timeFormat="hh:mm aa"
-      dateFormat="dd/MM/yy hh:mm aa" // Set desired date format
-      locale="en-GB"
-    />
-  </div>
+              {/* Other component content */}
+              <DatePicker
+                selected={selectedDateTime}
+                onChange={handleDateChange}
+                showTimeSelect
+                timeFormat="hh:mm aa"
+                dateFormat="dd/MM/yy hh:mm aa" // Set desired date format
+                locale="en-GB"
+              />
+            </div>
           </div>
         </div>
         <DialogFooter>
-        <DialogClose asChild>
-        <Button type="button" onClick={handleSaveChanges}>Save changes</Button>
-        </DialogClose>
+          <DialogClose asChild>
+            <Button type="button" onClick={handleSaveChanges}>
+              Save changes
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

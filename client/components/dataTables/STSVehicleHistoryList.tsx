@@ -52,20 +52,15 @@ import { DeleteSTSModal } from "../modals/stsControl/DeleteSTSModal";
 import useVehicleList from "@/hooks/vehicles/useVehiclesData";
 import useVehicleListForSTS from "@/hooks/vehicles/useGetVeicleForSTS";
 import { DeleteVehicleModalForSTS } from "../modals/DeleteVehicleModalForSTS";
-import useGetAllVehicleList from "@/hooks/vehicles/useGetAllVehicleList";
-import { DeleteVehicleModal } from "../modals/vehicleControl/DeleteVehicleModal";
-import { EditVehicleInfoModal } from "../modals/vehicleControl/EditVehicleInfoModal";
+import { STSVehicleRelease } from "../modals/STSVehicleReleaseModal";
+import formatTimestamp from "@/lib/formatTimestamp";
+import useGetVehicleHistoryForSTS from "@/hooks/vehicles/useGetVehicleHistoryForSTS";
 
 type Vehicle = {
-  id: string,
   vehicleNumber: string,
-  vehicleType: string,
-  capacity: string,
-  loadedFuelCostPerKm: string,
-  unloadedFuelCostPerKm: string,
-  landFillId: string,
-  landFillName: string,  
-  stsId: string,
+  exitTime: string,
+  landFillName: string,   
+  weightOfWaste: string,
 };
 
 export const columns: ColumnDef<Vehicle>[] = [
@@ -79,7 +74,7 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Vehicle Number
+            Name
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -89,8 +84,9 @@ export const columns: ColumnDef<Vehicle>[] = [
       <div className="text-center font-medium">{row.getValue("vehicleNumber")}</div>
     ),
   },
+  
   {
-    accessorKey: "vehicleType",
+    accessorKey: "weightOfWaste",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -99,36 +95,14 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Vehicle Type
+            Waste (tons)
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">
-        {row.getValue("vehicleType")}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "capacity",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Capacity
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("capacity") + " Ton"}</div>
+      <div className="text-center font-medium">{row.getValue("weightOfWaste".toLocaleString())}</div>
     ),
   },
   {
@@ -141,18 +115,20 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Land Fill Name
+            Landfill Name
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("landFillName")}</div>
+      <div className="text-center font-medium">
+        {row.getValue("landFillName")}
+      </div>
     ),
   },
   {
-    accessorKey: "loadedFuelCostPerKm",
+    accessorKey: "exitTime",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -161,55 +137,35 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Unloaded Cost
+            Exit time
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("loadedFuelCostPerKm")}</div>
-    ),
-  },
-  {
-    accessorKey: "unloadedFuelCostPerKm",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Loaded cost
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("unloadedFuelCostPerKm")}</div>
+      <div className="text-center font-medium">{formatTimestamp(row.getValue("exitTime".toLocaleString()))}</div>
     ),
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const vehicle: Vehicle = row.original;
+      const sts: Vehicle = row.original;
 
       return (
         <div>
-            <DeleteVehicleModal vehicleInfo={vehicle} />          
-            <EditVehicleInfoModal vehicleInfo={vehicle} />
+          {/* <DeleteVehicleModalForSTS vehicleInfo={sts} />
+          <STSVehicleRelease vehicleInfo={sts} /> */}
         </div>
       );
     },
   },
 ];
 
-export default function AllVehicleList() {
+export default function STSVehicleHistoryList() {
   const [data, setData] = React.useState<Vehicle[]>([]);
-  const { getVehicleList, vehicleList } = useGetAllVehicleList();
+  const { getVehicleHistory, vehicleList } = useGetVehicleHistoryForSTS();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -219,7 +175,7 @@ export default function AllVehicleList() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
-    getVehicleList();
+    getVehicleHistory();
   }, []);
 
   React.useEffect(() => {
@@ -243,13 +199,19 @@ export default function AllVehicleList() {
       columnVisibility,
       rowSelection,
     },
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: 4,
+      },
+    },
   });
   return (
-    <>
-    <div className="font-bold text-2xl w-full text-center">MANAGE ALL VEHICLES</div>
-      <div className="flex items-center py-4 gap-4">
+    <div className="flex flex-col justify-center w-full h-full">
+    <div className="font-bold text-xl w-full text-center">HISTORY OF OUTGOING VEHICLES FROM YOUR STS</div>
+    <div><div className="flex items-center py-4 gap-4">
         <Input
-          placeholder="Search by vehicle number..."
+          placeholder="Search by Vehicle number Name..."
           value={(table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("vehicleNumber")?.setFilterValue(event.target.value)
@@ -259,7 +221,7 @@ export default function AllVehicleList() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Filter Vehicles <ChevronDownIcon className="ml-2 h-4 w-4" />
+              Filter <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -335,8 +297,7 @@ export default function AllVehicleList() {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Total {table.getFilteredRowModel().rows.length} row(s) fetched.
         </div>
         <div className="space-x-2">
           <Button
@@ -356,7 +317,7 @@ export default function AllVehicleList() {
             Next
           </Button>
         </div>
-      </div>
-    </>
+      </div></div>
+    </div>
   );
 }

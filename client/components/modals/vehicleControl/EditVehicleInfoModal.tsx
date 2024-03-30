@@ -31,6 +31,7 @@ import editSTS from "@/hooks/entityCreation/editSTS";
 import getUserByRole from "@/hooks/user_data/getUserByRole";
 import useGetAllLandfill from "@/hooks/dataQuery/useGetAllLandfill";
 import editVehicle from "@/hooks/vehicles/editVehicle";
+import useGetAllSTS from "@/hooks/stsdata/useGetAllSTS";
 
 type Vehicle = {
   id: string,
@@ -41,20 +42,24 @@ type Vehicle = {
   unloadedFuelCostPerKm: string,
   landFillId: string,
   landFillName: string,  
+  stsId: string,
 };
 
 export const EditVehicleInfoModal = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => {
   const [vehicleData, setvehicleData] = useState(vehicleInfo);
   const [selectedLandfill, setSelectedLandfill] = useState(vehicleInfo.landFillId);
+  const [selectedSTS, setSelectedSTS] = useState(vehicleInfo.stsId);
   const vehicleTypeList = [
+    "Open Truck",
     "Dump Truck",
     "Compactor Truck",
-    "Open Truck",
     "Container Carrier",
   ];
   const {landFillData} = useGetAllLandfill();
+  const  {stsList} = useGetAllSTS();
   
   useEffect(() => {}, [landFillData]);
+  useEffect(() => {}, [stsList]);
 
   return (
     <Dialog>
@@ -173,10 +178,33 @@ export const EditVehicleInfoModal = ({ vehicleInfo }: { vehicleInfo: Vehicle }) 
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectLabel>Roles</SelectLabel>
+                    <SelectLabel>Landfill</SelectLabel>
                     {landFillData.map((landfill) => (
                       <SelectItem key={landfill.id} value={landfill.id}>
                         {landfill.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid grid-cols-6 items-center gap-4">
+              <Label htmlFor="assignedSTS" className="text-right col-span-2">
+                Assigned STS
+              </Label>
+              <Select
+                value={selectedSTS || ""}
+                onValueChange={(e) => setSelectedSTS(stsList.filter((sts) => sts.id === e)[0].id)}
+              >
+                <SelectTrigger className="col-span-4">
+                  <SelectValue id="assignedLandfill" placeholder="Select STS from the list" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>STS</SelectLabel>
+                    {stsList.map((sts) => (
+                      <SelectItem key={sts.id} value={sts.id}>
+                        {sts.name}
                       </SelectItem>
                     ))}
                   </SelectGroup>
@@ -188,6 +216,7 @@ export const EditVehicleInfoModal = ({ vehicleInfo }: { vehicleInfo: Vehicle }) 
             <Button
               type="submit"
               onClick={async () => {
+                alert(vehicleData.stsId)
                 const result = await editVehicle(vehicleData);
                 if (result) return alert(result);
               }}

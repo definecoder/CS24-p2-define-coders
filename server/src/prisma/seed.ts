@@ -240,7 +240,7 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
   {
     id: "vid1",
     vehicleNumber: "13-8272",
-    vehicleType: "DUMP_TRUCK",
+    vehicleType: "Dump Truck",
     capacity: 5,
     loadedFuelCostPerKm: 10,
     unloadedFuelCostPerKm: 5,
@@ -259,8 +259,8 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
   {
     id: "vid2",
     vehicleNumber: "13-8273",
-    vehicleType: "OPEN_TRUCK",
-    capacity: 3,
+    vehicleType: "Open Truck",
+    capacity: 2,
     loadedFuelCostPerKm: 14,
     unloadedFuelCostPerKm: 6,
     landFill: {
@@ -278,8 +278,8 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
   {
     id: "vid3",
     vehicleNumber: "13-8274",
-    vehicleType: "OPEN_TRUCK",
-    capacity: 3,
+    vehicleType: "Open Truck",
+    capacity: 1,
     loadedFuelCostPerKm: 6,
     unloadedFuelCostPerKm: 1,
     landFill: {
@@ -296,8 +296,8 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
   },
   {
     vehicleNumber: "13-8275",
-    vehicleType: "OPEN_TRUCK",
-    capacity: 3,
+    vehicleType: "Open Truck",
+    capacity: 2,
     loadedFuelCostPerKm: 20,
     unloadedFuelCostPerKm: 8,
     landFill: {
@@ -314,8 +314,8 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
   },
   {
     vehicleNumber: "13-8276",
-    vehicleType: "COMPACTOR",
-    capacity: 7,
+    vehicleType: "Compactor Truck",
+    capacity: 5,
     loadedFuelCostPerKm: 25,
     unloadedFuelCostPerKm: 2,
     landFill: {
@@ -332,8 +332,8 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
   },
   {
     vehicleNumber: "13-8277",
-    vehicleType: "CONTAINER",
-    capacity: 15,
+    vehicleType: "Container Carrier",
+    capacity: 6,
     loadedFuelCostPerKm: 30,
     unloadedFuelCostPerKm: 10,
     landFill: {
@@ -350,8 +350,8 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
   },
   {
     vehicleNumber: "13-8278",
-    vehicleType: "DUMP_TRUCK",
-    capacity: 5,
+    vehicleType: "Dump Truck",
+    capacity: 3,
     loadedFuelCostPerKm: 12,
     unloadedFuelCostPerKm: 3,
     landFill: {

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { uri } from '@/data/constant';
+import { getCookie } from '@/lib/cookieFunctions';
 import { jwtToken, stsId } from "@/data/cookieNames";
-import { getCookie } from "@/lib/cookieFunctions";
 import { apiRoutes } from '@/data/apiRoutes';
 
 type Vehicle = {

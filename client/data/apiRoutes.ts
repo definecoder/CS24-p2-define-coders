@@ -19,9 +19,12 @@ export const apiRoutes = {
         getAll: `${baseUrl}/sts`,
         delete: `${baseUrl}/sts/`,
         edit: `${baseUrl}/sts/`,
-        vehicle: {           
+        getById: `${baseUrl}/sts/`,
+        vehicle: {            
             create: `${baseUrl}/sts-entry/create`,  
-            delete: `${baseUrl}/sts-entry/`,
+            delete: `${baseUrl}/sts-entry/`,       
+            entry: `${baseUrl}/sts-entry/create`,     
+            ongoing: `${baseUrl}/sts-entry/`,                        
             current: `${baseUrl}/sts-entry/`,              
         },
     },

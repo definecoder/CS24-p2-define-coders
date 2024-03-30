@@ -36,6 +36,9 @@ const getLandfillById = errorWrapper(
       where: {
         id: landfillId,
       },
+      include: {
+        manager: true,
+      },
     });    
 
     if (!landfill) {

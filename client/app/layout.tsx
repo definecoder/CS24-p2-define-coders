@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "EcoSync",
   description: "EcoSync is a platform for managing waste in DNCC.",
   icons: {
-    icon: "/logoBlack.png",
+    icon: "/logo.png",
   },
 };
 

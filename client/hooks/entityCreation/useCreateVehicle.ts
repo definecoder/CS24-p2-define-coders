@@ -11,6 +11,7 @@ export type Vehicle = {
     loadedFuelCostPerKm: number;
     unloadedFuelCostPerKm: number;
     landFillId: string;
+    stsId: string;
 };
 
 export default function useCreateVehicle() {
@@ -24,11 +25,13 @@ export default function useCreateVehicle() {
         vehicleData.capacity > 0 &&
         vehicleData.loadedFuelCostPerKm !== null &&
         vehicleData.unloadedFuelCostPerKm !== null &&
-        vehicleData.landFillId.length > 0
+        vehicleData.landFillId.length > 0 &&
+        vehicleData.stsId.length > 0
     );
   }  
 
   async function createVehicle(vehicleData: Vehicle) {
+    // const {stsId, ...paylod} = vehicleData;
     if (vehicleData && isValid(vehicleData)) {
       try {
         const res = await axios.post(apiRoutes.vehicle.create, vehicleData, {

@@ -13,6 +13,7 @@ export default async function deleteVehicleEntryFromSTS(entryId: string) {
           Authorization: `Bearer ${await getCookie(jwtToken)}`,
         },
       });
+      window.location.reload();
       return "vehicle removed successfully";
     } catch (error: any) {
       return error.message?.toString() || "error removing vehicle";
