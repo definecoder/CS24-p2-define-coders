@@ -8,37 +8,35 @@ import pq from "js-priority-queue";
 import { Vehicle } from "../types/vehicle";
 import {
   getSortedSTSFromLandfill,
-  getSortedVehicles,
+  getSortedVehiclesBySTS,
 } from "../services/optmization";
 
 const prisma = new PrismaClient();
 
 const getSchedule = async () => {
-  const vehicles: Vehicle[] = await getSortedVehicles();
+  const stsList = await prisma.sTS.findMany({});
 
-  //   console.log(vehicles);
+  const vehicles: Vehicle[] = await getSortedVehiclesBySTS(stsList[0].id);
 
-  const stsList = await getSortedSTSFromLandfill(
-    "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd"
-  );
+  console.log(vehicles);
 
-  const queue = new pq({
-    comparator: (a: Vehicle, b: Vehicle) => {
-      if (a.busyTime && b.busyTime) {
-        return a.busyTime - b.busyTime;
-      }
-      return 0; // Return a default value of 0 when a.busyTime or b.busyTime is undefined
-    },
-  });
-  // enter all vehicles in the queue, with the priority being the emergency factor
+  //   const queue = new pq({
+  //     comparator: (a: Vehicle, b: Vehicle) => {
+  //       if (a.busyTime && b.busyTime) {
+  //         return a.busyTime - b.busyTime;
+  //       }
+  //       return 0; // Return a default value of 0 when a.busyTime or b.busyTime is undefined
+  //     },
+  //   });
+  //   // enter all vehicles in the queue, with the priority being the emergency factor
 
-  vehicles.forEach((vehicle: Vehicle) => {
-    queue.queue(vehicle);
-  });
+  //   vehicles.forEach((vehicle: Vehicle) => {
+  //     queue.queue(vehicle);
+  //   });
 
-  for (let i = 0; i < queue.length; i++) {
-    console.log(queue.dequeue());
-  }
+  //   for (let i = 0; i < queue.length; i++) {
+  //     console.log(queue.dequeue());
+  //   }
 
   //   console.log(stsList);
 };
