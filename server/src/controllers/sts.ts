@@ -62,8 +62,8 @@ async function calculatePercentage(sts: STS) {
   const graphData = {
     empty: mot - ase,
     full: ase,
-    emptyPercentage: ((mot - ase) / mot) * 100,
-    fullPercentage: (ase / mot) * 100,
+    emptyPercentage: parseFloat((((mot - ase) / mot) * 100).toString()).toFixed(2),
+    fullPercentage: parseFloat(((ase / mot) * 100).toString()).toFixed(2),
   };
   
   return  graphData; // Replace with the actual calculation
