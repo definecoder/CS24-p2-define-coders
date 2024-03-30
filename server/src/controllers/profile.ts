@@ -15,6 +15,8 @@ const getUserById = errorWrapper(
       },
       include: {
         role: true,
+        sts: true,
+        landfill: true
       },
     });
 

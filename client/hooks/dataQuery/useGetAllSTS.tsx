@@ -13,6 +13,7 @@ export type STS = {
     capacity: string;
     latitude: string;
     longitude: string;
+    manager: string[];
   };
 
 export default function useGetAllSTS() {
@@ -33,6 +34,7 @@ export default function useGetAllSTS() {
           capacity: sts.capacity,
           latitude: sts.latitude,
           longitude: sts.longitude,
+          manager: sts.manager.map((manager: any) => manager.username),
         };
       });
       await setSTSData(stsList);

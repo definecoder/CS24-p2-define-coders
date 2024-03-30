@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -28,7 +28,16 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const center = { lat: 23.7244018, lng: 90.3887196 };
 
-function OptimizedRouteMap() {
+type StsRouteType = {
+  coordinate: string;
+  name: string;
+};
+
+type MapProps = {
+  coordinates: StsRouteType[];
+};
+
+const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) => {
   const [routeType, setRouteType] = useState<string>(
     "Location Based Optimal Route"
   );
@@ -40,6 +49,13 @@ function OptimizedRouteMap() {
   const [landTerm, setLandterm] = useState<string>("");
   const [showLandSuggestion, setShowLandsuggestion] = useState<boolean>(false);
 
+  //coordinate data stuffs
+  const [allCoordinates, setAllCoordinates] = useState<string[]>([]);
+  const [landFilCoord, setLandFillCoord] = useState<StsRouteType>({
+    coordinate: "23.7244018, 90.3887196",
+    name: "Amin Bazar",
+  });
+
   const suggestionsList: string[] = [
     "23.7751927, 90.3810282",
     "Dhanmondi STS",
@@ -50,7 +66,14 @@ function OptimizedRouteMap() {
     "Rampura STS",
   ];
 
-  const landfillList: string[] = ["23.7618195, 90.3833253","Amin Bazar", "Chashara"];
+  useEffect(() => {
+    const coordinateArray: string[] = coordinates.map((route) => route.name);
+    setAllCoordinates(coordinateArray);
+  }, [coordinates]);
+
+  const landfillList: string[] = ["Amin Bazar"];
+
+  //input studds
 
   const handleChangeInputType = () => {
     setUseDropdown((prev) => !prev);
@@ -90,7 +113,7 @@ function OptimizedRouteMap() {
     setShowLandsuggestion(false);
   };
 
-  const filteredSuggestions = suggestionsList.filter((suggestion) =>
+  const filteredSuggestions = allCoordinates.filter((suggestion) =>
     suggestion.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -119,16 +142,26 @@ function OptimizedRouteMap() {
     return <SkeletonText />;
   }
 
+  const getSTSCoodrdinateByName = (stsName: string): string => {
+    const vehicle = coordinates.find((sts) => sts.name === stsName);
+    if (vehicle) {
+      return vehicle.coordinate.toString();
+    }
+
+    // If vehicle is not found, return undefined
+    return "no vehicle";
+  };
+
   async function calculateRoute() {
-    if( routeType === "Location Based Optimal Route"){
-      if ( 
+    if (routeType === "Location Based Optimal Route") {
+      if (
         !originRef.current ||
         !destinationRef.current ||
         originRef.current.value === "" ||
-        destinationRef.current.value === "") {
+        destinationRef.current.value === ""
+      ) {
         return;
       }
-
 
       const directionsService = new google.maps.DirectionsService();
       const results = await directionsService.route({
@@ -142,14 +175,14 @@ function OptimizedRouteMap() {
         setDistance(results.routes[0].legs[0].distance?.text || "");
         setDuration(results.routes[0].legs[0].duration?.text || "");
       }
-    }else{
-      
-
-
+    } else {
+      const stsCoord = getSTSCoodrdinateByName(searchTerm);
+      const newString = stsCoord.substring(0, 11);
+      console.log(stsCoord);
       const directionsService = new google.maps.DirectionsService();
       const results = await directionsService.route({
-        origin: searchTerm,
-        destination: landTerm,
+        origin: stsCoord,
+        destination: landFilCoord.coordinate,
         travelMode: google.maps.TravelMode.DRIVING,
       });
 
@@ -158,13 +191,7 @@ function OptimizedRouteMap() {
         setDistance(results.routes[0].legs[0].distance?.text || "");
         setDuration(results.routes[0].legs[0].duration?.text || "");
       }
-
     }
-
-
-
-    
-    
   }
 
   function clearRoute() {
@@ -320,6 +347,6 @@ function OptimizedRouteMap() {
       </Box>
     </Flex>
   );
-}
+};
 
 export default OptimizedRouteMap;

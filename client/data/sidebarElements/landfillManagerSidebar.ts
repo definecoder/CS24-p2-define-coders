@@ -33,7 +33,11 @@ export const LandfillManagerSidebarItemList = [
     {
       Icon: Truck,
       title: "Dump Entry",
-    },    
+    },
+    {
+      Icon: Receipt,
+      title: "Bills",
+    }, 
     {
       Icon: Settings,
       title: "Settings",

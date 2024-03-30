@@ -20,7 +20,11 @@ const addSTS = errorWrapper(
 
 const getAllSTS = errorWrapper(
   async (req: Request, res: Response) => {
-    const stss = await prisma.sTS.findMany({});
+    const stss = await prisma.sTS.findMany({
+      include: {
+        manager: true,
+      },
+    });
     res.json(stss);
   },
   { statusCode: 500, message: "Couldn't fetch stss" }

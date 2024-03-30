@@ -16,8 +16,8 @@ router.route("/").get(getAllUsers);
 router.route("/roles").get(getAllRoles);
 router.route("/:userId").get(getUserById);
 router.route("/:userId").put(updateUser);
-router.route("/:userId").delete(deleteUser);
-router.route("/:userId/roles").put(updateUsersRole);
+router.route("/:userId").delete(deleteUser); // add permission
+router.route("/:userId/roles").put(updateUsersRole); // add permission
 
 export default router;
 

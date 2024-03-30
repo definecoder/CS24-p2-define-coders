@@ -22,7 +22,7 @@ import {
   SelectGroup,
   SelectLabel,
   SelectItem,
-} from "../ui/select";
+} from "../../ui/select";
 import editUser from "@/hooks/user_data/editUser";
 import gettAllRoles from "@/hooks/user_data/useGetAllRole";
 import { number } from "prop-types";
@@ -37,6 +37,7 @@ export type STS = {
   capacity: string;
   latitude: string;
   longitude: string;
+  manager: string[];
 };
 
 type STSManager = {
@@ -71,24 +72,7 @@ export const EditSTSInfoModal = ({ stsInfo }: { stsInfo: STS }) => {
             Edit STS Details
           </DialogTitle>
           <DialogDescription>
-            <div className="mt-4 flex flex-col justify-center items-start text-left p-4 rounded-lg border shadow-xl text-md">
-              <h1>
-                <span className="font-bold">ID: </span>
-                {stsData.id}
-              </h1>
-              <p>
-                <span className="font-bold">Name: </span>
-                {stsData.name}
-              </p>
-              <p>
-                <span className="font-bold">Capacity: </span>
-                {stsData.capacity}
-              </p>
-              <p>
-                <span className="font-bold">Ward: </span>
-                {stsData.wardNumber}
-              </p>
-            </div>
+            Update STS information by filling out the form below.
           </DialogDescription>
         </DialogHeader>
         <form>
@@ -140,14 +124,14 @@ export const EditSTSInfoModal = ({ stsInfo }: { stsInfo: STS }) => {
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="Manager" className="text-right">
-                Manager
+                Add Manager
               </Label>
               <Select
                 value={stsManagerData?.id || ""}
                 onValueChange={(e) => setSTSManagerData(stsManagerList.filter((user) => user.id === e)[0])}
               >
                 <SelectTrigger className="col-span-3">
-                  <SelectValue id="role" placeholder="place holder" />
+                  <SelectValue id="role" placeholder="Select manager from the list" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>

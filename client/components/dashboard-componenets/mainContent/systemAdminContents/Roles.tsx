@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Cog, UserRoundCog } from "lucide-react";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
-import { RoleCreateModal } from "@/components/modals/RoleModal"; 
+import { RoleCreateModal } from "@/components/modals/userControls/RoleModal";
+import PermissonList from "@/components/lists/PermissonList";
+import { RoleDeleteModal } from "@/components/modals/userControls/RoleDeleteModal";
 
 export default function AdminRolesManagementPanel() {
   return (
@@ -11,32 +13,30 @@ export default function AdminRolesManagementPanel() {
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
           <RoleCreateModal>
-          <Button size="sm" className="w-full bg-black text-white">
-            <UserRoundCog size={16} className="mr-2" />
-            ADD NEW ROLE
-          </Button>
+            <Button size="sm" className="w-full bg-black text-white">
+              <UserRoundCog size={16} className="mr-2" />
+              ADD NEW ROLE
+            </Button>
           </RoleCreateModal>
+          <RoleDeleteModal>
+            <Button size="sm" className="w-full bg-black text-white">
+              <UserRoundCog size={16} className="mr-2" />
+              DELETE ROLE
+            </Button>
+          </RoleDeleteModal>
           <Button size="sm" className="w-full">
             <Cog size={16} className="mr-2" />
             ADD NEW PERMISSON
           </Button>
         </div>
       </div>
-      <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-        <div className="grid grid-cols-2 md:grid-cols-7 grid-rows-9 grid-flow-row gap-2 md:gap-4 w-full md:h-full max-h-max">
-          <div className="col-span-2 row-span-3 min-h-36">
-            <EmptyFillContainer>Roles List</EmptyFillContainer>
-          </div>
-          <div className="col-span-2 md:col-span-5 row-span-9">
-            <EmptyFillContainer>Permisson List</EmptyFillContainer>
-          </div>
-          <div className="col-span-2 row-span-3 min-h-36">
-            <EmptyFillContainer>Role Distribution chart</EmptyFillContainer>
-          </div>
-          <div className="col-span-2 row-span-3 min-h-36">
-            <EmptyFillContainer>Role Requests</EmptyFillContainer>
-          </div>
-        </div>
+      <div className="flex max-w-[90vw] md:max-w-[100vw] items-center justify-center rounded-lg border border-dashed shadow-sm h-full">
+        <EmptyFillContainer className="flex flex-col">
+          <h1 className="text-2xl p-4 w-full text-center mb-2">
+            <b>PERMISSON LIST</b> BY ROLE
+          </h1>
+          <PermissonList />
+        </EmptyFillContainer>
       </div>
     </main>
   );

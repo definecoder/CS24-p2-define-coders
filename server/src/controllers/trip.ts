@@ -10,6 +10,7 @@ import {
   getStsVehicleEntryById,
   updateStsVehicleEntry,
 } from "../services/stsVehicle";
+import { TripStatus } from "../types/tripStatus";
 
 const prisma = new PrismaClient();
 
@@ -50,8 +51,9 @@ const createTrip = errorWrapper(async (req: Request, res: Response) => {
     weightOfWaste,
     distance,
     estimatedDuration,
+    tripStartTime: exitTime,
     estimatedFuelCost: new Prisma.Decimal(estimatedCost),
-    tripStatus: "PENDING",
+    tripStatus: TripStatus.PENDING,
   };
 
   const newTrip = await addTrip(trip as Trip);
@@ -59,24 +61,44 @@ const createTrip = errorWrapper(async (req: Request, res: Response) => {
 });
 
 const getListOfTrips = errorWrapper(async (req: Request, res: Response) => {
-  const { tripStatus } = req.query;
+
+  const { tripStatus, landfillId } = req.query;
 
   let where: Prisma.TripWhereInput | undefined = undefined;
 
-  if (tripStatus) {
-    where = {
-      tripStatus: tripStatus as string,
-    };
+
+  if (tripStatus || landfillId) {
+    where = {};
+    if (tripStatus) {
+      where.tripStatus = tripStatus as string;
+    }
+    if (landfillId) {
+      where.landfillId = landfillId as string;
+    }
   }
 
   const trips = await prisma.trip.findMany({
     where,
+    include: {
+      sts: true,
+      landfill: true,
+      vehicle: true,
+    },
   });
   res.json(trips);
 });
 
 const completeTrip = errorWrapper(async (req: Request, res: Response) => {
-  const { tripId, landfillId, vehicleId, weightOfWaste, entryTime } = req.body;
+  const { tripId, weightOfWaste, entryTime } = req.body;
+
+  const trip = await getTripById(tripId);
+
+  if (!trip) {
+    throw new CustomError("No such trip found", 404);
+  }
+
+  const landfillId = trip.landfillId;
+  const vehicleId = trip.vehicleId;
 
   prisma.landfillVehicleEntry.create({
     data: {
@@ -87,24 +109,25 @@ const completeTrip = errorWrapper(async (req: Request, res: Response) => {
     },
   });
 
-  const trip = await getTripById(tripId);
-
-  if (!trip) {
-    throw new CustomError("No such trip found", 404);
-  }
-
   const shortage = Number(trip.weightOfWaste) - weightOfWaste;
 
-  // calculate actual duration
+  const tripStartTime = new Date(trip.tripStartTime as Date);
+
+  const entryTimeConverted = new Date(entryTime);
+
+  let duration =
+    (entryTimeConverted.getTime() - tripStartTime.getTime()) / (1000 * 60);
 
   const completedTrip = await prisma.trip.update({
     where: {
       id: tripId,
     },
     data: {
-      tripStatus: "COMPLETED",
+      tripStatus: TripStatus.DELIVERED,
       weightOfWaste,
       shortage,
+      tripEndTime: entryTime,
+      actualDuration: duration,
     },
   });
 

@@ -1,8 +1,7 @@
-"use client";
 import React, { useRef, useEffect } from 'react';
-import { Chart, CategoryScale } from 'chart.js/auto'; // Import necessary scales
+import { Chart, CategoryScale } from 'chart.js/auto';
 
-Chart.register(CategoryScale); // Register the scales
+Chart.register(CategoryScale);
 
 interface ChartDataItem {
   labels: string[];
@@ -10,11 +9,7 @@ interface ChartDataItem {
   background: string[];
 }
 
-// interface DoughnutChartProps {
-//   chartData: ChartDataItem[];
-// }
-
-const PieChart: React.FC<ChartDataItem> = ({ labels, data, background  }) => {
+const PieChart: React.FC<ChartDataItem> = ({ labels, data, background }) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<Chart | null>(null);
 
@@ -29,14 +24,26 @@ const PieChart: React.FC<ChartDataItem> = ({ labels, data, background  }) => {
       chartInstance.current = new Chart(myChartRef, {
         type: 'doughnut',
         data: {
-          labels: labels, //['Red', 'Blue', 'Yellow'],
+          labels: labels,
           datasets: [
             {
-              label: 'My First Dataset',
-              data: [300, 50, 100],
-              backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+              label: 'Storage Status',
+              data: data,
+              backgroundColor: background,
             },
           ],
+        },
+        options: {
+          plugins: {
+            legend: {              
+              labels: {                                
+                font: {
+                  weight: 'bold',
+                  size: 13,
+                },
+              },
+            },
+          },
         },
       });
     }
@@ -49,8 +56,8 @@ const PieChart: React.FC<ChartDataItem> = ({ labels, data, background  }) => {
   }, []);
 
   return (
-    <div>
-      <canvas ref={chartRef} className='w-[300px] h-[300px]' />
+    <div className="w-48 h-48">
+      <canvas ref={chartRef} />
     </div>
   );
 };

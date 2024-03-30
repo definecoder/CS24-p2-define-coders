@@ -41,9 +41,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useGetAllUser from "@/hooks/user_data/useGetAllUser";
-import { DeleteUserModal } from "../modals/DeleteUserModal";
+import { DeleteUserModal } from "../modals/userControls/DeleteUserModal";
 import { Copy, EditIcon } from "lucide-react";
-import { EditUserModal } from "../modals/EditUserInfoModal";
+import { EditUserModal } from "../modals/userControls/EditUserInfoModal";
 import gettAllRoles from "@/hooks/user_data/useGetAllRole";
 import { roleList } from "@/data/roles";
 

@@ -41,14 +41,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useGetAllUser from "@/hooks/user_data/useGetAllUser";
-import { DeleteUserModal } from "../modals/DeleteUserModal";
+import { DeleteUserModal } from "../modals/userControls/DeleteUserModal";
 import { Copy, EditIcon } from "lucide-react";
-import { EditUserModal } from "../modals/EditUserInfoModal";
+import { EditUserModal } from "../modals/userControls/EditUserInfoModal";
 import gettAllRoles from "@/hooks/user_data/useGetAllRole";
 import { roleList } from "@/data/roles";
 import useGetAllSTS from "@/hooks/dataQuery/useGetAllSTS";
-import { EditSTSInfoModal } from "../modals/EditSTSInfoModal";
-import { DeleteSTSModal } from "../modals/DeleteSTSModal";
+import { EditSTSInfoModal } from "../modals/stsControl/EditSTSInfoModal";
+import { DeleteSTSModal } from "../modals/stsControl/DeleteSTSModal";
 import useVehicleList from "@/hooks/vehicles/useVehiclesData";
 import useVehicleListForSTS from "@/hooks/vehicles/useGetVeicleForSTS";
 import { DeleteVehicleModalForSTS } from "../modals/DeleteVehicleModalForSTS";

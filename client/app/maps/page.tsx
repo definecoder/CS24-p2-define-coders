@@ -1,11 +1,20 @@
 "use client";
+import { AllStsMapShow } from '@/components/maps/AllStsShow';
 import GoogleMapComponent from '@/components/maps/GoogleMap'
 import RouteMap from '@/components/maps/RouteMap';
 import SetZone from '@/components/maps/SetZone';
 import { ChakraProvider, theme } from '@chakra-ui/react'
 
+type StsShow = {
+   
+  lat: number,
+  lng: number,
+  // storagePercentage: number
+  
+};
+
 const Map = () => {
-    const coordinates = [
+    const coordinates : StsShow[] = [
         { lat: 23.7031879, lng: 90.35564201 },
         { lat: 23.6856870, lng: 90.44630134 },
         { lat: 23.6843407, lng: 90.56538359 },
@@ -20,9 +29,10 @@ const Map = () => {
     <div className='w-full h-screen'>
         {/* <GoogleMapComponent coordinates={coordinates} dumpFills={dumpFills}></GoogleMapComponent> */}
        {/* <SetZone></SetZone> */}
-       <ChakraProvider theme={theme}>
+       {/* <ChakraProvider theme={theme}>
       <RouteMap/>
-    </ChakraProvider>
+    </ChakraProvider> */}
+    <AllStsMapShow />
     </div>
     
   )

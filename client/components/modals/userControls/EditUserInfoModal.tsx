@@ -7,42 +7,68 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
-import SetZone from "../maps/SetZone";
-import { UserPlus } from "lucide-react";
+import React, { use, useEffect, useState } from "react";
+import { EditIcon, Trash } from "lucide-react";
+import deleteUser from "@/hooks/user_data/deleteUser";
 import {
   Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+  SelectContent,
+  SelectGroup,
+  SelectLabel,
+  SelectItem,
+} from "../../ui/select";
+import editUser from "@/hooks/user_data/editUser";
+import gettAllRoles from "@/hooks/user_data/useGetAllRole";
+import { number } from "prop-types";
+import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 
-interface DialogWrapperProps {
-  children: React.ReactNode;
-}
+type User = {
+  id: string;
+  username: string;
+  email: string;
+  role: string;
+};
 
-export const AddNewUserModal = ({ props }: { props: any }) => {
+export const EditUserModal = ({ userInfo }: { userInfo: User }) => {
+  const [userData, setUserData] = useState(userInfo);
+  const roles = [unassigned, stsManager, landfillManager, admin];
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm" className="w-full">
-          <UserPlus size={16} className="mr-2" />
-          ADD NEW USER
+        <Button variant="ghost" title="Edit User Info" className="h-8 w-8 p-0">
+          <EditIcon className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>ADD NEW USER</DialogTitle>
+          <DialogTitle className="mt-4 text-xl sm:text-2xl">
+            Edit User Details
+          </DialogTitle>
           <DialogDescription>
-            Enter the details of the new user and set his/her role.
+            <div className="mt-4 flex flex-col justify-center items-start text-left p-4 rounded-lg border shadow-xl text-md">
+              <h1>
+                <span className="font-bold">ID: </span>
+                {userInfo.id}
+              </h1>
+              <p>
+                <span className="font-bold">Username: </span>
+                {userInfo.username}
+              </p>
+              <p>
+                <span className="font-bold">Email: </span>
+                {userInfo.email}
+              </p>
+              <p>
+                <span className="font-bold">Role: </span>
+                {userInfo.role}
+              </p>
+            </div>
           </DialogDescription>
         </DialogHeader>
         <form>
@@ -54,12 +80,9 @@ export const AddNewUserModal = ({ props }: { props: any }) => {
               <Input
                 id="username"
                 type="text"
-                value={props.userData.username}
+                value={userData.username}
                 onChange={(e) =>
-                  props.setUserData({
-                    ...props.userData,
-                    username: e.target.value,
-                  })
+                  setUserData({ ...userData, username: e.target.value })
                 }
                 className="col-span-3"
                 required
@@ -72,30 +95,9 @@ export const AddNewUserModal = ({ props }: { props: any }) => {
               <Input
                 id="email"
                 type="email"
-                value={props.userData.email}
+                value={userData.email}
                 onChange={(e) =>
-                  props.setUserData({
-                    ...props.userData,
-                    email: e.target.value,
-                  })
-                }
-                className="col-span-3"
-                required
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="password" className="text-right">
-                Password
-              </Label>
-              <Input
-                id="password"
-                type="password"
-                value={props.userData.password}
-                onChange={(e) =>
-                  props.setUserData({
-                    ...props.userData,
-                    password: e.target.value,
-                  })
+                  setUserData({ ...userData, email: e.target.value })
                 }
                 className="col-span-3"
                 required
@@ -106,21 +108,16 @@ export const AddNewUserModal = ({ props }: { props: any }) => {
                 Role
               </Label>
               <Select
-                value={props.userData.roleName}
-                onValueChange={(e) =>
-                  props.setUserData({ ...props.userData, roleName: e })
-                }
+                value={userData.role}
+                onValueChange={(e) => setUserData({ ...userData, role: e })}
               >
                 <SelectTrigger className="col-span-3">
-                  <SelectValue
-                    id="role"
-                    placeholder="Select role for the user"
-                  />
+                  <SelectValue id="role" placeholder="place holder" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Roles</SelectLabel>
-                    {props.roles?.map((role: string) => (
+                    {roles.map((role) => (
                       <SelectItem key={role} value={role}>
                         {role}
                       </SelectItem>
@@ -134,11 +131,11 @@ export const AddNewUserModal = ({ props }: { props: any }) => {
             <Button
               type="submit"
               onClick={async () => {
-                const result = await props.createNewUser();
+                const result = await editUser(userData);
                 if (result) return alert(result);
               }}
             >
-              Create User
+              Update User
             </Button>
           </DialogFooter>
         </form>

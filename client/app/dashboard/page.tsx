@@ -21,7 +21,7 @@ export default function Dashboard() {
     setCurrentActive(getCookie(curActive));
   }, []);
 
-  console.log('Role: ' + curRole + ' Current Active: ' + currentActive);
+  //console.log('Role: ' + curRole + ' Current Active: ' + currentActive);
         
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">      

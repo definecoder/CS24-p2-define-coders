@@ -13,7 +13,11 @@ const addVehicle = async (vehicleInfo: Vehicle) => {
 };
 
 const getAllVehicles = async () => {
-  const vehicles = await prisma.vehicle.findMany({});
+  const vehicles = await prisma.vehicle.findMany({
+    include: {
+      landFill: true,
+    },
+  });
   return vehicles;
 };
 

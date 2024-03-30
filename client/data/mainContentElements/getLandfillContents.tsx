@@ -5,6 +5,7 @@ import LandfillManagerSchedules from "../../components/dashboard-componenets/mai
 import LandfillManagerStorageData from "../../components/dashboard-componenets/mainContent/landFillManagerContents/Storage";
 import LandfillManagerDumpEntries from "../../components/dashboard-componenets/mainContent/landFillManagerContents/DumpEntry";
 import LandfillManagerSettings from "../../components/dashboard-componenets/mainContent/landFillManagerContents/Settings";
+import LandfillManagerBillsManagementPanel from "@/components/dashboard-componenets/mainContent/landFillManagerContents/LandfillManagerBills";
 
 export function getContentsOfLandfillManager(state: string) {
     switch (state) {
@@ -16,6 +17,8 @@ export function getContentsOfLandfillManager(state: string) {
         return <LandfillManagerStorageData />;
       case landfillManager + "-Dump Entry":
         return <LandfillManagerDumpEntries />;
+      case landfillManager + "-Bills":
+        return <LandfillManagerBillsManagementPanel />;      
       case landfillManager + "-Settings":
         return <LandfillManagerSettings />;
       default:

@@ -98,3 +98,21 @@
   background: #0F172A; /* Color of the scrollbar handle on hover */
   border: 2px solid white; /* Color of the scrollbar handle on hover */
 }
+
+nextjs-portal {
+  display: none;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  border-top-color: #3498db;
+  animation: spin 1s linear infinite;
+}

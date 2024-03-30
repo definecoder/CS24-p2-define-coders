@@ -2,6 +2,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 import { RoleName } from "../types/rolesTypes";
 import { TripStatus } from "../types/tripStatus";
+import { PERMISSIONS } from "../permissions/permissions";
 
 const prisma = new PrismaClient();
 
@@ -23,6 +24,130 @@ const roleData: Prisma.RoleCreateInput[] = [
   {
     name: RoleName.UNASSIGNED,
     description: "Unassigned Role",
+  },
+];
+
+const permissionData: Prisma.PermissionCreateInput[] = [
+  { name: PERMISSIONS.CREATE_USER, description: "Can Create User" },
+  { name: PERMISSIONS.LOGIN, description: "Can Login" },
+  { name: PERMISSIONS.CHANGE_PASSWORD, description: "Can Change Password" },
+  { name: PERMISSIONS.DELETE_USER, description: "Can Delete User" },
+  { name: PERMISSIONS.CREATE_BILL, description: "Can Create Bill" },
+  { name: PERMISSIONS.GET_BILLS, description: "Can Get Bills" },
+  { name: PERMISSIONS.UPDATING_USER_ROLE, description: "Can Update User Role" },
+  { name: PERMISSIONS.DELETE_BILL, description: "Can Delete Bill" },
+  { name: PERMISSIONS.CREATE_LANDFILL, description: "Can Create Landfill" },
+  { name: PERMISSIONS.DELETE_LANDFILL, description: "Can Delete Landfill" },
+  { name: PERMISSIONS.UPDATE_LANDFILL, description: "Can Update Landfill" },
+  { name: PERMISSIONS.CREATE_STS, description: "Can Create Sts" },
+  { name: PERMISSIONS.DELETE_STS, description: "Can Delete Sts" },
+  { name: PERMISSIONS.UPDATE_STS, description: "Can Update Sts" },
+  {
+    name: PERMISSIONS.CREATE_STS_VEHICLE_ENTRY,
+    description: "Can Create Sts Vehicle Entry",
+  },
+  {
+    name: PERMISSIONS.GET_CURRENT_STS_VEHICLE,
+    description: "Can Get Current Sts Vehicle",
+  },
+  {
+    name: PERMISSIONS.GET_LEFT_STS_VEHICLE,
+    description: "Can Get Left Sts Vehicle",
+  },
+  {
+    name: PERMISSIONS.DELETE_STS_VEHICLE_ENTRY,
+    description: "Can Delete Sts Vehicle Entry",
+  },
+  {
+    name: PERMISSIONS.UPDATE_STS_VEHICLE_ENTRY,
+    description: "Can Update Sts Vehicle Entry",
+  },
+  {
+    name: PERMISSIONS.CREATE_LANDFILL_VEHICLE_ENTRY,
+    description: "Can Create Landfill Vehicle Entry",
+  },
+  {
+    name: PERMISSIONS.DELETE_LANDFILL_VEHICLE_ENTRY,
+    description: "Can Delete Landfill Vehicle Entry",
+  },
+  {
+    name: PERMISSIONS.UPDATE_LANDFILL_VEHICLE_ENTRY,
+    description: "Can Update Landfill Vehicle Entry",
+  },
+  { name: PERMISSIONS.RBAC, description: "Can RBAC" },
+  { name: PERMISSIONS.CREATE_TRIP, description: "Can Create Trip" },
+  { name: PERMISSIONS.COMPLETE_TRIP, description: "Can Complete Trip" },
+  { name: PERMISSIONS.CREATE_VEHICLE, description: "Can Create Vehicle" },
+  { name: PERMISSIONS.DELETE_VEHICLE, description: "Can Delete Vehicle" },
+  { name: PERMISSIONS.EDIT_VEHICLE, description: "Can Edit Vehicle" },
+];
+
+const roleAssignments = [
+  {
+    roleName: RoleName.SYSTEM_ADMIN,
+    permissions: [
+      PERMISSIONS.CREATE_USER,
+      PERMISSIONS.LOGIN,
+      PERMISSIONS.CHANGE_PASSWORD,
+      PERMISSIONS.DELETE_USER,
+      PERMISSIONS.CREATE_BILL,
+      PERMISSIONS.GET_BILLS,
+      PERMISSIONS.UPDATING_USER_ROLE,
+      PERMISSIONS.DELETE_BILL,
+      PERMISSIONS.CREATE_LANDFILL,
+      PERMISSIONS.DELETE_LANDFILL,
+      PERMISSIONS.UPDATE_LANDFILL,
+      PERMISSIONS.CREATE_STS,
+      PERMISSIONS.DELETE_STS,
+      PERMISSIONS.UPDATE_STS,
+      PERMISSIONS.CREATE_STS_VEHICLE_ENTRY,
+      PERMISSIONS.GET_CURRENT_STS_VEHICLE,
+      PERMISSIONS.GET_LEFT_STS_VEHICLE,
+      PERMISSIONS.DELETE_STS_VEHICLE_ENTRY,
+      PERMISSIONS.UPDATE_STS_VEHICLE_ENTRY,
+      PERMISSIONS.CREATE_LANDFILL_VEHICLE_ENTRY,
+      PERMISSIONS.DELETE_LANDFILL_VEHICLE_ENTRY,
+      PERMISSIONS.UPDATE_LANDFILL_VEHICLE_ENTRY,
+      PERMISSIONS.RBAC,
+      PERMISSIONS.CREATE_TRIP,
+      PERMISSIONS.COMPLETE_TRIP,
+      PERMISSIONS.CREATE_VEHICLE,
+      PERMISSIONS.DELETE_VEHICLE,
+      PERMISSIONS.EDIT_VEHICLE,
+    ],
+  },
+
+  {
+    roleName: RoleName.LAND_MANAGER,
+    permissions: [
+      PERMISSIONS.LOGIN,
+      PERMISSIONS.CHANGE_PASSWORD,
+      PERMISSIONS.CREATE_BILL,
+      PERMISSIONS.GET_BILLS,
+      PERMISSIONS.UPDATE_LANDFILL,
+      PERMISSIONS.CREATE_LANDFILL_VEHICLE_ENTRY,
+      PERMISSIONS.DELETE_LANDFILL_VEHICLE_ENTRY,
+      PERMISSIONS.UPDATE_LANDFILL_VEHICLE_ENTRY,
+      PERMISSIONS.COMPLETE_TRIP,
+    ],
+  },
+  {
+    roleName: RoleName.STS_MANAGER,
+    permissions: [
+      PERMISSIONS.LOGIN,
+      PERMISSIONS.CHANGE_PASSWORD,
+      PERMISSIONS.UPDATE_STS,
+      PERMISSIONS.CREATE_STS_VEHICLE_ENTRY,
+      PERMISSIONS.GET_CURRENT_STS_VEHICLE,
+      PERMISSIONS.GET_LEFT_STS_VEHICLE,
+      PERMISSIONS.DELETE_STS_VEHICLE_ENTRY,
+      PERMISSIONS.UPDATE_STS_VEHICLE_ENTRY,
+      PERMISSIONS.CREATE_TRIP,
+    ],
+  },
+  {
+    roleName: RoleName.UNASSIGNED,
+    permissions: [PERMISSIONS.CHANGE_PASSWORD],
   },
 ];
 
@@ -204,28 +329,58 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
 const stsData: Prisma.STSCreateInput[] = [
   {
     id: "sts1",
-    name: "Moheshkhali",
+    name: "Mohakhali STS",
     wardNumber: "13",
     capacity: 1000,
-    latitude: 23.76652752,
-    longitude: 90.4258899
+    currentTotalWaste: 900,
+    latitude: 23.777742178642388,
+    longitude: 90.40575221162331,
   },
   {
     id: "sts2",
-    name: "Gulshan",
+    name: "Gulshan STS",
     wardNumber: "2",
     capacity: 2000,
-    latitude: 23.76449486,
-    longitude: 90.3879528,
+    currentTotalWaste: 1200,
+    latitude: 23.792464932754005,
+    longitude: 90.40782465254337,
   },
 
   {
     id: "sts3",
-    name: "Bonani",
+    name: "Bonani STS",
     wardNumber: "4",
     capacity: 1500,
-    latitude: 23.73897468,
-    longitude: 90.3750954,
+    currentTotalWaste: 200,
+    latitude: 23.793630794902622,
+    longitude: 90.40660514416635,
+  },
+  {
+    id: "sts4",
+    name: "Badda STS",
+    wardNumber: "4",
+    capacity: 1500,
+    currentTotalWaste: 900,
+    latitude: 23.78042151306244,
+    longitude: 90.42669427037866,
+  },
+  {
+    id: "sts5",
+    name: "Jatrabari STS",
+    wardNumber: "4",
+    capacity: 1500,
+    currentTotalWaste: 200,
+    latitude: 23.710484797357275,
+    longitude: 90.43479693063576,
+  },
+  {
+    id: "sts6",
+    name: "Motijheel STS",
+    wardNumber: "4",
+    capacity: 1500,
+    currentTotalWaste: 1400,
+    latitude: 23.72800766871942,
+    longitude: 90.41902325467944,
   },
 ];
 
@@ -291,6 +446,38 @@ async function main() {
       data: role,
     });
     console.log(newRole);
+  }
+
+  console.log("Seeding permissions...");
+
+  for (const permission of permissionData) {
+    const newPermission = await prisma.permission.create({
+      data: permission,
+    });
+    console.log(newPermission);
+  }
+
+  console.log("Assigning permissions to roles...");
+
+  for (const roleAssignment of roleAssignments) {
+    for (const permission of roleAssignment.permissions) {
+      const role = await prisma.role.update({
+        where: {
+          name: roleAssignment.roleName,
+        },
+        data: {
+          permissions: {
+            connect: {
+              name: permission,
+            },
+          },
+        },
+        include: {
+          permissions: true,
+        },
+      });
+      console.log(role);
+    }
   }
 
   console.log("Seeding users...");
