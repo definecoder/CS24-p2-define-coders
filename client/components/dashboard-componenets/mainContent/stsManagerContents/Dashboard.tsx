@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
-import { Cog, UserRoundCog } from "lucide-react";
+import { ArrowDown, Cog, Truck, UserRoundCog } from "lucide-react";
 import { StsVehicleEntryModal } from "@/components/modals/StsVehicleEntryModal";
 import { stsId } from "@/data/cookieNames";
 import useGetstsDatabyID from "@/hooks/StsDashboard/getStsDataById";
@@ -25,18 +25,18 @@ export default function STSManagerDashboard() {
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold md:text-2xl">STS Dashboard</h1>
+        <h1 className="text-lg font-semibold md:text-xl">STS DASHBOARD</h1>
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
-          <StsVehicleEntryModal>
+        <StsVehicleEntryModal>
             <Button size="sm" className="w-full bg-black text-white">
-              <UserRoundCog size={16} className="mr-2" />
-              NEW DUMPING ENTRY
+              <Truck size={16} className="mr-2" />
+              OUTGOING DUMP ENTRY
             </Button>
           </StsVehicleEntryModal>
           <Button size="sm" className="w-full">
-            <Cog size={16} className="mr-2" />
-            NEW STORAGE
+            <ArrowDown strokeWidth={3} className="py-1 mr-1 ml-[-5px]" />
+            INCOMING DUMP ENTRY
           </Button>
         </div>
       </div>

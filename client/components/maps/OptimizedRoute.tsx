@@ -264,7 +264,7 @@ const OptimizedRouteMap: React.FC<MapProps> = ({
         <div className="grid grid-flow-row grid-cols-3 gap-2">
           <Select value={searchTerm} onValueChange={(e) => setSearchTerm(e)}>
             <SelectTrigger>
-              <SelectValue id="STS" placeholder="Select a STS" />
+              <SelectValue id="STS" placeholder="STS Name" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -279,7 +279,7 @@ const OptimizedRouteMap: React.FC<MapProps> = ({
           </Select>
           <Select value={landTerm} onValueChange={(e) => setLandterm(e)}>
             <SelectTrigger>
-              <SelectValue id="Landfill" placeholder="Select a Landfill" />
+              <SelectValue id="Landfill" placeholder="Landfill Name" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -298,7 +298,7 @@ const OptimizedRouteMap: React.FC<MapProps> = ({
               type="submit"
               onClick={calculateRoute}
             >
-              Calculate
+              <div className="text-sm">Calculate</div>
             </Button>
             <IconButton
               aria-label="Clear Route"
