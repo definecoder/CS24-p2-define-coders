@@ -9,6 +9,7 @@ import { getCookie } from "@/lib/cookieFunctions";
 import { PieChart } from "@mantine/charts";
 import LanfFillUpcomingVehiclesInDashboard from "@/components/dataTables/LandFillUpcomingVehicleInDashboard";
 import STSVehicleList from "@/components/dataTables/StsVehicleList";
+import STSVehicleHistoryList from "@/components/dataTables/STSVehicleHistoryList";
 
 export default function STSManagerDashboard() {
   const { getstsDatabyID, stsData } = useGetstsDatabyID();
@@ -89,7 +90,7 @@ export default function STSManagerDashboard() {
           </div>
           <div className="md:col-span-8 min-h-36">
             <EmptyFillContainer>
-              available gari
+              <STSVehicleHistoryList />
             </EmptyFillContainer>
           </div>
         </div>

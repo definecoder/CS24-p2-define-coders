@@ -12,7 +12,6 @@ export default function STSManagerSchedules() {
         <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-2 grid-flow-row gap-2 md:gap-4 w-full md:h-full max-h-max">
           <div className="col-span-1 row-span-2 min-h-48">
             <EmptyFillContainer>
-              UPCOMING - CRITICAL FIRST SCHEDULES
               <STSVehicleList />
             </EmptyFillContainer>
           </div>

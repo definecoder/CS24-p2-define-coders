@@ -54,22 +54,12 @@ import useVehicleListForSTS from "@/hooks/vehicles/useGetVeicleForSTS";
 import { DeleteVehicleModalForSTS } from "../modals/DeleteVehicleModalForSTS";
 import { STSVehicleRelease } from "../modals/STSVehicleReleaseModal";
 import formatTimestamp from "@/lib/formatTimestamp";
+import useGetVehicleHistoryForSTS from "@/hooks/vehicles/useGetVehicleHistoryForSTS";
 
 type Vehicle = {
-  entryId: string,
-  id: string,
   vehicleNumber: string,
-  vehicleType: string,
-  capacity: string,
-  loadedFuelCostPerKm: string,
-  unloadedFuelCostPerKm: string,
-  landFillId: string,
-  entryTime: string,
+  exitTime: string,
   landFillName: string,    
-  stsLattitude: string,
-  stsLongitude: string,
-  landfillLattitude: string,
-  landfillLongitude: string,
 };
 
 export const columns: ColumnDef<Vehicle>[] = [
@@ -83,7 +73,7 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Vehicle Number
+            Name
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -91,48 +81,6 @@ export const columns: ColumnDef<Vehicle>[] = [
     },
     cell: ({ row }) => (
       <div className="text-center font-medium">{row.getValue("vehicleNumber")}</div>
-    ),
-  },
-  {
-    accessorKey: "vehicleType",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Vehicle Type
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">
-        {row.getValue("vehicleType")}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "entryTime",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Entry time
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{formatTimestamp(row.getValue("entryTime".toLocaleString()))}</div>
     ),
   },
   {
@@ -145,14 +93,36 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Land Fill Name
+            Landfill Name
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("landFillName")}</div>
+      <div className="text-center font-medium">
+        {row.getValue("landFillName")}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "exitTime",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center items-center">
+          <Button
+            variant="ghost"
+            className="text-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Exit time
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-center font-medium">{formatTimestamp(row.getValue("exitTime".toLocaleString()))}</div>
     ),
   },
   {
@@ -163,17 +133,17 @@ export const columns: ColumnDef<Vehicle>[] = [
 
       return (
         <div>
-          <DeleteVehicleModalForSTS vehicleInfo={sts} />
-          <STSVehicleRelease vehicleInfo={sts} />
+          {/* <DeleteVehicleModalForSTS vehicleInfo={sts} />
+          <STSVehicleRelease vehicleInfo={sts} /> */}
         </div>
       );
     },
   },
 ];
 
-export default function STSVehicleList() {
+export default function STSVehicleHistoryList() {
   const [data, setData] = React.useState<Vehicle[]>([]);
-  const { getVehicleList, vehicleList } = useVehicleListForSTS();
+  const { getVehicleHistory, vehicleList } = useGetVehicleHistoryForSTS();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -183,7 +153,7 @@ export default function STSVehicleList() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
-    getVehicleList();
+    getVehicleHistory();
   }, []);
 
   React.useEffect(() => {
@@ -216,20 +186,20 @@ export default function STSVehicleList() {
   });
   return (
     <div className="flex flex-col justify-center w-full h-full">
-    <div className="font-bold text-xl w-full text-center">CURRENT VEHICLES IN YOUR STS</div>
+    <div className="font-bold text-xl w-full text-center">HISTORY OF OUTGOING VEHICLES FROM YOUR STS</div>
     <div><div className="flex items-center py-4 gap-4">
         <Input
-          placeholder="Search by STS Name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder="Search by Vehicle number Name..."
+          value={(table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("vehicleNumber")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-            Filter <ChevronDownIcon className="ml-2 h-4 w-4" />
+              Filter <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
