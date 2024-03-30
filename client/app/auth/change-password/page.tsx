@@ -21,11 +21,11 @@ import ReCAPTCHA from "react-google-recaptcha";
 export default function ChangePassword() {
   const router = useRouter();
 
-  const { changePass, setPassChangeData } = useChangePass();
+  const { changePass, setPassChangeData, setOldPassword, setNewPassword, oldPassword, newPassword,} = useChangePass();
 
   const [isVerified, setIsCaptchaVerified] = useState<string | null>();
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  // const [oldPassword, setOldPassword] = useState("");
+  // const [newPassword, setNewPassword] = useState("");
 
   const [time, setTime] = useState(300);
 
@@ -43,7 +43,7 @@ export default function ChangePassword() {
   }, []);
 
   async function submitForm() {
-    setPassChangeData({ oldPassword, newPassword });
+  
     isVerified && (await changePass()) && router.push("/dashboard");
     !isVerified && alert("Invalid Captcha!");
   }

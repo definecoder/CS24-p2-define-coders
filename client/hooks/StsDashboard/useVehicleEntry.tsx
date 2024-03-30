@@ -20,7 +20,7 @@ export default function useVehicleEntry() {
     try {
       const isoString = new Date(data.entryTimes).toISOString();
       const res = await axios.post(apiRoutes.sts.vehicle.create, {
-        stsId : "sts1",
+        stsId : getCookie(stsId),
         vehicleId: data.vehicleIds,
         entryTime: isoString
     }, {

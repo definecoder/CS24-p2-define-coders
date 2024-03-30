@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { uri } from '@/data/constant';
-import { jwtToken } from "@/data/cookieNames";
+import { jwtToken, stsId } from "@/data/cookieNames";
 import { getCookie } from "@/lib/cookieFunctions";
+import { apiRoutes } from '@/data/apiRoutes';
 
 type Vehicle = {
   entryId: string,
@@ -28,7 +29,7 @@ export default function useVehicleListForSTS() {
   async function getVehicleList() {
     try {
       //'http://localhost:8585/sts-entry/sts1/get-current-vehicles'
-      const res = await axios.get('http://localhost:8585/sts-entry/sts1/get-current-vehicles', {
+      const res = await axios.get(`${apiRoutes.sts.vehicle.current}/${getCookie(stsId)}/get-current-vehicles`, {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
       });
       // Assuming the response data is an array of vehicles

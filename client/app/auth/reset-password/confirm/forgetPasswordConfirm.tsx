@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import useForgetPassConfirm from "@/hooks/auth/useForgetPassConfirm";
@@ -15,8 +16,10 @@ import { jwtToken } from "@/data/cookieNames";
 
 function ForgetPassInitiateForm() {
   const email = useSearchParams().get("email") || "";  
+  const [otpValue, setOtpValue] = useState("");
 
   const { otp, setOtp, checkOTPandRestPass } = useForgetPassConfirm();
+
   const router = useRouter();
 
   async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -24,6 +27,11 @@ function ForgetPassInitiateForm() {
     const sucess = await checkOTPandRestPass({ email, token: getCookie(jwtToken) || ""});    
     sucess && router.push("/auth/login");
   }
+
+  function handleButtonClick() {
+    console.log("OTP Value:", otpValue); // Log the OTP value
+  }
+
 
   return (
     <>
@@ -36,7 +44,7 @@ function ForgetPassInitiateForm() {
             id="otp"
             maxLength={4}
             value={otp}
-            onChange={(value) => setOtp(value)}
+            onChange={(value) => setOtp(value)} 
           >
             <InputOTPGroup>
               <InputOTPSlot index={0} />
@@ -47,7 +55,7 @@ function ForgetPassInitiateForm() {
           </InputOTP>
           <div className="mt-4 text-center">OTP has been sent to {email}</div>
         </div>
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" onClick={handleButtonClick}>
           Send Reset Password Link
         </Button>
       </form>

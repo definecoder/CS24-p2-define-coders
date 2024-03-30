@@ -45,7 +45,7 @@ export default function ProfilePage() {
 
 
   return (
-    <div className="w-screen h-screen ">
+    <div className="w-screen h-fit ">
       <BackgroundComponent />
       <Button
         variant="outline"
@@ -78,7 +78,7 @@ export default function ProfilePage() {
       </div>
 
 
-      <div className="h-full w-4/6 ml-32 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground p-10 rounded-xl flex flex-col justify-center items-center gap-8">
+      <div className="h-fit w-4/6 ml-32 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground p-10 rounded-xl flex flex-col justify-center items-center gap-8">
         
         <Factory className="w-24 h-24" />
   
@@ -104,16 +104,17 @@ export default function ProfilePage() {
         }
 {user?.roleName === 'STS_MANAGER' && rolesWithPermissions.some(role => role.name === 'STS_MANAGER') && (
   <div>
-    <h1><b>STS Manager Permissions:</b></h1>
-    <ul>
+    <h1 className="text-xl mb-3"><b>Land Manager Permissions:</b></h1>
+    <div className="flex flex-wrap items-center justify-center ">
       {rolesWithPermissions
         .find(role => role.name === 'STS_MANAGER')
         ?.permissions.map(permission => (
-          <li key={permission.name}>
-            <strong>{permission.name}:</strong> {permission.description}
-          </li>
+          <div key={permission.name} className="border-2 border-slate-400 m-2 p-3 bg-slate-300 rounded-xl">
+            <div><strong>{permission.name}:</strong></div>
+             <div> {permission.description} </div>
+          </div>
         ))}
-    </ul>
+    </div>
   </div>
 )}
 
@@ -137,16 +138,17 @@ export default function ProfilePage() {
 
 {user?.roleName === 'LAND_MANAGER' && rolesWithPermissions.some(role => role.name === 'LAND_MANAGER') && (
   <div>
-    <h1><b>Land Manager Permissions:</b></h1>
-    <ul>
+    <h1 className="text-xl mb-3"><b>Land Manager Permissions:</b></h1>
+    <div className="flex flex-wrap items-center justify-center ">
       {rolesWithPermissions
         .find(role => role.name === 'LAND_MANAGER')
         ?.permissions.map(permission => (
-          <li key={permission.name}>
-            <strong>{permission.name}:</strong> {permission.description}
-          </li>
+          <div key={permission.name} className="border-2 border-slate-400 m-2 p-3 bg-slate-300 rounded-xl">
+            <div><strong>{permission.name}:</strong></div>
+             <div> {permission.description} </div>
+          </div>
         ))}
-    </ul>
+    </div>
   </div>
 )}
 
@@ -160,16 +162,17 @@ export default function ProfilePage() {
 
 {user?.roleName === 'SYSTEM_ADMIN' && rolesWithPermissions.some(role => role.name === 'SYSTEM_ADMIN') && (
   <div>
-    <h1><b>System Admin Permissions:</b></h1>
-    <ul>
+    <h1 className="text-xl mb-3"><b>System Admin Permissions:</b></h1>
+    <div className="flex flex-wrap items-center justify-center ">
       {rolesWithPermissions
         .find(role => role.name === 'SYSTEM_ADMIN')
         ?.permissions.map(permission => (
-          <li key={permission.name}>
-            <strong>{permission.name}:</strong> {permission.description}
-          </li>
+          <div key={permission.name} className="border-2 border-slate-400 m-2 p-3 bg-slate-300 rounded-xl">
+            <div><strong>{permission.name}:</strong></div>
+             <div> {permission.description} </div>
+          </div>
         ))}
-    </ul>
+    </div>
   </div>
 )}
 

@@ -5,6 +5,9 @@ export const apiRoutes = {
         login: `${baseUrl}/auth/login`,
         create: `${baseUrl}/auth/create`,
         logout: `${baseUrl}/auth/logout`,
+        resetInitiate: `${baseUrl}/auth/reset-password/initiate`,
+        confirmPass: `${baseUrl}/auth/reset-password/confirm`,
+        changePass: `${baseUrl}/auth/change-password/`
     },
     user: {
         getAll: `${baseUrl}/users`,
@@ -18,7 +21,8 @@ export const apiRoutes = {
         edit: `${baseUrl}/sts/`,
         vehicle: {           
             create: `${baseUrl}/sts-entry/create`,  
-            delete: `${baseUrl}/sts-entry/`,            
+            delete: `${baseUrl}/sts-entry/`,
+            current: `${baseUrl}/sts-entry/`,              
         },
     },
     landfill: {
