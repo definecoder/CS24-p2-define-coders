@@ -11,6 +11,7 @@ import {
 import CustomError from "../services/CustomError";
 import { randomOTPGenerator, randomPasswordGenerator } from "../services/utils";
 import { sendMail, sendOTPMail } from "../services/mailService";
+import { PERMISSIONS, getPermittedRoleNames } from "../permissions/permissions";
 
 const prisma = new PrismaClient();
 
@@ -54,7 +55,7 @@ const login = errorWrapper(
 
     const user = await prisma.user.findUnique({
       where: {
-        email,        
+        email,
       },
       include: {
         landfill: true,
@@ -70,6 +71,15 @@ const login = errorWrapper(
 
     if (!isPasswordValid) {
       throw new Error("Invalid email or password");
+    }
+
+    const roles = await getPermittedRoleNames(PERMISSIONS.LOGIN);
+
+    console.log(roles);
+    console.log(user.roleName);
+
+    if (!roles.includes(user.roleName)) {
+      throw new CustomError("You are not allowed to login", 403);
     }
 
     const token = generateToken(
