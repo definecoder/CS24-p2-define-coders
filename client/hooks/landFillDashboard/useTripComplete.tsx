@@ -4,6 +4,7 @@ import { setCookie, getCookie } from '@/lib/cookieFunctions';
 import axios from 'axios';
 import { jwtToken, role , uid , username, stsId} from '@/data/cookieNames';
 import { uri } from '@/data/constant';
+import { apiRoutes } from '@/data/apiRoutes';
 
 export default function useTripComplete() {  
 
@@ -28,15 +29,17 @@ export default function useTripComplete() {
 //      console.log(data.exitTime);
 //      console.log(distanceWithoutUnit);
 //      console.log(durationWithoutUnit);
-      const res = await axios.post('http://localhost:8585/trips/complete', {
+      const res = await axios.post(apiRoutes.trip.complete, {
         tripId: data.tripId,
         weightOfWaste: weightWithoutUnit,
         entryTime: isoString,
+    }, {
+      headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
     });
     //use the response from here
-    console.log(res.data);
+    window.location.reload();
 
-      return true;
+      return "Trip Complete Successful";
     } catch (error: any) {
       alert(error.message?.toString() || "error logging in");
       return false;

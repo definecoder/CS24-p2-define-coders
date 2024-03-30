@@ -16,7 +16,8 @@ export const apiRoutes = {
         getAll: `${baseUrl}/sts`,
         delete: `${baseUrl}/sts/`,
         edit: `${baseUrl}/sts/`,
-        vehicle: {            
+        vehicle: {           
+            create: `${baseUrl}/sts-entry/create`,  
             delete: `${baseUrl}/sts-entry/`,            
         },
     },
@@ -50,6 +51,7 @@ export const apiRoutes = {
         delete: `${baseUrl}/trips/`,
         edit: `${baseUrl}/trips/`,
         search: `${baseUrl}/trips/search`,
+        complete: `${baseUrl}/trips/complete`,
     },
     bills: {
         makeBill: `${baseUrl}/bills/create-from-trip/`,

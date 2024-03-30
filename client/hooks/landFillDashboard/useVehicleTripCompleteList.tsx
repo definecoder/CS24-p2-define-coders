@@ -1,7 +1,12 @@
+
 import { useState } from "react";
 import axios from "axios";
-import { uri } from "@/data/constant";
+
 import { apiRoutes } from "@/data/apiRoutes";
+
+
+import { jwtToken } from "@/data/cookieNames";
+import { getCookie } from "@/lib/cookieFunctions";
 
 type Vehicle = {
   tripId: string;
@@ -26,9 +31,13 @@ export default function useVehicleTripCompleteList(landfillId: string) {
 
   async function VehcileTripCompleteList() {
     try {
+
       const res = await axios.get(
-        apiRoutes.landfill.getAllRecievedVechicleHistory + landfillId
+        apiRoutes.landfill.getAllRecievedVechicleHistory + landfillId, {
+        headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
+      }
       );
+
       // Assuming the response data is an array of vehicles
       const AllVehicle: Vehicle[] = res.data.map((vehicle: any) => ({
         tripId: vehicle.id,

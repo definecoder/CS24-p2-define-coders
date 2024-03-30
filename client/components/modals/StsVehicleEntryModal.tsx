@@ -93,6 +93,8 @@ const handleDateChange = (date: Date) => {
         vehicleIds: vehicleId,
         entryTimes: selectedDateTime.toISOString(),
       });
+
+      if(postEntry) return alert(postEntry);
       
     } catch (error) {
       console.error("Error:", error);

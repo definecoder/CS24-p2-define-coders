@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { uri } from '@/data/constant';
-
+import { jwtToken, stsId } from '@/data/cookieNames';
+import { setCookie, getCookie } from '@/lib/cookieFunctions';
+import { apiRoutes } from '@/data/apiRoutes';
 type Vehicle = {
   id: string;
   vehicleNumber: string;
@@ -20,7 +22,11 @@ export default function useVehicleList() {
 
   async function getVehicleList() {
     try {
-      const res = await axios.get('http://localhost:8585/vehicles');
+      const res = await axios.get(apiRoutes.vehicle.getAll ,
+      {
+        headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
+      }
+      );
       // Assuming the response data is an array of vehicles
       const AllVehicle: Vehicle[] = res.data.map((vehicle: any) => ({
         id: vehicle.id,

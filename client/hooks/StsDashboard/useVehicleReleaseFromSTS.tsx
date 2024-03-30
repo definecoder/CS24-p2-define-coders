@@ -4,6 +4,7 @@ import { setCookie, getCookie } from '@/lib/cookieFunctions';
 import axios from 'axios';
 import { jwtToken, role , uid , username, stsId} from '@/data/cookieNames';
 import { uri } from '@/data/constant';
+import { apiRoutes } from '@/data/apiRoutes';
 
 export default function useVehicleReleaseFromSTS() {  
 
@@ -30,17 +31,19 @@ const durationWithoutUnit = parseFloat(data.estimatedDuration.replace("mins", ""
 //      console.log(data.exitTime);
 //      console.log(distanceWithoutUnit);
 //      console.log(durationWithoutUnit);
-      const res = await axios.post('http://localhost:8585/trips/create', {
+      const res = await axios.post(apiRoutes.trip.create, {
         stsVehicleId: data.stsVehicleId,
     weightOfWaste: data.weightOfWaste,
     exitTime: isoString,
     distance: distanceWithoutUnit,
     estimatedDuration: durationWithoutUnit
+    }, {
+      headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
     });
     //use the response from here
-    console.log(res.data);
-
-      return true;
+  //  console.log(res.data);
+    window.location.reload();
+      return "Vehicle Released Successfully";
     } catch (error: any) {
       alert(error.message?.toString() || "error logging in");
       return false;
