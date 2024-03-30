@@ -7,6 +7,8 @@ import STSVehicleList from "@/components/dataTables/StsVehicleList";
 import useGetAllSTS from "@/hooks/stsdata/useGetAllSTS";
 import * as React from "react";
 import {useState, useEffect} from "react";
+import useGetSTSAvailableVehicles from "@/hooks/vehicles/useSTSAvailableVehicles";
+import OptimizedVehicleRoute from "./OptimizedVehicleRoute";
 
 
 
@@ -15,46 +17,43 @@ type StsRouteType = {
   name: string,
 }
 
-export default function GetStsCoordinateForRoute() {
+type VehicleCoordinateType = {
+    vehicleNumber: string;
+    vehicleType: string;
+    capacity: string;
+    coordinate: string;
+  };
+
+export default function GetVehicleCoordinateRoute() {
     const {stsList, getAllSTS, stsRoute  } = useGetAllSTS();
+    const {vehicleList,vehicleRoute, vehicleNumberList, GetSTSAvailableVehicles  } = useGetSTSAvailableVehicles();
     const [coordinates, setCoordinates] = useState<string[]>([]);
     const [stsName, setStsName] = useState<string[]>([]);
     const [stsRouting , setStsRouting] = useState<StsRouteType[]>([]);
+    const [vehicleRouting , setVehicleRouting] = useState<VehicleCoordinateType[]>([]);
     
     
 
-    // const suggestionsList: string[] = [
-    //     "23.7751927, 90.3810282",
-    //     "Bolbacchan STS",
-    //     "Gulshan STS",
-    //     "Baridhara STS",
-    //     "Mohammadpur STS",
-    //     "Gulistan STS",
-    //     "Rampura STS",
-    //   ];
-    
-    //   const landfillList: string[] = ["23.7618195, 90.3833253","Amin Bazar", "Chashara"];
-
-    
 
       useEffect(() => {
+        GetSTSAvailableVehicles();
         getAllSTS();
 console.log(stsRoute);
 
         
     }, []);
+
     useEffect(() => {
       const coordinateArray: string[] = stsRoute.map(route => route.coordinate);
       setCoordinates(coordinateArray);
       setStsRouting(stsRoute);
-  }, [stsRoute]);
-      
+      setVehicleRouting(vehicleRoute);
+  }, [stsRoute, vehicleRoute]);
 
-   
-        console.log(coordinates);
+ 
   return (
               <ChakraProvider theme={theme}>
-                <OptimizedRouteMap coordinates={stsRouting}/>
+                <OptimizedVehicleRoute coordinates={stsRouting} vehicleCoord={vehicleRouting}/>
               </ChakraProvider>
   );
 }

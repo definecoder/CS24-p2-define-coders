@@ -17,10 +17,20 @@ type Vehicle = {
   stsId: string;
  
 };
+type VehicleCoordinateType = {
+ 
+
+  vehicleNumber: string;
+  vehicleType: string;
+  capacity: string;
+  coordinate: string;
+};
+
 
 export default function useGetSTSAvailableVehicles() {
   const [vehicleList, setVehicleList] = useState<Vehicle[]>([]); // Initialize with an empty array of Vehicle objects
   const [vehicleNumberList, setVehicleNumberList] = useState<string[]>([]);
+  const [vehicleRoute, setVehicleRoute] = useState<VehicleCoordinateType[]>([]);
 
   async function GetSTSAvailableVehicles() {
     try {
@@ -42,6 +52,14 @@ export default function useGetSTSAvailableVehicles() {
         (vehicle: Vehicle) => vehicle.vehicleNumber
       );
 
+      const stsRouteCalc: VehicleCoordinateType[] = AllVehicle.map((data: Vehicle) => ({
+        coordinate: `${data.currentLatitude}, ${data.currentLongitude}`,
+        vehicleNumber: data.vehicleNumber,
+        vehicleType: data.vehicleType,
+        capacity: data.capacity
+    }));
+    setVehicleRoute(stsRouteCalc);
+
       setVehicleList(AllVehicle);
       setVehicleNumberList(vehicleNumbers);
 
@@ -52,5 +70,5 @@ export default function useGetSTSAvailableVehicles() {
     }
   }
 
-  return { vehicleList, vehicleNumberList, GetSTSAvailableVehicles };
+  return { vehicleList,vehicleRoute, vehicleNumberList, GetSTSAvailableVehicles };
 }

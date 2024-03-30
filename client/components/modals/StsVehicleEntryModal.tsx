@@ -54,6 +54,7 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
     const [weightOfWaste, setWeightOfWaste] = useState("");
     const callVehcilse = async () => {
       const sucess = await GetSTSAvailableVehicles();
+      if(!sucess) return alert("Wrong Vehicle Information");
     };
     
     useEffect(() => {
