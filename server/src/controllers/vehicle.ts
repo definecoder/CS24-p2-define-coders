@@ -1,4 +1,4 @@
-import { Prisma } from "./../../node_modules/.prisma/client/index.d";
+import { Prisma } from "@prisma/client";
 import { PrismaClient, Vehicle } from "@prisma/client";
 import { Request, Response } from "express";
 import errorWrapper from "../middlewares/errorWrapper";
@@ -10,12 +10,45 @@ import {
   getVehicleById,
   updateVehicle,
 } from "../services/vehicleServices";
+import { getDistance, getDuration } from "../services/optmization";
 
 const prisma = new PrismaClient();
 
 const createVehicle = errorWrapper(
   async (req: Request, res: Response) => {
     const vehicleInfo: Vehicle = req.body;
+
+    const stsId = vehicleInfo.stsId;
+
+    const sts = await prisma.sTS.findUnique({
+      where: {
+        id: stsId,
+      },
+    });
+
+    if (!sts) {
+      throw new CustomError("STS not found", 404);
+    }
+
+    const landfill = await prisma.landfill.findUnique({
+      where: {
+        id: vehicleInfo.landFillId,
+      },
+    });
+
+    if (!landfill) {
+      throw new CustomError("Landfill not found", 404);
+    }
+
+    const stsLocation = `${sts.latitude},${sts.longitude}`;
+
+    const landfillLocation = `${landfill.latitude},${landfill.longitude}`;
+
+    const duration = await getDuration(stsLocation, landfillLocation);
+    const distance = await getDistance(stsLocation, landfillLocation);
+
+    vehicleInfo.duration = new Prisma.Decimal(duration);
+    vehicleInfo.distance = new Prisma.Decimal(distance);
 
     const vehicle = await addVehicle(vehicleInfo);
     res.status(201).json(vehicle);
@@ -48,7 +81,46 @@ const editVehicle = errorWrapper(
 
     const vehicle = await updateVehicle(vehicleId, vehicleInfo);
 
-    res.json(vehicle);
+    const sts = await prisma.sTS.findUnique({
+      where: {
+        id: vehicle.stsId,
+      },
+    });
+
+    if (!sts) {
+      throw new CustomError("STS not found", 404);
+    }
+
+    const landfill = await prisma.landfill.findUnique({
+      where: {
+        id: vehicle.landFillId,
+      },
+    });
+
+    if (!landfill) {
+      throw new CustomError("Landfill not found", 404);
+    }
+
+    const stsLocation = `${sts.latitude},${sts.longitude}`;
+
+    const landfillLocation = `${landfill.latitude},${landfill.longitude}`;
+
+    const duration = await getDuration(stsLocation, landfillLocation);
+
+    const distance = await getDistance(stsLocation, landfillLocation);
+
+    const updatedVehicle = await prisma.vehicle.update({
+      where: {
+        id: vehicleId,
+      },
+      data: {
+        ...vehicleInfo,
+        duration: new Prisma.Decimal(duration),
+        distance: new Prisma.Decimal(distance),
+      },
+    });
+
+    res.json(updatedVehicle);
   },
   { statusCode: 500, message: "Couldn't update vehicle" }
 );

@@ -116,7 +116,7 @@ const getAvailableVehiclesForSTS = errorWrapper(
     const { stsId } = req.params;
 
     const vehicles = await prisma.$queryRaw`
-    SELECT * FROM "Vehicle" WHERE "id" NOT IN ( 
+    SELECT * FROM "Vehicle" WHERE "stsId" = ${stsId} AND "id" NOT IN ( 
       SELECT "vehicleId" FROM "STSVehicleEntry" WHERE "stsId" = ${stsId} AND "exitTime" IS NULL
     )
     `;

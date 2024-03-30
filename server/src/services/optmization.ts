@@ -84,4 +84,27 @@ const getDuration = async (origin: string, destination: string) => {
   return durationInMinutes;
 };
 
-export { getSortedVehicles, getSortedSTSFromLandfill, getDuration };
+const getDistance = async (origin: string, destination: string) => {
+  const client = new Client({});
+  const response: DirectionsResponse = await client.directions({
+    params: {
+      origin,
+      destination,
+      key: apiKey,
+      mode: TravelMode.driving,
+    },
+  });
+
+  const distance = response.data?.routes[0]?.legs[0]?.distance?.value;
+
+  const distanceInKm = (distance ? distance / 1000 : 0).toFixed(2);
+
+  return distanceInKm;
+};
+
+export {
+  getSortedVehicles,
+  getSortedSTSFromLandfill,
+  getDuration,
+  getDistance,
+};
