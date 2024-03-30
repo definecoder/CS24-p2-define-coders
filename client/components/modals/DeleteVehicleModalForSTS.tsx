@@ -46,7 +46,7 @@ export const DeleteVehicleModalForSTS = ({ vehicleInfo }: { vehicleInfo: Vehicle
       <DialogContent className="max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="mt-4 text-xl sm:text-2xl">
-            Confirm Delete User?
+            Confirm Delete Vehicle?
           </DialogTitle>
           <DialogDescription>
             <div className="mt-4 flex flex-col justify-center items-start text-left p-4 rounded-lg border shadow-xl text-md">

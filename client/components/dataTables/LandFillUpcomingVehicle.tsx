@@ -244,7 +244,12 @@ export default function LanfFillUpcomingVehicles() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   async function getAllUpcomingVehicles() {
-    await UpcomingVehicle(await getCookie(landfillId));
+    console.log(landfillId);
+    await UpcomingVehicle(
+      {
+        landFillId: await getCookie(landfillId)
+      }
+      );
   }
 
   React.useEffect(() => {

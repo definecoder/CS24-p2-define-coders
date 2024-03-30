@@ -14,29 +14,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { use, useEffect, useState } from "react";
 import { Send, Trash,EditIcon  } from "lucide-react";
-import deleteUser from "@/hooks/user_data/deleteUser";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectGroup,
-  SelectLabel,
-  SelectItem,
-} from "../ui/select";
-import editUser from "@/hooks/user_data/editUser";
-import gettAllRoles from "@/hooks/user_data/useGetAllRole";
-import { number } from "prop-types";
-import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
-import editSTS from "@/hooks/entityCreation/editSTS";
-import getUserByRole from "@/hooks/user_data/getUserByRole";
-import VehicleRelaseRoute from "../maps/VehicleReleaseRoute";
-import useVehicleReleaseFromSTS from "@/hooks/StsDashboard/useVehicleReleaseFromSTS";
-import useUpcomingVehicle from "@/hooks/landFillDashboard/useUpcomingVehiclesList";
-import useTripComplete from "@/hooks/landFillDashboard/useTripComplete";
-import { profile } from "console";
+
 import useEditProfileInfo from "@/hooks/user_data/useEditProfileInfo";
 import useGetUserProfile from "@/hooks/user_data/useGetUserProfile";
+import useUpdateSts from "@/hooks/StsDashboard/useUpdateSts";
 
 
 type User = {
@@ -50,34 +31,33 @@ type User = {
 };
 
 
-export const ProfileEditModal = ({ profileInfo }: { profileInfo: User }) => {
-  const [profileData, setProfileData] = useState<User>(profileInfo);
+export const UpdateStsStorage = () => {
+  
 
   const { user, stsDetails, landfillDetails, getUserDetails} = useGetUserProfile(); 
  
 
   const [username , setUsername] = useState<string>(user.username);
   const [profilename , setProfilename] = useState<string>(user.profileName);
+  const [wastageEntry , setWastageEntry] = useState<string>(stsDetails.stsCurrentTotalWaste);
   
-  const { EditProfileInfo } = useEditProfileInfo();
+  const { UpdateSts } = useUpdateSts();
 
 
 
  
   const handleSaveChanges = async () => {
     try {
-      
-     
-      const postEntry = await EditProfileInfo({
-        username : username,
-        profileName: profilename
-      });
+        const remainingCapacity = parseInt(stsDetails.stsCurrentTotalWaste) + parseInt(wastageEntry);
+        const postEntry = await UpdateSts({
+          storedData: remainingCapacity,
+          stsId: stsDetails.stsId
+        });
 
-      if(postEntry) return alert(postEntry);
-      
-    } catch (error) {
-      console.error("Error:", error);
-    }
+        if(postEntry) return alert(postEntry);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     
   
   };
@@ -96,25 +76,29 @@ export const ProfileEditModal = ({ profileInfo }: { profileInfo: User }) => {
       <DialogContent className="max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="mt-4 text-xl sm:text-2xl">
-            Edit Profile
+           Entry Dump In STS
           </DialogTitle>
           <DialogDescription>
             <div className="mt-4 flex flex-col justify-center items-start text-left p-4 rounded-lg border shadow-xl text-md">
               <h1>
-                <span className="font-bold">Role Name: </span>
-                {user.roleName}
+                <span className="font-bold">STS ID: </span>
+                {stsDetails.stsId}
               </h1>
               <p>
-                <span className="font-bold">Email: </span>
-                {user.email}
+                <span className="font-bold">Name: </span>
+                {stsDetails.stsName}
               </p>
               <p>
-              <span className="font-bold">Username: </span>
-                {user.username}
+              <p>
+                <span className="font-bold">Ward Number: </span>
+                {stsDetails.stsWardNumber}
+              </p>
+              <span className="font-bold">Capacity: </span>
+                {stsDetails.stsCapacity}
               </p>
               <p>
-                <span className="font-bold">Profile Name: </span>
-                {user.profileName}
+                <span className="font-bold">Current Total Waste: </span>
+                {stsDetails.stsCurrentTotalWaste}
               </p>
              
             
@@ -125,29 +109,18 @@ export const ProfileEditModal = ({ profileInfo }: { profileInfo: User }) => {
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-             Username
+             Entry Wastage
             </Label>
             <Input
-              id="weightOfWaste"
-              placeholder={username}
+              id="weight of waste"
+              placeholder="Wastage (in Tons)"
               className="col-span-3"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={wastageEntry}
+              onChange={(e) => setWastageEntry(e.target.value)}
             />
           </div>
           
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="capacity" className="text-right">
-              Profile Name
-            </Label>
-            <Input
-              id="capacity"
-              placeholder={profilename}
-              className="col-span-3"
-              value={profilename}
-              onChange={(e) => setProfilename(e.target.value)}
-            />
-          </div>
+         
         </div>
         <DialogFooter>
         <DialogClose asChild>

@@ -220,7 +220,9 @@ export const columns: ColumnDef<Vehicle>[] = [
 
 export default function LanfFillDeliveredVehicles() {
   const [data, setData] = React.useState<Vehicle[]>([]);
-  const { vehicleList, VehcileTripCompleteList } = useVehicleTripCompleteList(getCookie(landfillId));
+  const { vehicleList, VehcileTripCompleteList } = useVehicleTripCompleteList({
+    landFillId: getCookie(landfillId)
+  });
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

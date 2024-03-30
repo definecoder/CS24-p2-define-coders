@@ -32,23 +32,42 @@ import {
   SelectValue,
 } from "../ui/select";
 
+import useGetSTSAvailableVehicles from "@/hooks/vehicles/useSTSAvailableVehicles";
+
+
 interface DialogWrapperProps {
   children: React.ReactNode;
 }
 
+type Vehicle = {
+ 
+  id: string;
+  vehicleNumber: string;
+  vehicleType: string;
+  capacity: string;
+  currentLatitude: string,
+  currentLongitude: string,
+  landFillId: string;
+  stsId: string;
+ 
+};
+
 export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
   children,
 }) => {
+
   const { entryTime, setEntryTime, vehicleId, setVehicleId, VehicleEntry } =
     useVehicleEntry();
-  const { vehicleList, vehicleNumberList, getVehicleList } = useVehicleList();
+  const { vehicleList, vehicleNumberList, GetSTSAvailableVehicles } = useGetSTSAvailableVehicles();
+        
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
 
   const [weightOfWaste, setWeightOfWaste] = useState("");
   const callVehcilse = async () => {
-    const sucess = await getVehicleList();
+    const sucess = await GetSTSAvailableVehicles();
+      if(!sucess) return alert("Wrong Vehicle Information");
   };
 
   useEffect(() => {
@@ -102,6 +121,7 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
         vehicleIds: vehicleId,
         entryTimes: selectedDateTime.toISOString(),
       });
+      if(postEntry) return alert(postEntry);
     } catch (error) {
       console.error("Error:", error);
     }

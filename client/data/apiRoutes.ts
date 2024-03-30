@@ -5,6 +5,9 @@ export const apiRoutes = {
         login: `${baseUrl}/auth/login`,
         create: `${baseUrl}/auth/create`,
         logout: `${baseUrl}/auth/logout`,
+        resetInitiate: `${baseUrl}/auth/reset-password/initiate`,
+        confirmPass: `${baseUrl}/auth/reset-password/confirm`,
+        changePass: `${baseUrl}/auth/change-password/`
     },
     user: {
         getAll: `${baseUrl}/users`,
@@ -18,9 +21,11 @@ export const apiRoutes = {
         edit: `${baseUrl}/sts/`,
         getById: `${baseUrl}/sts/`,
         vehicle: {            
+            create: `${baseUrl}/sts-entry/create`,  
             delete: `${baseUrl}/sts-entry/`,       
             entry: `${baseUrl}/sts-entry/create`,     
-            ongoing: `${baseUrl}/sts-entry/`,
+            ongoing: `${baseUrl}/sts-entry/`,                        
+            current: `${baseUrl}/sts-entry/`,              
         },
     },
     landfill: {
@@ -53,6 +58,7 @@ export const apiRoutes = {
         delete: `${baseUrl}/trips/`,
         edit: `${baseUrl}/trips/`,
         search: `${baseUrl}/trips/search`,
+        complete: `${baseUrl}/trips/complete`,
     },
     bills: {
         makeBill: `${baseUrl}/bills/create-from-trip/`,

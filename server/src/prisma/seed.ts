@@ -241,7 +241,7 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     id: "vid1",
     vehicleNumber: "13-8272",
     vehicleType: "Dump Truck",
-    capacity: 4,
+    capacity: 5,
     loadedFuelCostPerKm: 10,
     unloadedFuelCostPerKm: 5,
     landFill: {
@@ -249,6 +249,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts1",
+      },
+    },
+    duration: 20,
   },
   {
     id: "vid2",
@@ -262,6 +268,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts2",
+      },
+    },
+    duration: 18,
   },
   {
     id: "vid3",
@@ -275,6 +287,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts3",
+      },
+    },
+    duration: 17,
   },
   {
     vehicleNumber: "13-8275",
@@ -287,6 +305,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts1",
+      },
+    },
+    duration: 21,
   },
   {
     vehicleNumber: "13-8276",
@@ -299,6 +323,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts4",
+      },
+    },
+    duration: 28,
   },
   {
     vehicleNumber: "13-8277",
@@ -311,6 +341,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts1",
+      },
+    },
+    duration: 26,
   },
   {
     vehicleNumber: "13-8278",
@@ -323,6 +359,12 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
       },
     },
+    sts: {
+      connect: {
+        id: "sts2",
+      },
+    },
+    duration: 45,
   },
 ];
 
@@ -332,7 +374,7 @@ const stsData: Prisma.STSCreateInput[] = [
     name: "Mohakhali STS",
     wardNumber: "13",
     capacity: 1000,
-    currentTotalWaste: 900,
+    currentTotalWaste: 220,
     latitude: 23.777742178642388,
     longitude: 90.40575221162331,
   },
@@ -341,7 +383,7 @@ const stsData: Prisma.STSCreateInput[] = [
     name: "Gulshan STS",
     wardNumber: "2",
     capacity: 2000,
-    currentTotalWaste: 1200,
+    currentTotalWaste: 225,
     latitude: 23.792464932754005,
     longitude: 90.40782465254337,
   },
@@ -351,7 +393,7 @@ const stsData: Prisma.STSCreateInput[] = [
     name: "Bonani STS",
     wardNumber: "4",
     capacity: 1500,
-    currentTotalWaste: 200,
+    currentTotalWaste: 240,
     latitude: 23.793630794902622,
     longitude: 90.40660514416635,
   },
@@ -360,7 +402,7 @@ const stsData: Prisma.STSCreateInput[] = [
     name: "Badda STS",
     wardNumber: "4",
     capacity: 1500,
-    currentTotalWaste: 900,
+    currentTotalWaste: 275,
     latitude: 23.78042151306244,
     longitude: 90.42669427037866,
   },
@@ -369,18 +411,9 @@ const stsData: Prisma.STSCreateInput[] = [
     name: "Jatrabari STS",
     wardNumber: "4",
     capacity: 1500,
-    currentTotalWaste: 200,
+    currentTotalWaste: 290,
     latitude: 23.710484797357275,
     longitude: 90.43479693063576,
-  },
-  {
-    id: "sts6",
-    name: "Motijheel STS",
-    wardNumber: "4",
-    capacity: 1500,
-    currentTotalWaste: 1400,
-    latitude: 23.72800766871942,
-    longitude: 90.41902325467944,
   },
 ];
 

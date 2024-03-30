@@ -82,6 +82,8 @@ export const STSVehicleRelease = ({
         distance: distance,
         estimatedDuration: duration,
       });
+      // window.location.reload();
+      if(postEntry) return alert(postEntry);      
     } catch (error) {
       console.error("Error:", error);
     }

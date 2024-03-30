@@ -39,7 +39,7 @@ export default function useVehicleEntry() {
       console.log(res.data);
       window.location.reload();
 
-      return true;
+      return "Vehicle Entered Noted";
     } catch (error: any) {
       alert(error.message?.toString() || "error adding entry");
       return false;

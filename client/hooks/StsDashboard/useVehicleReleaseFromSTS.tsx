@@ -6,6 +6,8 @@ import { jwtToken, role, uid, username, stsId } from "@/data/cookieNames";
 import { uri } from "@/data/constant";
 import { apiRoutes } from "@/data/apiRoutes";
 
+
+
 export default function useVehicleReleaseFromSTS() {
   async function VehicleReleaseFromSTS(data: {
     stsVehicleId: string;
@@ -21,6 +23,7 @@ export default function useVehicleReleaseFromSTS() {
       const isoString = new Date(data.exitTime).toISOString();
 
       const distanceWithoutUnit = parseFloat(data.distance.replace(" km", ""));
+
       const durationWithoutUnit = parseFloat(
         data.estimatedDuration.replace("mins", "")
       );
@@ -35,16 +38,19 @@ export default function useVehicleReleaseFromSTS() {
 
       const res = await axios.post(apiRoutes.trip.create, {
         stsVehicleId: data.stsVehicleId,
-        weightOfWaste: data.weightOfWaste,
-        exitTime: isoString,
-        distance: distanceWithoutUnit,
-        estimatedDuration: durationWithoutUnit,
-      });
+    weightOfWaste: data.weightOfWaste,
+    exitTime: isoString,
+    distance: distanceWithoutUnit,
+    estimatedDuration: durationWithoutUnit
+    }, {
+      headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
+    });
       //use the response from here
-      console.log(res.data);
+      //console.log(res.data);
       window.location.reload();
 
       return true;
+        return "Vehicle Released Successfully";
     } catch (error: any) {
       alert(error.message?.toString() || "error logging in");
       return false;
@@ -53,8 +59,3 @@ export default function useVehicleReleaseFromSTS() {
 
   return { VehicleReleaseFromSTS };
 }
-// console.log(data.stsVehicleId);
-//      console.log(data.weightOfWaste);
-//      console.log(data.exitTime);
-//      console.log(distanceWithoutUnit);
-//      console.log(durationWithoutUnit);
