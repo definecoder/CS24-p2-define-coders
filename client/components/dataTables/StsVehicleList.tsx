@@ -206,10 +206,17 @@ export default function STSVehicleList() {
       columnVisibility,
       rowSelection,
     },
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: 4,
+      },
+    },
   });
   return (
-    <>
-      <div className="flex items-center py-4 gap-4">
+    <div className="flex flex-col justify-center w-full h-full">
+    <div className="font-bold text-xl w-full text-center">CURRENT VEHICLES IN YOUR STS</div>
+    <div><div className="flex items-center py-4 gap-4">
         <Input
           placeholder="Search by STS Name..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -297,8 +304,8 @@ export default function STSVehicleList() {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Total
+          {table.getFilteredRowModel().rows.length} row(s) fetched.
         </div>
         <div className="space-x-2">
           <Button
@@ -318,7 +325,7 @@ export default function STSVehicleList() {
             Next
           </Button>
         </div>
-      </div>
-    </>
+      </div></div>
+    </div>
   );
 }
