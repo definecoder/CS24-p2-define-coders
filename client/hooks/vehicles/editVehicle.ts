@@ -15,6 +15,7 @@ type Vehicle = {
   unloadedFuelCostPerKm: string;
   landFillId: string;
   landFillName: string;
+  stsId: string;
 };
 
 export default async function editVehicle(vehicleData: Vehicle) {
@@ -27,6 +28,7 @@ export default async function editVehicle(vehicleData: Vehicle) {
         loadedFuelCostPerKm: vehicleData.loadedFuelCostPerKm,
         unloadedFuelCostPerKm: vehicleData.unloadedFuelCostPerKm,
         landFillId: vehicleData.landFillId,
+        stsId: vehicleData.stsId,
       };
       const res2 = await axios.put(
         apiRoutes.vehicle.edit + vehicleData.id,
