@@ -219,10 +219,10 @@ export default function STSVehicleList() {
     <div className="font-bold text-xl w-full text-center">CURRENT VEHICLES IN YOUR STS</div>
     <div><div className="flex items-center py-4 gap-4">
         <Input
-          placeholder="Search by STS Name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder="Search by Vehicle Number..."
+          value={(table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("vehicleNumber")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

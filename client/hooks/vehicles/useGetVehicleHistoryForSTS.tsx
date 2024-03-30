@@ -8,6 +8,7 @@ type Vehicle = {
     vehicleNumber: string,
     exitTime: string,
     landFillName: string,    
+    weightOfWaste: string,
   };
 
 export default function useGetVehicleHistoryForSTS() {  
@@ -22,6 +23,7 @@ export default function useGetVehicleHistoryForSTS() {
         vehicleNumber: vehicle?.vehicle?.vehicleNumber,
         exitTime: vehicle?.exitTime,
         landFillName: vehicle?.vehicle?.landFill?.name,        
+        weightOfWaste: vehicle?.weightOfWaste,
       }));      
 
      setVehicleList(AllVehicle);     

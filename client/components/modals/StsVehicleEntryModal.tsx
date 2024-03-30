@@ -123,13 +123,13 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
         <div className="grid gap-4 py-4">
           <div className="grid grid-flow-row grid-cols-4 items-center gap-4">
             <Label htmlFor="vehicleNumber" className="text-right col-span-1">
-              Vehicle Type
+              Vehicle Number
             </Label>
             <Select value={searchTerm} onValueChange={(e) => setSearchTerm(e)}>
               <SelectTrigger className="col-span-3">
                 <SelectValue
                   id="vehicleNumber"
-                  placeholder="Select number type from the list"
+                  placeholder="Select number from the list"
                 />
               </SelectTrigger>
               <SelectContent>

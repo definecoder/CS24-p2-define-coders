@@ -59,7 +59,8 @@ import useGetVehicleHistoryForSTS from "@/hooks/vehicles/useGetVehicleHistoryFor
 type Vehicle = {
   vehicleNumber: string,
   exitTime: string,
-  landFillName: string,    
+  landFillName: string,   
+  weightOfWaste: string,
 };
 
 export const columns: ColumnDef<Vehicle>[] = [
@@ -81,6 +82,27 @@ export const columns: ColumnDef<Vehicle>[] = [
     },
     cell: ({ row }) => (
       <div className="text-center font-medium">{row.getValue("vehicleNumber")}</div>
+    ),
+  },
+  
+  {
+    accessorKey: "weightOfWaste",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center items-center">
+          <Button
+            variant="ghost"
+            className="text-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Waste (tons)
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-center font-medium">{row.getValue("weightOfWaste".toLocaleString())}</div>
     ),
   },
   {
