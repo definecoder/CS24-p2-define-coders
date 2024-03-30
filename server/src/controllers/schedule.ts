@@ -23,9 +23,7 @@ const createSchedule = errorWrapper(
 
     const stsList = await prisma.sTS.findMany();
 
-    //   const rawSchedule = await getSchedule(stsId);
-
-    stsList.forEach(async (sts) => {
+    for (let sts of stsList) {
       const { ctw } = await getSchedule(sts.id, new Date(date));
 
       await prisma.sTS.update({
@@ -33,10 +31,10 @@ const createSchedule = errorWrapper(
           id: sts.id,
         },
         data: {
-          currentTotalWaste: ctw,
+          currentTotalWaste: ctw >= 0 ? ctw : 0,
         },
       });
-    });
+    }
 
     res.json({ message: "Schedule Created" });
   },
