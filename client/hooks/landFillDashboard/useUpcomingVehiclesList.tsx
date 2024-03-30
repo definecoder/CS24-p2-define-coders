@@ -4,6 +4,9 @@ import { uri } from '@/data/constant';
 import { jwtToken } from "@/data/cookieNames";
 import { getCookie } from "@/lib/cookieFunctions";
 
+import { apiRoutes } from '@/data/apiRoutes';
+
+
 type Vehicle = {
   tripId: string,
   weightOfWaste: string,
@@ -22,15 +25,17 @@ export default function useUpcomingVehicle() {
   const [vehicleList, setVehicleList] = useState<Vehicle[]>([]); // Initialize with an empty array of Vehicle objects
   const [vehicleNumberList, setVehicleNumberList] = useState<string[]>([]); 
 
-  async function UpcomingVehicle() {
+  async function UpcomingVehicle(landFillId: string) {
     try {
-      const res = await axios.get('http://localhost:8585/trips/search?tripStatus=PENDING&landfillId=d7fdaa7d-f73e-452c-bdfb-62f46a4e067a', {
+
+      const res = await axios.get(apiRoutes.landfill.getAllIncomingVehicles + landFillId, {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
       });
+
       // Assuming the response data is an array of vehicles
       const AllVehicle: Vehicle[] = res.data.map((vehicle: any) => ({
         tripId: vehicle.id,
-  weightOfWaste: `${vehicle.weightOfWaste} tons`,
+  weightOfWaste: `${vehicle.weightOfWaste} Tons`,
   vehicleNumber: vehicle.vehicle.vehicleNumber,
   stsId: vehicle.sts.name,
   vehicleType: vehicle.vehicle.vehicleType,

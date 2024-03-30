@@ -1,111 +1,42 @@
+"use client";
+import GoogleMapComponent from "@/components/maps/GoogleMap";
+import EmptyFillContainer from "../../cards/EmptyFillContainer";
+import LanfFillUpcomingVehicles from "../../../dataTables/LandFillUpcomingVehicle";
+import LandFillDeliveredVehicles from "../../../dataTables/LandFillDeliveredVehicles";
+import { AllStsMapShow } from "@/components/maps/AllStsShow";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Cog, LogOut } from "lucide-react";
+
 
 export default function LandfillManagerDumpEntries() {
+
   return (
+    
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
-      <div className="flex items-center hidden">
-        <h1 className="text-lg font-semibold md:text-2xl">SETTINGS</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-semibold md:text-2xl">DUMP ENTRIES</h1>
+        <div className="flex-grow-1"></div>
+        <div className="flex gap-2">
+          <Button variant="ghost" size="sm" className="w-full text-md border shadow-lg py-4">            
+            OUTGOING DUMP ENTRY
+            <LogOut size={20} className="ml-4" />
+          </Button>          
+        </div>
       </div>
-      <div className="flex flex-1 items-center justify-center md:justify-start rounded-lg border border-dashed shadow-sm md:px-10">
-        <div className="grid gap-12 lg:grid-cols-2 w-full h-full p-6">
-          {/* <h1 className="text-lg font-semibold md:text-2xl">ADD NEW DUMP ENTRY</h1> */}
-          <div className="flex flex-col justify-center items-center gap-4">
-          <h1 className="font-bold leading-none text-3xl tracking-tight">ADD STORAGE ENTRIES</h1>
-            <Card className="w-[95%]">
-              <CardHeader>
-                <CardTitle>Create project</CardTitle>
-                <CardDescription>
-                  Deploy your new project in one-click.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form>
-                  <div className="grid w-full items-center gap-4">
-                    <div className="flex flex-col space-y-1.5">
-                      <Label htmlFor="name">Name</Label>
-                      <Input id="name" placeholder="Name of your project" />
-                    </div>
-                    <div className="flex flex-col space-y-1.5">
-                      <Label htmlFor="framework">Framework</Label>
-                      <Select>
-                        <SelectTrigger id="framework">
-                          <SelectValue placeholder="Select" />
-                        </SelectTrigger>
-                        <SelectContent position="popper">
-                          <SelectItem value="next">Next.js</SelectItem>
-                          <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                          <SelectItem value="astro">Astro</SelectItem>
-                          <SelectItem value="nuxt">Nuxt.js</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </form>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button variant="outline">Cancel</Button>
-                <Button>Deploy</Button>
-              </CardFooter>
-            </Card>
+      <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">        
+        <div className="grid grid-cols-1 md:grid-cols-2 grid-rows-2 grid-flow-row gap-2 md:gap-4 w-full md:h-full max-h-max">          
+          <div className="col-span-2 row-span-1 min-h-48">
+            <EmptyFillContainer>
+              <LanfFillUpcomingVehicles />
+            </EmptyFillContainer>
           </div>
-          <div className="flex flex-col justify-center items-center gap-4">
-            <h1 className="font-bold leading-none text-3xl tracking-tight">ADD DUMP ENTRIES</h1>
-            <Card className="w-[95%]">
-              <CardHeader>
-                <CardTitle>Create project</CardTitle>
-                <CardDescription>
-                  Deploy your new project in one-click.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form>
-                  <div className="grid w-full items-center gap-4">
-                    <div className="flex flex-col space-y-1.5">
-                      <Label htmlFor="name">Name</Label>
-                      <Input id="name" placeholder="Name of your project" />
-                    </div>
-                    <div className="flex flex-col space-y-1.5">
-                      <Label htmlFor="framework">Framework</Label>
-                      <Select>
-                        <SelectTrigger id="framework">
-                          <SelectValue placeholder="Select" />
-                        </SelectTrigger>
-                        <SelectContent position="popper">
-                          <SelectItem value="next">Next.js</SelectItem>
-                          <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                          <SelectItem value="astro">Astro</SelectItem>
-                          <SelectItem value="nuxt">Nuxt.js</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </form>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button variant="outline">Cancel</Button>
-                <Button>Deploy</Button>
-              </CardFooter>
-            </Card>
-          </div>
+          <div className="col-span-2 row-span-1 min-h-48">
+            <EmptyFillContainer>              
+              <LandFillDeliveredVehicles />
+            </EmptyFillContainer>
+          </div>          
         </div>
       </div>
     </main>
-  );
+  );  
 }

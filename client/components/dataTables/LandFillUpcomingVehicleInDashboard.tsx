@@ -51,30 +51,25 @@ import useVehicleList from "@/hooks/vehicles/useVehiclesData";
 import useVehicleListForSTS from "@/hooks/vehicles/useGetVeicleForSTS";
 import { DeleteVehicleModalForSTS } from "../modals/DeleteVehicleModalForSTS";
 import { STSVehicleRelease } from "../modals/STSVehicleReleaseModal";
-import useVehicleTripCompleteList from "@/hooks/landFillDashboard/useVehicleTripCompleteList";
+import useUpcomingVehicle from "@/hooks/landFillDashboard/useUpcomingVehiclesList";
 import { LandfillVehicleEntryModal } from "../modals/LandFillVehicleEntryModal";
 import { getCookie } from "@/lib/cookieFunctions";
-import { landfillId } from "@/data/cookieNames";
+import { landfillId, landfillName } from "@/data/cookieNames";
+import formatTimestamp from "@/lib/formatTimestamp";
 
 type Vehicle = {
     tripId: string,
     weightOfWaste: string,
-    shortage: string,
     vehicleNumber: string,
-    stsName: string,
+    stsId: string,
     vehicleType: string,
     distance: string,
-    actualDuration: string,
-    estimatedFuelCost: string,
     tripStartTime: string,
-    tripEndTime: string,
     estimatedDuration: string
     tripStatus: string
     capacity: string,
-  
     
   };
-  
 
 export const columns: ColumnDef<Vehicle>[] = [
   {
@@ -96,9 +91,9 @@ export const columns: ColumnDef<Vehicle>[] = [
     cell: ({ row }) => (
       <div className="text-center font-medium">{row.getValue("vehicleNumber")}</div>
     ),
-  },
+  },  
   {
-    accessorKey: "vehicleType",
+    accessorKey: "stsId",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -107,20 +102,18 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Vehicle Type
+            STS Name
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">
-        {row.getValue("vehicleType")}
-      </div>
+      <div className="text-center font-medium">{row.getValue("stsId")}</div>
     ),
   },
   {
-    accessorKey: "distance",
+    accessorKey: "tripStartTime",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -129,54 +122,14 @@ export const columns: ColumnDef<Vehicle>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Distance
+            Departed At
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("distance".toLocaleString())}</div>
-    ),
-  },
-  {
-    accessorKey: "actualDuration",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Actual Duration
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("actualDuration")}</div>
-    ),
-  },
-  {
-    accessorKey: "estimatedFuelCost",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Estimated Fuel Cost
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("estimatedFuelCost")}</div>
+      <div className="text-center font-medium">{formatTimestamp(row.getValue("tripStartTime".toLocaleString()))}</div>
     ),
   },
   {
@@ -200,7 +153,6 @@ export const columns: ColumnDef<Vehicle>[] = [
     ),
   },
   
-  
   {
     id: "actions",
     enableHiding: false,
@@ -211,16 +163,16 @@ export const columns: ColumnDef<Vehicle>[] = [
         <div>
           {/* <DeleteVehicleModalForSTS vehicleInfo={sts} />
           <STSVehicleRelease vehicleInfo={sts} /> */}
-          {/* <LandfillVehicleEntryModal vehicleInfo={sts} /> */}
+          <LandfillVehicleEntryModal vehicleInfo={sts} />
         </div>
       );
     },
   },
 ];
 
-export default function LanfFillDeliveredVehicles() {
+export default function LanfFillUpcomingVehiclesInDashboard() {
   const [data, setData] = React.useState<Vehicle[]>([]);
-  const { vehicleList, VehcileTripCompleteList } = useVehicleTripCompleteList(getCookie(landfillId));
+  const { vehicleList, UpcomingVehicle } = useUpcomingVehicle();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -229,8 +181,12 @@ export default function LanfFillDeliveredVehicles() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+    async function callUpcomingVehicle() {    
+    await UpcomingVehicle(await getCookie(landfillId));
+  }
+
   React.useEffect(() => {
-    VehcileTripCompleteList();
+    callUpcomingVehicle();
   }, []);
 
   React.useEffect(() => {
@@ -247,19 +203,23 @@ export default function LanfFillDeliveredVehicles() {
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: setRowSelection,    
     state: {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,
+      rowSelection,      
     },
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: 4,
+      },
+    },    
   });
   return (
     <>
-      <div className="font-bold text-2xl w-full text-center">
-        RECIEVED VEHICLES
-      </div>
+    <div className="flex justify-center font-bold text-lg">Upcoming trips to your {getCookie(landfillName)} landfill</div>
       <div className="flex items-center py-4 gap-4">
         <Input
           placeholder="Search by Vehicle Name..."
@@ -348,8 +308,7 @@ export default function LanfFillDeliveredVehicles() {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Showing {data.length} entries
         </div>
         <div className="space-x-2">
           <Button

@@ -22,10 +22,13 @@ export const apiRoutes = {
         },
     },
     landfill: {
+        getbyId: `${baseUrl}/landfills/`,
         create: `${baseUrl}/landfills/create`,
         getAll: `${baseUrl}/landfills`,
         delete: `${baseUrl}/landfills/`,
         edit: `${baseUrl}/landfills/`,
+        getAllIncomingVehicles: `${baseUrl}/trips/search?tripStatus=PENDING&landfillId=`,
+        getAllRecievedVechicleHistory: `${baseUrl}/trips/search?tripStatus=DELIVERED&landfillId=`,
     },
     rbac: {
 

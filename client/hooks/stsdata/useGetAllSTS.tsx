@@ -81,11 +81,9 @@ export default function useGetAllSTS() {
             return false;
         }
     }
-    // useEffect(() => {
-    //     console.log(storagePercentage);
-    //     console.log(stsCoordinate);
-    //     console.log(stsRoute);
-    // }, [storagePercentage, stsCoordinate]);
+    useEffect(() => {
+        getAllSTS();
+    }, []);
 
 
     return { stsList, stsRoute, storagePercentage, stsCoordinate, getAllSTS };
