@@ -99,14 +99,14 @@ export default function MainSectionHeader({
       <div className="hidden xl:block">
         {getCookie(curActive)?.startsWith(stsManager) &&
           (getCookie(stsName) ? (
-            <><b>YOUR STS : </b><span> {getCookie(stsName)} </span></>
+            <b>YOUR STS : <span> {getCookie(stsName).toUpperCase()} </span></b>
           ) : (
             <>{"NO STS ASSIGNED"}</>
           ))}
 
         {getCookie(curActive)?.startsWith(landfillManager) &&
           (getCookie(landfillName) ? (
-            <><b>YOUR LANDFILL : </b><span> {getCookie(landfillName)} </span></>
+            <b>YOUR LANDFILL : <span> {getCookie(landfillName).toUpperCase()} </span></b>
           ) : (
             <>{"NO LANDFILL ASSIGNED"}</>
           ))}        
