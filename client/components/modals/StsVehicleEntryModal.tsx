@@ -22,28 +22,44 @@ import useVehicleList from "@/hooks/vehicles/useVehiclesData";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import useGetSTSAvailableVehicles from "@/hooks/vehicles/useSTSAvailableVehicles";
 
 
 interface DialogWrapperProps {
   children: React.ReactNode;
 }
 
+type Vehicle = {
+ 
+  id: string;
+  vehicleNumber: string;
+  vehicleType: string;
+  capacity: string;
+  currentLatitude: string,
+  currentLongitude: string,
+  landFillId: string;
+  stsId: string;
+ 
+};
+
 export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
   children,
 }) => {
     const { entryTime,setEntryTime, vehicleId, setVehicleId, VehicleEntry } = useVehicleEntry();
-    const { vehicleList, vehicleNumberList, getVehicleList } = useVehicleList();
+    const { vehicleList, vehicleNumberList, GetSTSAvailableVehicles } = useGetSTSAvailableVehicles();
 
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
    
     const [weightOfWaste, setWeightOfWaste] = useState("");
     const callVehcilse = async () => {
-      const sucess = await getVehicleList();
+      const sucess = await GetSTSAvailableVehicles();
     };
     
     useEffect(() => {
       callVehcilse();
+
+
     }, []);
 
     const [selectedDateTime, setSelectedDateTime] = useState<Date>(new Date());

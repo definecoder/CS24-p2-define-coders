@@ -38,10 +38,12 @@ export default function useGetSTSAvailableVehicles() {
         currentLatitude: vehicle.currentLatitude,
         currentLongitude: vehicle.currentLongitude
       }));
-   
+      const vehicleNumbers = res.data.map(
+        (vehicle: Vehicle) => vehicle.vehicleNumber
+      );
 
       setVehicleList(AllVehicle);
-     
+      setVehicleNumberList(vehicleNumbers);
 
       return true;
     } catch (error: any) {
