@@ -17,7 +17,7 @@ const getSortedVehiclesBySTS = async (stsId: string) => {
   const vehicles: Vehicle[] = await prisma.$queryRaw`
     SELECT * FROM "Vehicle"
     WHERE "stsId" = ${stsId}
-    ORDER BY ("loadedFuelCostPerKm" / "capacity") DESC
+    ORDER BY ("loadedFuelCostPerKm" / "capacity") ASC
     `;
 
   vehicles.forEach((vehicle) => {

@@ -10,35 +10,64 @@ import {
   getSortedSTSFromLandfill,
   getSortedVehiclesBySTS,
 } from "../services/optmization";
+import CustomError from "../services/CustomError";
+import { Schedule } from "../types/schdule";
 
 const prisma = new PrismaClient();
 
-const getSchedule = async () => {
-  const stsList = await prisma.sTS.findMany({});
+const getSchedule = async (stsId: string) => {
+  const sts = await prisma.sTS.findUnique({
+    where: {
+      id: stsId,
+    },
+  });
 
-  const vehicles: Vehicle[] = await getSortedVehiclesBySTS(stsList[0].id);
+  if (!sts) {
+    throw new CustomError("STS not found", 404);
+  }
 
-  console.log(vehicles);
+  let ctw = Number(sts.currentTotalWaste);
 
-  //   const queue = new pq({
-  //     comparator: (a: Vehicle, b: Vehicle) => {
-  //       if (a.busyTime && b.busyTime) {
-  //         return a.busyTime - b.busyTime;
-  //       }
-  //       return 0; // Return a default value of 0 when a.busyTime or b.busyTime is undefined
-  //     },
-  //   });
-  //   // enter all vehicles in the queue, with the priority being the emergency factor
+  const vehicles: Vehicle[] = await getSortedVehiclesBySTS(stsId);
 
-  //   vehicles.forEach((vehicle: Vehicle) => {
-  //     queue.queue(vehicle);
-  //   });
+  const vehicleNumbers = vehicles.map((vehicle) => vehicle.vehicleNumber);
 
-  //   for (let i = 0; i < queue.length; i++) {
-  //     console.log(queue.dequeue());
-  //   }
+  console.log(vehicleNumbers);
 
-  //   console.log(stsList);
+  const schdules: Schedule[] = [];
+
+  while (ctw > 0 && vehicles.length > 0) {
+    let vehicle = vehicles.shift();
+    let capacity = Number(vehicle?.capacity);
+
+    const needed = Math.ceil(ctw / capacity);
+
+    const times = Math.min(needed, 3);
+
+    ctw = ctw - times * capacity;
+    console.log("ctw:", ctw);
+    console.log("duration:", vehicle?.duration);
+
+    console.log("vehicle:", vehicle?.vehicleNumber);
+
+    let time = new Date();
+    time.setHours(9, 0);
+
+    for (let i = 0; i < times; i++) {
+      const timeString = time.toLocaleTimeString().toString();
+      schdules.push({
+        vehicleId: vehicle?.id || "",
+        vehicleNumber: vehicle?.vehicleNumber || "",
+        time: timeString,
+      });
+
+      time.setMinutes(time.getMinutes() + 2 * (vehicle?.duration || 0));
+    }
+  }
+
+  schdules.forEach((schedule) => {
+    console.log(`${schedule.vehicleNumber}: ${schedule.time} `);
+  });
 };
 
-getSchedule();
+getSchedule("sts1");
