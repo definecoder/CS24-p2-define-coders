@@ -2,8 +2,12 @@ import { useState } from 'react';
 import {admin, landfillManager, stsManager, unassigned} from '@/data/roles';
 import { getCookie, setCookie } from '@/lib/cookieFunctions';
 import { jwtToken } from '@/data/cookieNames';
+import axios from 'axios';
+import { apiRoutes } from '@/data/apiRoutes';
 
-export default function useChangePass() {  
+export default function useChangePass() { 
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState(""); 
 
   const [passChangeData, setPassChangeData] = useState({
     oldPassword: "",
@@ -15,7 +19,20 @@ export default function useChangePass() {
     if (passChangeData) {
         // Call the login API
         const token = getCookie(jwtToken);
-        alert("Password Changed Successfully!");
+      console.log(oldPassword);
+      console.log(newPassword);
+      console.log(getCookie(jwtToken));
+        const res = await axios.post(apiRoutes.auth.changePass, {
+          oldPassword: oldPassword,
+          newPassword: newPassword
+        },
+          {
+            headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
+          }
+          );  
+
+            console.log(res.data.msg);
+        alert(res.data.msg);
         
         return true;
     }    
@@ -24,5 +41,5 @@ export default function useChangePass() {
     return false;
   }
 
-  return { setPassChangeData, changePass};
+  return { setPassChangeData,setOldPassword, oldPassword, newPassword, setNewPassword, changePass};
 }
