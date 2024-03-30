@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Schedule } from "@prisma/client";
 
 import pq from "js-priority-queue";
 
@@ -9,13 +9,12 @@ import { Vehicle } from "../types/vehicle";
 import {
   getSortedSTSFromLandfill,
   getSortedVehiclesBySTS,
-} from "../services/optmization";
-import CustomError from "../services/CustomError";
-import { Schedule } from "../types/schdule";
+} from "./optmization";
+import CustomError from "./CustomError";
 
 const prisma = new PrismaClient();
 
-const getSchedule = async (stsId: string) => {
+const getSchedule = async (stsId: string, today: Date) => {
   const sts = await prisma.sTS.findUnique({
     where: {
       id: stsId,
@@ -30,11 +29,7 @@ const getSchedule = async (stsId: string) => {
 
   const vehicles: Vehicle[] = await getSortedVehiclesBySTS(stsId);
 
-  const vehicleNumbers = vehicles.map((vehicle) => vehicle.vehicleNumber);
-
-  console.log(vehicleNumbers);
-
-  const schdules: Schedule[] = [];
+  const schedules: Schedule[] = [];
 
   while (ctw > 0 && vehicles.length > 0) {
     let vehicle = vehicles.shift();
@@ -45,29 +40,30 @@ const getSchedule = async (stsId: string) => {
     const times = Math.min(needed, 3);
 
     ctw = ctw - times * capacity;
-    console.log("ctw:", ctw);
-    console.log("duration:", vehicle?.duration);
-
-    console.log("vehicle:", vehicle?.vehicleNumber);
 
     let time = new Date();
-    time.setHours(9, 0);
+    time.setHours(9, 0, 0);
 
     for (let i = 0; i < times; i++) {
       const timeString = time.toLocaleTimeString().toString();
-      schdules.push({
-        vehicleId: vehicle?.id || "",
-        vehicleNumber: vehicle?.vehicleNumber || "",
-        time: timeString,
+
+      const newSchedule = await prisma.schedule.create({
+        data: {
+          scheduleDate: new Date(today),
+          vehicleId: vehicle?.id || "",
+          stsId: stsId,
+          wasteAmount: capacity,
+          scheduleTime: timeString,
+        },
       });
+
+      schedules.push(newSchedule);
 
       time.setMinutes(time.getMinutes() + 2 * (vehicle?.duration || 0));
     }
   }
 
-  schdules.forEach((schedule) => {
-    console.log(`${schedule.vehicleNumber}: ${schedule.time} `);
-  });
+  return { schedules, ctw };
 };
 
-getSchedule("sts1");
+export { getSchedule };
