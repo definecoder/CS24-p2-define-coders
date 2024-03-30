@@ -13,6 +13,9 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
+    "@mantine/charts": "^7.7.1",
+    "@mantine/core": "^7.7.1",
+    "@mantine/hooks": "^7.7.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
@@ -45,6 +48,7 @@
     "react-icons": "^5.0.1",
     "react-simple-captcha": "^9.3.1",
     "react-to-print": "^2.15.1",
+    "recharts": "^2.12.3",
     "sonner": "^1.4.41",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
@@ -60,7 +64,9 @@
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
-    "postcss": "^8",
+    "postcss": "^8.4.38",
+    "postcss-preset-mantine": "^1.13.0",
+    "postcss-simple-vars": "^7.0.1",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }

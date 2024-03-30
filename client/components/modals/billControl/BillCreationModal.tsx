@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { use, useEffect, useState } from "react";
-import { EditIcon, Trash } from "lucide-react";
+import { EditIcon, Ghost, Receipt, Trash } from "lucide-react";
 import deleteUser from "@/hooks/user_data/deleteUser";
 import {
   Select,
@@ -40,8 +40,8 @@ export const BillCreationModal = ({ tripInfo }: { tripInfo: Trip }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" title="Generate Bill" className="h-8 w-8 p-0">
-          <EditIcon className="h-4 w-4" />
+        <Button variant={"ghost"} title="Generate Bill" className="ml-4 mr-2 h-8 w-8 p-0">
+          <Receipt className="h-6 w-6" />
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-[525px]">

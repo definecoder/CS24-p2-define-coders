@@ -29,16 +29,15 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 const center = { lat: 23.7244018, lng: 90.3887196 };
 
 type StsRouteType = {
-  coordinate: string,
-  name: string,
-}
+  coordinate: string;
+  name: string;
+};
 
 type MapProps = {
   coordinates: StsRouteType[];
-}
+};
 
-
-const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) =>{
+const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) => {
   const [routeType, setRouteType] = useState<string>(
     "Location Based Optimal Route"
   );
@@ -54,7 +53,7 @@ const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) =>{
   const [allCoordinates, setAllCoordinates] = useState<string[]>([]);
   const [landFilCoord, setLandFillCoord] = useState<StsRouteType>({
     coordinate: "23.7244018, 90.3887196",
-    name: "Amin Bazar"
+    name: "Amin Bazar",
   });
 
   const suggestionsList: string[] = [
@@ -66,15 +65,13 @@ const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) =>{
     "Gulistan STS",
     "Rampura STS",
   ];
-  
+
   useEffect(() => {
-    const coordinateArray: string[] = coordinates.map(route => route.name);
+    const coordinateArray: string[] = coordinates.map((route) => route.name);
     setAllCoordinates(coordinateArray);
-    
-}, [coordinates]);
+  }, [coordinates]);
 
   const landfillList: string[] = ["Amin Bazar"];
-
 
   //input studds
 
@@ -146,26 +143,25 @@ const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) =>{
   }
 
   const getSTSCoodrdinateByName = (stsName: string): string => {
-    const vehicle = coordinates.find(sts => sts.name === stsName);
+    const vehicle = coordinates.find((sts) => sts.name === stsName);
     if (vehicle) {
-        return vehicle.coordinate.toString();
+      return vehicle.coordinate.toString();
     }
-    
+
     // If vehicle is not found, return undefined
     return "no vehicle";
-};
-
+  };
 
   async function calculateRoute() {
-    if( routeType === "Location Based Optimal Route"){
-      if ( 
+    if (routeType === "Location Based Optimal Route") {
+      if (
         !originRef.current ||
         !destinationRef.current ||
         originRef.current.value === "" ||
-        destinationRef.current.value === "") {
+        destinationRef.current.value === ""
+      ) {
         return;
       }
-
 
       const directionsService = new google.maps.DirectionsService();
       const results = await directionsService.route({
@@ -179,11 +175,10 @@ const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) =>{
         setDistance(results.routes[0].legs[0].distance?.text || "");
         setDuration(results.routes[0].legs[0].duration?.text || "");
       }
-    }else{
-      
+    } else {
       const stsCoord = getSTSCoodrdinateByName(searchTerm);
       const newString = stsCoord.substring(0, 11);
-        console.log(stsCoord);
+      console.log(stsCoord);
       const directionsService = new google.maps.DirectionsService();
       const results = await directionsService.route({
         origin: stsCoord,
@@ -196,13 +191,7 @@ const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) =>{
         setDistance(results.routes[0].legs[0].distance?.text || "");
         setDuration(results.routes[0].legs[0].duration?.text || "");
       }
-
     }
-
-
-
-    
-    
   }
 
   function clearRoute() {
@@ -358,6 +347,6 @@ const OptimizedRouteMap: React.FC<MapProps> = ({ coordinates }) =>{
       </Box>
     </Flex>
   );
-}
+};
 
 export default OptimizedRouteMap;

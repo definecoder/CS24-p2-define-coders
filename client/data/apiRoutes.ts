@@ -21,6 +21,7 @@ export const apiRoutes = {
         },
     },
     landfill: {
+        getbyId: `${baseUrl}/landfills/`,
         create: `${baseUrl}/landfills/create`,
         getAll: `${baseUrl}/landfills`,
         delete: `${baseUrl}/landfills/`,

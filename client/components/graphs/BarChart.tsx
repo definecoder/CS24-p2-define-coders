@@ -8,9 +8,10 @@ interface ChartDataItem {
   data: number[];
   backgroundColor: string[];
   borderColor: string[];
+  label: string;
 }
 
-const BarChart: React.FC<ChartDataItem> = ({ labels, data, backgroundColor, borderColor  }) => {
+const BarChart: React.FC<ChartDataItem> = ({ labels, data, backgroundColor, borderColor, label  }) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<Chart | null>(null);
 
@@ -29,7 +30,7 @@ const BarChart: React.FC<ChartDataItem> = ({ labels, data, backgroundColor, bord
           labels: labels,
           datasets: [
             {
-              label: 'My First Dataset',
+              label: label,
               data: data,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
