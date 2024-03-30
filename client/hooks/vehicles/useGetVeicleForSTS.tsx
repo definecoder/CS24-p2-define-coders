@@ -27,6 +27,7 @@ export default function useVehicleListForSTS() {
 
   async function getVehicleList() {
     try {
+      //'http://localhost:8585/sts-entry/sts1/get-current-vehicles'
       const res = await axios.get('http://localhost:8585/sts-entry/sts1/get-current-vehicles', {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
       });

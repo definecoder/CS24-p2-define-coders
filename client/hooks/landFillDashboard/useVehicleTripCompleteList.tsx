@@ -25,15 +25,20 @@ type Vehicle = {
   capacity: string;
 };
 
-export default function useVehicleTripCompleteList(landfillId: string) {
+export default function useVehicleTripCompleteList(data: { landFillId: string }) {
   const [vehicleList, setVehicleList] = useState<Vehicle[]>([]); // Initialize with an empty array of Vehicle objects
   const [vehicleNumberList, setVehicleNumberList] = useState<string[]>([]);
 
   async function VehcileTripCompleteList() {
     try {
 
+      let Id: string = data.landFillId;
+      if(Id === ''){
+        Id = 'landfillId';
+      }
+
       const res = await axios.get(
-        apiRoutes.landfill.getAllRecievedVechicleHistory + landfillId, {
+        apiRoutes.landfill.getAllRecievedVechicleHistory + Id, {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
       }
       );

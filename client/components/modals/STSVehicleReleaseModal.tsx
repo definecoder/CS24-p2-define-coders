@@ -60,7 +60,8 @@ export const STSVehicleRelease = ({ vehicleInfo }: { vehicleInfo: Vehicle }) => 
   const [stsCoordinate, setStsCoordinate] = useState("");
   const [landFillCoordinate, setLandFillCoordinate] = useState("");
   const [distance, setDistance] = useState<string>("");
-  const [duration, setDuration] = useState<string>("");const { VehicleReleaseFromSTS } = useVehicleReleaseFromSTS();
+  const [duration, setDuration] = useState<string>("");
+  const { VehicleReleaseFromSTS } = useVehicleReleaseFromSTS();
 
   const [selectedDateTime, setSelectedDateTime] = useState<Date>(new Date());
 

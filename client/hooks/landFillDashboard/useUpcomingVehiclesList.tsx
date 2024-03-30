@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { uri } from '@/data/constant';
-import { jwtToken } from "@/data/cookieNames";
+import { jwtToken, landfillId } from "@/data/cookieNames";
 import { getCookie } from "@/lib/cookieFunctions";
 
 import { apiRoutes } from '@/data/apiRoutes';
@@ -25,10 +25,18 @@ export default function useUpcomingVehicle() {
   const [vehicleList, setVehicleList] = useState<Vehicle[]>([]); // Initialize with an empty array of Vehicle objects
   const [vehicleNumberList, setVehicleNumberList] = useState<string[]>([]); 
 
-  async function UpcomingVehicle(landFillId: string) {
+  async function UpcomingVehicle(data: { landFillId: string }) {
     try {
+     
+      let Id : string =  data.landFillId;
+      console.log(Id);
+      if(Id === ''){
+        Id = 'landfillId';
+      }
 
-      const res = await axios.get(apiRoutes.landfill.getAllIncomingVehicles + landFillId, {
+      //http://localhost:8585/trips/search?tripStatus=PENDING&landfillId=c4028362-6c17-4cf0-9b0e-ae20acfa2fbd
+
+      const res = await axios.get(apiRoutes.landfill.getAllIncomingVehicles + Id, {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
       });
 
