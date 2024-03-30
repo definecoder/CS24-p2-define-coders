@@ -2,24 +2,20 @@ import { useState } from "react";
 import axios from "axios";
 import { uri } from "@/data/constant";
 import { apiRoutes } from "@/data/apiRoutes";
-import { jwtToken } from "@/data/cookieNames";
+import { jwtToken, stsId } from "@/data/cookieNames";
 import { getCookie } from "@/lib/cookieFunctions";
 
 type Vehicle = {
-  entryId: string;
+ 
   id: string;
   vehicleNumber: string;
   vehicleType: string;
   capacity: string;
-  loadedFuelCostPerKm: string;
-  unloadedFuelCostPerKm: string;
+  currentLatitude: string,
+  currentLongitude: string,
   landFillId: string;
-  entryTime: string;
-  landFillName: string;
-  stsLattitude: string;
-  stsLongitude: string;
-  landfillLattitude: string;
-  landfillLongitude: string;
+  stsId: string;
+ 
 };
 
 export default function useGetSTSAvailableVehicles() {
@@ -28,7 +24,7 @@ export default function useGetSTSAvailableVehicles() {
 
   async function GetSTSAvailableVehicles() {
     try {
-      const res = await axios.get(apiRoutes.vehicle.getAll, {
+      const res = await axios.get(`${apiRoutes.sts.vehicle.current}/${getCookie(stsId)}/get-available-vehicles`, {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
       });
       // Assuming the response data is an array of vehicles
@@ -37,17 +33,15 @@ export default function useGetSTSAvailableVehicles() {
         vehicleNumber: vehicle.vehicleNumber,
         vehicleType: vehicle.vehicleType,
         capacity: vehicle.capacity,
-        loadedFuelCostPerKm: vehicle.loadedFuelCostPerKm,
-        unloadedFuelCostPerKm: vehicle.unloadedFuelCostPerKm,
         landFillId: vehicle.landFillId,
-        landFillName: vehicle.landFill.name,
+        stsId: vehicle.stsId,
+        currentLatitude: vehicle.currentLatitude,
+        currentLongitude: vehicle.currentLongitude
       }));
-      const vehicleNumbers = res.data.map(
-        (vehicle: Vehicle) => vehicle.vehicleNumber
-      );
+   
 
       setVehicleList(AllVehicle);
-      setVehicleNumberList(vehicleNumbers);
+     
 
       return true;
     } catch (error: any) {

@@ -21,7 +21,8 @@ export const apiRoutes = {
         edit: `${baseUrl}/sts/`,
         vehicle: {           
             create: `${baseUrl}/sts-entry/create`,  
-            delete: `${baseUrl}/sts-entry/`,            
+            delete: `${baseUrl}/sts-entry/`,
+            current: `${baseUrl}/sts-entry/`,              
         },
     },
     landfill: {
