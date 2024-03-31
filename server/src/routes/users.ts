@@ -14,10 +14,12 @@ import { PERMISSIONS } from "../permissions/permissions";
 const router = express.Router();
 
 // add auth checker to all of these
-router.route("/").get(getAllUsers);
+router
+  .route("/")
+  .get(authChecker, authorizer(PERMISSIONS.GET_USERS), getAllUsers);
 router.route("/roles").get(getAllRoles);
-router.route("/:userId").get(getUserById);
-router.route("/:userId").put(updateUser);
+router.route("/:userId").get(authChecker, getUserById);
+router.route("/:userId").put(authChecker, updateUser);
 router
   .route("/:userId")
   .delete(authChecker, authorizer(PERMISSIONS.DELETE_USER), deleteUser); // add permission
