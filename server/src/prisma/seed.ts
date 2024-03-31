@@ -32,6 +32,7 @@ const permissionData: Prisma.PermissionCreateInput[] = [
   { name: PERMISSIONS.LOGIN, description: "Can Login" },
   { name: PERMISSIONS.CHANGE_PASSWORD, description: "Can Change Password" },
   { name: PERMISSIONS.DELETE_USER, description: "Can Delete User" },
+  { name: PERMISSIONS.GET_USERS, description: "Can Get Users" },
   { name: PERMISSIONS.CREATE_BILL, description: "Can Create Bill" },
   { name: PERMISSIONS.GET_BILLS, description: "Can Get Bills" },
   { name: PERMISSIONS.UPDATING_USER_ROLE, description: "Can Update User Role" },
@@ -90,6 +91,7 @@ const roleAssignments = [
       PERMISSIONS.LOGIN,
       PERMISSIONS.CHANGE_PASSWORD,
       PERMISSIONS.DELETE_USER,
+      PERMISSIONS.GET_USERS,
       PERMISSIONS.CREATE_BILL,
       PERMISSIONS.GET_BILLS,
       PERMISSIONS.UPDATING_USER_ROLE,
@@ -245,7 +247,7 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     loadedFuelCostPerKm: 10,
     unloadedFuelCostPerKm: 5,
     currentLatitude: 23.77952415,
-    currentLongitude: 90.4260277  ,
+    currentLongitude: 90.4260277,
     landFill: {
       connect: {
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
@@ -265,8 +267,8 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     capacity: 2,
     loadedFuelCostPerKm: 14,
     unloadedFuelCostPerKm: 6,
-    currentLatitude: 23.79366130,
-    currentLongitude: 90.4129814  ,
+    currentLatitude: 23.7936613,
+    currentLongitude: 90.4129814,
     landFill: {
       connect: {
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
@@ -287,7 +289,7 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     loadedFuelCostPerKm: 6,
     unloadedFuelCostPerKm: 1,
     currentLatitude: 23.79083399,
-    currentLongitude : 90.3762459 ,
+    currentLongitude: 90.3762459,
     landFill: {
       connect: {
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
@@ -307,7 +309,7 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     loadedFuelCostPerKm: 20,
     unloadedFuelCostPerKm: 8,
     currentLatitude: 23.79868747,
-    currentLongitude:  90.3870606,
+    currentLongitude: 90.3870606,
     landFill: {
       connect: {
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
@@ -326,8 +328,8 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     capacity: 5,
     loadedFuelCostPerKm: 25,
     unloadedFuelCostPerKm: 2,
-    currentLatitude: 23.75847265 ,
-    currentLongitude : 90.3819107 ,
+    currentLatitude: 23.75847265,
+    currentLongitude: 90.3819107,
     landFill: {
       connect: {
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
@@ -346,8 +348,8 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     capacity: 6,
     loadedFuelCostPerKm: 30,
     unloadedFuelCostPerKm: 10,
-    currentLatitude:23.79067691 ,
-    currentLongitude: 90.3932404  ,
+    currentLatitude: 23.79067691,
+    currentLongitude: 90.3932404,
     landFill: {
       connect: {
         id: "c4028362-6c17-4cf0-9b0e-ae20acfa2fbd",
@@ -366,7 +368,7 @@ const vehicleData: Prisma.VehicleCreateInput[] = [
     capacity: 3,
     loadedFuelCostPerKm: 12,
     unloadedFuelCostPerKm: 3,
-    currentLatitude: 23.76287175 ,
+    currentLatitude: 23.76287175,
     currentLongitude: 90.4306625,
     landFill: {
       connect: {
