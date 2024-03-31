@@ -5,6 +5,7 @@ import { setCookie } from '@/lib/cookieFunctions';
 import axios, { Axios, AxiosError } from 'axios';
 import { jwtToken, role , uid , stsId, username, curActive, landfillId, landfillName, stsName} from '@/data/cookieNames';
 import { apiRoutes } from "@/data/apiRoutes";
+import { message } from 'antd';
 
 
 export default function useLogin() {
@@ -43,12 +44,13 @@ export default function useLogin() {
 
         return true;
       } catch (error: any) {
-        alert(error?.response.data.message);
+        //alert(error?.response.data.message);
+        message.error(error?.response.data.message);
         return false;
       }
     }
 
-    alert("Invalid credentials!");
+    message.info("Invalid credentials!");
     return false;
   }
 

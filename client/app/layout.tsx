@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import '@mantine/core/styles.css';
 import '@mantine/charts/styles.css';
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 
@@ -26,7 +27,7 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body className={inter.className}><MantineProvider>{children}</MantineProvider></body>
+      <body className={inter.className}><AntdRegistry><MantineProvider>{children}</MantineProvider></AntdRegistry></body>
     </html>
   );
 }

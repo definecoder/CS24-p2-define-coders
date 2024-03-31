@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/nextjs-registry": "^1.0.0",
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
@@ -30,6 +31,7 @@
     "@react-google-maps/api": "^2.19.3",
     "@solarwinter/captchajs": "^0.1.7",
     "@tanstack/react-table": "^8.15.0",
+    "antd": "^5.15.4",
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "class-variance-authority": "^0.7.0",
