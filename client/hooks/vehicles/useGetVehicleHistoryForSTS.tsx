@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { getCookie } from '@/lib/cookieFunctions';
-import { stsId } from '@/data/cookieNames';
+import { jwtToken, stsId } from '@/data/cookieNames';
 import { apiRoutes } from '@/data/apiRoutes';
 import { message } from 'antd';
 
@@ -18,7 +18,14 @@ export default function useGetVehicleHistoryForSTS() {
   async function getVehicleHistory() {
     try {
       const stsID = getCookie(stsId);
-      const res = await axios.get(apiRoutes.sts.vehicle.ongoing + stsID + "/get-left-vehicles");
+      const res = await axios.get(apiRoutes.sts.vehicle.ongoing + stsID + "/get-left-vehicles", {
+       
+      headers: {
+        Authorization: `Bearer ${getCookie(jwtToken)}`,
+      
+    }
+      
+      });
       // Assuming the response data is an array of vehicles
       const AllVehicle: Vehicle[] = res.data.map((vehicle: any) => ({
         vehicleNumber: vehicle?.vehicle?.vehicleNumber,
