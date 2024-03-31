@@ -172,7 +172,7 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
               htmlFor="unloadedFuelCostPerKm"
               className="text-right col-span-2"
             >
-              Loaded fuel cost <br /> per km (in BDT)
+              Unloaded fuel cost <br /> per km (in BDT)
             </Label>
             <Input
               id="unloadedFuelCostPerKm"

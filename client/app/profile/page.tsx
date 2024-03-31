@@ -66,7 +66,7 @@ export default function ProfilePage() {
         </Avatar>
         <h1 className="font-bold text-xl">Profile Page</h1>
         <div className="flex flex-col justify-center items-center">
-          <h1><span className="font-bold">ID: </span></h1>
+          {/* <h1><span className="font-bold">ID: </span>{user.id}</h1> */}
           <p><span className="font-bold">Email: </span>{user.email}</p>
           <p><span className="font-bold">Role: </span>{user.roleName}</p>
           <p><span className="font-bold">Profile Name: </span>{user.profileName}</p>

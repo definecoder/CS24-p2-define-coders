@@ -20,7 +20,7 @@ export default function LandfillManagerDashboard() {
   }, []);
 
   useEffect(() => {
-    // alert(JSON.stringify(landfillData))
+    
   }, [landfillData]);
 
   return (

@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import {admin, landfillManager, stsManager, unassigned} from '@/data/roles';
 import { setCookie } from '@/lib/cookieFunctions';
-import axios from 'axios';
+import axios, { Axios, AxiosError } from 'axios';
 import { jwtToken, role , uid , stsId, username, curActive, landfillId, landfillName, stsName} from '@/data/cookieNames';
 import { apiRoutes } from "@/data/apiRoutes";
 
@@ -43,7 +43,7 @@ export default function useLogin() {
 
         return true;
       } catch (error: any) {
-        alert(error.message?.toString() || "error logging in");
+        alert(error?.response.data.message);
         return false;
       }
     }
