@@ -44,21 +44,21 @@ export default function ProfilePage() {
   }, []);
 
   return (
-    <div className="w-screen h-fit ">
+    <div className="w-screen h-fit">
       <BackgroundComponent />
       <Button
         variant="outline"
-        className="absolute top-[40px] m-24 mx-40"
+        className="absolute top-[40px] m-16 md:m-24 mx-10 md:mx-40"
         onClick={() => router.push("/dashboard")}
       >
         Back to Dashboard
       </Button>
-      <div className="absolute top-[20px] right-[100px] text-3xl text-white flex">
+      <div className="absolute top-[30px] right-[100px] text-3xl text-white flex">
         {user.roleName}
-        <CircleUser className="mx-2 h-8 w-8" />
+        <CircleUser className="mx-2 ml-5 h-8 w-8" />
       </div>
-      <div className="absolute top-[85px] w-4/5 mx-40 my-24  h-4/6 flex ">
-        <div className="h-full w-96 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground p-10 rounded-xl flex flex-col justify-center items-center gap-8">
+      <div className="absolute top-[85px] w-4/5 mx-20 lg:mx-40 my-24 grid grid-flow-row lg:grid-cols-7 xl:grid-cols-6 gap-20">
+        <div className="h-fit lg:col-span-3 xl:col-span-2 w-96 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground p-10 rounded-xl flex flex-col justify-center items-center gap-8">
           <Avatar className="w-24 h-24">
             <AvatarFallback>
               <PersonIcon className="w-3/6 h-3/6" />
@@ -91,7 +91,7 @@ export default function ProfilePage() {
           <ProfileEditModal profileInfo={user} />
         </div>
 
-        <div className="h-fit w-4/6 ml-32 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground p-10 rounded-xl flex flex-col justify-center items-center gap-8">
+        <div className="h-fit lg:col-span-4 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground p-10 rounded-xl flex flex-col justify-center items-center gap-8">
           <Factory className="w-24 h-24" />
 
           {user?.roleName === "STS_MANAGER" &&
