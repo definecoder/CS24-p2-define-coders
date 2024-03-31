@@ -27,7 +27,7 @@ export async function updatePermisson(payload: EditPermisson) {
           }
         ))
       : (response = await axios.delete(
-          apiRoutes.rbac.delete +
+          apiRoutes.rbac.deletePermisson +
             payload.role +
             "/permissions/" +
             payload.permission,

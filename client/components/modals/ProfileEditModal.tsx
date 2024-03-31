@@ -72,9 +72,9 @@ export const ProfileEditModal = ({ profileInfo }: { profileInfo: User }) => {
       const postEntry = await EditProfileInfo({
         username : username,
         profileName: profilename
-      });
-
-      if(postEntry) return message.success(postEntry);
+      });   
+      
+      await getUserDetails();
       
     } catch (error) {
       console.error("Error:", error);
@@ -85,6 +85,10 @@ export const ProfileEditModal = ({ profileInfo }: { profileInfo: User }) => {
   useEffect(() => {
     getUserDetails();
   }, []);
+
+  useEffect(() => {
+    
+  }, [user]);  
   
 
   return (

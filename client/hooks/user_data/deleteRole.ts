@@ -19,9 +19,10 @@ export default async function deleteRole(roleName: string) {
         },
       });
 
-      if(res) return "Role added successfully";
-    } catch (error: any) {
-      message.error(error?.response?.data?.message + "Error creating role... Are you authorized?");      
+      if(res) return "Role deleted successfully";
+    } catch (error: any) {      
+      message.error(error?.response?.data?.message + "Error deleting role... Are you authorized?");  
+      return null;    
     }
   
 }

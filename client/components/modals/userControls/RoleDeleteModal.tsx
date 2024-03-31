@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import addNewRole from "@/hooks/user_data/addNewRole";
 import deleteRole from "@/hooks/user_data/deleteRole";
+import { message } from "antd";
 import React , {useState} from "react";
 
 interface DialogWrapperProps {
@@ -26,7 +27,8 @@ export const RoleDeleteModal: React.FC<DialogWrapperProps> = ({
     const [roleName, setRoleName] = useState("");
     
   const handleSaveChanges = async () => {
-    await deleteRole(roleName);
+    const res = await deleteRole(roleName);
+    res && message.success(res);
     window.location.reload();
   };
 

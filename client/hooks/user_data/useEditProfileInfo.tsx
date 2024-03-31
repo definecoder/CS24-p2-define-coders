@@ -27,11 +27,11 @@ export default function useEditProfileInfo() {
         }
       );
 
-   
+      message.success('Profile Edited Successfully');
 
       return true;
     } catch (error: any) {
-      message.error(error?.response?.data.message?.toString() || 'Error Editing');
+      message.error(error?.response?.data?.message?.toString() || 'Error Editing');
       return false;
     }
   }
