@@ -1,0 +1,33 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./client
+      # target: dev
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    # volumes:
+    #   - ./client:/usr/src/app
+    env_file:
+      - .env
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8585:8585"
+    # volumes:
+    #   - ./server:/usr/src/app
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ecosync

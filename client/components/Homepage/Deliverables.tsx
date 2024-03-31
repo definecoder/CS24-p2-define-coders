@@ -30,7 +30,7 @@ const Deliverable = () => {
         <div className="border border-gray-200 p-6 rounded-lg">
           <div className="w-12 h-12 p-2  inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
           <svg fill="#000000" xmlns="http://www.w3.org/2000/svg" 
-	 width="60px" height="60px" viewBox="0 0 52 52" enable-background="new 0 0 52 52" >
+	 width="60px" height="60px" viewBox="0 0 52 52" enableBackground="new 0 0 52 52" >
 <path d="M45.4,9c0-3.8-8.7-6.9-19.4-6.9S6.6,5.2,6.6,9v2.4c0,3.8,8.7,6.9,19.4,6.9s19.4-3.1,19.4-6.9V9z"/>
 <path d="M6.6,17c0,3,8.7,5.4,19.4,5.4S45.4,20,45.4,17v4.9c0,3.8-8.7,6.9-19.4,6.9S6.6,25.7,6.6,21.9V17z"/>
 <path d="M6.6,17c0,3,8.7,5.4,19.4,5.4S45.4,20,45.4,17v4.9c0,3.8-8.7,6.9-19.4,6.9S6.6,25.7,6.6,21.9V17z"/>
@@ -73,7 +73,7 @@ const Deliverable = () => {
         <div className="border border-gray-200 p-6 rounded-lg">
           <div className="w-12 h-12 p-2 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
           <svg fill="#000000" xmlns="http://www.w3.org/2000/svg" 
-	 width="60px" height="60px" viewBox="0 0 52 52" enable-background="new 0 0 52 52" >
+	 width="60px" height="60px" viewBox="0 0 52 52" enableBackground="new 0 0 52 52" >
 <path d="M42.3,4.9H30.4C29.6,3.2,27.9,2,26,2c-2.6,0-4.8,2.2-4.8,4.8s2.2,4.8,4.8,4.8c2,0,3.7-1.2,4.4-2.9h11.9
 	c2.1,0,3.8,1.7,3.8,3.8v7.7c0,2.1-1.7,3.8-3.8,3.8h-5.8v-5.8c0-1.6-1.3-2.9-2.9-2.9H18.3c-1.6,0-2.9,1.3-2.9,2.9v5.8H9.7
 	c-4.2,0-7.7,3.4-7.7,7.7v7.7c0,4.2,3.4,7.7,7.7,7.7h11.9C22.3,48.8,24,50,26,50c2.6,0,4.8-2.2,4.8-4.8c0-2.6-2.2-4.8-4.8-4.8

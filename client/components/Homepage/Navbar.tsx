@@ -6,11 +6,10 @@ import { Disclosure } from "@headlessui/react";
 
 const Navbar = () => {
   const navigation = [
-    "Product",
     "Features",
-    "Pricing",
-    "Company",
-    "Blog",
+    "Deliverables",
+    "Team"
+    
   ];
 
   return (
@@ -90,11 +89,11 @@ const Navbar = () => {
         </div>
 
         <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-          <Link href="/" className="px-6 py-2 text-white bg-black rounded-md md:ml-5">
-              Get Started
+          <Link href="/auth/login" className="px-6 py-2 text-white bg-black rounded-md md:ml-5">
+              Log In
           </Link>
 
-          <ThemeChanger />
+          {/* <ThemeChanger /> */}
         </div>
       </nav>
     </div>
