@@ -7,4 +7,4 @@ export const dbSchema = 'https://github.com/definecoder/CS24-p2-define-coders';
 export const powerpoint = 'https://github.com/definecoder/CS24-p2-define-coders';
 export const apiExcel = 'https://docs.google.com/spreadsheets/d/1_h94f8bbpJne0x985umDHGz-SN3EVNqo/edit?usp=sharing&ouid=112171985446871134031&rtpof=true&sd=true';
 export const postmanCollectionLink = 'https://github.com/definecoder/CS24-p2-define-coders';
-
+export const zipLink = 'https://github.com/definecoder/CS24-p2-define-coders';
