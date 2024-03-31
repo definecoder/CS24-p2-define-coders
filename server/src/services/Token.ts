@@ -1,5 +1,8 @@
 import jwt, { Secret } from "jsonwebtoken";
 import { Request } from "express";
+import CustomError from "./CustomError";
+
+const tokenBlacklist: Set<string> = new Set();
 
 const getToken = (req: Request) => {
   const authHeader = req.headers.authorization;
@@ -12,7 +15,7 @@ const getToken = (req: Request) => {
 const generateToken = (info: any, expiry: string | number | undefined) => {
   const secret: Secret | undefined = process.env.JWT_SECRET;
   if (!secret) {
-    throw new Error("JWT secret is undefined.");
+    throw new CustomError("JWT secret is undefined.", 500);
   }
   return jwt.sign(info, secret, { expiresIn: expiry });
 };
@@ -22,12 +25,15 @@ const verifyToken = (token: string) => {
   if (!secret) {
     throw new Error("JWT secret is undefined.");
   }
+  if (tokenBlacklist.has(token)) {
+    throw new CustomError("User is logged out!", 401);
+  }
+
   return jwt.verify(token, secret);
 };
 
 const invalidateToken = (token: string) => {
-  // This is a dummy function that does nothing.
-  // In a real-world application, you would probably want to blacklist the token.
+  tokenBlacklist.add(token);
   return;
 };
 
