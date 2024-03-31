@@ -18,6 +18,7 @@ import { Send, Trash,EditIcon  } from "lucide-react";
 import useEditProfileInfo from "@/hooks/user_data/useEditProfileInfo";
 import useGetUserProfile from "@/hooks/user_data/useGetUserProfile";
 import useUpdateSts from "@/hooks/StsDashboard/useUpdateSts";
+import { message } from "antd";
 
 
 type User = {
@@ -54,7 +55,7 @@ export const UpdateStsStorage = () => {
           stsId: stsDetails.stsId
         });
 
-        if(postEntry) return alert(postEntry);
+        if(postEntry) return message.success(postEntry);
       } catch (error) {
         console.error("Error:", error);
       }

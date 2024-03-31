@@ -3,6 +3,7 @@ import { apiRoutes } from "@/data/apiRoutes";
 import { jwtToken } from "@/data/cookieNames";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { getCookie } from "@/lib/cookieFunctions";
+import { message } from "antd";
 import axios from "axios";
 export type STS = {
     name: string;
@@ -37,7 +38,8 @@ export default function useCreateSTS() {
         window.location.reload();
         return "STS Aadded successfully";
       } catch (error: any) {
-        return error.message?.toString() || "Error creating STS";
+        message.error(error.message?.toString() || "Error creating STS");
+        return null;
       }
     }
 

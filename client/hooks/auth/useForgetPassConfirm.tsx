@@ -3,6 +3,7 @@ import axios from 'axios';
 import { apiRoutes } from '@/data/apiRoutes';
 import { jwtToken, otpToken } from '@/data/cookieNames';
 import { setCookie, getCookie } from '@/lib/cookieFunctions';
+import { message } from 'antd';
 type OTP = string;
 
 export default function useForgetPassConfirm() {
@@ -23,11 +24,11 @@ export default function useForgetPassConfirm() {
             headers: { Authorization: `Bearer ${getCookie(otpToken)}` },
           }
           );  
-        alert("Check your email for the reset password link" + res.data.msg);
+        message.info("Check your email for the reset password link" + res.data.msg);
         return true;
     }    
     
-    alert("Invalid OTP!");
+    message.error("Invalid OTP!");
     return false;
   }
 

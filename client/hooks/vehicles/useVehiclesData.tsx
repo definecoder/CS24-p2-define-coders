@@ -4,6 +4,7 @@ import { uri } from '@/data/constant';
 import { jwtToken, stsId } from '@/data/cookieNames';
 import { setCookie, getCookie } from '@/lib/cookieFunctions';
 import { apiRoutes } from '@/data/apiRoutes';
+import { message } from 'antd';
 type Vehicle = {
   id: string;
   vehicleNumber: string;
@@ -46,7 +47,7 @@ export default function useVehicleList() {
      
       return true;
     } catch (error: any) {
-      alert(error.message?.toString() || "Error fetching vehicle list");
+      message.error(error?.response?.data?.message?.toString() || "Error fetching vehicle list");
       return false;
     }
   }

@@ -24,7 +24,7 @@ export default function STSManagerStorageData() {
   }, []);
 
   useEffect(() => {
-    // alert(JSON.stringify(stsData))
+    
   }, [stsData]);
 
     return (

@@ -5,6 +5,7 @@ import { apiRoutes } from "@/data/apiRoutes";
 import { jwtToken } from "@/data/cookieNames";
 import { getCookie } from "@/lib/cookieFunctions";
 import { Trip } from "@/components/dataTables/PendingBillList";
+import { message } from "antd";
 
 export default function useGetAllPendingBillList() {
   const [tripList, setTripList] = useState<Trip[]>([]); // Initialize with an empty array of Vehicle objects  
@@ -38,7 +39,7 @@ export default function useGetAllPendingBillList() {
 
       return true;
     } catch (error: any) {
-      alert(error.message?.toString() || "Error fetching pending bills list");
+      message.error(error?.response?.data.message?.toString() || "Error fetching pending bills list");
       return false;
     }
   }

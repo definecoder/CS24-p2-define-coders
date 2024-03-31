@@ -19,6 +19,7 @@ import useEditProfileInfo from "@/hooks/user_data/useEditProfileInfo";
 import useGetUserProfile from "@/hooks/user_data/useGetUserProfile";
 import useUpdateSts from "@/hooks/StsDashboard/useUpdateSts";
 import useLandFillStorageEdit from "@/hooks/landFillDashboard/useLandFillStorageEdit";
+import { message } from "antd";
 
 
 type User = {
@@ -55,7 +56,7 @@ export const UpdateLandfillStorageModal = () => {
           landfillId: landfillDetails.landfillId
         });
 
-        if(postEntry) return alert(postEntry);
+        if(postEntry) return message.success(postEntry);
       } catch (error) {
         console.error("Error:", error);
       }

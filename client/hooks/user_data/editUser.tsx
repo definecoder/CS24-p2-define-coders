@@ -4,6 +4,7 @@ import { apiRoutes } from "@/data/apiRoutes";
 import { jwtToken } from "@/data/cookieNames";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { getCookie } from "@/lib/cookieFunctions";
+import { message } from "antd";
 import axios from "axios";
 
 export default async function editUser(user: User) {
@@ -26,7 +27,7 @@ export default async function editUser(user: User) {
       }) : null;
       return "user updated successfully";
     } catch (error: any) {
-      return error.message?.toString() || "error updating user. You may not have the required permissions.";
+      message.error(error?.response?.data.message?.toString() || "error updating user. You may not have the required permissions.");
     }
   }
 

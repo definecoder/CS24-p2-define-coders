@@ -33,6 +33,7 @@ import useGetAllLandfill from "@/hooks/dataQuery/useGetAllLandfill";
 import editVehicle from "@/hooks/vehicles/editVehicle";
 import { Trip } from "@/components/dataTables/PendingBillList";
 import makeBill from "@/hooks/bills/makeBill";
+import { message } from "antd";
 
 export const BillCreationModal = ({ tripInfo }: { tripInfo: Trip }) => {
   const [allocatedCost, setAllocatedCost] = useState<number | undefined>();
@@ -131,7 +132,7 @@ export const BillCreationModal = ({ tripInfo }: { tripInfo: Trip }) => {
               onClick={async () => {
                 let result;
                 allocatedCost ? result = await makeBill(tripInfo, allocatedCost) : result = "Please enter allocated cost";
-                if (result) return alert(result);
+                if (result) return message.success(result);
               }}
             >
               GENERATE BILL

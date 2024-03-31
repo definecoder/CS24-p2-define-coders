@@ -20,7 +20,7 @@ export default function STSManagerDumpEntries() {
   }, []);
 
   useEffect(() => {
-    // alert(JSON.stringify(stsData))
+    
   }, [stsData]);
 
   return (

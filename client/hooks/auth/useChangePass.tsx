@@ -4,6 +4,7 @@ import { getCookie, setCookie } from '@/lib/cookieFunctions';
 import { jwtToken } from '@/data/cookieNames';
 import axios from 'axios';
 import { apiRoutes } from '@/data/apiRoutes';
+import { message } from 'antd';
 
 export default function useChangePass() { 
   const [oldPassword, setOldPassword] = useState("");
@@ -32,12 +33,12 @@ export default function useChangePass() {
           );  
 
             console.log(res.data.msg);
-        alert(res.data.msg);
+        message.success(res.data.msg);
         
         return true;
     }    
     
-    alert("Invalid Password!");
+    message.error("Invalid Password!");
     return false;
   }
 

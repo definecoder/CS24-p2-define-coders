@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import { message } from "antd";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -135,7 +136,7 @@ export const AddNewUserModal = ({ props }: { props: any }) => {
               type="submit"
               onClick={async () => {
                 const result = await props.createNewUser();
-                if (result) return alert(result);
+                if (result) return message.success(result);
               }}
             >
               Create User

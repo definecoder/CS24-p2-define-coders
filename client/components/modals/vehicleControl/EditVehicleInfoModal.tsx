@@ -32,6 +32,7 @@ import getUserByRole from "@/hooks/user_data/getUserByRole";
 import useGetAllLandfill from "@/hooks/dataQuery/useGetAllLandfill";
 import editVehicle from "@/hooks/vehicles/editVehicle";
 import useGetAllSTS from "@/hooks/stsdata/useGetAllSTS";
+import { message } from "antd";
 
 type Vehicle = {
   id: string,
@@ -216,9 +217,8 @@ export const EditVehicleInfoModal = ({ vehicleInfo }: { vehicleInfo: Vehicle }) 
             <Button
               type="submit"
               onClick={async () => {
-                alert(vehicleData.stsId)
                 const result = await editVehicle(vehicleData);
-                if (result) return alert(result);
+                if (result) return message.success(result);
               }}
             >
               Update Vehicle

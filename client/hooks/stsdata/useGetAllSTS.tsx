@@ -4,6 +4,7 @@ import { uri } from '@/data/constant';
 import { jwtToken } from "@/data/cookieNames";
 import { getCookie } from "@/lib/cookieFunctions";
 import { apiRoutes } from '@/data/apiRoutes';
+import { message } from 'antd';
 type STS = {
     id: string,
     name: string,
@@ -77,7 +78,7 @@ export default function useGetAllSTS() {
 
             return true;
         } catch (error: any) {
-            alert(error.message?.toString() || "Error fetching STS list");
+            message.error(error?.response?.data?.message?.toString() || "Error fetching STS list");
             return false;
         }
     }

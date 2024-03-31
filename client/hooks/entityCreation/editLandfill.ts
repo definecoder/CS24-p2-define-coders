@@ -6,6 +6,7 @@ import { getCookie } from "@/lib/cookieFunctions";
 import axios from "axios";
 import { STS } from "@/components/modals/stsControl/EditSTSInfoModal";
 import { LandFill } from "@/components/dataTables/LandFillList";
+import { message } from "antd";
 
 export default async function editLandfill(landfillData: LandFill, managerId: string) {
   if (landfillData && managerId) {
@@ -35,10 +36,11 @@ export default async function editLandfill(landfillData: LandFill, managerId: st
       );
       return "landfill updated successfully";
     } catch (error: any) {
-      return (
+      message.error(
         error.message?.toString() ||
         "error updating landfill. You may not have the required permissions."
       );
+      return null;
     }
   }
 

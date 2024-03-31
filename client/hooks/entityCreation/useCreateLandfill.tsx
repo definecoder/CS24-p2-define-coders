@@ -35,7 +35,7 @@ export default function useCreateLandFill() {
         window.location.reload();
         return "Landfill Aadded successfully";
       } catch (error: any) {
-        return error.message?.toString() || "Error creating Landfill";
+        return error?.response?.data.message?.toString() || "Error creating Landfill";
       }
     }
 

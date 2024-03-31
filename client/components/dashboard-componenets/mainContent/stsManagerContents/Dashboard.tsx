@@ -18,8 +18,7 @@ export default function STSManagerDashboard() {
     getstsDatabyID(getCookie(stsId));
   }, []);
 
-  useEffect(() => {
-    // alert(JSON.stringify(stsData))
+  useEffect(() => {    
   }, [stsData]);
 
   return (

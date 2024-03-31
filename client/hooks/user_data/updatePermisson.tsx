@@ -1,7 +1,8 @@
 import { apiRoutes } from "@/data/apiRoutes";
 import { jwtToken } from "@/data/cookieNames";
 import { getCookie } from "@/lib/cookieFunctions";
-import axios from "axios";
+import { message } from "antd";
+import axios, { Axios, AxiosError } from "axios";
 
 type EditPermisson = {
   role: string;
@@ -36,11 +37,10 @@ export async function updatePermisson(payload: EditPermisson) {
             },
           }
         ));
-
-    //console.log(response.data);
+    
     return "Permisson updated successfully!";
-  } catch (error: any) {
-    alert("Error updating permissons... Are you authorized?");
-    console.log(error.message);
+  } catch (error: AxiosError | any) {
+    message.error("Error updating permissons... Are you authorized?");    
+    message.error(error?.response?.data.message?.toString() || "Error updating permissons");
   }
 }

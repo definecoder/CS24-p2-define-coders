@@ -5,6 +5,7 @@ import axios from "axios";
 import { jwtToken, role, uid, username, stsId } from "@/data/cookieNames";
 import { uri } from "@/data/constant";
 import { apiRoutes } from "@/data/apiRoutes";
+import { message } from "antd";
 
 export default function useVehicleReleaseFromSTS() {
   async function VehicleReleaseFromSTS(data: {
@@ -54,7 +55,7 @@ export default function useVehicleReleaseFromSTS() {
       return true;
       return "Vehicle Released Successfully";
     } catch (error: any) {
-      alert(error.message?.toString() || "error logging in");
+      message.error(error?.response?.data.message?.toString() || "error logging in");
       return false;
     }
   }

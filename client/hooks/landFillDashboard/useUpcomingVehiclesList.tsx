@@ -5,6 +5,7 @@ import { jwtToken, landfillId } from "@/data/cookieNames";
 import { getCookie } from "@/lib/cookieFunctions";
 
 import { apiRoutes } from "@/data/apiRoutes";
+import { message } from "antd";
 
 type Vehicle = {
   tripId: string;
@@ -58,7 +59,7 @@ export default function useUpcomingVehicle() {
 
       return true;
     } catch (error: any) {
-      alert(error.message?.toString() || "Error fetching vehicle list");
+      message.error(error?.response?.data.message?.toString() || "Error fetching vehicle list");
       return false;
     }
   }

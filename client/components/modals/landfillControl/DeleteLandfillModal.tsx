@@ -17,6 +17,7 @@ import deleteUser from "@/hooks/user_data/deleteUser";
 import deleteSTS from "@/hooks/entityCreation/deleteSTS";
 import { LandFill } from "@/components/dataTables/LandFillList";
 import deleteLandFill from "@/hooks/entityCreation/deleteLandfill";
+import { message } from "antd";
 
 export const DeleteLandfillModal = ({ landfillInfo }: { landfillInfo: LandFill }) => {
   const [confirmText, setConfirmText] = useState("");
@@ -77,9 +78,9 @@ export const DeleteLandfillModal = ({ landfillInfo }: { landfillInfo: LandFill }
               type="submit"
               onClick={async () => {
                 if (confirmText !== "CONFIRM")
-                  return alert("Please type 'CONFIRM' to confirm");
+                  return message.error("Please type 'CONFIRM' to confirm");
                 const result = await deleteLandFill(landfillInfo.id);
-                if (result) return alert(result);
+                if (result) return message.success(result);
               }}
             >
               Confirm

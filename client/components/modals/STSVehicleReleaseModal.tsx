@@ -35,6 +35,7 @@ import useVehicleReleaseFromSTS from "@/hooks/StsDashboard/useVehicleReleaseFrom
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { message } from "antd";
 
 type Vehicle = {
   entryId: string;
@@ -83,7 +84,7 @@ export const STSVehicleRelease = ({
         estimatedDuration: duration,
       });
       // window.location.reload();
-      if(postEntry) return alert(postEntry);      
+      if(postEntry) return message.success(postEntry);      
     } catch (error) {
       console.error("Error:", error);
     }

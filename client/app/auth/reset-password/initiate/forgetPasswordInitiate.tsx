@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import useForgetPassInitiate from "@/hooks/auth/useForgetPassInitiate";
 import { useContext, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { message } from "antd";
 
 function ForgetPassInitiateForm() {
   const { userEmail, setUserEmail, initiate } = useForgetPassInitiate();
@@ -18,7 +19,7 @@ function ForgetPassInitiateForm() {
   async function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!isCaptchaVerified) {
-      alert("Please verify that you are not a robot.");
+      message.warning("Please verify that you are not a robot.");
       return;
     }
     const success = await initiate();

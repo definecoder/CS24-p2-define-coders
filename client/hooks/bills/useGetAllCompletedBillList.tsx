@@ -6,6 +6,7 @@ import { jwtToken } from "@/data/cookieNames";
 import { getCookie } from "@/lib/cookieFunctions";
 import { Trip } from "@/components/dataTables/PendingBillList";
 import { Bill } from "@/components/dataTables/CompletedBillList";
+import { message } from "antd";
 
 export default function useGetAllCompletedBillList() {
   const [billList, setbillList] = useState<Bill[]>([]); // Initialize with an empty array of Vehicle objects  
@@ -22,8 +23,7 @@ export default function useGetAllCompletedBillList() {
       const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
       });
-
-      //alert(JSON.stringify(res.data));
+      
       // Assuming the response data is an array of vehicles
       const allBills: Bill[] = res.data.map((bill: any) => ({
         id: bill.id,
@@ -51,7 +51,7 @@ export default function useGetAllCompletedBillList() {
 
       return true;
     } catch (error: any) {
-      alert(error.message?.toString() || "Error fetching pending bills list");
+      message.error(error?.response?.data.message?.toString() || "Error fetching pending bills list");
       return false;
     }
   }
