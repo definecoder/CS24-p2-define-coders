@@ -125,8 +125,7 @@ export default function ProfilePage() {
           <p><span className="font-bold">Landfill Name: </span>{landfillDetails.landFillName}</p>
           <p><span className="font-bold">Capacity: </span>{landfillDetails.landFillCapacity}</p>
           <p><span className="font-bold">Current Total Waste: </span>{landfillDetails.landFillCurrentWaste}</p>
-          <p><span className="font-bold">Coordinate: </span>{landfillDetails.landfillLatitude}, {landfillDetails.landFillLongitude}</p>
-        <UpdateLandfillStorageModal />
+          <p><span className="font-bold">Coordinate: </span>{landfillDetails.landfillLatitude}, {landfillDetails.landFillLongitude}</p>        
         </div>}
 
         {user?.roleName === 'LAND_MANAGER' && landfillDetails?.landfillId?.toString().length < 1 && (

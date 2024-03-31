@@ -12,8 +12,8 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React, { use, useEffect, useState } from "react";
-import { Send, Trash,EditIcon  } from "lucide-react";
+import React, { Children, use, useEffect, useState } from "react";
+import { Send, Trash,EditIcon, LogOut  } from "lucide-react";
 
 import useEditProfileInfo from "@/hooks/user_data/useEditProfileInfo";
 import useGetUserProfile from "@/hooks/user_data/useGetUserProfile";
@@ -57,8 +57,9 @@ export const UpdateLandfillStorageModal = () => {
         });
 
         if(postEntry) return message.success(postEntry);
-      } catch (error) {
-        console.error("Error:", error);
+      } catch (error: any) {
+        message.error(error?.response?.data?.message || "An error occurred");
+        // console.error("Error:", error);
       }
     
   
@@ -70,10 +71,11 @@ export const UpdateLandfillStorageModal = () => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" title="Edit STS Info" className="h-8 w-24 p-0">
-        <EditIcon className="h-4 w-4" /> Edit
-        </Button>
+      <DialogTrigger asChild>        
+        <Button variant="ghost" size="sm" className="text-md border shadow-lg">            
+            OUTGOING DUMP ENTRY
+            <LogOut size={20} className="ml-4" />
+          </Button>
       </DialogTrigger>
       <DialogContent className="max-w-[425px]">
         <DialogHeader>

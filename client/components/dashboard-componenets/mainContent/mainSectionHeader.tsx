@@ -50,6 +50,7 @@ import {
 import { get } from "http";
 import { admin, landfillManager, stsManager } from "@/data/roles";
 import axios from "axios";
+import { message } from "antd";
 
 function logout(router: AppRouterInstance) {
   axios.post(
@@ -63,6 +64,7 @@ function logout(router: AppRouterInstance) {
   );
   eraseCookie(role);
   eraseCookie(jwtToken);
+  message.success("logged out successfully");
   router.push("/auth/login");
 }
 
