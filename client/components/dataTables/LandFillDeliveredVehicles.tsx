@@ -260,7 +260,7 @@ export default function LanfFillDeliveredVehicles() {
   return (
     <>
       <div className="font-bold text-2xl w-full text-center">
-        RECIEVED VEHICLES
+        RECIEVED VEHICLE HISTORY
       </div>
       <div className="flex items-center py-4 gap-4">
         <Input

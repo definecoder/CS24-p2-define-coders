@@ -33,7 +33,7 @@ export default function useUpdateSts() {
       window.location.reload();
       return "Wastege Entry in STS Successful";
     } catch (error: any) {
-      message.error(error.message?.toString() || 'Error Editing');
+      message.error(error?.response?.data?.message?.toString() || 'Error Editing');
       return null;
     }
   }

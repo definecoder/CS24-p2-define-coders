@@ -35,7 +35,7 @@ export const apiRoutes = {
     delete: `${baseUrl}/landfills/`,
     edit: `${baseUrl}/landfills/`,
     getAllIncomingVehicles: `${baseUrl}/trips/search?tripStatus=PENDING&landfillId=`,
-    getAllRecievedVechicleHistory: `${baseUrl}/trips/search?tripStatus=DELIVERED&landfillId=`,
+    getAllRecievedVechicleHistory: `${baseUrl}/trips/search?tripStatus=BILLED&landfillId=`,
   },
   rbac: {
     create: `${baseUrl}/rbac/roles`,
