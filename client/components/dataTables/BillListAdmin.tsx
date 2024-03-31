@@ -350,7 +350,7 @@ export default function BillListAdmin() {
                   ) : (
                     <div className="flex items-center justify-center text-muted-foreground gap-3 text-lg">
                       <PackageCheck />
-                      No pending bills.
+                      No bills completed.
                     </div>
                   )}
                 </TableCell>

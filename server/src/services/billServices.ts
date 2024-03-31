@@ -21,6 +21,7 @@ const getBills = async () => {
       sts: true,
       landfill: true,
       vehicle: true,
+      trip: true,
     },
   });
 
