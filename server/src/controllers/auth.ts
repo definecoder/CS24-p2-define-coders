@@ -99,6 +99,8 @@ const logout = errorWrapper(
   async (req: Request, res: Response) => {
     const token = getToken(req) || "no token";
     invalidateToken(token);
+    console.log("Logged Out Successfully");
+    res.json({ msg: "Logged Out Successfully" });
   },
   { statusCode: 500, message: `Logout Failed` }
 );
