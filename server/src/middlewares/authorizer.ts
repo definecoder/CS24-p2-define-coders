@@ -22,6 +22,9 @@ const authorizer = (permission: string) => {
 
       const permittedRoles = await getPermittedRoleNames(permission);
 
+      console.log(userRole);
+      console.log(permittedRoles);
+
       if (userRole && permittedRoles.includes(userRole)) {
         next();
       } else throw new CustomError("Unauthorized", 401);

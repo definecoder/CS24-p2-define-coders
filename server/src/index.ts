@@ -43,7 +43,7 @@ app.use("/landfills", authChecker, landfillRoute);
 app.use("/landfill-entry", authChecker, landfillEntryRoute);
 app.use("/sts-entry", authChecker, stsEntryRoute);
 app.use("/bills", authChecker, billRoute);
-app.use("/trips", tripRoute);
+app.use("/trips", authChecker, tripRoute);
 app.use("/schedules", scheduleRoute);
 
 app.get("/", (req, res) => {
