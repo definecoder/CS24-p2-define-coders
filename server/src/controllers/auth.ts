@@ -75,8 +75,8 @@ const login = errorWrapper(
 
     const roles = await getPermittedRoleNames(PERMISSIONS.LOGIN);
 
-    console.log(roles);
-    console.log(user.roleName);
+    // console.log(roles);
+    // console.log(user.roleName);
 
     if (!roles.includes(user.roleName)) {
       throw new CustomError("You are not allowed to login", 403);
