@@ -3,6 +3,7 @@ import { setCookie, getCookie } from '@/lib/cookieFunctions';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { apiRoutes } from '@/data/apiRoutes';
+import { message } from 'antd';
 
 
 export default function useForgetPassInitiate() {
@@ -23,12 +24,12 @@ export default function useForgetPassInitiate() {
         setCookie(otpToken, res.data.otptoken, 1);
         // console.log(res.data);
         //console.log(getCookie(otpToken));
-        alert(userEmail);
+        message.success("a mail has been sent to " + userEmail + " with the OTP");
         setCookie(jwtToken, userEmail, 0.01);
         return true;
     }    
     
-    alert("Invalid credentials!");
+    message.error("Invalid credentials!");
     return false;
   }
 

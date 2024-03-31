@@ -5,6 +5,7 @@ import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { getCookie } from "@/lib/cookieFunctions";
 import axios from "axios";
 import { STS } from "@/components/modals/stsControl/EditSTSInfoModal";
+import { message } from "antd";
 
 type Vehicle = {
   id: string;
@@ -41,10 +42,11 @@ export default async function editVehicle(vehicleData: Vehicle) {
       );
       return "vehicle updated successfully";
     } catch (error: any) {
-      return (
+      message.error(
         error.message?.toString() ||
         "error updating vehicle. You may not have the required permissions."
       );
+      return null;
     }
   }
 

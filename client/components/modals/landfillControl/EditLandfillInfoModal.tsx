@@ -30,6 +30,7 @@ import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import editSTS from "@/hooks/entityCreation/editSTS";
 import getUserByRole from "@/hooks/user_data/getUserByRole";
 import editLandfill from "@/hooks/entityCreation/editLandfill";
+import { message } from "antd";
 
 type LandFill = {
   id: string;
@@ -136,7 +137,7 @@ export const EditLandfillInfoModal = ({ landfillInfo }: { landfillInfo: LandFill
               type="submit"
               onClick={async () => {
                 const result = await editLandfill(landfillData, landfillManagerData?.id || "");
-                if (result) return alert(result);
+                if (result) return message.success(result);
               }}
             >
               Update Landfill

@@ -40,37 +40,58 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useGetAllUser from "@/hooks/user_data/useGetAllUser";
-import { Copy, EditIcon } from "lucide-react";
-
-import gettAllRoles from "@/hooks/user_data/useGetAllRole";
-import { roleList } from "@/data/roles";
-import useGetAllSTS from "@/hooks/dataQuery/useGetAllSTS";
-
-import useVehicleList from "@/hooks/vehicles/useVehiclesData";
-import useVehicleListForSTS from "@/hooks/vehicles/useGetVeicleForSTS";
-import { DeleteVehicleModalForSTS } from "../modals/DeleteVehicleModalForSTS";
-import { STSVehicleRelease } from "../modals/STSVehicleReleaseModal";
-import useUpcomingVehicle from "@/hooks/landFillDashboard/useUpcomingVehiclesList";
-import { LandfillVehicleEntryModal } from "../modals/LandFillVehicleEntryModal";
+import useGetAllVehicleList from "@/hooks/vehicles/useGetAllVehicleList";
+import { DeleteVehicleModal } from "../modals/vehicleControl/DeleteVehicleModal";
+import { EditVehicleInfoModal } from "../modals/vehicleControl/EditVehicleInfoModal";
+import useGetAllPendingBillList from "@/hooks/bills/useGetAllPendingBillList";
+import { Package, PackageCheck, PackageX } from "lucide-react";
 import { getCookie } from "@/lib/cookieFunctions";
-import { landfillId } from "@/data/cookieNames";
-import formatTimestamp from "@/lib/formatTimestamp";
+import { landfillId, landfillName } from "@/data/cookieNames";
+import { BillCreationModal } from "../modals/billControl/BillCreationModal";
+import useGetAllCompletedBillList from "@/hooks/bills/useGetAllCompletedBillList";
+import { BillViewModal } from "../modals/billControl/BillViewModal";
 
-type Vehicle = {
-  tripId: string;
-  weightOfWaste: string;
+export type Bill = {
+  id: string;
+  billNo: string;
+  stsName: string;
+  landFillName: string;
   vehicleNumber: string;
-  stsId: string;
   vehicleType: string;
-  distance: string;
-  tripStartTime: string;
-  estimatedDuration: string;
-  tripStatus: string;
-  capacity: string;
+  weightOfWaste: number;
+  shortage: number;
+  loadedFuelCostPerKm: number;
+  unloadedFuelCostPerKm: number;
+  capacity: number;
+  estimatedFuelCost: number;
+  distance: number;
+  estimatedDuration: number;
+  actualDuration: number;
+  allocatedFuelCost: number;
+  tripId: string;
 };
 
-export const columns: ColumnDef<Vehicle>[] = [
+export const columns: ColumnDef<Bill>[] = [
+  {
+    accessorKey: "billNo",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center items-center">
+          <Button
+            variant="ghost"
+            className="text-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Bill Number
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-center font-medium">{row.getValue("billNo")}</div>
+    ),
+  },
   {
     accessorKey: "vehicleNumber",
     header: ({ column }) => {
@@ -94,115 +115,7 @@ export const columns: ColumnDef<Vehicle>[] = [
     ),
   },
   {
-    accessorKey: "vehicleType",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Vehicle Type
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">
-        {row.getValue("vehicleType")}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "tripStartTime",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Departed At
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">
-        {formatTimestamp(row.getValue("tripStartTime".toLocaleString()))}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "estimatedDuration",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Estimated Duration
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">
-        {row.getValue("estimatedDuration")}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "distance",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Distance
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("distance")}</div>
-    ),
-  },
-  {
-    accessorKey: "weightOfWaste",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Weight
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">
-        {row.getValue("weightOfWaste")}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "stsId",
+    accessorKey: "stsName",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -218,29 +131,95 @@ export const columns: ColumnDef<Vehicle>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("stsId")}</div>
+      <div className="text-center font-medium">{row.getValue("stsName")}</div>
+    ),
+  },
+  {
+    accessorKey: "weightOfWaste",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center items-center">
+          <Button
+            variant="ghost"
+            className="text-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Weight of Waste
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-center font-medium">
+        {row.getValue("weightOfWaste") + " Ton"}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "allocatedFuelCost",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center items-center">
+          <Button
+            variant="ghost"
+            className="text-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Allocated Fuel Cost
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-center font-medium">
+        {row.getValue("allocatedFuelCost")}
+      </div>
+    ),
+  },  
+  {
+    accessorKey: "actualDuration",
+    header: ({ column }) => {
+      return (
+        <div className="flex justify-center items-center">
+          <Button
+            variant="ghost"
+            className="text-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Actual Duration
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="text-center font-medium">
+        {row.getValue("actualDuration")}
+      </div>
     ),
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const sts: Vehicle = row.original;
+      const bill: Bill = row.original;
 
       return (
         <div>
-          {/* <DeleteVehicleModalForSTS vehicleInfo={sts} />
-          <STSVehicleRelease vehicleInfo={sts} /> */}
-          <LandfillVehicleEntryModal vehicleInfo={sts} />
+          {/* <DeleteVehicleModal vehicleInfo={vehicle} />          
+            <EditVehicleInfoModal vehicleInfo={vehicle} /> */}
+          <BillViewModal billInfo={bill} />
         </div>
       );
     },
   },
 ];
 
-export default function LanfFillUpcomingVehicles() {
-  const [data, setData] = React.useState<Vehicle[]>([]);
-  const { vehicleList, UpcomingVehicle } = useUpcomingVehicle();
+export default function BillListAdmin() {
+  const [data, setData] = React.useState<Bill[]>([]);
+  const { billList, getbillList } = useGetAllCompletedBillList();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -249,20 +228,15 @@ export default function LanfFillUpcomingVehicles() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  async function getAllUpcomingVehicles() {
-    console.log(landfillId);
-    await UpcomingVehicle({
-      landFillId: await getCookie(landfillId),
-    });
-  }
-
   React.useEffect(() => {
-    getAllUpcomingVehicles();
+    getbillList(
+      "rootSecretKey"
+    );
   }, []);
 
   React.useEffect(() => {
-    setData(vehicleList);
-  }, [vehicleList]);
+    setData(billList);
+  }, [billList]);
 
   const table = useReactTable({
     data,
@@ -281,21 +255,15 @@ export default function LanfFillUpcomingVehicles() {
       columnVisibility,
       rowSelection,
     },
-    initialState: {
-      pagination: {
-        pageIndex: 0,
-        pageSize: 4,
-      },
-    },
   });
   return (
     <>
-      <div className="flex justify-center font-bold text-2xl">
-        UPCOMING VEHICLES
+      <div className="font-bold text-2xl w-full text-center">
+        COMPLETED BILL LIST
       </div>
-      <div className="flex items-center pb-4 gap-4">
+      <div className="flex items-center py-4 gap-4">
         <Input
-          placeholder="Search by Vehicle Name..."
+          placeholder="Search by vehicle number..."
           value={
             (table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""
           }
@@ -307,7 +275,7 @@ export default function LanfFillUpcomingVehicles() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
+              Filter Vehicles <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -374,7 +342,17 @@ export default function LanfFillUpcomingVehicles() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {billList.length > 0 ? (
+                    <div className="flex items-center justify-center text-muted-foreground gap-3 text-lg">
+                      <PackageX />
+                      No bills include this vehicle number.
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center text-muted-foreground gap-3 text-lg">
+                      <PackageCheck />
+                      No pending bills.
+                    </div>
+                  )}
                 </TableCell>
               </TableRow>
             )}
@@ -383,7 +361,7 @@ export default function LanfFillUpcomingVehicles() {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          Showing {data.length} entries
+          Total {table.getFilteredRowModel().rows.length} row(s) rendered.
         </div>
         <div className="space-x-2">
           <Button

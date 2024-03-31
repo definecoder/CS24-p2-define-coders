@@ -15,6 +15,7 @@ import React, { useState } from "react";
 import { Trash } from "lucide-react";
 import deleteUser from "@/hooks/user_data/deleteUser";
 import deleteSTS from "@/hooks/entityCreation/deleteSTS";
+import { message } from "antd";
 
 export type STS = {
     id: string;
@@ -89,9 +90,9 @@ export const DeleteSTSModal = ({ stsInfo }: { stsInfo: STS }) => {
               type="submit"
               onClick={async () => {
                 if (confirmText !== "CONFIRM")
-                  return alert("Please type 'CONFIRM' to confirm");
+                  return message.error("Please type 'CONFIRM' to confirm");
                 const result = await deleteSTS(stsInfo.id);
-                if (result) return alert(result);
+                if (result) return message.success(result);
               }}
             >
               Confirm

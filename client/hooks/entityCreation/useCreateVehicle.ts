@@ -3,6 +3,7 @@ import { apiRoutes } from "@/data/apiRoutes";
 import { jwtToken } from "@/data/cookieNames";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { getCookie } from "@/lib/cookieFunctions";
+import { message } from "antd";
 import axios from "axios";
 export type Vehicle = {
     vehicleNumber: string;
@@ -42,7 +43,8 @@ export default function useCreateVehicle() {
         window.location.reload();
         return "Vehicle Aadded successfully";
       } catch (error: any) {
-        return error.message?.toString() || "Error creating Vehicle. Do you have permisson?.";
+        message.error(error?.response?.data.message?.toString() || "Error creating Vehicle. Do you have permisson?.");
+        return null;
       }
     }
 

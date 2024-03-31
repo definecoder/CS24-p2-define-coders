@@ -3,6 +3,7 @@ import axios from 'axios';
 import { getCookie } from '@/lib/cookieFunctions';
 import { stsId } from '@/data/cookieNames';
 import { apiRoutes } from '@/data/apiRoutes';
+import { message } from 'antd';
 
 type Vehicle = {
     vehicleNumber: string,
@@ -30,7 +31,7 @@ export default function useGetVehicleHistoryForSTS() {
      
       return true;
     } catch (error: any) {
-      alert(error.message?.toString() || "Error fetching vehicle list");
+      message.error(error?.response?.data?.message?.toString() || "Error fetching vehicle list");
       return false;
     }
   }

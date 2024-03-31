@@ -33,6 +33,7 @@ import {
 } from "../ui/select";
 
 import useGetSTSAvailableVehicles from "@/hooks/vehicles/useSTSAvailableVehicles";
+import { message } from "antd";
 
 
 interface DialogWrapperProps {
@@ -67,7 +68,7 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
   const [weightOfWaste, setWeightOfWaste] = useState("");
   const callVehcilse = async () => {
     const sucess = await GetSTSAvailableVehicles();
-      if(!sucess) return alert("Wrong Vehicle Information");
+      if(!sucess) return message.error("Wrong Vehicle Information");
   };
 
   useEffect(() => {
@@ -121,7 +122,7 @@ export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
         vehicleIds: vehicleId,
         entryTimes: selectedDateTime.toISOString(),
       });
-      if(postEntry) return alert(postEntry);
+      if(postEntry) return message.success(postEntry);
     } catch (error) {
       console.error("Error:", error);
     }

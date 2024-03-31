@@ -3,6 +3,7 @@ import { setCookie, getCookie } from '@/lib/cookieFunctions';
 import axios from 'axios';
 import { jwtToken, stsId } from '@/data/cookieNames'; // Ensure these variables are properly defined
 import { apiRoutes } from '@/data/apiRoutes';
+import { message } from 'antd';
 
 export default function useUpdateSts() {
   async function UpdateSts(data: {
@@ -32,8 +33,8 @@ export default function useUpdateSts() {
       window.location.reload();
       return "Wastege Entry in STS Successful";
     } catch (error: any) {
-      alert(error.message?.toString() || 'Error Editing');
-      return false;
+      message.error(error.message?.toString() || 'Error Editing');
+      return null;
     }
   }
 

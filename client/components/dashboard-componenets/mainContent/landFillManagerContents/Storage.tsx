@@ -23,8 +23,7 @@ export default function LandfillManagerStorageData() {
     getLandfillDatabyID(getCookie(landfillId))
   }, []);
 
-  useEffect(() => {
-    // alert(JSON.stringify(landfillData))
+  useEffect(() => {    
   }, [landfillData]);
 
   return (

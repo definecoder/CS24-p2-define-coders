@@ -27,6 +27,7 @@ import editUser from "@/hooks/user_data/editUser";
 import gettAllRoles from "@/hooks/user_data/useGetAllRole";
 import { number } from "prop-types";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
+import { message } from "antd";
 
 type User = {
   id: string;
@@ -132,7 +133,7 @@ export const EditUserModal = ({ userInfo }: { userInfo: User }) => {
               type="submit"
               onClick={async () => {
                 const result = await editUser(userData);
-                if (result) return alert(result);
+                if (result) return message.success(result);
               }}
             >
               Update User

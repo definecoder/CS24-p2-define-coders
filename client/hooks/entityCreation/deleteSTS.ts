@@ -2,6 +2,7 @@ import { apiRoutes } from "@/data/apiRoutes";
 import { jwtToken } from "@/data/cookieNames";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { getCookie } from "@/lib/cookieFunctions";
+import { message } from "antd";
 import axios from "axios";
 
 export default async function deleteSTS(stsId: string) {
@@ -14,7 +15,8 @@ export default async function deleteSTS(stsId: string) {
       });
       return "sts deleted successfully";
     } catch (error: any) {
-      return error.message?.toString() || "error deleteing sts";
+      message.error(error?.response?.data.message?.toString() || "error deleteing sts");
+      return null;
     }
   }
 

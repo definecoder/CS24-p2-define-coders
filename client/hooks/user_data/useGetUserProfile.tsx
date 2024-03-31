@@ -6,6 +6,7 @@ import axios from 'axios';
 import { apiRoutes } from '@/data/apiRoutes'; // Adjust the import path
 import { jwtToken } from '@/data/cookieNames'; // Adjust the import path
 import { getCookie } from '@/lib/cookieFunctions'; // Adjust the import path
+import { message } from 'antd';
 
 type User = {
   id: string;
@@ -191,7 +192,7 @@ export default function useGetUserProfile() {
 
 
     } catch (error: any) {
-      alert(error.message?.toString() || 'Error fetching user profile'); // Updated error message
+      message.error(error?.response?.data?.message?.toString() || 'Error fetching user profile'); // Updated error message
     }
   }
 

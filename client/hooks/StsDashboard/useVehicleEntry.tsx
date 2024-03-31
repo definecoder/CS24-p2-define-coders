@@ -5,6 +5,7 @@ import axios from "axios";
 import { jwtToken, role, uid, username, stsId } from "@/data/cookieNames";
 import { uri } from "@/data/constant";
 import { apiRoutes } from "@/data/apiRoutes";
+import { message } from "antd";
 
 export default function useVehicleEntry() {
   const [entryTime, setEntryTime] = useState(new Date().toLocaleString());
@@ -41,7 +42,7 @@ export default function useVehicleEntry() {
 
       return "Vehicle Entered Noted";
     } catch (error: any) {
-      alert(error.message?.toString() || "error adding entry");
+      message.error(error?.response?.data.message?.toString() || "error adding entry");
       return false;
     }
   }

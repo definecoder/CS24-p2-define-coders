@@ -3,6 +3,7 @@ import { apiRoutes } from "@/data/apiRoutes";
 import { jwtToken } from "@/data/cookieNames";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { getCookie } from "@/lib/cookieFunctions";
+import { message } from "antd";
 import axios from "axios";
 import { useState, useEffect, use } from "react";
 import { set } from "react-hook-form";
@@ -51,8 +52,7 @@ export default function useGetstsDatabyID() {
       console.log(stsData);
       return stsData;
     } catch (error: any) {
-      alert("Error fetching sts data... Are you authorized?");
-      console.log(error.message);
+      message.error(error?.response?.data?.message + "Error fetching sts data... Are you authorized?");      
     }
   }
 

@@ -133,14 +133,7 @@ export const BillViewModal = ({ billInfo }: { billInfo: Bill }) => {
 
             <Link href={{ pathname: '/billPrint', query: { ...billInfo } }}>
             <Button
-              type="submit"
-              onClick={async () => {
-                // let result;
-                // allocatedCost
-                //   ? (result = await makeBill(billInfo, allocatedCost))
-                //   : (result = "Please enter allocated cost");
-                // if (result) return alert(result);
-              }}
+              type="submit"              
             >
               PRINT BILL
             </Button>

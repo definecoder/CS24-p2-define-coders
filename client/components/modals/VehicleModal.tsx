@@ -33,6 +33,7 @@ import {
 import useGetAllLandfill from "@/hooks/dataQuery/useGetAllLandfill";
 import useCreateVehicle from "@/hooks/entityCreation/useCreateVehicle";
 import useGetAllSTS from "@/hooks/stsdata/useGetAllSTS";
+import { message } from "antd";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -62,10 +63,6 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
   useEffect(() => {}, [stsList]);
 
   const handleSaveChanges = async () => {
-    console.log("Vehicle Number:", vehicleNumber);
-    console.log("Vehicle Type:", vehicleType);
-    console.log("Capacity:", capacity);
-    //alert(assignedLandfill);
     const res = await createVehicle({
       vehicleNumber,
       vehicleType,
@@ -75,7 +72,7 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
       landFillId: assignedLandfill,
       stsId: assignedSTS,
     })
-    if(res) return alert(res);
+    if(res) return message.success(res);
   };
 
   return (

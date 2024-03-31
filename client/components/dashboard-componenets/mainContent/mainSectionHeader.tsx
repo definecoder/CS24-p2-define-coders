@@ -48,8 +48,9 @@ import {
   username,
 } from "@/data/cookieNames";
 import { get } from "http";
-import { landfillManager, stsManager } from "@/data/roles";
+import { admin, landfillManager, stsManager } from "@/data/roles";
 import axios from "axios";
+import { message } from "antd";
 
 function logout(router: AppRouterInstance) {
   axios.post(
@@ -63,6 +64,7 @@ function logout(router: AppRouterInstance) {
   );
   eraseCookie(role);
   eraseCookie(jwtToken);
+  message.success("logged out successfully");
   router.push("/auth/login");
 }
 
@@ -76,7 +78,7 @@ export default function MainSectionHeader({
   const router = useRouter();
   const { currentActive, setCurrentActive } = useContext(NavContext);
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 justify-between">
+    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 justify-between max-w-[100vw]">
       {/* Sheet for displaying menu in small screens */}
       <Sheet>
         <SheetTrigger asChild>
@@ -125,6 +127,12 @@ export default function MainSectionHeader({
           ) : (
             <>{"NO LANDFILL ASSIGNED"}</>
           ))}
+
+        {getCookie(curActive)?.startsWith(admin) && 
+            <b>
+              SYSTEM ADMIN OF ECOSYNC
+            </b>}
+
       </div>
 
       {/* Profile Icon and dropdown menu */}
