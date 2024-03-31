@@ -3,6 +3,7 @@ services:
   frontend:
     build:
       context: ./client
+      # target: dev
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
