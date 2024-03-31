@@ -10,13 +10,20 @@ import {
   getListOfBills,
   removeBill,
 } from "../controllers/bills";
+import { authorizer } from "../middlewares/authorizer";
+import { PERMISSIONS } from "../permissions/permissions";
+import authChecker from "../middlewares/auth";
 
 router.route("/").get(fetchBills);
-router.route("/search").get(getListOfBills); // add permission
+router.route("/search").get(authorizer(PERMISSIONS.GET_BILLS), getListOfBills); // add permission
 router.route("/create").post(createBill);
 router.route("/:billId").get(fetchBill);
 router.route("/:billId").put(editBill);
-router.route("/:billId").delete(removeBill); // add permission
-router.route("/create-from-trip/").post(createBillFromTrip); // add permission
+router
+  .route("/:billId")
+  .delete(authorizer(PERMISSIONS.DELETE_BILL), removeBill); // add permission
+router
+  .route("/create-from-trip/")
+  .post(authorizer(PERMISSIONS.CREATE_BILL), createBillFromTrip); // add permission
 
 export default router;

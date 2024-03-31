@@ -5,6 +5,7 @@ import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { getCookie } from "@/lib/cookieFunctions";
 import axios from "axios";
 import { STS } from "@/components/modals/stsControl/EditSTSInfoModal";
+import { message } from "antd";
 
 export default async function editSTS(stsData: STS, managerId: string) {
   if (stsData && managerId) {
@@ -34,10 +35,11 @@ export default async function editSTS(stsData: STS, managerId: string) {
       );
       return "sts updated successfully";
     } catch (error: any) {
-      return (
-        error.message?.toString() ||
+      message.error(
+        error?.response?.data.message?.toString() ||
         "error updating sts. You may not have the required permissions."
       );
+      return null;
     }
   }
 

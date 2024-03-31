@@ -42,10 +42,32 @@ const getSTSById = errorWrapper(
       },
     });
 
-    res.json(sts);
+    if (!sts) {
+      throw new CustomError("STS not found", 404);
+    }
+
+    const percentage = await calculatePercentage(sts);
+
+    res.status(200).json({ sts, graphData: percentage });    
   },
   { statusCode: 404, message: "STS not found" }
 );
+
+async function calculatePercentage(sts: STS) {
+  // Perform calculation to get the percentage
+  // Return the calculated percentage
+  var mot: number = parseInt(sts?.capacity?.toString() || "") || 0;
+  var ase: number = parseInt(sts?.currentTotalWaste?.toString() || "") || 0;
+
+  const graphData = {
+    empty: mot - ase,
+    full: ase,
+    emptyPercentage: parseFloat((((mot - ase) / mot) * 100).toString()).toFixed(2),
+    fullPercentage: parseFloat(((ase / mot) * 100).toString()).toFixed(2),
+  };
+  
+  return  graphData; // Replace with the actual calculation
+}
 
 const updateSTS = errorWrapper(
   async (req: Request, res: Response) => {

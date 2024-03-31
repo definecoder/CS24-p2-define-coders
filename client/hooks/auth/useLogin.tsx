@@ -2,9 +2,10 @@
 import { useState } from 'react';
 import {admin, landfillManager, stsManager, unassigned} from '@/data/roles';
 import { setCookie } from '@/lib/cookieFunctions';
-import axios from 'axios';
+import axios, { Axios, AxiosError } from 'axios';
 import { jwtToken, role , uid , stsId, username, curActive, landfillId, landfillName, stsName} from '@/data/cookieNames';
 import { apiRoutes } from "@/data/apiRoutes";
+import { message } from 'antd';
 
 
 export default function useLogin() {
@@ -41,14 +42,15 @@ export default function useLogin() {
         setCookie(landfillName, res.data?.user?.landfill?.name, 1);
         setCookie(stsName, res.data?.user?.sts?.name, 1);
 
+        message.success("Login successful! Welcome to the EcoSync, " + res.data.user.username + "!");
         return true;
-      } catch (error: any) {
-        alert(error.message?.toString() || "error logging in");
+      } catch (error: any) {        
+        message.error(error?.response.data.message);
         return false;
       }
     }
 
-    alert("Invalid credentials!");
+    message.info("Invalid credentials!");
     return false;
   }
 

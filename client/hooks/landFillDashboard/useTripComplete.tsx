@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import {admin, landfillManager, stsManager, unassigned} from '@/data/roles';
 import { setCookie, getCookie } from '@/lib/cookieFunctions';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { jwtToken, role , uid , username, stsId} from '@/data/cookieNames';
 import { uri } from '@/data/constant';
 import { apiRoutes } from '@/data/apiRoutes';
+import { message } from 'antd';
 
 export default function useTripComplete() {  
 
@@ -40,8 +41,8 @@ export default function useTripComplete() {
     window.location.reload();
 
       return "Trip Complete Successful";
-    } catch (error: any) {
-      alert(error.message?.toString() || "error logging in");
+    } catch (error: AxiosError | any) {
+      message.error(error?.response?.data.message?.toString() || "error logging in");
       return false;
     }
     

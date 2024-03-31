@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import React , {useState} from "react";
 import SetZone from "../../maps/SetZone";
 import useCreateSTS, { STS } from "@/hooks/entityCreation/useCreateSTS";
+import { message } from "antd";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -32,9 +33,8 @@ export const StsCreateModal: React.FC<DialogWrapperProps> = ({
     const {createSTS } = useCreateSTS();
 
   const handleSaveChanges = async () => {
-    const data:STS = {name: stsName, wardNumber , capacity: parseInt(capacity), latitude: parseFloat(latitude), longitude: parseFloat(longitude)};
-    console.log(data);    
-    alert(await createSTS(data) || "STS data invalid");    
+    const data:STS = {name: stsName, wardNumber , capacity: parseInt(capacity), latitude: parseFloat(latitude), longitude: parseFloat(longitude)};    
+    message.success(await createSTS(data) || "STS data invalid");    
   };
 
 

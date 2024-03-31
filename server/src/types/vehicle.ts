@@ -8,6 +8,8 @@ export interface Vehicle {
   currentLatitude?: number;
   currentLongitude?: number;
   landFillId?: string;
+  duration?: number;
+  distance?: number;
   createdAt?: Date;
   updatedAt?: Date;
   busyTime?: number;

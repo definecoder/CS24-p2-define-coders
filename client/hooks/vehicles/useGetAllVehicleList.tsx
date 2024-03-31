@@ -4,6 +4,7 @@ import { uri } from "@/data/constant";
 import { apiRoutes } from "@/data/apiRoutes";
 import { jwtToken } from "@/data/cookieNames";
 import { getCookie } from "@/lib/cookieFunctions";
+import { message } from "antd";
 
 type Vehicle = {
   entryId: string;
@@ -20,6 +21,7 @@ type Vehicle = {
   stsLongitude: string;
   landfillLattitude: string;
   landfillLongitude: string;
+  stsId: string;
 };
 
 export default function useGetAllVehicleList() {
@@ -41,6 +43,7 @@ export default function useGetAllVehicleList() {
         unloadedFuelCostPerKm: vehicle.unloadedFuelCostPerKm,
         landFillId: vehicle.landFillId,
         landFillName: vehicle.landFill.name,
+        stsId: vehicle.stsId,
       }));
       const vehicleNumbers = res.data.map(
         (vehicle: Vehicle) => vehicle.vehicleNumber
@@ -51,7 +54,7 @@ export default function useGetAllVehicleList() {
 
       return true;
     } catch (error: any) {
-      alert(error.message?.toString() || "Error fetching vehicle list");
+      message.error(error?.response?.data?.message?.toString() || "Error fetching vehicle list");
       return false;
     }
   }

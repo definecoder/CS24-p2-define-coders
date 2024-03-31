@@ -13,10 +13,11 @@ const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "";
 
 const prisma = new PrismaClient();
 
-const getSortedVehicles = async () => {
+const getSortedVehiclesBySTS = async (stsId: string) => {
   const vehicles: Vehicle[] = await prisma.$queryRaw`
     SELECT * FROM "Vehicle"
-    ORDER BY ("loadedFuelCostPerKm" / "capacity") DESC
+    WHERE "stsId" = ${stsId}
+    ORDER BY ("loadedFuelCostPerKm" / "capacity") ASC
     `;
 
   vehicles.forEach((vehicle) => {
@@ -103,7 +104,7 @@ const getDistance = async (origin: string, destination: string) => {
 };
 
 export {
-  getSortedVehicles,
+  getSortedVehiclesBySTS,
   getSortedSTSFromLandfill,
   getDuration,
   getDistance,

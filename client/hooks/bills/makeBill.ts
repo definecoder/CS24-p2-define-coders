@@ -6,6 +6,7 @@ import { getCookie } from "@/lib/cookieFunctions";
 import axios from "axios";
 import { STS } from "@/components/modals/stsControl/EditSTSInfoModal";
 import { Trip } from "@/components/dataTables/PendingBillList";
+import { message } from "antd";
 
 
 export default async function makeBill(tripData: Trip, allocatedCost: number) {
@@ -23,14 +24,14 @@ export default async function makeBill(tripData: Trip, allocatedCost: number) {
             Authorization: `Bearer ${await getCookie(jwtToken)}`,
           },
         }
-      );
-      console.log(res2.data);
+      );      
       return "bill created successfully";
     } catch (error: any) {
-      return (
-        error.message?.toString() ||
+      message.error(
+        error?.response?.data.message?.toString() ||
         "error making bill. You may not have the required permissions."
       );
+      return null;
     }
   }
 

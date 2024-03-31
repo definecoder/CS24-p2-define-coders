@@ -37,6 +37,7 @@ import useTripComplete from "@/hooks/landFillDashboard/useTripComplete";
 import { profile } from "console";
 import useEditProfileInfo from "@/hooks/user_data/useEditProfileInfo";
 import useGetUserProfile from "@/hooks/user_data/useGetUserProfile";
+import { message } from "antd";
 
 
 type User = {
@@ -73,7 +74,7 @@ export const ProfileEditModal = ({ profileInfo }: { profileInfo: User }) => {
         profileName: profilename
       });
 
-      if(postEntry) return alert(postEntry);
+      if(postEntry) return message.success(postEntry);
       
     } catch (error) {
       console.error("Error:", error);

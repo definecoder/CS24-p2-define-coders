@@ -6,6 +6,7 @@ import LandFillDeliveredVehicles from "../../../dataTables/LandFillDeliveredVehi
 import { AllStsMapShow } from "@/components/maps/AllStsShow";
 import { Button } from "@/components/ui/button";
 import { Cog, LogOut } from "lucide-react";
+import { UpdateLandfillStorageModal } from "@/components/modals/landfillControl/updateLandfillStorage";
 
 
 export default function LandfillManagerDumpEntries() {
@@ -14,13 +15,10 @@ export default function LandfillManagerDumpEntries() {
     
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold md:text-2xl">DUMP ENTRIES</h1>
+        <h1 className="text-lg font-semibold md:text-2xl">Bills</h1>
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
-          <Button variant="ghost" size="sm" className="w-full text-md border shadow-lg py-4">            
-            OUTGOING DUMP ENTRY
-            <LogOut size={20} className="ml-4" />
-          </Button>          
+          <UpdateLandfillStorageModal />     
         </div>
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">        
@@ -36,7 +34,7 @@ export default function LandfillManagerDumpEntries() {
             </EmptyFillContainer>
           </div>          
         </div>
-      </div>
+        </div>
     </main>
   );  
 }

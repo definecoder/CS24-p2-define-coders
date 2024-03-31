@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import { Trash } from "lucide-react";
 import deleteUser from "@/hooks/user_data/deleteUser";
+import { message } from "antd";
 
 type User = {
   id: string;
@@ -79,9 +80,9 @@ export const DeleteUserModal = ({ userInfo }: { userInfo: User }) => {
               type="submit"
               onClick={async () => {
                 if (confirmText !== "CONFIRM")
-                  return alert("Please type 'CONFIRM' to confirm");
+                  return message.error("Please type 'CONFIRM' to confirm");
                 const result = await deleteUser(userInfo.id);
-                if (result) return alert(result);
+                if (result) return message.success(result);
               }}
             >
               Confirm

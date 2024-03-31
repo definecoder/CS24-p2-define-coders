@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useChangePass from "@/hooks/auth/useChangePass";
 import { setCookie } from "@/lib/cookieFunctions";
+import { message } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -34,7 +35,7 @@ export default function ChangePassword() {
       setTime((time) => {
         if (time === 0) {
           clearInterval(timer);
-          alert("Time Expired!");
+          message.error("Time Expired!");
           router.push("/dashboard");
           return 0;
         } else return time - 0.5;
@@ -45,7 +46,7 @@ export default function ChangePassword() {
   async function submitForm() {
   
     isVerified && (await changePass()) && router.push("/dashboard");
-    !isVerified && alert("Invalid Captcha!");
+    !isVerified && message.error("Invalid Captcha!");
   }
 
   return (

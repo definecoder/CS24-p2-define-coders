@@ -32,6 +32,8 @@ import {
 } from "../ui/select";
 import useGetAllLandfill from "@/hooks/dataQuery/useGetAllLandfill";
 import useCreateVehicle from "@/hooks/entityCreation/useCreateVehicle";
+import useGetAllSTS from "@/hooks/stsdata/useGetAllSTS";
+import { message } from "antd";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -41,27 +43,26 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
   children,
 }) => {
   const [vehicleNumber, setVehicleNumber] = useState("");
-  const [vehicleType, setVehicleType] = useState("Dump Truck");
-  const [capacity, setCapacity] = useState<number>();
+  const [vehicleType, setVehicleType] = useState("Open Truck");
+  const [capacity, setCapacity] = useState<number>(3);
   const [loadedFuelCostPerKm, setLoadedFuelCostPerKm] = useState<number>();
   const [unloadedFuelCostPerKm, setUnloadedFuelCostPerKm] = useState<number>();
   const [assignedLandfill, setAssignedLandfill] = useState<string>("");
+  const [assignedSTS, setAssignedSTS] = useState<string>("");
   const {createVehicle} = useCreateVehicle();
   const vehicleTypeList = [
+    "Open Truck",
     "Dump Truck",
     "Compactor Truck",
-    "Open Truck",
     "Container Carrier",
   ];
-  const { landFillData, fetchAllLandfills } = useGetAllLandfill();
+  const { landFillData } = useGetAllLandfill();
+  const { stsList } = useGetAllSTS();
 
   useEffect(() => {}, [landFillData]);
+  useEffect(() => {}, [stsList]);
 
   const handleSaveChanges = async () => {
-    console.log("Vehicle Number:", vehicleNumber);
-    console.log("Vehicle Type:", vehicleType);
-    console.log("Capacity:", capacity);
-    //alert(assignedLandfill);
     const res = await createVehicle({
       vehicleNumber,
       vehicleType,
@@ -69,8 +70,9 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
       loadedFuelCostPerKm: loadedFuelCostPerKm || 0,
       unloadedFuelCostPerKm: unloadedFuelCostPerKm || 0,
       landFillId: assignedLandfill,
+      stsId: assignedSTS,
     })
-    if(res) return alert(res);
+    if(res) return message.success(res);
   };
 
   return (
@@ -105,7 +107,13 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
             </Label>
             <Select
               value={vehicleType}
-              onValueChange={(e) => setVehicleType(e)}
+              onValueChange={(e) => {
+                setVehicleType(e)
+                if(e === "Dump Truck") setCapacity(5)
+                else if(e === "Compactor Truck") setCapacity(7)
+                else if(e === "Open Truck") setCapacity(3)
+                else if(e === "Container Carrier") setCapacity(15)
+              }}
             >
               <SelectTrigger className="col-span-4">
                 <SelectValue
@@ -134,8 +142,8 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
               placeholder="1-100"
               className="col-span-4"
               type="number"
-              value={capacity}
-              onChange={(e) => setCapacity(parseInt(e.target.value))}
+              value={capacity}              
+              disabled = {true}
             />
           </div>
           <div className="grid grid-cols-6 items-center gap-4">
@@ -161,7 +169,7 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
               htmlFor="unloadedFuelCostPerKm"
               className="text-right col-span-2"
             >
-              Loaded fuel cost <br /> per km (in BDT)
+              Unloaded fuel cost <br /> per km (in BDT)
             </Label>
             <Input
               id="unloadedFuelCostPerKm"
@@ -194,6 +202,32 @@ export const VehicleCreateModal: React.FC<DialogWrapperProps> = ({
                   {landFillData.map((landfill, index: number) => (
                     <SelectItem key={index} value={landfill.id}>
                       {landfill.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-6 items-center gap-4">
+            <Label htmlFor="assignedSTS" className="text-right col-span-2">
+              Assigned STS
+            </Label>
+            <Select
+              value={assignedSTS}
+              onValueChange={(e) => setAssignedSTS(e)}
+            >
+              <SelectTrigger className="col-span-4">
+                <SelectValue
+                  id="assignedSTS"
+                  placeholder="Select assigned STS from the list"
+                />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>STS</SelectLabel>
+                  {stsList.map((sts, index: number) => (
+                    <SelectItem key={index} value={sts.id}>
+                      {sts.name}
                     </SelectItem>
                   ))}
                 </SelectGroup>

@@ -58,18 +58,17 @@ import { landfillId, landfillName } from "@/data/cookieNames";
 import formatTimestamp from "@/lib/formatTimestamp";
 
 type Vehicle = {
-    tripId: string,
-    weightOfWaste: string,
-    vehicleNumber: string,
-    stsId: string,
-    vehicleType: string,
-    distance: string,
-    tripStartTime: string,
-    estimatedDuration: string
-    tripStatus: string
-    capacity: string,
-    
-  };
+  tripId: string;
+  weightOfWaste: string;
+  vehicleNumber: string;
+  stsId: string;
+  vehicleType: string;
+  distance: string;
+  tripStartTime: string;
+  estimatedDuration: string;
+  tripStatus: string;
+  capacity: string;
+};
 
 export const columns: ColumnDef<Vehicle>[] = [
   {
@@ -89,9 +88,11 @@ export const columns: ColumnDef<Vehicle>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("vehicleNumber")}</div>
+      <div className="text-center font-medium">
+        {row.getValue("vehicleNumber")}
+      </div>
     ),
-  },  
+  },
   {
     accessorKey: "stsId",
     header: ({ column }) => {
@@ -129,7 +130,9 @@ export const columns: ColumnDef<Vehicle>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{formatTimestamp(row.getValue("tripStartTime".toLocaleString()))}</div>
+      <div className="text-center font-medium">
+        {formatTimestamp(row.getValue("tripStartTime".toLocaleString()))}
+      </div>
     ),
   },
   {
@@ -149,10 +152,12 @@ export const columns: ColumnDef<Vehicle>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("weightOfWaste")}</div>
+      <div className="text-center font-medium">
+        {row.getValue("weightOfWaste")}
+      </div>
     ),
   },
-  
+
   {
     id: "actions",
     enableHiding: false,
@@ -181,8 +186,8 @@ export default function LanfFillUpcomingVehiclesInDashboard() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-    async function callUpcomingVehicle() {    
-    await UpcomingVehicle(await getCookie(landfillId));
+  async function callUpcomingVehicle() {
+    await UpcomingVehicle({landFillId: await getCookie(landfillId)});
   }
 
   React.useEffect(() => {
@@ -203,27 +208,31 @@ export default function LanfFillUpcomingVehiclesInDashboard() {
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,    
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,      
+      rowSelection,
     },
     initialState: {
       pagination: {
         pageIndex: 0,
         pageSize: 4,
       },
-    },    
+    },
   });
   return (
     <>
-    <div className="flex justify-center font-bold text-lg">Upcoming trips to your {getCookie(landfillName)} landfill</div>
+      <div className="flex justify-center font-bold text-lg">
+        Upcoming trips to your {getCookie(landfillName)} landfill
+      </div>
       <div className="flex items-center py-4 gap-4">
         <Input
           placeholder="Search by Vehicle Name..."
-          value={(table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
             table.getColumn("vehicleNumber")?.setFilterValue(event.target.value)
           }

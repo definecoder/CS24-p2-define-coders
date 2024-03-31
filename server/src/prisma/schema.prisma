@@ -73,9 +73,10 @@ model Vehicle {
     LandfillVehicleEntry LandfillVehicleEntry[]
     Bill                 Bill[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
     Trip      Trip[]
+    Schedule  Schedule[]
 }
 
 model STS {
@@ -92,9 +93,10 @@ model STS {
     manager         User[]
     Trip            Trip[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
     Bill      Bill[]
+    Schedule  Schedule[]
 }
 
 model Landfill {
@@ -189,4 +191,17 @@ model Trip {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     Bill      Bill[]
+}
+
+model Schedule {
+    id           String   @id @default(uuid())
+    sts          STS      @relation(fields: [stsId], references: [id], onDelete: Cascade)
+    stsId        String
+    vehicle      Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+    vehicleId    String
+    scheduleDate DateTime
+    scheduleTime String
+    wasteAmount  Decimal? @db.Decimal(10, 2)
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
 }

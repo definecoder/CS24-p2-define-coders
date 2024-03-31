@@ -8,21 +8,32 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose
+  DialogClose,
 } from "@/components/ui/dialog";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React , {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
-import { getCookie } from '@/lib/cookieFunctions';
+import { getCookie } from "@/lib/cookieFunctions";
 import useVehicleEntry from "@/hooks/StsDashboard/useVehicleEntry";
 import useVehicleList from "@/hooks/vehicles/useVehiclesData";
 
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+
 import useGetSTSAvailableVehicles from "@/hooks/vehicles/useSTSAvailableVehicles";
+import { message } from "antd";
 
 
 interface DialogWrapperProps {
@@ -45,62 +56,63 @@ type Vehicle = {
 export const StsVehicleEntryModal: React.FC<DialogWrapperProps> = ({
   children,
 }) => {
-    const { entryTime,setEntryTime, vehicleId, setVehicleId, VehicleEntry } = useVehicleEntry();
-    const { vehicleList, vehicleNumberList, GetSTSAvailableVehicles } = useGetSTSAvailableVehicles();
 
-    const [searchTerm, setSearchTerm] = useState<string>("");
-    const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
-   
-    const [weightOfWaste, setWeightOfWaste] = useState("");
-    const callVehcilse = async () => {
-      const sucess = await GetSTSAvailableVehicles();
-      if(!sucess) return alert("Wrong Vehicle Information");
-    };
-    
-    useEffect(() => {
-      callVehcilse();
+  const { entryTime, setEntryTime, vehicleId, setVehicleId, VehicleEntry } =
+    useVehicleEntry();
+  const { vehicleList, vehicleNumberList, GetSTSAvailableVehicles } = useGetSTSAvailableVehicles();
+        
 
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
 
-    }, []);
+  const [weightOfWaste, setWeightOfWaste] = useState("");
+  const callVehcilse = async () => {
+    const sucess = await GetSTSAvailableVehicles();
+      if(!sucess) return message.error("Wrong Vehicle Information");
+  };
 
-    const [selectedDateTime, setSelectedDateTime] = useState<Date>(new Date());
+  useEffect(() => {
+    callVehcilse();
+  }, []);
 
-const handleDateChange = (date: Date) => {
-  setSelectedDateTime(date);
-};
+  const [selectedDateTime, setSelectedDateTime] = useState<Date>(new Date());
 
-   
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(event.target.value);
-      setShowSuggestions(true);
-    };
-    const handleSuggestionClick = (suggestion: string) => {
-      setSearchTerm(suggestion);
-      setShowSuggestions(false);
-    };
+  const handleDateChange = (date: Date) => {
+    setSelectedDateTime(date);
+  };
 
-    const filteredSuggestions = vehicleNumberList.filter((suggestion) =>
-    suggestion.toString().toLowerCase().includes(searchTerm.toString().toLowerCase())
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+    setShowSuggestions(true);
+  };
+  const handleSuggestionClick = (suggestion: string) => {
+    setSearchTerm(suggestion);
+    setShowSuggestions(false);
+  };
+
+  const filteredSuggestions = vehicleNumberList.filter((suggestion) =>
+    suggestion
+      .toString()
+      .toLowerCase()
+      .includes(searchTerm.toString().toLowerCase())
   );
 
   const getVehicleIdByNumber = (vehicleNumber: string): string | undefined => {
-    const vehicle = vehicleList.find(vehicle => vehicle.vehicleNumber === vehicleNumber);
+    const vehicle = vehicleList.find(
+      (vehicle) => vehicle.vehicleNumber === vehicleNumber
+    );
     if (vehicle) {
-        return vehicle.id.toString();
+      return vehicle.id.toString();
     }
-    
+
     // If vehicle is not found, return undefined
     return "no vehicle";
-};
+  };
 
-   
-    
-    
   const handleSaveChanges = async () => {
     setVehicleId(searchTerm);
-    
-    
-   // console.log(vehicleId);
+
+    // console.log(vehicleId);
     //console.log(entryTime);
     const vehicleId = getVehicleIdByNumber(searchTerm);
 
@@ -110,15 +122,11 @@ const handleDateChange = (date: Date) => {
         vehicleIds: vehicleId,
         entryTimes: selectedDateTime.toISOString(),
       });
-
-      if(postEntry) return alert(postEntry);
-      
+      if(postEntry) return message.success(postEntry);
     } catch (error) {
       console.error("Error:", error);
     }
   };
-   
-
 
   return (
     <Dialog>
@@ -134,63 +142,53 @@ const handleDateChange = (date: Date) => {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-        <div>
-          <Label htmlFor="description" className="text-right">
+          <div className="grid grid-flow-row grid-cols-4 items-center gap-4">
+            <Label htmlFor="vehicleNumber" className="text-right col-span-1">
               Vehicle Number
             </Label>
-                <input
-                  type="text"
-                  placeholder="Search by Vehicle Number"
-                  value={searchTerm}
-                  onChange={handleInputChange}
-                  className="border border-gray-300 mx-4 px-1 py-2 rounded-md focus:outline-none focus:border-blue-500"
-                
+            <Select value={searchTerm} onValueChange={(e) => setSearchTerm(e)}>
+              <SelectTrigger className="col-span-3">
+                <SelectValue
+                  id="vehicleNumber"
+                  placeholder="Select number from the list"
                 />
-                {showSuggestions && (
-                  <ul className="absolute z-10 mt-1 mx-[120px] w-2/5 bg-white rounded-md shadow-lg">
-                    {filteredSuggestions.map((suggestion, index) => (
-                      <li
-                        key={index}
-                        onClick={() => handleSuggestionClick(suggestion)}
-                      >
-                        {suggestion}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-          <div className="grid grid-cols-4 items-center gap-4">
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Vehicle Number</SelectLabel>
+                  {vehicleNumberList.map((type: string, index: number) => (
+                    <SelectItem key={index} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-flow-row grid-cols-4 items-center gap-4">
             <Label htmlFor="description" className="text-right">
               Entry Time
             </Label>
-            {/* <Input
-              id="entryTime"
-              placeholder="hh:mm dd:mm:yy"
-              className="col-span-3"
-              value={entryTime}
-              onChange={(e) => setEntryTime(e.target.value)}
-            /> */}
-            <div className="flex flex-col">
-    {/* Other component content */}
-    <DatePicker
-      selected={selectedDateTime}
-      onChange={handleDateChange}
-      showTimeSelect
-      timeFormat="hh:mm aa"
-      dateFormat="dd/MM/yy hh:mm aa" // Set desired date format
-      locale="en-GB"
-    />
-  </div>
+            <div className="flex flex-col col-span-3">
+              {/* Other component content */}
+              <DatePicker
+                selected={selectedDateTime}
+                onChange={handleDateChange}
+                showTimeSelect
+                timeFormat="hh:mm aa"
+                dateFormat="dd/MM/yy hh:mm aa" // Set desired date format
+                locale="en-GB"
+              />
+            </div>
           </div>
-          
-          
         </div>
         <DialogFooter>
-        <DialogClose asChild>
-        <Button type="button" onClick={handleSaveChanges}>Save changes</Button>
-        </DialogClose>
+          <DialogClose asChild>
+            <Button type="button" onClick={handleSaveChanges}>
+              Save changes
+            </Button>
+          </DialogClose>
         </DialogFooter>
-      
       </DialogContent>
     </Dialog>
   );

@@ -20,7 +20,7 @@ export default function LandfillManagerDashboard() {
   }, []);
 
   useEffect(() => {
-    // alert(JSON.stringify(landfillData))
+    
   }, [landfillData]);
 
   return (
@@ -42,8 +42,8 @@ export default function LandfillManagerDashboard() {
               {(landfillData?.graphData?.empty !== undefined && landfillData?.graphData?.full !== undefined) ? <PieChart
                 // labels={["30% EMPTY", "70% FULL"]}
                 data={[
-                  { name: "30% EMPTY", value: (landfillData?.graphData?.empty), color: "rgb(121, 121, 121)" },
-                  { name: "70% FULL", value: (landfillData?.graphData?.full) , color: "rgb(0, 0, 0)" },
+                  { name: (landfillData?.graphData?.emptyPercentage + "% EMPTY") , value: (landfillData?.graphData?.empty), color: "rgb(121, 121, 121)" },
+                  { name: (landfillData?.graphData?.fullPercentage + "% FULL") , value: (landfillData?.graphData?.full) , color: "rgb(0, 0, 0)" },
                 ]}
                 withTooltip
                 // background={["rgb(121, 121, 121)", "rgb(0, 0, 0)"]}

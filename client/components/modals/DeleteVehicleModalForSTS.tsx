@@ -15,6 +15,7 @@ import React, { useState } from "react";
 import { Trash } from "lucide-react";
 import deleteUser from "@/hooks/user_data/deleteUser";
 import deleteVehicleEntryFromSTS from "@/hooks/StsDashboard/deleteVehicleEntryFromSTS";
+import { message } from "antd";
 
 type Vehicle = {
   entryId: string,
@@ -90,9 +91,9 @@ export const DeleteVehicleModalForSTS = ({ vehicleInfo }: { vehicleInfo: Vehicle
               type="submit"
               onClick={async () => {
                 if (confirmText !== "CONFIRM")
-                  return alert("Please type 'CONFIRM' to confirm");
+                  return message.error("Please type 'CONFIRM' to confirm");
                 const result = await deleteVehicleEntryFromSTS(vehicleInfo.entryId);
-                if (result) return alert(result);
+                if (result) return message.info(result);
               }}
             >
               Confirm
