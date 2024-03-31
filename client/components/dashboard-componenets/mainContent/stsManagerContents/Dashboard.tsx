@@ -10,6 +10,7 @@ import { PieChart } from "@mantine/charts";
 import LanfFillUpcomingVehiclesInDashboard from "@/components/dataTables/LandFillUpcomingVehicleInDashboard";
 import STSVehicleList from "@/components/dataTables/StsVehicleList";
 import STSVehicleHistoryList from "@/components/dataTables/STSVehicleHistoryList";
+import { UpdateStsStorage } from "@/components/modals/stsControl/updateSTSStorage";
 
 export default function STSManagerDashboard() {
   const { getstsDatabyID, stsData } = useGetstsDatabyID();
@@ -33,10 +34,7 @@ export default function STSManagerDashboard() {
               OUTGOING DUMP ENTRY
             </Button>
           </StsVehicleEntryModal>
-          <Button size="sm" className="w-full">
-            <ArrowDown strokeWidth={3} className="py-1 mr-1 ml-[-5px]" />
-            INCOMING DUMP ENTRY
-          </Button>
+          <UpdateStsStorage />          
         </div>
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
