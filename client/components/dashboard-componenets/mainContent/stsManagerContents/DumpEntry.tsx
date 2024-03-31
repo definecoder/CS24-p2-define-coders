@@ -11,6 +11,9 @@ import LanfFillUpcomingVehiclesInDashboard from "@/components/dataTables/LandFil
 import STSVehicleList from "@/components/dataTables/StsVehicleList";
 import STSVehicleHistoryList from "@/components/dataTables/STSVehicleHistoryList";
 import GetStsCoordinateForRoute from "@/components/maps/getStsCoordinateForRoute";
+import { UpdateStsStorage } from "@/components/modals/stsControl/updateSTSStorage";
+import VehicleReleaseRoute from "@/components/maps/VehicleReleaseRoute";
+import GetVehicleCoordinateRoute from "@/components/maps/getVehicleCoordinate";
 
 export default function STSManagerDumpEntries() {
   const { getstsDatabyID, stsData } = useGetstsDatabyID();
@@ -35,10 +38,7 @@ export default function STSManagerDumpEntries() {
               OUTGOING DUMP ENTRY
             </Button>
           </StsVehicleEntryModal>
-          <Button size="sm" className="w-full">
-            <ArrowDown strokeWidth={3} className="py-1 mr-1 ml-[-5px]" />
-            INCOMING DUMP ENTRY
-          </Button>
+          <UpdateStsStorage />
         </div>
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
@@ -48,7 +48,7 @@ export default function STSManagerDumpEntries() {
           </div> */}
           <div className="col-span-1 lg:row-span-2 lg:col-span-4 min-h-[500px]">
             <EmptyFillContainer>
-              <GetStsCoordinateForRoute />
+            <GetVehicleCoordinateRoute />
             </EmptyFillContainer>
           </div>
           <div className="lg:col-span-6 min-h-48">
