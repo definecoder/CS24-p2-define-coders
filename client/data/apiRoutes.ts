@@ -63,6 +63,7 @@ export const apiRoutes = {
     bills: {
         makeBill: `${baseUrl}/bills/create-from-trip/`,
         search: `${baseUrl}/bills/search`,
+        getAll: `${baseUrl}/bills`,
     },
     profile: {
         getProfile: `${baseUrl}/profile`,

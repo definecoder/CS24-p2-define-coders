@@ -12,7 +12,14 @@ export default function useGetAllCompletedBillList() {
 
   async function getbillList(landfillId: string) {
     try {
-      const res = await axios.get(apiRoutes.bills.search + "?landFillId=" + landfillId, {
+
+      var url = apiRoutes.bills.search + "?landFillId=" + landfillId;
+
+      if(landfillId == "rootSecretKey") {
+        url = apiRoutes.bills.getAll;
+      }
+
+      const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
       });
 
