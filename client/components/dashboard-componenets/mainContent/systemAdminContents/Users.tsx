@@ -11,7 +11,7 @@ export default function AdminUserManagementPanel() {
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold md:text-2xl">User</h1>
+        <h1 className="text-lg font-semibold md:text-2xl">User Management</h1>
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
           <AddNewUserModal

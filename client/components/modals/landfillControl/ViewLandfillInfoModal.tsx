@@ -68,7 +68,7 @@ export const ViewLandFIllInfoModal = ({ landfillInfo }: { landfillInfo: LandFill
       <DialogContent className="max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="mt-4 text-xl sm:text-2xl">
-            View STS Details
+            View Landfill Details
           </DialogTitle>
           <DialogDescription>
             <h1>Here are the description of the STS</h1>
