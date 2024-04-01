@@ -1,5 +1,6 @@
-# EcoSync
+<img src="https://github.com/definecoder/test-devops-hack/blob/main/EcoSync.png?raw=true"  width="200" height="200">
 
+# **EcoSync** by DEFINE CODERS
 EcoSync is a full-stack application built with Next.js, Express.js, Prisma, and PostgreSQL.
 
 ## Project Structure
