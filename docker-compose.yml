@@ -1,5 +1,14 @@
 version: '3'
 services:
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ecosync
+  
   frontend:
     build:
       context: ./client
@@ -23,11 +32,3 @@ services:
     env_file:
       - .env
 
-  postgres:
-    image: postgres
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: ecosync
