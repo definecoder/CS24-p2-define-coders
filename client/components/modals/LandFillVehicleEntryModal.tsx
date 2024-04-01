@@ -38,6 +38,7 @@ import useTripComplete from "@/hooks/landFillDashboard/useTripComplete";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { message } from "antd";
 
 
 type Vehicle = {
@@ -84,7 +85,7 @@ const handleDateChange = (date: Date) => {
         weightOfWaste: weightOfWaste,
         entryTime: selectedDateTime.toISOString()//entryTime,
       });
-      if(postEntry) return alert(postEntry);
+      if(postEntry) return message.success(postEntry);
 
     } catch (error) {
       console.error("Error:", error);

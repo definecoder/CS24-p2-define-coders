@@ -14,7 +14,9 @@ import landfillEntryRoute from "./routes/landfillVehicle";
 import stsEntryRoute from "./routes/stsVehicle";
 import billRoute from "./routes/bills";
 import tripRoute from "./routes/trip";
+import scheduleRoute from "./routes/schedule";
 import cors from "cors";
+import authChecker from "./middlewares/auth";
 
 const prisma = new PrismaClient();
 
@@ -34,14 +36,15 @@ app.use(urlencoded({ extended: true }));
 app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/profile", profileRoute);
-app.use("/rbac", rbacRoute);
-app.use("/vehicles", vehicleRoute);
-app.use("/sts", stsRoute);
-app.use("/landfills", landfillRoute);
-app.use("/landfill-entry", landfillEntryRoute);
-app.use("/sts-entry", stsEntryRoute);
-app.use("/bills", billRoute);
-app.use("/trips", tripRoute);
+app.use("/rbac", rbacRoute); // authentication and authorization both will be added here
+app.use("/vehicles", authChecker, vehicleRoute);
+app.use("/sts", authChecker, stsRoute);
+app.use("/landfills", authChecker, landfillRoute);
+app.use("/landfill-entry", authChecker, landfillEntryRoute);
+app.use("/sts-entry", authChecker, stsEntryRoute);
+app.use("/bills", authChecker, billRoute);
+app.use("/trips", authChecker, tripRoute);
+app.use("/schedules", scheduleRoute);
 
 app.get("/", (req, res) => {
   res.send("EcoSync Server is Up...");

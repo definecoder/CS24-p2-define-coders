@@ -17,6 +17,7 @@ import SetZone from "../../maps/SetZone";
 import useCreateLandFill, {
   LandFill,
 } from "@/hooks/entityCreation/useCreateLandfill";
+import { message } from "antd";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -38,7 +39,7 @@ export const LandfillCreateModal: React.FC<DialogWrapperProps> = ({
       latitude: parseFloat(latitude),
       longitude: parseFloat(longitude),
     };
-    alert((await createLandfill(data)) || "Landfill data invalid");
+    message.success((await createLandfill(data)) || "Landfill data invalid");
   };
 
   return (

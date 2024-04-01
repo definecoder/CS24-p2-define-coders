@@ -20,6 +20,7 @@ import {
 import { Button } from "../ui/button";
 import { updatePermisson } from "@/hooks/user_data/updatePermisson";
 import { Pointer, SquareMousePointer } from "lucide-react";
+import { message } from "antd";
 
 type RolesWithPermisson = {
   id: string;
@@ -175,7 +176,7 @@ function PermissonList() {
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
                       <AlertDialogAction
                         onClick={async () => {
-                          msg && alert(await updatePermisson(msg));
+                          msg && message.info(await updatePermisson(msg));
                           await fetchAllRoles();
                           setMsg(undefined);
                         }}

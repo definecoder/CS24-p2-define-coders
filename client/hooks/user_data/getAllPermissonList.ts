@@ -1,6 +1,7 @@
 import { apiRoutes } from "@/data/apiRoutes";
 import { jwtToken } from "@/data/cookieNames";
 import { getCookie } from "@/lib/cookieFunctions";
+import { message } from "antd";
 import axios from "axios";
 
 export async function fetchAllPermissons() {
@@ -20,7 +21,6 @@ export async function fetchAllPermissons() {
       };
     });
   } catch (error: any) {
-    alert("Error fetching permissons... Are you authorized?");
-    console.log(error.message);
+    message.error(error?.response?.data?.message + "Error fetching permissons... Are you authorized?");    
   }
 }

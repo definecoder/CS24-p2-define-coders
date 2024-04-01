@@ -49,6 +49,7 @@ const addRole = errorWrapper(
 const deleteRole = errorWrapper(
   async (req: Request, res: Response) => {
     const { roleName } = req.params;
+    console.log("deleteing" + roleName);
     const role = await prisma.role.delete({
       where: {
         name: roleName,

@@ -12,13 +12,14 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React, { use, useEffect, useState } from "react";
-import { Send, Trash,EditIcon  } from "lucide-react";
+import React, { Children, use, useEffect, useState } from "react";
+import { Send, Trash,EditIcon, LogOut  } from "lucide-react";
 
 import useEditProfileInfo from "@/hooks/user_data/useEditProfileInfo";
 import useGetUserProfile from "@/hooks/user_data/useGetUserProfile";
 import useUpdateSts from "@/hooks/StsDashboard/useUpdateSts";
 import useLandFillStorageEdit from "@/hooks/landFillDashboard/useLandFillStorageEdit";
+import { message } from "antd";
 
 
 type User = {
@@ -55,9 +56,10 @@ export const UpdateLandfillStorageModal = () => {
           landfillId: landfillDetails.landfillId
         });
 
-        if(postEntry) return alert(postEntry);
-      } catch (error) {
-        console.error("Error:", error);
+        if(postEntry) return message.success(postEntry);
+      } catch (error: any) {
+        message.error(error?.response?.data?.message || "An error occurred");
+        // console.error("Error:", error);
       }
     
   
@@ -69,15 +71,16 @@ export const UpdateLandfillStorageModal = () => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" title="Edit STS Info" className="h-8 w-24 p-0">
-        <EditIcon className="h-4 w-4" /> Edit
-        </Button>
+      <DialogTrigger asChild>        
+        <Button variant="ghost" size="sm" className="text-md border shadow-lg">            
+            OUTGOING DUMP ENTRY
+            <LogOut size={20} className="ml-4" />
+          </Button>
       </DialogTrigger>
       <DialogContent className="max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="mt-4 text-xl sm:text-2xl">
-           Release Dump In Landfill
+           Release Dump From Landfill
           </DialogTitle>
           <DialogDescription>
             <div className="mt-4 flex flex-col justify-center items-start text-left p-4 rounded-lg border shadow-xl text-md">

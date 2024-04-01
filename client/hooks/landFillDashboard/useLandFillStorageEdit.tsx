@@ -3,6 +3,7 @@ import { setCookie, getCookie } from '@/lib/cookieFunctions';
 import axios from 'axios';
 import { jwtToken, stsId } from '@/data/cookieNames'; // Ensure these variables are properly defined
 import { apiRoutes } from '@/data/apiRoutes';
+import { message } from 'antd';
 
 export default function useLandFillStorageEdit() {
   async function UpdateLandfillStorage(data: {
@@ -31,8 +32,8 @@ export default function useLandFillStorageEdit() {
       window.location.reload();
       return "Wastage Released From Landfill";
     } catch (error: any) {
-      alert(error.message?.toString() || 'Error Editing');
-      return false;
+      message.error(error?.response?.data.message?.toString() || 'Error Editing');
+      return null;
     }
   }
 

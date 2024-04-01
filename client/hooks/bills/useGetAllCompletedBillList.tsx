@@ -2,40 +2,50 @@ import { useState } from "react";
 import axios from "axios";
 import { uri } from "@/data/constant";
 import { apiRoutes } from "@/data/apiRoutes";
-import { jwtToken } from "@/data/cookieNames";
+import { jwtToken, role } from "@/data/cookieNames";
 import { getCookie } from "@/lib/cookieFunctions";
 import { Trip } from "@/components/dataTables/PendingBillList";
 import { Bill } from "@/components/dataTables/CompletedBillList";
+import { message } from "antd";
+import { admin } from "@/data/roles";
 
 export default function useGetAllCompletedBillList() {
   const [billList, setbillList] = useState<Bill[]>([]); // Initialize with an empty array of Vehicle objects  
 
   async function getbillList(landfillId: string) {
     try {
-      const res = await axios.get(apiRoutes.bills.search + "?landFillId=" + landfillId, {
+
+      let url = apiRoutes.bills.search + "?landFillId=" + landfillId;
+
+      if(getCookie(role) === admin){
+        url = apiRoutes.bills.getAll;
+      }
+
+      const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${getCookie(jwtToken)}` },
       });
 
-      //alert(JSON.stringify(res.data));
+      //message.success("Bills list fetched successfully");
+      
       // Assuming the response data is an array of vehicles
       const allBills: Bill[] = res.data.map((bill: any) => ({
-        id: bill.id,
-        billNo: bill.billNo,
-        stsName: bill.sts.name,
-        landFillName: bill.landfill.name,
-        vehicleNumber: bill.vehicle.vehicleNumber,
-        vehicleType: bill.vehicle.vehicleType,
-        weightOfWaste: bill.weightOfWaste,
-        shortage: bill.trip.shortage,
-        loadedFuelCostPerKm: bill.vehicle.loadedFuelCostPerKm,
-        unloadedFuelCostPerKm: bill.vehicle.unloadedFuelCostPerKm,
-        capacity: bill.vehicle.capacity,
-        estimatedFuelCost: bill.trip.estimatedFuelCost,
-        distance: bill.trip.distance,
-        estimatedDuration: bill.trip.estimatedDuration,
-        actualDuration: bill.trip.actualDuration,
-        allocatedFuelCost: bill.allocatedFuelCost,
-        tripId: bill.tripId,
+        id: bill.id ?? 'N/A',
+        billNo: bill.billNo ?? 'N/A',
+        stsName: bill.sts?.name ?? 'N/A',
+        landFillName: bill.landfill?.name ?? 'N/A',
+        vehicleNumber: bill.vehicle?.vehicleNumber ?? 'N/A',
+        vehicleType: bill.vehicle?.vehicleType ?? 'N/A',
+        weightOfWaste: bill.weightOfWaste ?? 'N/A',
+        shortage: bill.trip?.shortage ?? 'N/A',
+        loadedFuelCostPerKm: bill.vehicle?.loadedFuelCostPerKm ?? 'N/A',
+        unloadedFuelCostPerKm: bill.vehicle?.unloadedFuelCostPerKm ?? 'N/A',
+        capacity: bill.vehicle?.capacity ?? 'N/A',
+        estimatedFuelCost: bill.trip?.estimatedFuelCost ?? 'N/A',
+        distance: bill.trip?.distance ?? 'N/A',
+        estimatedDuration: bill.trip?.estimatedDuration ?? 'N/A',
+        actualDuration: bill.trip?.actualDuration ?? 'N/A',
+        allocatedFuelCost: bill.allocatedFuelCost ?? 'N/A',
+        tripId: bill.tripId ?? 'N/A',
       }));
 
       console.log(allBills);
@@ -44,7 +54,7 @@ export default function useGetAllCompletedBillList() {
 
       return true;
     } catch (error: any) {
-      alert(error.message?.toString() || "Error fetching pending bills list");
+      message.error(error?.response?.data.message?.toString() || "Error fetching pending bills list");
       return false;
     }
   }

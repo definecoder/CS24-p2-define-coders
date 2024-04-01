@@ -18,7 +18,7 @@ const createVehicle = errorWrapper(
   async (req: Request, res: Response) => {
     const vehicleInfo: Vehicle = req.body;
 
-    const stsId = vehicleInfo.stsId;
+    const stsId = vehicleInfo.stsId || "";
 
     const sts = await prisma.sTS.findUnique({
       where: {

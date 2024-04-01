@@ -118,50 +118,6 @@ app.get(
   })
 );
 
-app.post(
-  "/addPermissionToRole",
-  errorWrapper(async (req: Request, res: Response) => {
-    const { permissionId, roleId } = req.body;
-
-    const assignPermission = await prisma.rolePermission.create({
-      data: {
-        permissionId,
-        roleId,
-      },
-    });
-
-    res.json(assignPermission);
-  })
-);
-
-app.get(
-  "/rolePermissions/:role",
-  errorWrapper(async (req: Request, res: Response) => {
-    const { role } = req.params;
-
-    const roleData = await prisma.role.findFirst({
-      where: {
-        name: role,
-      },
-    });
-
-    if (!roleData) {
-      throw new CustomError("Role not found", 404);
-    }
-
-    const rolePermissions = await prisma.rolePermission.findMany({
-      where: {
-        roleId: roleData.id,
-      },
-      select: {
-        permission: true,
-      },
-    });
-
-    res.json(rolePermissions);
-  })
-);
-
 app.listen(PORT, async () => {
   await checkDatabaseConnection();
   console.log(`Server is running on PORT ${PORT}`);

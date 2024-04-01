@@ -37,6 +37,7 @@ import useTripComplete from "@/hooks/landFillDashboard/useTripComplete";
 import { profile } from "console";
 import useEditProfileInfo from "@/hooks/user_data/useEditProfileInfo";
 import useGetUserProfile from "@/hooks/user_data/useGetUserProfile";
+import { message } from "antd";
 
 
 type User = {
@@ -71,9 +72,9 @@ export const ProfileEditModal = ({ profileInfo }: { profileInfo: User }) => {
       const postEntry = await EditProfileInfo({
         username : username,
         profileName: profilename
-      });
-
-      if(postEntry) return alert(postEntry);
+      });   
+      
+      await getUserDetails();
       
     } catch (error) {
       console.error("Error:", error);
@@ -84,6 +85,10 @@ export const ProfileEditModal = ({ profileInfo }: { profileInfo: User }) => {
   useEffect(() => {
     getUserDetails();
   }, []);
+
+  useEffect(() => {
+    
+  }, [user]);  
   
 
   return (

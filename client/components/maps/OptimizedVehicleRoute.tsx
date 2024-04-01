@@ -25,6 +25,15 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const center = { lat: 23.77217046, lng: 90.39943882 };
 
@@ -34,11 +43,11 @@ type StsRouteType = {
 };
 
 type VehicleCoordinateType = {
-    vehicleNumber: string;
-    vehicleType: string;
-    capacity: string;
-    coordinate: string;
-  };
+  vehicleNumber: string;
+  vehicleType: string;
+  capacity: string;
+  coordinate: string;
+};
 
 type MapProps = {
   coordinates: StsRouteType[];
@@ -46,14 +55,15 @@ type MapProps = {
 };
 
 interface Coordinate {
-    lat: number;
-    lng: number;
+  lat: number;
+  lng: number;
 }
 
-const OptimizedVehicleRoute: React.FC<MapProps> = ({ coordinates, vehicleCoord }) => {
-  const [routeType, setRouteType] = useState<string>(
-    "Vehicle Tracking Map"
-  );
+const OptimizedVehicleRoute: React.FC<MapProps> = ({
+  coordinates,
+  vehicleCoord,
+}) => {
+  const [routeType, setRouteType] = useState<string>("Vehicle Tracking Map");
   const [useDropdown, setUseDropdown] = useState<boolean>(false);
   const [useLandDropdown, setUseLandDropdown] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -84,8 +94,12 @@ const OptimizedVehicleRoute: React.FC<MapProps> = ({ coordinates, vehicleCoord }
 
   useEffect(() => {
     const coordinateArray: string[] = coordinates.map((route) => route.name);
-    const VehicleCoordinateArray: string[] = vehicleCoord.map((route) => route.vehicleNumber);
-    const VehicleCoordinateObject: string[] = vehicleCoord.map((route) => route.coordinate);
+    const VehicleCoordinateArray: string[] = vehicleCoord.map(
+      (route) => route.vehicleNumber
+    );
+    const VehicleCoordinateObject: string[] = vehicleCoord.map(
+      (route) => route.coordinate
+    );
     setAllCoordinates(coordinateArray);
     setVehicleAllCoord(VehicleCoordinateArray);
     setVehicleObjectCoord(VehicleCoordinateObject);
@@ -112,15 +126,13 @@ const OptimizedVehicleRoute: React.FC<MapProps> = ({ coordinates, vehicleCoord }
     handleLandChangeInputType();
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-    setShowSuggestions(true);
+  const handleInputChange = (event: string) => {
+    setSearchTerm(event);
+    //setShowSuggestions(true);
   };
-  const handleLandInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setLandterm(event.target.value);
-    setShowLandsuggestion(true);
+  const handleLandInputChange = (event: string) => {
+    setLandterm(event);
+    //setShowLandsuggestion(true);
   };
 
   const handleSuggestionClick = (suggestion: string) => {
@@ -183,25 +195,23 @@ const OptimizedVehicleRoute: React.FC<MapProps> = ({ coordinates, vehicleCoord }
   };
 
   async function calculateRoute() {
-   
-      const stsCoord = getSTSCoodrdinateByName(searchTerm);
-      const vehicleCoord = getVehicleCoordByName(landTerm);
+    const stsCoord = getSTSCoodrdinateByName(searchTerm);
+    const vehicleCoord = getVehicleCoordByName(landTerm);
 
-      const newString = stsCoord.substring(0, 11);
-      console.log(stsCoord);
-      const directionsService = new google.maps.DirectionsService();
-      const results = await directionsService.route({
-        origin: vehicleCoord,
-        destination: stsCoord,
-        travelMode: google.maps.TravelMode.DRIVING,
-      });
+    const newString = stsCoord.substring(0, 11);
+    console.log(stsCoord);
+    const directionsService = new google.maps.DirectionsService();
+    const results = await directionsService.route({
+      origin: vehicleCoord,
+      destination: stsCoord,
+      travelMode: google.maps.TravelMode.DRIVING,
+    });
 
-      if (results && results.routes.length > 0) {
-        setDirectionsResponse(results);
-        setDistance(results.routes[0].legs[0].distance?.text || "");
-        setDuration(results.routes[0].legs[0].duration?.text || "");
-      }
-    
+    if (results && results.routes.length > 0) {
+      setDirectionsResponse(results);
+      setDistance(results.routes[0].legs[0].distance?.text || "");
+      setDuration(results.routes[0].legs[0].duration?.text || "");
+    }
   }
 
   function clearRoute() {
@@ -214,22 +224,24 @@ const OptimizedVehicleRoute: React.FC<MapProps> = ({ coordinates, vehicleCoord }
     if (destinationRef.current) destinationRef.current.value = "";
   }
 
-//   const DummyCoordinates = [
-//     { lat: 23.76287175, lng: 90.4306625 },
-//     { lat: 23.79067691, lng: 90.3932404 },
-//     { lat: 23.75847265, lng: 90.3819107 },
-//     { lat: 23.79868747, lng: 90.3870606 },
-//     { lat: 23.79083399, lng: 90.3762459 },
-//     { lat: 23.79366130, lng: 90.4129814 },
-//     { lat: 23.77952415, lng: 90.4260277 }
-//   ];
+  //   const DummyCoordinates = [
+  //     { lat: 23.76287175, lng: 90.4306625 },
+  //     { lat: 23.79067691, lng: 90.3932404 },
+  //     { lat: 23.75847265, lng: 90.3819107 },
+  //     { lat: 23.79868747, lng: 90.3870606 },
+  //     { lat: 23.79083399, lng: 90.3762459 },
+  //     { lat: 23.79366130, lng: 90.4129814 },
+  //     { lat: 23.77952415, lng: 90.4260277 }
+  //   ];
 
-const ObjectCoordinates: Coordinate[] = vehicleObjectCoord.map(coordString => {
-    const [lat, lng] = coordString.split(',').map(parseFloat);
-    return { lat, lng };
-});
+  const ObjectCoordinates: Coordinate[] = vehicleObjectCoord.map(
+    (coordString) => {
+      const [lat, lng] = coordString.split(",").map(parseFloat);
+      return { lat, lng };
+    }
+  );
   const carIcon = {
-    url: 'https://banner2.cleanpng.com/20180331/tsw/kisspng-pickup-truck-car-dump-truck-clip-art-dump-truck-5abfc5a5931d73.2100081815225174136026.jpg',
+    url: "https://banner2.cleanpng.com/20180331/tsw/kisspng-pickup-truck-car-dump-truck-clip-art-dump-truck-5abfc5a5931d73.2100081815225174136026.jpg",
     scaledSize: new window.google.maps.Size(40, 40), // Adjust the size as per your icon
   };
   console.log(ObjectCoordinates);
@@ -255,9 +267,14 @@ const ObjectCoordinates: Coordinate[] = vehicleObjectCoord.map(coordString => {
           }}
           onLoad={(map) => setMap(map as google.maps.Map)}
         >
-          {map && ObjectCoordinates.map(coord => (
-        <Marker key={`${coord.lat}-${coord.lng}`} position={coord} icon={carIcon}/>
-      ))}
+          {map &&
+            ObjectCoordinates.map((coord) => (
+              <Marker
+                key={`${coord.lat}-${coord.lng}`}
+                position={coord}
+                icon={carIcon}
+              />
+            ))}
           {directionsResponse && (
             <DirectionsRenderer directions={directionsResponse} />
           )}
@@ -265,76 +282,100 @@ const ObjectCoordinates: Coordinate[] = vehicleObjectCoord.map(coordString => {
       </Box>
       <Box
         p={4}
-        borderRadius="lg"
-        m={4}
-        bgColor="white"
+        borderRadius={10}
+        m={-1}
+        bgColor="#f1f8ff"
         shadow="base"
         w="100%"
         zIndex="1"
       >
-        <div>
+        <div className="pb-3 text-center text-lg">
           <b>Vehicle Live Tracking</b>
         </div>
-        <HStack spacing={2} justifyContent="space-between">
-        <Box flexGrow={1}>
-           
-           <div>
-             <input
-               type="text"
-               placeholder="Search by Vehicle"
-               value={landTerm}
-               onChange={handleLandInputChange}
-               className="border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
-             />
-             {showLandSuggestion && (
-               <ul className="absolute z-10 mt-1 w-2/5 bg-white rounded-md shadow-lg">
-                 {landFilteredSuggestions.map((suggestion, index) => (
-                   <li
-                     key={index}
-                     onClick={() => handleLandSuggestionClick(suggestion)}
-                   >
-                     {suggestion}
-                   </li>
-                 ))}
-               </ul>
-             )}
-           </div>
-      
-       </Box>
-          <Box flexGrow={1}>
-           
-              <div>
-                <input
-                  type="text"
-                  placeholder="Search by STS"
-                  value={searchTerm}
-                  onChange={handleInputChange}
-                  className="border border-gray-300 px-1 py-2 rounded-md focus:outline-none focus:border-blue-500"
-                />
-                {showSuggestions && (
-                  <ul className="absolute z-10 mt-1 w-2/5 bg-white rounded-md shadow-lg">
-                    {filteredSuggestions.map((suggestion, index) => (
-                      <li
-                        key={index}
-                        onClick={() => handleSuggestionClick(suggestion)}
-                      >
-                        {suggestion}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-          
-          </Box>
-         
-
-          <ButtonGroup>
+        <div className="grid grid-flow-row grid-cols-3 gap-2">
+          <Select value={landTerm} onValueChange={handleLandInputChange}>
+            <SelectTrigger>
+              <SelectValue id="vehicle" placeholder="Vehicle Number" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Vehicle</SelectLabel>
+                {landFilteredSuggestions.map((coordinate, index) => (
+                  <SelectItem key={index} value={coordinate}>
+                    {coordinate}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          {/* <Box>
+            <div>
+              <input
+                type="text"
+                placeholder="Search by Vehicle"
+                value={landTerm}
+                onChange={handleLandInputChange}
+                className="border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500"
+              />
+              {showLandSuggestion && (
+                <ul className="absolute z-10 mt-1 w-2/5 bg-white rounded-md shadow-lg">
+                  {landFilteredSuggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleLandSuggestionClick(suggestion)}
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </Box> */}
+          {/* <Box flexGrow={1}>
+            <div>
+              <input
+                type="text"
+                placeholder="Search by STS"
+                value={searchTerm}
+                onChange={handleInputChange}
+                className="border border-gray-300 px-1 py-2 rounded-md focus:outline-none focus:border-blue-500"
+              />
+              {showSuggestions && (
+                <ul className="absolute z-10 mt-1 w-2/5 bg-white rounded-md shadow-lg">
+                  {filteredSuggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </Box> */}
+          <Select value={searchTerm} onValueChange={handleInputChange}>
+            <SelectTrigger>
+              <SelectValue id="STS" placeholder="STS Name" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>STS</SelectLabel>
+                {filteredSuggestions.map((landfilll, index) => (
+                  <SelectItem key={index} value={landfilll}>
+                    {landfilll}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <ButtonGroup className="flex justify-center">
             <Button
               colorScheme="facebook"
               type="submit"
               onClick={calculateRoute}
             >
-              Calculate Route
+              <div className="text-sm">Calculate</div>
             </Button>
             <IconButton
               aria-label="Clear Route"
@@ -342,7 +383,7 @@ const ObjectCoordinates: Coordinate[] = vehicleObjectCoord.map(coordString => {
               onClick={clearRoute}
             />
           </ButtonGroup>
-        </HStack>
+        </div>
         <HStack spacing={4} mt={4} justifyContent="space-between">
           <Text>Distance: {distance} </Text>
           <Text>Duration: {duration} </Text>
@@ -373,5 +414,5 @@ export default OptimizedVehicleRoute;
 //     "23.790833993414953, 90.37624594171659",
 //     "23.793661300302535, 90.41298147521984",
 //     "23.779524150835503, 90.42602773945464",
-    
+
 //     ]

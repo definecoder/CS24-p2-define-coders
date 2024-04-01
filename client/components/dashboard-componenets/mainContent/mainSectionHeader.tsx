@@ -48,11 +48,23 @@ import {
   username,
 } from "@/data/cookieNames";
 import { get } from "http";
-import { landfillManager, stsManager } from "@/data/roles";
+import { admin, landfillManager, stsManager } from "@/data/roles";
+import axios from "axios";
+import { message } from "antd";
 
 function logout(router: AppRouterInstance) {
+  axios.post(
+    "/auth/logout",
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${getCookie(jwtToken)}`,
+      },
+    }
+  );
   eraseCookie(role);
   eraseCookie(jwtToken);
+  message.success("logged out successfully");
   router.push("/auth/login");
 }
 
@@ -66,7 +78,7 @@ export default function MainSectionHeader({
   const router = useRouter();
   const { currentActive, setCurrentActive } = useContext(NavContext);
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 justify-between">
+    <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 justify-between max-w-[100vw]">
       {/* Sheet for displaying menu in small screens */}
       <Sheet>
         <SheetTrigger asChild>
@@ -99,60 +111,72 @@ export default function MainSectionHeader({
       <div className="hidden xl:block">
         {getCookie(curActive)?.startsWith(stsManager) &&
           (getCookie(stsName) ? (
-            <b>YOUR STS : <span> {getCookie(stsName).toUpperCase()} </span></b>
+            <b>
+              YOUR STS : <span> {getCookie(stsName).toUpperCase()} </span>
+            </b>
           ) : (
             <>{"NO STS ASSIGNED"}</>
           ))}
 
         {getCookie(curActive)?.startsWith(landfillManager) &&
           (getCookie(landfillName) ? (
-            <b>YOUR LANDFILL : <span> {getCookie(landfillName).toUpperCase()} </span></b>
+            <b>
+              YOUR LANDFILL :{" "}
+              <span> {getCookie(landfillName).toUpperCase()} </span>
+            </b>
           ) : (
             <>{"NO LANDFILL ASSIGNED"}</>
-          ))}        
+          ))}
+
+        {getCookie(curActive)?.startsWith(admin) && 
+            <b>
+              SYSTEM ADMIN OF ECOSYNC
+            </b>}
+
       </div>
 
       {/* Profile Icon and dropdown menu */}
       <div className="flex gap-4 items-center">
-      {getCookie(username)}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="secondary" size="icon" className="rounded-full">
-            <CircleUserRound className="h-7 w-7" />
-            <span className="sr-only">Toggle user menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={() => {
-              router.push("profile/1234");
-            }}
-          >
-            My Profile
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => setCurrentActive(role + "-Settings")}
-          >
-            Settings
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              router.push("auth/change-password");
-            }}
-          >
-            Change Password
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="text-red-800 bg-red-100 bg-opacity-50"
-            onClick={() => logout(router)}
-          >
-            Logout
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu></div>
+        {getCookie(username)}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="secondary" size="icon" className="rounded-full">
+              <CircleUserRound className="h-7 w-7" />
+              <span className="sr-only">Toggle user menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                router.push("profile");
+              }}
+            >
+              My Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => setCurrentActive(role + "-Settings")}
+            >
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                router.push("auth/change-password");
+              }}
+            >
+              Change Password
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="text-red-800 bg-red-100 bg-opacity-50"
+              onClick={() => logout(router)}
+            >
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </header>
   );
 }

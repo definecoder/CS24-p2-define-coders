@@ -3,6 +3,7 @@ import { apiRoutes } from "@/data/apiRoutes";
 import { jwtToken } from "@/data/cookieNames";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { getCookie } from "@/lib/cookieFunctions";
+import { message } from "antd";
 import axios from "axios";
 export type Vehicle = {
     vehicleNumber: string;
@@ -11,6 +12,7 @@ export type Vehicle = {
     loadedFuelCostPerKm: number;
     unloadedFuelCostPerKm: number;
     landFillId: string;
+    stsId: string;
 };
 
 export default function useCreateVehicle() {
@@ -24,11 +26,13 @@ export default function useCreateVehicle() {
         vehicleData.capacity > 0 &&
         vehicleData.loadedFuelCostPerKm !== null &&
         vehicleData.unloadedFuelCostPerKm !== null &&
-        vehicleData.landFillId.length > 0
+        vehicleData.landFillId.length > 0 &&
+        vehicleData.stsId.length > 0
     );
   }  
 
   async function createVehicle(vehicleData: Vehicle) {
+    // const {stsId, ...paylod} = vehicleData;
     if (vehicleData && isValid(vehicleData)) {
       try {
         const res = await axios.post(apiRoutes.vehicle.create, vehicleData, {
@@ -39,7 +43,8 @@ export default function useCreateVehicle() {
         window.location.reload();
         return "Vehicle Aadded successfully";
       } catch (error: any) {
-        return error.message?.toString() || "Error creating Vehicle. Do you have permisson?.";
+        message.error(error?.response?.data.message?.toString() || "Error creating Vehicle. Do you have permisson?.");
+        return null;
       }
     }
 

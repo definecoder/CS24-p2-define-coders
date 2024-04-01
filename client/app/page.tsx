@@ -18,7 +18,7 @@ export default function Home() {
         optimizing manpower and equipment utilization for waste management tasks, thus fostering operational efficiency, reducing operational costs, 
         and ultimately leading to a cleaner, more sustainable urban environment.
       </SectionTitle>
-      <Benifit/>
+      <Benifit />
       <Deliverable/>
       <Teamintro/>
       

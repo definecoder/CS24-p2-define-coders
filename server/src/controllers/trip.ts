@@ -37,6 +37,15 @@ const createTrip = errorWrapper(async (req: Request, res: Response) => {
   const vehicle = stsVehicleInfo.vehicle;
   const sts = stsVehicleInfo.sts;
 
+  await prisma.sTS.update({
+    where: {
+      id: sts.id,
+    },
+    data: {
+      currentTotalWaste: Number(sts.currentTotalWaste) - weightOfWaste,
+    },
+  });
+
   const unloadedFuelCostPerKm = Number(vehicle.unloadedFuelCostPerKm);
   const loadedFuelCostPerKm = Number(vehicle.loadedFuelCostPerKm);
   const capacity = Number(vehicle.capacity);
@@ -61,11 +70,9 @@ const createTrip = errorWrapper(async (req: Request, res: Response) => {
 });
 
 const getListOfTrips = errorWrapper(async (req: Request, res: Response) => {
-
   const { tripStatus, landfillId } = req.query;
 
   let where: Prisma.TripWhereInput | undefined = undefined;
-
 
   if (tripStatus || landfillId) {
     where = {};
@@ -98,14 +105,30 @@ const completeTrip = errorWrapper(async (req: Request, res: Response) => {
   }
 
   const landfillId = trip.landfillId;
+
   const vehicleId = trip.vehicleId;
 
-  prisma.landfillVehicleEntry.create({
+  await prisma.landfillVehicleEntry.create({
     data: {
       landfillId,
       vehicleId,
       weightOfWaste,
       entryTime,
+    },
+  });
+
+  const landfill = await prisma.landfill.findUnique({
+    where: {
+      id: landfillId,
+    },
+  });
+
+  await prisma.landfill.update({
+    where: {
+      id: landfillId,
+    },
+    data: {
+      currentTotalWaste: landfill?.currentTotalWaste + weightOfWaste,
     },
   });
 

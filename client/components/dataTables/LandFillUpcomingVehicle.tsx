@@ -58,19 +58,17 @@ import { landfillId } from "@/data/cookieNames";
 import formatTimestamp from "@/lib/formatTimestamp";
 
 type Vehicle = {
-    tripId: string,
-    weightOfWaste: string,
-    vehicleNumber: string,
-    stsId: string,
-    vehicleType: string,
-    distance: string,
-    tripStartTime: string,
-    estimatedDuration: string
-    tripStatus: string
-    capacity: string,
-    
-  };
-  
+  tripId: string;
+  weightOfWaste: string;
+  vehicleNumber: string;
+  stsId: string;
+  vehicleType: string;
+  distance: string;
+  tripStartTime: string;
+  estimatedDuration: string;
+  tripStatus: string;
+  capacity: string;
+};
 
 export const columns: ColumnDef<Vehicle>[] = [
   {
@@ -90,7 +88,9 @@ export const columns: ColumnDef<Vehicle>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("vehicleNumber")}</div>
+      <div className="text-center font-medium">
+        {row.getValue("vehicleNumber")}
+      </div>
     ),
   },
   {
@@ -132,7 +132,9 @@ export const columns: ColumnDef<Vehicle>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{formatTimestamp(row.getValue("tripStartTime".toLocaleString()))}</div>
+      <div className="text-center font-medium">
+        {formatTimestamp(row.getValue("tripStartTime".toLocaleString()))}
+      </div>
     ),
   },
   {
@@ -152,7 +154,9 @@ export const columns: ColumnDef<Vehicle>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("estimatedDuration")}</div>
+      <div className="text-center font-medium">
+        {row.getValue("estimatedDuration")}
+      </div>
     ),
   },
   {
@@ -192,7 +196,9 @@ export const columns: ColumnDef<Vehicle>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("weightOfWaste")}</div>
+      <div className="text-center font-medium">
+        {row.getValue("weightOfWaste")}
+      </div>
     ),
   },
   {
@@ -245,11 +251,9 @@ export default function LanfFillUpcomingVehicles() {
 
   async function getAllUpcomingVehicles() {
     console.log(landfillId);
-    await UpcomingVehicle(
-      {
-        landFillId: await getCookie(landfillId)
-      }
-      );
+    await UpcomingVehicle({
+      landFillId: await getCookie(landfillId),
+    });
   }
 
   React.useEffect(() => {
@@ -276,7 +280,7 @@ export default function LanfFillUpcomingVehicles() {
       columnFilters,
       columnVisibility,
       rowSelection,
-    },  
+    },
     initialState: {
       pagination: {
         pageIndex: 0,
@@ -286,11 +290,15 @@ export default function LanfFillUpcomingVehicles() {
   });
   return (
     <>
-    <div className="flex justify-center font-bold text-2xl">UPCOMING VEHICLES</div>
+      <div className="flex justify-center font-bold text-2xl">
+        UPCOMING VEHICLES
+      </div>
       <div className="flex items-center pb-4 gap-4">
         <Input
           placeholder="Search by Vehicle Name..."
-          value={(table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("vehicleNumber")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
             table.getColumn("vehicleNumber")?.setFilterValue(event.target.value)
           }

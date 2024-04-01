@@ -22,10 +22,6 @@ export const AdminSidebarItemList = [
     title: "Dashboard",
   },
   {
-    Icon: Truck,
-    title: "System",
-  },
-  {
     Icon: CalendarCheck,
     title: "Schedules",
   },

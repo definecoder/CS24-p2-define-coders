@@ -217,7 +217,7 @@ export const columns: ColumnDef<Bill>[] = [
   },
 ];
 
-export default function PendingBillList() {
+export default function CompletedBillList() {
   const [data, setData] = React.useState<Bill[]>([]);
   const { billList, getbillList } = useGetAllCompletedBillList();
   const [sorting, setSorting] = React.useState<SortingState>([]);

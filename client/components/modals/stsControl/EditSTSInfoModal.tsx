@@ -29,6 +29,7 @@ import { number } from "prop-types";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import editSTS from "@/hooks/entityCreation/editSTS";
 import getUserByRole from "@/hooks/user_data/getUserByRole";
+import { message } from "antd";
 
 export type STS = {
   id: string;
@@ -151,7 +152,7 @@ export const EditSTSInfoModal = ({ stsInfo }: { stsInfo: STS }) => {
               type="submit"
               onClick={async () => {
                 const result = await editSTS(stsData, stsManagerData?.id || "");
-                if (result) return alert(result);
+                if (result) return message.success(result);
               }}
             >
               Update STS

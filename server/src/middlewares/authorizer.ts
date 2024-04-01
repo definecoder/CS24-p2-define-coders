@@ -18,11 +18,14 @@ const authRole = (roles: string[]) => {
 const authorizer = (permission: string) => {
   return errorWrapper(
     async (req: Request, res: Response, next: NextFunction) => {
-      const role = (req as any).user.role;
+      const userRole = ((req as any).user as any)?.role;
 
       const permittedRoles = await getPermittedRoleNames(permission);
 
-      if (role && permittedRoles.includes(role)) {
+      console.log(userRole);
+      console.log(permittedRoles);
+
+      if (userRole && permittedRoles.includes(userRole)) {
         next();
       } else throw new CustomError("Unauthorized", 401);
     }

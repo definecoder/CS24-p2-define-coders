@@ -11,7 +11,7 @@ function MainSection({ role = "unassigned" }: { role: string }) {
   const currentState = useContext(NavContext)?.currentActive;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col max-w-[100vw]">
       <MainSectionHeader role={role} subsection={currentState} />
 
       {getDashboardFor(currentState)}
