@@ -6,7 +6,7 @@ import { PERMISSIONS } from "../permissions/permissions";
 
 const prisma = new PrismaClient();
 
-const hashedP = "$2b$10$glYOMtehNGf7iiKqxQruIO1MJEZAqo2NU.NgI3T2wr.hRaZOjZ96.";
+const hashedP = "$2b$10$gAUoB3TeR/yJBQcaUZ.o6.wHnLCteGHroUtkvXM.jjxpqlpic0yvO";
 
 const roleData: Prisma.RoleCreateInput[] = [
   {
@@ -155,8 +155,8 @@ const roleAssignments = [
 
 const userData: Prisma.UserCreateInput[] = [
   {
-    username: "Shawon Majid",
-    email: "shawon.majid@gmail.com",
+    username: "Admin",
+    email: "admin@admin",
     hashedPassword: hashedP,
     role: {
       connect: {
