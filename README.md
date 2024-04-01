@@ -46,7 +46,7 @@ In the `/server` & `/client` directory, rename `.env.example` to `.env` and fill
 
 ```bash
 cd EcoSync/server
-npx nodemon
+npm run dev
 ```
 
 2. In a new terminal window, start the frontend application:
@@ -76,7 +76,11 @@ The frontend application will be available at `http://localhost:3000`, and the b
   }
 }
 ```
-
+## To run using Docker 
+Go to the source directory and give the following command
+```bash
+docker compose up --build
+```
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
