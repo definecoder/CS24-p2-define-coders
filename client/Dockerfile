@@ -1,18 +1,18 @@
 
-FROM node:latest
+# FROM node:latest
 
-WORKDIR /usr/src/app
+# WORKDIR /usr/src/app
 
-COPY package*.json ./
+# COPY package*.json ./
 
-RUN npm install
+# RUN npm install
 
-COPY . .
+# COPY . .
 
-EXPOSE 3000
+# EXPOSE 3000
 
 
-CMD ["npm", "start"]
+# CMD ["npm", "run", "dev"]
 
 #if not works
 #-------------------
@@ -52,3 +52,33 @@ CMD ["npm", "start"]
 # RUN npm install 
 # COPY . .
 # CMD npm run dev
+
+
+# Use the Ubuntu base image
+# Use the Ubuntu base image
+FROM ubuntu:latest
+
+# Install necessary packages for Node.js and npm
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install project dependencies
+RUN npm install --force
+
+# Copy the rest of the application files
+COPY . .
+
+# Expose port 3000
+EXPOSE 3000
+
+# Command to run the Next.js project
+CMD ["npm", "run", "dev"]
