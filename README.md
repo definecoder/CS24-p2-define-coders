@@ -1,6 +1,7 @@
 <img src="https://github.com/definecoder/test-devops-hack/blob/main/EcoSync.png?raw=true"  width="200" height="200">
 
 # **EcoSync** by DEFINE CODERS
+
 EcoSync is a full-stack application built with Next.js, Express.js, Prisma, and PostgreSQL.
 
 ## Project Structure
@@ -37,7 +38,7 @@ npm install
 
 ## Configuration
 
-In the `/server` & `/client` directory, rename `.env.example` to `.env` and fill in your PostgreSQL database details and other environment variables from [this google doc link](https://docs.google.com/document/d/1j1UFD3U4ejqeDRb26N9WffqvaLzwYYAxGY2OaWlZTO4/edit?usp=sharing).
+In the `/server` & `/client` directory, rename `.env.example` to `.env` and fill in your PostgreSQL database details `with you postgres password e.g: "postgresql://postgres:YOURPASSWORDHERE@127.0.0.1:5432/ecosync"` and other environment variables from [this google doc link](https://docs.google.com/document/d/1j1UFD3U4ejqeDRb26N9WffqvaLzwYYAxGY2OaWlZTO4/edit?usp=sharing).
 
 ## Running the Application
 
@@ -58,18 +59,21 @@ npm run dev
 The frontend application will be available at `http://localhost:3000`, and the backend server will be running at `http://localhost:8585` (or whatever port you specified).
 
 ## Credentials set by the initial db migration
+
 ```json
-SYSTEM_ADMIN: {
+{
+  "SYSTEM_ADMIN": {
     "email": "admin@admin",
     "password": "admin"
-}
-LAND_MANAGER: {
+  },
+  "LAND_MANAGER": {
     "email": "codermehraj@gmail.com",
     "password": "admin"
-}
-STS_MANAGER: {
+  },
+  "STS_MANAGER": {
     "email": "shafinnafiullah@gmail.com",
     "password": "admin"
+  }
 }
 ```
 
