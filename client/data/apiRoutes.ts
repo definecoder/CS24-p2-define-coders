@@ -1,5 +1,5 @@
 export const baseUrl = "http://localhost:8585"; // Local
-// export const baseUrl = "http://13.250.36.61/"; // AWS
+// export const baseUrl = "http://13.250.36.61"; // AWS
 
 export const apiRoutes = {
   auth: {
