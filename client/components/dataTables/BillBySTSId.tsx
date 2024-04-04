@@ -17,6 +17,7 @@ import EmptyFillContainer from "../dashboard-componenets/cards/EmptyFillContaine
 import { getCookie } from "@/lib/cookieFunctions";
 import { admin } from "@/data/roles";
 import { Button } from "../ui/button";
+import { baseUrl } from "@/data/apiRoutes";
 
 const dummyDataArray: ScheduleEntry[] = [
   {
@@ -97,7 +98,7 @@ export function BillBySTSId({ stsId, date }: { stsId: string; date: string }) {
     try {
       // fetch data from api
       const res: any = await axios.get(
-        "http://localhost:8585/schedules/search?date=" +
+        baseUrl + "/schedules/search?date=" +
           date +
           "&stsId=" +
           stsId,
@@ -126,7 +127,7 @@ export function BillBySTSId({ stsId, date }: { stsId: string; date: string }) {
     try {
       // fetch data from api
       const res: any = await axios.post(
-        "http://localhost:8585/schedules/create/" + date,        
+        baseUrl + "/schedules/create/" + date,        
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem(jwtToken)}`,
