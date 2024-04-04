@@ -81,6 +81,14 @@ Go to the source directory and give the following command
 ```bash
 docker compose up --build
 ```
+## To run using AWS Backend (if docker compose fails)
+Go to `client\data\apiRoutes` and comment the `first line` and uncomment the second
+```js
+export const baseUrl = "http://localhost:8585"; // Uncomment to run Locally 
+// export const baseUrl = "http://13.250.36.61"; // Uncomment to run in AWS
+```
+When running on AWS the frontend might face some slow network problems which can be fixed by switching speed from no thorttling to fast 3G. [You can check this video to see the demonstration of the problem mentioned here](https://drive.google.com/drive/folders/1B5N5o0ms7mizSYm5HNiAjJj0O82Zb1tq?usp=sharing).
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
