@@ -1,14 +1,19 @@
 version: '3'
-services:
-  postgres:
+services: 
+  db:
+    container_name: db
     image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password123
+      POSTGRES_USER: user123
+      POSTGRES_DB: db123  
+
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: ecosync
-  
+    volumes: 
+      - pgdata:/var/lib/postgresql/data
+
   frontend:
     build:
       context: ./client
@@ -18,17 +23,32 @@ services:
       - "3000:3000"
     # volumes:
     #   - ./client:/usr/src/app
-    env_file:
-      - .env
+    environment:
+      - NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=AIzaSyD1HUzeHWo0hXLXknwRgZ_h8bwRIU-_OyU
+      - NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6Lcb-aYpAAAAADJLVict1FyCiey132R8qdWLon2w
+      - RECAPTCHA_SECRET_KEY=6Lcb-aYpAAAAAL7hCRtE4OVhqDA6Qs15Lo8HUHx-
 
   backend:
+    container_name: backend
+    image: backend
     build:
       context: ./server
       dockerfile: Dockerfile
     ports:
       - "8585:8585"
+
+    depends_on:
+      - db
+
     # volumes:
     #   - ./server:/usr/src/app
-    env_file:
-      - .env
+    environment:
+      - PORT=8585
+      - DATABASE_URL=postgresql://user123:password123@db:5432/db123?schema=public
+      - JWT_SECRET=viugh@#%48rsdsdbov087qh798yh
+      - MAIL_EMAIL=sohojthikadari@gmail.com
+      - MAIL_PASSWORD=nlvobxoajkaicdhx
+      - NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=AIzaSyD1HUzeHWo0hXLXknwRgZ_h8bwRIU-_OyU
 
+volumes:
+  pgdata: {}

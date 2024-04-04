@@ -11,52 +11,24 @@ The project is divided into two main directories:
 - `/client` - Contains the Next.js frontend application.
 - `/server` - Contains the Express.js backend server, which uses Prisma for ORM and PostgreSQL as the database.
 
-## Prerequisites
-
-Before you begin, ensure you have installed:
-
-- Node.js and npm
-- PostgreSQL
-
-## Installation
+## RUNNING THE PROJECT USING DOCKER COMPOSE (RECCOMANDED)
 
 1. Clone the repository:
 
 ```bash
 git clone https://github.com/definecoder/CS24-p2-define-coders.git
 ```
-
-2. Install the dependencies in both the `/client` and `/server` directories:
-
+2. Open the source directory in a terminal and give the following command
 ```bash
-cd EcoSync/client
-npm install
-
-cd ../server
-npm install
+docker compose up --build
 ```
+wait for the docker compose to complete and then frontend application will be available running at `http://localhost:3000`, and the backend server will be running at `http://localhost:8585` (or whatever port you specified).
 
-## Configuration
-
-In the `/server` & `/client` directory, rename `.env.example` to `.env` and fill in your PostgreSQL database details `with you postgres password e.g: "postgresql://postgres:YOURPASSWORDHERE@127.0.0.1:5432/ecosync"` and other environment variables from [this google doc link](https://docs.google.com/document/d/1j1UFD3U4ejqeDRb26N9WffqvaLzwYYAxGY2OaWlZTO4/edit?usp=sharing).
-
-## Running the Application
-
-1. Start the backend server:
-
+3. After backend and frontend services are running again open the source directory in `another terminal` and give the following command
 ```bash
-cd EcoSync/server
-npm run dev
+docker exec -it backend /bin/bash -c "cd ./src && npx prisma migrate dev --name init && npx prisma db seed 2> /dev/null || echo \'Database is already seeded\'"
 ```
-
-2. In a new terminal window, start the frontend application:
-
-```bash
-cd EcoSync/client
-npm run dev
-```
-
-The frontend application will be available at `http://localhost:3000`, and the backend server will be running at `http://localhost:8585` (or whatever port you specified).
+This will do the prisma migration and run the seed file to push initial data.
 
 ## Credentials set by the initial db migration
 
@@ -76,17 +48,30 @@ The frontend application will be available at `http://localhost:3000`, and the b
   }
 }
 ```
-## To run using Docker 
-Go to the source directory and give the following command
-```bash
-docker compose up --build
-```
-## To run using AWS Backend (if docker compose fails)
+
+## RUNNING THE BACKEND USING AWS (IF DOCKER COMPOSE FAILS!)
 Go to `client\data\apiRoutes` and comment the `first line` and uncomment the second
 ```js
 export const baseUrl = "http://localhost:8585"; // Uncomment to run Locally 
 // export const baseUrl = "http://13.250.36.61"; // Uncomment to run in AWS
 ```
+## CONFIGURATION
+In the `/server` & `/client` directory, rename `.env.example` to `.env` and fill in your PostgreSQL database details `with you postgres password e.g: "postgresql://postgres:YOURPASSWORDHERE@127.0.0.1:5432/ecosync"` and other environment variables from [this google doc link](https://docs.google.com/document/d/1j1UFD3U4ejqeDRb26N9WffqvaLzwYYAxGY2OaWlZTO4/edit?usp=sharing).
+
+## RUNNING FRONTEND
+Run the frontend using docker:
+```bash
+docker compose up --build
+``` 
+or locally by running following command:
+```bash
+cd .\client\
+npm i
+npm run dev
+```
+
+
+## NOTE ON USING AWS BACKEND
 When running on AWS the frontend might face some slow network problems which can be fixed by switching speed from no thorttling to fast 3G. [You can check this video to see the demonstration of the problem mentioned here](https://drive.google.com/drive/folders/1B5N5o0ms7mizSYm5HNiAjJj0O82Zb1tq?usp=sharing).
 
 ## License

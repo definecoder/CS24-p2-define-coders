@@ -1,15 +1,15 @@
-
 FROM node:latest
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
 
-RUN apt-get update && apt-get install -y postgresql-client
+RUN npm install
 
 COPY . .
 
+RUN cd ./src && npx prisma generate
+
 EXPOSE 8585
 
-CMD ["sh", "-c", "until pg_isready -h postgres -p 5432; do sleep 1; done && npm i && npm run dev"]
-# CMD ["npx", "nodemon"]
+CMD ["npm", "run", "dev"]
