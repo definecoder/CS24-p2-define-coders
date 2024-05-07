@@ -1,7 +1,6 @@
 {
   "include": [
     "src/**/*",
-    "src/**/*.d.ts"
   ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
@@ -24,5 +23,6 @@
     "strict": true,                                      /* Enable all strict type-checking options. */
     "noImplicitAny": true,                               /* Enable error reporting for expressions and declarations with an implied 'any' type. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
-  }
+  },
+  "files": ["src/types/express/index.d.ts"]
 }

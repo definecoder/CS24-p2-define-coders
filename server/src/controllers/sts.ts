@@ -2,6 +2,7 @@ import { PrismaClient, STS, Vehicle } from "@prisma/client";
 import { Request, Response } from "express";
 import errorWrapper from "../middlewares/errorWrapper";
 import CustomError from "../services/CustomError";
+import { RoleName } from "../types/rolesTypes";
 
 const prisma = new PrismaClient();
 
@@ -33,6 +34,9 @@ const getAllSTS = errorWrapper(
 const getSTSById = errorWrapper(
   async (req: Request, res: Response) => {
     const { stsId } = req.params;
+
+    console.log(req.user?.id);
+
     const sts = await prisma.sTS.findUnique({
       where: {
         id: stsId,
@@ -46,9 +50,19 @@ const getSTSById = errorWrapper(
       throw new CustomError("STS not found", 404);
     }
 
+    console.log(sts.manager);
+
+    // authorization check
+    if (
+      req.user?.role != RoleName.SYSTEM_ADMIN &&
+      !sts.manager.map((man) => man.id).includes(req.user?.id)
+    ) {
+      throw new CustomError("Unauthorized", 401);
+    }
+
     const percentage = await calculatePercentage(sts);
 
-    res.status(200).json({ sts, graphData: percentage });    
+    res.status(200).json({ sts, graphData: percentage });
   },
   { statusCode: 404, message: "STS not found" }
 );
@@ -62,11 +76,13 @@ async function calculatePercentage(sts: STS) {
   const graphData = {
     empty: mot - ase,
     full: ase,
-    emptyPercentage: parseFloat((((mot - ase) / mot) * 100).toString()).toFixed(2),
+    emptyPercentage: parseFloat((((mot - ase) / mot) * 100).toString()).toFixed(
+      2
+    ),
     fullPercentage: parseFloat(((ase / mot) * 100).toString()).toFixed(2),
   };
-  
-  return  graphData; // Replace with the actual calculation
+
+  return graphData; // Replace with the actual calculation
 }
 
 const updateSTS = errorWrapper(

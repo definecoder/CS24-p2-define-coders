@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "install": "cd ./src && npx prisma migrate dev --name init && createdb ecosync 2> /dev/null || echo 'database already exists'",
     "build": "tsc",
     "start": "node build/index.js",
     "dev": "ts-node src/index.ts",
