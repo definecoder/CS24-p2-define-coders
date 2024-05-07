@@ -11,6 +11,7 @@ import { threshold } from "@/hooks/functions/threshold";
 import { Button } from "../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { RefreshCcw } from "lucide-react";
+import { darkestColor } from "@/data/constant";
 
 const MapContainerStyle = {
   width: "100%",
@@ -53,12 +54,12 @@ const GoogleMapComponent: React.FC<MapProps> = ({ coordinates, dumpFills }) => {
       <div className="flex justify-between mb-2 mr-2 hover:p">
         <h1 className="text-xl font-bold"> STS DUMP LOAD HEATMAP </h1>
         <Button
-          className="flex items-center justify-center hover:bg-slate-700 hover:scale-110 text-white rounded-md px-2 py-1"
+          className={`flex items-center justify-center hover:bg-slate-700 hover:scale-110 text-white bg-[${darkestColor}] rounded-md px-3 py-1`}
           onClick={() => {
             window.location.reload();
           }}
         >
-          <RefreshCcw className="p-1 mr-2"/>
+          <RefreshCcw className="p-1 mr-2" />
           Refresh
         </Button>
       </div>
@@ -70,14 +71,7 @@ const GoogleMapComponent: React.FC<MapProps> = ({ coordinates, dumpFills }) => {
           zoom={12}
         >
           <Marker position={defaultCenter} />
-          {coordinates.map((coordinate, index) => {
-            // let circleColor = '#00FF00'; // Default to green
-
-            // if (dumpFills[index] >= 40 && dumpFills[index] <= 80) {
-            //   circleColor = '#FFFF00'; // Yellow
-            // } else if (dumpFills[index] > 80) {
-            //   circleColor = '#FF0000'; // Red
-            // }
+          {coordinates.map((coordinate, index) => {            
             let circleColor = threshold(dumpFills[index]);
 
             return (

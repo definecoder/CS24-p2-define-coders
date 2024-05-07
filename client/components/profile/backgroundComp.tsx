@@ -1,12 +1,13 @@
 // components/BackgroundComponent.tsx
 "use client";
 
+import { darkestColor } from '@/data/constant';
 import React from 'react';
 
 const BackgroundComponent: React.FC = () => {
   return (
     <div
-      className="relative bg-primary top-[-150px] bg-cover bg-center mx-auto h-80 md:h-96 lg:h-380"
+      className={`relative bg-[${darkestColor}] top-[-150px] bg-cover bg-center mx-auto h-80 md:h-96 lg:h-380`}
     
     >
       
