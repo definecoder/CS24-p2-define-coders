@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/input-otp";
 import { getCookie } from "@/lib/cookieFunctions";
 import { jwtToken } from "@/data/cookieNames";
+import { darkestColor } from "@/data/constant";
 
 function ForgetPassInitiateForm() {
   const email = useSearchParams().get("email") || "";  
@@ -55,8 +56,8 @@ function ForgetPassInitiateForm() {
           </InputOTP>
           <div className="mt-4 text-center">OTP has been sent to {email}</div>
         </div>
-        <Button type="submit" className="w-full" onClick={handleButtonClick}>
-          Send Reset Password Link
+        <Button type="submit" className={`w-full bg-[${darkestColor}]`} onClick={handleButtonClick}>
+          Send Account Credentials in Mail
         </Button>
       </form>
     </>

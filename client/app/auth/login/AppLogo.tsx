@@ -6,7 +6,7 @@ export default function AppLogo() {
     <div className="w-full">
         <Link href="/" className="hover:cursor-pointer">
         <Image
-          src="/logoBlack.png"
+          src="/logo.png"
           alt="Image"
           width="500"
           height="500"

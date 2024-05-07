@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 
 import useLogin from "../../../hooks/auth/useLogin";
 import { useRouter } from "next/navigation";
+import { darkerColor, darkestColor, lighterColor } from "@/data/constant";
 
 function LoginForm() {
   const { loginData, setloginData, login } = useLogin();
@@ -54,7 +55,7 @@ function LoginForm() {
             required
           />
         </div>
-        <Button type="submit" className="w-full">
+        <Button type="submit" className={`w-full bg-[${darkestColor}]`}>
           Login
         </Button>
       </form>
