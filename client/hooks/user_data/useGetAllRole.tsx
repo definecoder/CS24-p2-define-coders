@@ -18,7 +18,7 @@ type RolesWithPermisson = {
 };
 
 export default function useGetAllRole() {
-  const [roles, setRoles] = useState<String[]>([]);
+  const [roles, setRoles] = useState<string[]>([]);
   const [rolesWithPermissions, setRolesWithPermissions] = useState<RolesWithPermisson[]>([]);
 
   async function fetchAllRoles() {
@@ -41,7 +41,8 @@ export default function useGetAllRole() {
           },
           )};
       }));
-      await setRoles([unassigned, admin, landfillManager, stsManager]);      
+      //await setRoles([unassigned, admin, landfillManager, stsManager]);      
+      await setRoles(response.data.map((role: any) => role.name));
       // console.log(roles);
     } catch (error: any) {
       message.error(error?.response?.data?.message + "Error fetching roles... Are you authorized?");      

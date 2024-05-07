@@ -5,6 +5,7 @@ import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { getCookie } from "@/lib/cookieFunctions";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import useGetAllRole from "./useGetAllRole";
 
 export default function useAddNewUser() {
   const [userData, setUserData] = useState({
@@ -25,10 +26,10 @@ export default function useAddNewUser() {
     );
   }
 
-  const [roles, setRoles] = useState<string[]>();
+  const {roles, fetchAllRoles} = useGetAllRole();  
 
   useEffect(() => {
-    setRoles([admin, landfillManager, stsManager, unassigned]);
+    fetchAllRoles();
   }, []);
 
   async function createNewUser() {

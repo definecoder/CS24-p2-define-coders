@@ -28,6 +28,7 @@ import gettAllRoles from "@/hooks/user_data/useGetAllRole";
 import { number } from "prop-types";
 import { admin, landfillManager, stsManager, unassigned } from "@/data/roles";
 import { message } from "antd";
+import useGetAllRole from "@/hooks/user_data/useGetAllRole";
 
 type User = {
   id: string;
@@ -38,7 +39,13 @@ type User = {
 
 export const EditUserModal = ({ userInfo }: { userInfo: User }) => {
   const [userData, setUserData] = useState(userInfo);
-  const roles = [unassigned, stsManager, landfillManager, admin];
+  //const roles = [unassigned, stsManager, landfillManager, admin];
+  const { roles, fetchAllRoles } = useGetAllRole();
+
+  useEffect(() => {
+    fetchAllRoles();
+  }, []);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -118,7 +125,7 @@ export const EditUserModal = ({ userInfo }: { userInfo: User }) => {
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Roles</SelectLabel>
-                    {roles.map((role) => (
+                    {roles.map((role, index) => (
                       <SelectItem key={role} value={role}>
                         {role}
                       </SelectItem>
