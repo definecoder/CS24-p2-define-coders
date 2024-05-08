@@ -14,6 +14,7 @@ import useGetLandfillDatabyID from "@/hooks/landFillDashboard/getLandFillDataByI
 import { getCookie } from "@/lib/cookieFunctions";
 import useGetstsDatabyID from "@/hooks/StsDashboard/getStsDataById";
 import STSVehicleHistoryList from "@/components/dataTables/STSVehicleHistoryList";
+import { darkestColor } from "@/data/constant";
 
 export default function STSManagerStorageData() {
 
@@ -57,12 +58,12 @@ export default function STSManagerStorageData() {
                       name:
                         stsData?.graphData?.emptyPercentage + "% EMPTY",
                       value: stsData?.graphData?.empty,
-                      color: "rgb(121, 121, 121)",
+                      color: darkestColor + "80",
                     },
                     {
                       name: stsData?.graphData?.fullPercentage + "% FULL",
                       value: (stsData?.graphData?.full),
-                      color: "rgb(0, 0, 0)",
+                      color: darkestColor,
                     },
                   ]}
                   withTooltip
@@ -115,10 +116,10 @@ export default function STSManagerStorageData() {
                   },
                 ]}
                 dataKey="date"
-                series={[{ name: "totalWeight", color: "black" }]}
+                series={[{ name: "totalWeight", color: darkestColor }]}
                 curveType="linear"
                 connectNulls
-                color="rgba(0, 0, 0, 1)"
+                color= {darkestColor}
               />
             </EmptyFillContainer>
           </div>
@@ -138,13 +139,13 @@ export default function STSManagerStorageData() {
                 ]}
                 data={[90, 65, 45, 85, 50, 80, 85]}
                 backgroundColor={[
-                  "rgb(0, 0, 0)",
-                  "rgb(53, 53, 53)",
-                  "rgb(97, 97, 97)",
-                  "rgb(0, 0, 0)",
-                  "rgb(192, 192, 192)",
-                  "rgb(70, 70, 70)",
-                  "rgb(56, 55, 55)",
+                  darkestColor + "95",
+                  darkestColor + "75",
+                  darkestColor + "45",
+                  darkestColor + "65",
+                  darkestColor + "55",
+                  darkestColor + "65",
+                  darkestColor + "70",
                 ]}
                 borderColor={[
                   "rgb(0, 0, 0)",
