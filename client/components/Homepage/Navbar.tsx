@@ -3,6 +3,7 @@ import Link from "next/link";
 import ThemeChanger from "./DarkSwitch";
 import Image from "next/image";
 import { Disclosure } from "@headlessui/react";
+import { darkestColor } from "@/data/constant";
 
 const Navbar = () => {
   const navigation = ["Features", "Deliverables", "Team"];
@@ -10,7 +11,6 @@ const Navbar = () => {
   return (
     <div className="w-full">
       <nav className="container relative flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-0">
-        {/* Logo  */}
         <Disclosure>
           {({ open }) => (
             <>
@@ -19,11 +19,11 @@ const Navbar = () => {
                   <span className="flex items-center space-x-2 text-2xl font-medium text-black dark:text-gray-100">
                     <span>
                       <Image
-                        src="/logoBlack.png"
+                        src="/logo.png"
                         alt="N"
-                        width="100"
-                        height="100"
-                        className="w-24"
+                        width="120"
+                        height="120"
+                        className="w-28"
                       />
                     </span>
                   </span>
@@ -78,7 +78,6 @@ const Navbar = () => {
           )}
         </Disclosure>
 
-        {/* menu  */}
         <div className="hidden text-center lg:flex lg:items-center">
           <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex">
             {navigation.map((menu, index) => (
@@ -97,12 +96,10 @@ const Navbar = () => {
         <div className="hidden mr-3 space-x-4 lg:flex nav__item">
           <Link
             href="/auth/login"
-            className="px-6 py-2 text-white bg-black rounded-md md:ml-5"
+            className={`px-6 py-2 text-white bg-[${darkestColor}] rounded-md md:ml-5 font-bold`}
           >
             Log In
           </Link>
-
-          {/* <ThemeChanger /> */}
         </div>
       </nav>
     </div>

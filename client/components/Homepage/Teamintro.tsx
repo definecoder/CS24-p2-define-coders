@@ -43,7 +43,7 @@ const Teamintro = () => {
                 height={200}
                 alt="testimonial"
                 className="w-64 h-64 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-800 bg-gray-800 bg-opacity-10"
-                src="/mehrajvai.jpeg"
+                src="/mehrajvai.jpg"
               />
               <p className="leading-relaxed">
                 A highly motivated and hardworking individual, who is seeking an
