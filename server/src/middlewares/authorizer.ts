@@ -6,7 +6,8 @@ import { getPermittedRoleNames } from "../permissions/permissions";
 const authRole = (roles: string[]) => {
   return errorWrapper(
     async (req: Request, res: Response, next: NextFunction) => {
-      const userRole = ((req as any).user as any).role;
+      const userRole = req.user?.role;
+      if (!userRole) throw new CustomError("Unauthorized", 401);
       if (!roles.includes(userRole)) {
         throw new CustomError("Unauthorized", 401);
       }
@@ -18,12 +19,9 @@ const authRole = (roles: string[]) => {
 const authorizer = (permission: string) => {
   return errorWrapper(
     async (req: Request, res: Response, next: NextFunction) => {
-      const userRole = ((req as any).user as any)?.role;
+      const userRole = req.user?.role;
 
       const permittedRoles = await getPermittedRoleNames(permission);
-
-      console.log(userRole);
-      console.log(permittedRoles);
 
       if (userRole && permittedRoles.includes(userRole)) {
         next();
