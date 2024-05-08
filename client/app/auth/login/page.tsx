@@ -2,6 +2,7 @@ import AppLogo from "./AppLogo";
 import LoginForm from "./loginForm";
 
 export default function LoginPage() {
+  
   return (
     <>
       <div className="w-full grid lg:min-h-[600px] grid-cols-1 xl:min-h-[800px]">

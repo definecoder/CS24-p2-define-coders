@@ -51,6 +51,7 @@ import { get } from "http";
 import { admin, landfillManager, stsManager } from "@/data/roles";
 import axios from "axios";
 import { message } from "antd";
+import { darkestColor } from "@/data/constant";
 
 function logout(router: AppRouterInstance) {
   axios.post(
@@ -108,7 +109,7 @@ export default function MainSectionHeader({
         </form>
       </div>
 
-      <div className="hidden xl:block">
+      <div className={`hidden xl:block text-[${darkestColor}]`}>
         {getCookie(curActive)?.startsWith(stsManager) &&
           (getCookie(stsName) ? (
             <b>
@@ -141,7 +142,7 @@ export default function MainSectionHeader({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
-              <CircleUserRound className="h-7 w-7" />
+              <CircleUserRound className={`h-7 w-7 text-black`} />
               <span className="sr-only">Toggle user menu</span>
             </Button>
           </DropdownMenuTrigger>

@@ -18,11 +18,11 @@ const SidebarHeader = ({role} : {role: string}) => {
   return (
     <div className="flex h-20 items-center border-b px-4 lg:h-[80px] lg:px-6">
       <Link
-        href="/dashboard"
+        href="/"
         className="flex items-center gap-2 font-semibold"
       >
         <img
-          src="/logoBlack.png"
+          src="/logo.png"
           alt="logo"
           className="h-16 w-16 ml-2 mr-2"
         />

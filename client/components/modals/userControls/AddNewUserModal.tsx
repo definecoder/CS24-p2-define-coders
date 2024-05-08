@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "../../ui/select";
 import { message } from "antd";
+import { darkestColor } from "@/data/constant";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -34,7 +35,7 @@ export const AddNewUserModal = ({ props }: { props: any }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm" className="w-full">
+        <Button size="sm" className={`w-full bg-[${darkestColor}]`}>
           <UserPlus size={16} className="mr-2" />
           ADD NEW USER
         </Button>
