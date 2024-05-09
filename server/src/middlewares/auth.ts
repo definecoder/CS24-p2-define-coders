@@ -12,7 +12,6 @@ const authChecker = errorWrapper(
     }
     const decoded = verifyToken(token);
     req.user = decoded as JwtPayload;
-    console.log(req.user);
     next();
   }
 );
