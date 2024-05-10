@@ -15,6 +15,15 @@ const getAdminLogs = errorWrapper(
 );
 
 // get all sts manager logs
+
 // get all contractor manager logs
 
-export { getAdminLogs };
+const getContractorManagerLogs = errorWrapper(
+  async (req: Request, res: Response) => {
+    const logs = await prisma.contractorLogs.findMany();
+    res.status(200).json(logs);
+  },
+  { statusCode: 500, message: "Couldn't get contractor manager logs" }
+);
+
+export { getAdminLogs, getContractorManagerLogs };

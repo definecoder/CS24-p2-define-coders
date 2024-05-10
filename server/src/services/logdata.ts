@@ -10,3 +10,12 @@ export const adminLog = async (logType: string, description: string) => {
     },
   });
 };
+
+export const contractorLog = async (logType: string, description: string) => {
+  await prisma.contractorLogs.create({
+    data: {
+      type: logType,
+      description: description,
+    },
+  });
+};

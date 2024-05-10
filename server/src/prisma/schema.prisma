@@ -189,6 +189,10 @@ model Landfill {
     Vehicle   Vehicle[]
 }
 
+// model STSContractorEntry{
+
+// }
+
 model STSVehicleEntry {
     id            String    @id @default(uuid())
     sts           STS       @relation(fields: [stsId], references: [id], onDelete: Cascade)

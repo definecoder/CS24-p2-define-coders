@@ -12,7 +12,9 @@ import CustomError from "../services/CustomError";
 import { randomOTPGenerator, randomPasswordGenerator } from "../services/utils";
 import { sendMail, sendOTPMail } from "../services/mailService";
 import { PERMISSIONS, getPermittedRoleNames } from "../permissions/permissions";
-import { adminLog } from "../services/logdata";
+
+import { adminLog, contractorLog } from "../services/logdata";
+
 import { RoleName } from "../types/rolesTypes";
 
 const prisma = new PrismaClient();
@@ -137,6 +139,7 @@ const createEmployee = errorWrapper(
     );
 
     await adminLog(`Employee Entry`, `Employee ${user.username} added`);
+    await contractorLog(`Employee Entry`, `Employee ${user.username} added`);
 
     res.status(201).json({ user, token });
   },
@@ -154,6 +157,7 @@ const login = errorWrapper(
       include: {
         landfill: true,
         sts: true,
+        Contractor: true,
       },
     });
 
@@ -171,6 +175,18 @@ const login = errorWrapper(
 
     // console.log(roles);
     // console.log(user.roleName);
+
+    adminLog(
+      `Login`,
+      `User ${user.username}, Role: ${user.roleName} logged in`
+    );
+
+    if (user.roleName === RoleName.CONTRACTOR_EMPLOYEE) {
+      contractorLog(
+        `Login`,
+        `User ${user.username}, Role: ${user.roleName} logged in`
+      );
+    }
 
     if (!roles.includes(user.roleName)) {
       throw new CustomError("You are not allowed to login", 403);
