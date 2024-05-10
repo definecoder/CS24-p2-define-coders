@@ -73,6 +73,18 @@ model ContractorLogs {
     updatedAt   DateTime @updatedAt
 }
 
+model Issue {
+    id          String   @id @default(uuid())
+    issueType   String
+    description String
+    latitude    Decimal
+    longitude   Decimal
+    isAnonymous Boolean
+    issuePic    String   @default("https://thumbs.dreamstime.com/b/pile-garbage-home-junk-left-front-house-street-plastic-bags-dumper-truck-to-collect-pile-115303584.jpg")
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
 model AdminLogs {
     id          String   @id @default(uuid())
     type        String
