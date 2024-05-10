@@ -45,7 +45,7 @@ import { DeleteUserModal } from "../modals/userControls/DeleteUserModal";
 import { Copy, EditIcon, Plus } from "lucide-react";
 import { EditUserModal } from "../modals/userControls/EditUserInfoModal";
 import gettAllRoles from "@/hooks/user_data/useGetAllRole";
-import { Contractor, roleList } from "@/data/roles";
+import { Contractor, Employee, roleList } from "@/data/roles";
 import useGetAllSTS from "@/hooks/dataQuery/useGetAllSTS";
 import { EditSTSInfoModal } from "../modals/stsControl/EditSTSInfoModal";
 import { DeleteSTSModal } from "../modals/stsControl/DeleteSTSModal";
@@ -54,7 +54,7 @@ import { StsCreateModal } from "../modals/stsControl/StsModal";
 import useGetAllContractor from "@/hooks/dataQuery/useGetAllContractor";
 
 
-export const columns: ColumnDef<Contractor>[] = [
+export const columns: ColumnDef<Employee>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -141,7 +141,7 @@ export const columns: ColumnDef<Contractor>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const contractor: Contractor = row.original;
+      const employee: Employee = row.original;
 
       return (
         <div>          
@@ -155,8 +155,8 @@ export const columns: ColumnDef<Contractor>[] = [
 ];
 
 export default function EmployeeList() {
-  const [data, setData] = React.useState<Contractor[]>([]);
-  const { fetchAllContractors, contractorData } = useGetAllContractor();
+  const [data, setData] = React.useState<Employee[]>([]);
+  //const { fetchAllContractors, contractorData } = useGetAllContractor();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -165,13 +165,13 @@ export default function EmployeeList() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  React.useEffect(() => {
-    fetchAllContractors();
-  }, []);
+  // React.useEffect(() => {
+  //   fetchAllContractors();
+  // }, []);
 
-  React.useEffect(() => {
-    setData(contractorData);
-  }, [contractorData]);
+  // React.useEffect(() => {
+  //   setData(contractorData);
+  // }, [contractorData]);
 
   const table = useReactTable({
     data,
