@@ -51,6 +51,7 @@ dependencies:
   file_picker: ^8.0.3
   video_player: ^2.8.6
   flick_video_player: ^0.8.0
+  table_calendar: ^3.1.1
 
 dev_dependencies:
   flutter_test:
