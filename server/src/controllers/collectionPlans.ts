@@ -1,21 +1,70 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
+import errorWrapper from "../middlewares/errorWrapper";
 
 const prisma = new PrismaClient();
 
-const addCollectionPlan = async (req: Request, res: Response) => {
-  const payload = req.body;
-  const newCollectionPlan = await prisma.collectionPlan.create({
-    data: payload,
-  });
+const addCollectionPlan = errorWrapper(
+  async (req: Request, res: Response) => {
+    const {
+      areaId,
+      collectionStartTime,
+      durationForCollection,
+      numberOfLaborers,
+      numberOfVans,
+      expectedWaste,
+      routes,
+      employees,
+    } = req.body;
+    const newCollectionPlan = await prisma.collectionPlan.create({
+      data: {
+        areaId,
+        collectionStartTime,
+        durationForCollection,
+        numberOfLaborers,
+        numberOfVans,
+        expectedWaste,
+      },
+    });
 
-  res.status(201).json(newCollectionPlan);
-};
+    const assignments: {}[] = routes.map((route: any, index: number) => {
+      return {
+        routeId: route,
+        employeeId: employees[index],
+      };
+    });
 
-const getAllCollectionPlans = async (req: Request, res: Response) => {
-  const collectionPlans = await prisma.collectionPlan.findMany();
-  res.status(200).json(collectionPlans);
-};
+    assignments.forEach(async (assignment: any) => {
+      await prisma.user.update({
+        where: {
+          id: assignment.employeeId,
+        },
+        data: {
+          routeId: assignment.routeId,
+          collectionPlanId: newCollectionPlan.id,
+        },
+      });
+    });
+
+    res.status(201).json(newCollectionPlan);
+  },
+  { statusCode: 400, message: "Couldn't add collection plan" }
+);
+
+const getAllCollectionPlans = errorWrapper(
+  async (req: Request, res: Response) => {
+    const collectionPlans = await prisma.collectionPlan.findMany({
+      include: {
+        User: {
+          include: {
+            assignedRoute: true,
+          },
+        },
+      },
+    });
+    res.status(200).json(collectionPlans);
+  }
+);
 
 const getCollectionPlansBySTS = async (req: Request, res: Response) => {
   const stsId = req.params.stsId;

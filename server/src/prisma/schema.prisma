@@ -8,9 +8,9 @@ generator client {
 }
 
 model User {
-    id                 String    @id @default(uuid())
+    id                 String          @id @default(uuid())
     username           String
-    email              String    @unique
+    email              String          @unique
     hashedPassword     String
     profileName        String? // full name for contractor manager, and employeee
     profileImage       String?
@@ -19,8 +19,10 @@ model User {
     dateOfHire         DateTime?
     jobTitle           String?
     paymentRatePerHour Decimal?
-    assignedRoute      Route?    @relation(fields: [routeId], references: [id])
+    assignedRoute      Route?          @relation(fields: [routeId], references: [id])
     routeId            String?
+    collectionPlan     CollectionPlan? @relation(fields: [collectionPlanId], references: [id])
+    collectionPlanId   String?
 
     contactNumber String?
 
@@ -64,15 +66,19 @@ model Permission {
 }
 
 model ContractorLogs {
-    id          String @id @default(uuid())
+    id          String   @id @default(uuid())
     type        String
     description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }
 
 model AdminLogs {
-    id          String @id @default(uuid())
+    id          String   @id @default(uuid())
     type        String
     description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }
 
 model Route {
@@ -85,6 +91,9 @@ model Route {
     sts      STS?    @relation(fields: [stsId], references: [id])
     stsId    String?
     emoloyee User[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Area {
@@ -94,6 +103,9 @@ model Area {
     CollectionPlan CollectionPlan[]
     sts            STS?             @relation(fields: [stsId], references: [id])
     stsId          String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model CollectionPlan {
@@ -102,11 +114,15 @@ model CollectionPlan {
     areaId                String
     collectionStartTime   DateTime?
     durationForCollection Decimal?
-    numberOfLaborers      Decimal?
+    numberOfLaborers      Decimal? // 
     numberOfVans          Decimal?
     expectedWaste         Decimal?
     stsId                 String?
     sts                   STS?      @relation(fields: [stsId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    User      User[]
 }
 
 model Contractor {
@@ -126,6 +142,9 @@ model Contractor {
     stsId       String?
 
     manager User[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Vehicle {
