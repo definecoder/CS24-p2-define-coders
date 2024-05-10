@@ -18,6 +18,7 @@ import contractorRoute from "./contractor";
 import logRouter from "./logs";
 import routeAreaRouter from "./routeArea";
 import employeeRoute from "./employee";
+import collectionPlanRoute from "./collectionPlans";
 
 router.use("/auth", authRoute);
 router.use("/users", userRoute);
@@ -37,5 +38,6 @@ router.use("/contractors", contractorRoute);
 router.use("/logs", logRouter);
 router.use("/route-areas", routeAreaRouter);
 router.use("/employees", employeeRoute);
+router.use("/collection-plans", collectionPlanRoute);
 
 export default router;
