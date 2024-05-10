@@ -29,6 +29,12 @@ export const apiRoutes = {
       current: `${baseUrl}/sts-entry/`,
     },
   },
+  contractor: {
+    create: `${baseUrl}/contracts/create`,
+    getAll: `${baseUrl}/contracts`,
+    delete: `${baseUrl}/contracts/`,
+    edit: `${baseUrl}/contracts/`,
+  },
   landfill: {
     getbyId: `${baseUrl}/landfills/`,
     create: `${baseUrl}/landfills/create`,

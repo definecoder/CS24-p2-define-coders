@@ -7,6 +7,8 @@ import AdminRolesManagementPanel from "../../components/dashboard-componenets/ma
 import AdminUserManagementPanel from "../../components/dashboard-componenets/mainContent/systemAdminContents/Users";
 import AdminBillsManagementPanel from "../../components/dashboard-componenets/mainContent/systemAdminContents/Bills";
 import AdminSettingsPanel from "../../components/dashboard-componenets/mainContent/systemAdminContents/Settings";
+import AdminContractsPanel from "@/components/dashboard-componenets/mainContent/systemAdminContents/Contracts";
+import AdminWorkforcePanel from "@/components/dashboard-componenets/mainContent/systemAdminContents/Workforce";
 
 export function getContentsOfAdmin(state: string) {
     switch (state) {
@@ -22,8 +24,12 @@ export function getContentsOfAdmin(state: string) {
         return <AdminUserManagementPanel />;
       case admin + "-Bills":
         return <AdminBillsManagementPanel />;
+      case admin + "-Contracts":
+        return <AdminContractsPanel />;
+      case admin + "-Workforce":
+        return <AdminWorkforcePanel />;
       case admin + "-Settings":
-        return <AdminSettingsPanel />;
+        return <AdminSettingsPanel />;        
       default:
         return InvalidSate();
     }
