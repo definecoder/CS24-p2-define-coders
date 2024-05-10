@@ -19,6 +19,10 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import useGetSTSAvailableVehicles from "@/hooks/vehicles/useSTSAvailableVehicles";
 import { message } from "antd";
+import axios from "axios";
+import { apiRoutes } from "@/data/apiRoutes";
+import { getCookie } from "@/lib/cookieFunctions";
+import { stsId } from "@/data/cookieNames";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -27,7 +31,18 @@ interface DialogWrapperProps {
 export const AddNewAreaModal: React.FC<DialogWrapperProps> = ({ children }) => {
   const [areaName, setAreaName] = useState("");
   const handleSaveChanges = async () => {
-    message.success("Area added successfully!");    
+    axios.post(apiRoutes.area.create, { name:areaName, stsId:getCookie(stsId) }, {
+      headers: {
+        Authorization: `Bearer ${getCookie("token")}`,
+        },
+        }).then((res) => {
+          console.log(res.data);
+          message.success("Area added successfully!");    
+          window.location.reload();
+        }).catch((err) => {
+          console.log(err);
+          message.error("Failed to add area!");
+        });    
   };
 
   return (

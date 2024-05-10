@@ -4,6 +4,7 @@ import errorWrapper from "../middlewares/errorWrapper";
 
 const prisma = new PrismaClient();
 
+
 const addRoute = errorWrapper(
   async (req: Request, res: Response) => {
     const { name, description, stsId } = req.body;
@@ -60,6 +61,7 @@ const addArea = errorWrapper(
   },
   { statusCode: 400, message: "Area not created" }
 );
+
 
 const addRouteToArea = errorWrapper(
   async (req: Request, res: Response) => {

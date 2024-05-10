@@ -19,18 +19,44 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import useGetSTSAvailableVehicles from "@/hooks/vehicles/useSTSAvailableVehicles";
 import { message } from "antd";
+import useGetAllArea from "@/hooks/dataQuery/useGetAllArea";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import axios from "axios";
+import { apiRoutes } from "@/data/apiRoutes";
+import { stsId } from "@/data/cookieNames";
+import { getCookie } from "@/lib/cookieFunctions";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
 }
 
 export const AddNewRouteModal: React.FC<DialogWrapperProps> = ({ children }) => {
-  const [areaName, setAreaName] = useState("");
+  const [areaId, setAreaId] = useState("");
   const [RouteName, setRouteName] = useState("");
   const [RouteDetails, setRouteDetails] = useState("");
-  const handleSaveChanges = async () => {
-    message.success(JSON.stringify({areaName, RouteName, RouteDetails}));
+  const { areaData, fetchAllArea } = useGetAllArea();
+  const handleSaveChanges = async () => {    
+    axios.post(apiRoutes.route.create, { name:RouteName, stsId:getCookie(stsId), description: RouteDetails, areaId: areaId }, {
+      headers: {
+        Authorization: `Bearer ${getCookie("token")}`,
+        },
+        }).then((res) => {
+          console.log(res.data);
+          message.success("Area added successfully!");    
+          window.location.reload();
+        }).catch((err) => {
+          console.log(err);
+          message.error("Failed to add area!");
+        });    
   };
+
+  useEffect(() => {
+    fetchAllArea();
+  }, []);
+
+  useEffect(() => {
+    console.log(areaData);
+  }, [areaData]);
 
   return (
     <Dialog>
@@ -40,9 +66,9 @@ export const AddNewRouteModal: React.FC<DialogWrapperProps> = ({ children }) => 
       </DialogTrigger>
       <DialogContent className="w-[825px]">
         <DialogHeader>
-          <DialogTitle>Add New Area</DialogTitle>
+          <DialogTitle>Add New Route</DialogTitle>
           <DialogDescription>
-            Add new area here. Click save when you're done.
+            Add new route here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -52,27 +78,39 @@ export const AddNewRouteModal: React.FC<DialogWrapperProps> = ({ children }) => 
             </Label>
             <Input
               id="vehicleNumber"
-              placeholder="Area Name"
+              placeholder="Enter Route Name"
               value={RouteName}
               onChange={(e) => setRouteName(e.target.value)}
               className="col-span-3"
             />
           </div>
         </div>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-flow-row grid-cols-4 items-center gap-4">
-            <Label htmlFor="vehicleNumber" className="text-right col-span-1">
-              Area Name
-            </Label>
-            <Input
-              id="vehicleNumber"
-              placeholder="Area Name"
-              value={areaName}
-              onChange={(e) => setAreaName(e.target.value)}
-              className="col-span-3"
-            />
-          </div>
-        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="role" className="text-right">
+                Select Area
+              </Label>
+              <Select
+                value={areaId}
+                onValueChange={(e) => setAreaId(e)}
+              >
+                <SelectTrigger className="col-span-3">
+                  <SelectValue
+                    id="role"
+                    placeholder="Select area of the route"
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Roles</SelectLabel>
+                    {areaData?.map((area: any, index) => (
+                      <SelectItem key={index} value={area.id}>
+                        {area.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
         <div className="grid gap-4 py-4">
           <div className="grid grid-flow-row grid-cols-4 items-center gap-4">
             <Label htmlFor="vehicleNumber" className="text-right col-span-1">
@@ -80,7 +118,7 @@ export const AddNewRouteModal: React.FC<DialogWrapperProps> = ({ children }) => 
             </Label>
             <Input
               id="vehicleNumber"
-              placeholder="Area Name"
+              placeholder="Enter Route Details"
               value={RouteDetails}
               onChange={(e) => setRouteDetails(e.target.value)}
               className="col-span-3"
