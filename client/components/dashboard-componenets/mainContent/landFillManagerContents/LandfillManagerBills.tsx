@@ -3,7 +3,6 @@ import { UserRoundCog, Cog } from "lucide-react";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import PendingBillList from "@/components/dataTables/PendingBillList";
 import CompletedBillList from "@/components/dataTables/CompletedBillList";
-import { darkestColor } from "@/data/constant";
 
 export default function LandfillManagerBillsManagementPanel() {
     return (
@@ -12,7 +11,7 @@ export default function LandfillManagerBillsManagementPanel() {
         <h1 className="text-lg font-semibold md:text-2xl">Bills</h1>
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
-          <Button size="sm" className={`w-full bg-[${darkestColor}]`}>
+          <Button size="sm" className={`w-full bg-[#1A4D2E]`}>
             <Cog size={16} className="mr-2" />
             CONFIGURE BILL RATES
           </Button>          

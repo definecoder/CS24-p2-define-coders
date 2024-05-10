@@ -3,7 +3,6 @@ import Link from "next/link";
 import ThemeChanger from "./DarkSwitch";
 import Image from "next/image";
 import { Disclosure } from "@headlessui/react";
-import { darkestColor } from "@/data/constant";
 
 const Navbar = () => {
   const navigation = ["Features", "Deliverables", "Team"];
@@ -96,7 +95,7 @@ const Navbar = () => {
         <div className="hidden mr-3 space-x-4 lg:flex nav__item">
           <Link
             href="/auth/login"
-            className={`px-6 py-2 text-white bg-[${darkestColor}] rounded-md md:ml-5 font-bold`}
+            className={`px-6 py-2 text-white bg-[#1A4D2E] rounded-md md:ml-5 font-bold`}
           >
             Log In
           </Link>

@@ -11,7 +11,6 @@ import LanfFillUpcomingVehiclesInDashboard from "@/components/dataTables/LandFil
 import STSVehicleList from "@/components/dataTables/StsVehicleList";
 import STSVehicleHistoryList from "@/components/dataTables/STSVehicleHistoryList";
 import { UpdateStsStorage } from "@/components/modals/stsControl/updateSTSStorage";
-import { darkestColor } from "@/data/constant";
 
 export default function STSManagerDashboard() {
   const { getstsDatabyID, stsData } = useGetstsDatabyID();
@@ -30,7 +29,7 @@ export default function STSManagerDashboard() {
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
         <StsVehicleEntryModal>
-            <Button size="sm" className={`w-full bg-black text-white bg-[${darkestColor}]`}>
+            <Button size="sm" className={`w-full bg-black text-white bg-[#1A4D2E]`}>
               <Truck size={16} className="mr-2 " />
               OUTGOING DUMP ENTRY
             </Button>
@@ -65,12 +64,12 @@ export default function STSManagerDashboard() {
                       name:
                         stsData?.graphData?.emptyPercentage + "% EMPTY",
                       value: stsData?.graphData?.empty,
-                      color: darkestColor + "80",
+                      color: "#1A4D2E" + "80",
                     },
                     {
                       name: stsData?.graphData?.fullPercentage + "% FULL",
                       value: (stsData?.graphData?.full),
-                      color: darkestColor,
+                      color: "#1A4D2E",
                     },
                   ]}
                   withTooltip

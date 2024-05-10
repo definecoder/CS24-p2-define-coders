@@ -20,7 +20,6 @@ import useGetUserProfile from "@/hooks/user_data/useGetUserProfile";
 import useUpdateSts from "@/hooks/StsDashboard/useUpdateSts";
 import useLandFillStorageEdit from "@/hooks/landFillDashboard/useLandFillStorageEdit";
 import { message } from "antd";
-import { darkestColor } from "@/data/constant";
 
 
 type User = {
@@ -73,7 +72,7 @@ export const UpdateLandfillStorageModal = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>        
-        <Button variant="ghost" size="sm" className={`text-md border shadow-lg text-white p-4 bg-[${darkestColor}]`}>            
+        <Button variant="ghost" size="sm" className={`text-md border shadow-lg text-white p-4 bg-[#1A4D2E]`}>            
             OUTGOING DUMP ENTRY
             <LogOut size={20} className="ml-4" />
           </Button>

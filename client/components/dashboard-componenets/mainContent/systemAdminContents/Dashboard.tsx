@@ -8,7 +8,6 @@ import UserListTable from "@/components/dataTables/UserList";
 import STSListTable from "@/components/dataTables/STSList";
 import LandFillListTable from "@/components/dataTables/LandFillList";
 import AllVehicleList from "@/components/dataTables/AllVehicleList";
-import { darkestColor, lightestColor } from "@/data/constant";
 
 
 export default function AdminDashboard() {
@@ -22,7 +21,7 @@ export default function AdminDashboard() {
             <Button
               variant="outline"
               size="sm"
-              className={`w-full bg-[${darkestColor}] text-white flex item-center`}
+              className={`w-full bg-[#1A4D2E] text-white flex item-center`}
             >              
               <Trash size={14} strokeWidth={3} className="mr-2" />
               ADD NEW STS
@@ -32,7 +31,7 @@ export default function AdminDashboard() {
             <Button
               variant="outline"
               size="sm"
-              className={`w-full bg-[${darkestColor}] text-white flex item-center`}
+              className={`w-full bg-[#1A4D2E] text-white flex item-center`}
             >
               <Warehouse size={16} className="mr-2" />
               ADD NEW LANDFILL
@@ -42,7 +41,7 @@ export default function AdminDashboard() {
             <Button
               variant="outline"
               size="sm"
-              className={`w-full bg-[${darkestColor}] text-white`}
+              className={`w-full bg-[#1A4D2E] text-white`}
             >
               <Truck size={16} className="mr-2" />
               ADD NEW VEHICLE
@@ -53,7 +52,7 @@ export default function AdminDashboard() {
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-2 md:gap-4 w-full md:h-full max-h-max">
           <div className="col-span-1 min-h-48">
-            <EmptyFillContainer className={`bg-[${lightestColor}]`}><STSListTable /></EmptyFillContainer>
+            <EmptyFillContainer className={`bg-[#F5EFE6]`}><STSListTable /></EmptyFillContainer>
           </div>
           <div className="col-span-1 min-h-48">
             <EmptyFillContainer><LandFillListTable /></EmptyFillContainer>

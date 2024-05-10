@@ -51,7 +51,6 @@ import { get } from "http";
 import { admin, landfillManager, stsManager } from "@/data/roles";
 import axios from "axios";
 import { message } from "antd";
-import { darkestColor } from "@/data/constant";
 
 function logout(router: AppRouterInstance) {
   axios.post(
@@ -109,7 +108,7 @@ export default function MainSectionHeader({
         </form>
       </div>
 
-      <div className={`hidden xl:block text-[${darkestColor}]`}>
+      <div className={`hidden xl:block text-[#1A4D2E]`}>
         {getCookie(curActive)?.startsWith(stsManager) &&
           (getCookie(stsName) ? (
             <b>

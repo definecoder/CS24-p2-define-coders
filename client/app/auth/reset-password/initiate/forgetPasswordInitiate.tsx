@@ -10,7 +10,6 @@ import useForgetPassInitiate from "@/hooks/auth/useForgetPassInitiate";
 import { useContext, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { message } from "antd";
-import { darkestColor } from "@/data/constant";
 
 function ForgetPassInitiateForm() {
   const { userEmail, setUserEmail, initiate } = useForgetPassInitiate();
@@ -44,7 +43,7 @@ function ForgetPassInitiateForm() {
           />
         </div>
         <ReCAPTCHA sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!} className="mx-auto" onChange={setIsCaptchaVerified} />
-        <Button type="submit" className={`w-full bg-[${darkestColor}]`}>
+        <Button type="submit" className={`w-full bg-[#1A4D2E]`}>
           Send Reset Password Link
         </Button>
       </form>

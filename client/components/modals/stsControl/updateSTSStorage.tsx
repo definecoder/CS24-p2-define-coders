@@ -19,7 +19,6 @@ import useEditProfileInfo from "@/hooks/user_data/useEditProfileInfo";
 import useGetUserProfile from "@/hooks/user_data/useGetUserProfile";
 import useUpdateSts from "@/hooks/StsDashboard/useUpdateSts";
 import { message } from "antd";
-import { darkestColor } from "@/data/constant";
 
 type User = {
   id: string;
@@ -63,7 +62,7 @@ export const UpdateStsStorage = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm" className={`w-full bg-[${darkestColor}]`}>
+        <Button size="sm" className={`w-full bg-[#1A4D2E]`}>
           <ArrowDown strokeWidth={3} className="py-1 mr-1 ml-[-5px]" />
           INCOMING DUMP ENTRY
         </Button>

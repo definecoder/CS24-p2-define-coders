@@ -18,7 +18,6 @@ import { getCookie } from "@/lib/cookieFunctions";
 import { admin } from "@/data/roles";
 import { Button } from "../ui/button";
 import { baseUrl } from "@/data/apiRoutes";
-import { darkestColor } from "@/data/constant";
 
 const dummyDataArray: ScheduleEntry[] = [
   {
@@ -158,7 +157,7 @@ export function BillBySTSId({ stsId, date }: { stsId: string; date: string }) {
     <>
       {scheduleData[0] ? (
         <div className="flex flex-col items-center justify-center w-full text-center">
-          <h1 className={`font-bold text-2xl text-[${darkestColor}] mb-[-7px]`}>EcoSync</h1>
+          <h1 className={`font-bold text-2xl text-[#1A4D2E] mb-[-7px]`}>EcoSync</h1>
           <h6 className="italic text-md mt-2">Date: {date} </h6>
           <h2 className="font-bold text-2xl"> SCHEDULE FOR WASTE TRANSFER </h2>
           <h3 className="font-semibold text-lg mb-4"> {stsName} </h3>
@@ -210,7 +209,7 @@ export function BillBySTSId({ stsId, date }: { stsId: string; date: string }) {
           {getCookie(role) === admin && (
             <Button 
               onClick={generateSchedule}
-              className={`bg-[${darkestColor}]`}
+              className={`bg-[#1A4D2E]`}
             >
               {" "}
               Generate Schedule{" "}

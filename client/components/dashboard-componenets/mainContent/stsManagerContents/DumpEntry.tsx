@@ -14,7 +14,6 @@ import GetStsCoordinateForRoute from "@/components/maps/getStsCoordinateForRoute
 import { UpdateStsStorage } from "@/components/modals/stsControl/updateSTSStorage";
 import VehicleReleaseRoute from "@/components/maps/VehicleReleaseRoute";
 import GetVehicleCoordinateRoute from "@/components/maps/getVehicleCoordinate";
-import { darkestColor } from "@/data/constant";
 
 export default function STSManagerDumpEntries() {
   const { getstsDatabyID, stsData } = useGetstsDatabyID();
@@ -36,7 +35,7 @@ export default function STSManagerDumpEntries() {
           <StsVehicleEntryModal>
             <Button
               size="sm"
-              className={`w-full bg-black text-white bg-[${darkestColor}]`}
+              className={`w-full text-white bg-[#1A4D2E]`}
             >
               <Truck size={16} className="mr-2" />
               OUTGOING DUMP ENTRY

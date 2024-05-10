@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { darkestColor } from "@/data/constant";
 import useChangePass from "@/hooks/auth/useChangePass";
 import { setCookie } from "@/lib/cookieFunctions";
 import { message } from "antd";
@@ -95,7 +94,7 @@ export default function ChangePassword() {
           </form>
         </CardContent>
         <CardFooter>
-          <Button type="submit" onClick={submitForm} className={`w-full bg-[${darkestColor}]`}>
+          <Button type="submit" onClick={submitForm} className={`w-full bg-[#1A4D2E]`}>
             Change Password
           </Button>
         </CardFooter>

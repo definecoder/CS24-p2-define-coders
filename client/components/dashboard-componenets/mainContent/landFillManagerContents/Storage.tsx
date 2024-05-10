@@ -12,7 +12,6 @@ import { AreaChart, PieChart } from "@mantine/charts";
 import { landfillId } from "@/data/cookieNames";
 import useGetLandfillDatabyID from "@/hooks/landFillDashboard/getLandFillDataById";
 import { getCookie } from "@/lib/cookieFunctions";
-import { darkerColor, darkestColor } from "@/data/constant";
 
 export default function LandfillManagerStorageData() {
   const { getAllSTS, stsCoordinate, storagePercentage } = useGetAllSTS();
@@ -57,8 +56,8 @@ export default function LandfillManagerStorageData() {
               {(landfillData?.graphData?.empty !== undefined && landfillData?.graphData?.full !== undefined) ? <PieChart
                 // labels={["30% EMPTY", "70% FULL"]}
                 data={[
-                  { name: (landfillData?.graphData?.emptyPercentage + "% EMPTY"), value: (landfillData?.graphData?.empty), color: darkerColor + "80"},
-                  { name: (landfillData?.graphData?.fullPercentage + "% FULL") , value: (landfillData?.graphData?.full) , color: darkestColor },
+                  { name: (landfillData?.graphData?.emptyPercentage + "% EMPTY"), value: (landfillData?.graphData?.empty), color: "#4F6F52" + "80"},
+                  { name: (landfillData?.graphData?.fullPercentage + "% FULL") , value: (landfillData?.graphData?.full) , color: "#1A4D2E" },
                 ]}
                 withTooltip
                 // background={["rgb(121, 121, 121)", "rgb(0, 0, 0)"]}
@@ -107,10 +106,10 @@ export default function LandfillManagerStorageData() {
                   },
                 ]}
                 dataKey="date"
-                series={[{ name: "totalWeight", color: darkestColor}]}
+                series={[{ name: "totalWeight", color: "#1A4D2E"}]}
                 curveType="linear"
                 connectNulls
-                color= {darkestColor}
+                color= {"#1A4D2E"}
               />
             </EmptyFillContainer>
           </div>
@@ -130,13 +129,13 @@ export default function LandfillManagerStorageData() {
                 ]}
                 data={[90, 65, 45, 85, 50, 80, 85]}
                 backgroundColor={[
-                  darkestColor + "95",
-                  darkestColor + "75",
-                  darkestColor + "45",
-                  darkestColor + "65",
-                  darkestColor + "55",
-                  darkestColor + "65",
-                  darkestColor + "70",
+                  "#1A4D2E" + "95",
+                  "#1A4D2E" + "75",
+                  "#1A4D2E" + "45",
+                  "#1A4D2E" + "65",
+                  "#1A4D2E" + "55",
+                  "#1A4D2E" + "65",
+                  "#1A4D2E" + "70",
                 ]}
                 borderColor={[
                   "rgb(0, 0, 0)",

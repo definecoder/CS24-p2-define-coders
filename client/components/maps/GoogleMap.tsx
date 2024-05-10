@@ -11,7 +11,6 @@ import { threshold } from "@/hooks/functions/threshold";
 import { Button } from "../ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { RefreshCcw } from "lucide-react";
-import { darkestColor } from "@/data/constant";
 
 const MapContainerStyle = {
   width: "100%",
@@ -54,7 +53,7 @@ const GoogleMapComponent: React.FC<MapProps> = ({ coordinates, dumpFills }) => {
       <div className="flex justify-between mb-2 mr-2 hover:p">
         <h1 className="text-xl font-bold"> STS DUMP LOAD HEATMAP </h1>
         <Button
-          className={`flex items-center justify-center hover:bg-slate-700 hover:scale-110 text-white bg-[${darkestColor}] rounded-md px-3 py-1`}
+          className={`flex items-center justify-center hover:bg-slate-700 hover:scale-110 text-white bg-[#1A4D2E] rounded-md px-3 py-1`}
           onClick={() => {
             window.location.reload();
           }}

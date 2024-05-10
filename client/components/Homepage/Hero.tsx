@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Container from "./Container";
 import { gitRepo, zipLink } from "@/data/externalResources";
-import { darkestColor } from "@/data/constant";
 
 const Hero = () => {
   return (
@@ -25,7 +24,7 @@ const Hero = () => {
                 href={zipLink}
                 target="_blank"
                 rel="noopener"
-                className={`px-8 py-4 text-lg font-medium text-center text-white bg-[${darkestColor}] rounded-md `}
+                className={`px-8 py-4 text-lg font-medium text-center text-white bg-[#1A4D2E] rounded-md `}
               >
                 Project Zip File
               </a>

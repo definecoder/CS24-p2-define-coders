@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { darkestColor } from "@/data/constant";
 
 export const SidbarFooter = () => {
     return (
@@ -13,7 +12,7 @@ export const SidbarFooter = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-            <Button size="sm" className={`w-full bg-[${darkestColor}]`}>
+            <Button size="sm" className={`w-full bg-[#1A4D2E]`}>
               Our Repo link
             </Button>
           </CardContent>

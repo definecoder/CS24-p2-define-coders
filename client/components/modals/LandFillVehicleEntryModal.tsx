@@ -39,7 +39,6 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { message } from "antd";
-import { darkestColor } from "@/data/constant";
 
 
 type Vehicle = {
@@ -98,7 +97,7 @@ const handleDateChange = (date: Date) => {
       <DialogTrigger asChild>
         <Button title={"Vehicle " + vehicleInfo.vehicleNumber + " has arrived?"} className="px-3 py-1 bg-black text-white flex gap-2">
           {/* <div className="flex gap-2 mr-4 px-2 py-1 rounded-sm bg-card shadow-md"><Truck className="h-4 w-4" /> ENTRY</div> */}
-          <Truck className={`h-4 w-4 bg-[${darkestColor}]`} /> ENTRY
+          <Truck className={`h-4 w-4 bg-[#1A4D2E]`} /> ENTRY
         </Button>        
       </DialogTrigger>
       <DialogContent className="max-w-[425px]">

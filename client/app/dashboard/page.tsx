@@ -10,7 +10,6 @@ import { getCookie } from "@/lib/cookieFunctions";
 import { curActive, role, stsId, username, landfillId } from "@/data/cookieNames";
 import { set } from "react-hook-form";
 import AppLogo from "../auth/login/AppLogo";
-import { darkestColor } from "@/data/constant";
 
 export default function Dashboard() {
   const [curRole, setCurrentRole] = useState("");
@@ -44,7 +43,7 @@ export default function Dashboard() {
               </h1> 
               <button
                 onClick={() => router.push("/auth/login")}
-                className={`bg-[${darkestColor}] text-white font-semibold px-4 py-2 rounded-md`}
+                className={`bg-[#1A4D2E] text-white font-semibold px-4 py-2 rounded-md`}
               >
                 Logout
               </button>                                

@@ -9,7 +9,6 @@ import useGetLandfillDatabyID from "@/hooks/landFillDashboard/getLandFillDataByI
 import { getCookie } from "@/lib/cookieFunctions";
 import { useEffect } from "react";
 import { AreaChart, PieChart } from "@mantine/charts";
-import { darkerColor, darkestColor, lighterColor } from "@/data/constant";
 
 export default function LandfillManagerDashboard() {
   const { getLandfillDatabyID, landfillData } = useGetLandfillDatabyID();
@@ -49,12 +48,12 @@ export default function LandfillManagerDashboard() {
                       name:
                         landfillData?.graphData?.emptyPercentage + "% EMPTY",
                       value: landfillData?.graphData?.empty,
-                      color: darkerColor + "80",
+                      color: "#4F6F52" + "80",
                     },
                     {
                       name: landfillData?.graphData?.fullPercentage + "% FULL",
                       value: landfillData?.graphData?.full,
-                      color: darkestColor,
+                      color: "#1A4D2E",
                     },
                   ]}
                   withTooltip
