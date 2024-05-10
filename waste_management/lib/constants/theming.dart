@@ -4,7 +4,7 @@ const kBackgroundColor =  Color.fromRGBO(232, 223, 202, 1);
 const kPrimaryColor = Color.fromRGBO(26, 77, 46, 1);
 const ksecondaryHeaderColor = Color.fromRGBO(245, 239, 230, 1);
 const kPrimaryLightColor = Color.fromRGBO(79, 111, 82, 1);
-String uri= 'http://192.168.0.114:8585';
+String uri= 'http://10.42.0.238:8585'; //10.42.0.107
 
 const appBarGradient = LinearGradient(
   colors: [

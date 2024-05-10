@@ -41,6 +41,8 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   pinput: ^4.0.0
   google_maps_flutter: ^2.6.1
+  socket_io_client: ^2.0.3+1
+  get: ^4.6.6
 
 dev_dependencies:
   flutter_test:
