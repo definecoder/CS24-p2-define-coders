@@ -15,6 +15,7 @@ import tripRoute from "./trip";
 import scheduleRoute from "./schedule";
 import authChecker from "../middlewares/auth";
 import contractorRoute from "./contractor";
+import logRouter from "./logs";
 
 router.use("/auth", authRoute);
 router.use("/users", userRoute);
@@ -31,5 +32,6 @@ router.use("/schedules", scheduleRoute);
 
 // auth checker needed
 router.use("/contractors", contractorRoute);
+router.use("/logs", logRouter);
 
 export default router;

@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  createEmployee,
   createManager,
   createUser,
   login,
@@ -15,6 +16,7 @@ import { PERMISSIONS } from "../permissions/permissions";
 
 const router = express.Router();
 
+router.route("/createempolyee").post(createEmployee);
 router.route("/createmanager").post(authChecker, createManager);
 router
   .route("/create")

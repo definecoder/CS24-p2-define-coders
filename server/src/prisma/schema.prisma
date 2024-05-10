@@ -8,13 +8,19 @@ generator client {
 }
 
 model User {
-    id             String  @id @default(uuid())
-    username       String
-    email          String  @unique
-    hashedPassword String
-    profileName    String? // full name for contractor manager
-    profileImage   String?
-    accessLevel    String?
+    id                 String    @id @default(uuid())
+    username           String
+    email              String    @unique
+    hashedPassword     String
+    profileName        String? // full name for contractor manager, and employeee
+    profileImage       String?
+    accessLevel        String?
+    dateOfBirth        DateTime?
+    dateOfHire         DateTime?
+    jobTitle           String?
+    paymentRatePerHour Decimal?
+    assignedRoute      Route?    @relation(fields: [routeId], references: [id])
+    routeId            String?
 
     contactNumber String?
 
@@ -67,6 +73,33 @@ model AdminLogs {
     id          String @id @default(uuid())
     type        String
     description String
+}
+
+model Route {
+    id          String  @id @default(uuid())
+    name        String
+    description String?
+    Area        Area?   @relation(fields: [areaId], references: [id])
+    areaId      String?
+    User        User[]
+}
+
+model Area {
+    id             String           @id @default(uuid())
+    name           String
+    routes         Route[]
+    CollectionPlan CollectionPlan[]
+}
+
+model CollectionPlan {
+    id                    String    @id @default(uuid())
+    area                  Area      @relation(fields: [areaId], references: [id])
+    areaId                String
+    collectionStartTime   DateTime?
+    durationForCollection Decimal?
+    numberOfLaborers      Decimal?
+    numberOfVans          Decimal?
+    expectedWaste         Decimal?
 }
 
 model Contractor {

@@ -90,6 +90,59 @@ const createManager = errorWrapper(
   { statusCode: 500, message: `Couldn't create user` }
 );
 
+const createEmployee = errorWrapper(
+  async (req: Request, res: Response) => {
+    const {
+      username,
+      password,
+      email,
+      roleName,
+      contractorId,
+      dateOfBirth,
+      dateOfHire,
+      jobTitle,
+      paymentRatePerHour,
+      routeId,
+    } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        username,
+        email,
+        hashedPassword,
+        roleName,
+        dateOfBirth,
+        dateOfHire,
+        jobTitle,
+        paymentRatePerHour,
+        routeId,
+        contractorId,
+      },
+    });
+
+    const token = generateToken(
+      {
+        id: user.id,
+        role: user.roleName,
+      },
+      "10h"
+    );
+
+    sendMail(
+      user,
+      `Welcome To EcoSync!`,
+      `Your account has been created by Contractor Manager! Here are the Credentials:`,
+      `username: ${username}<br>email: ${email}<br> password: ${password}<br><br>Regards,<br>EcoSync Team`
+    );
+
+    await adminLog(`Employee Entry`, `Employee ${user.username} added`);
+
+    res.status(201).json({ user, token });
+  },
+  { statusCode: 500, message: `Couldn't create user` }
+);
+
 const login = errorWrapper(
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
@@ -257,6 +310,7 @@ const resetPasswordConfirm = errorWrapper(
 export {
   createUser,
   createManager,
+  createEmployee,
   login,
   logout,
   resetPasswordInit,

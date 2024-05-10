@@ -25,6 +25,14 @@ const roleData: Prisma.RoleCreateInput[] = [
     name: RoleName.UNASSIGNED,
     description: "Unassigned Role",
   },
+  {
+    name: RoleName.CONTRACTOR_MANAGER,
+    description: "Contractor Manager Role",
+  },
+  {
+    name: RoleName.CONTRACTOR_EMPLOYEE,
+    description: "Contractor Employee Role",
+  },
 ];
 
 const permissionData: Prisma.PermissionCreateInput[] = [
@@ -150,6 +158,40 @@ const roleAssignments = [
   {
     roleName: RoleName.UNASSIGNED,
     permissions: [PERMISSIONS.CHANGE_PASSWORD],
+  },
+];
+
+const routeData: Prisma.RouteCreateInput[] = [
+  {
+    id: "route1",
+    name: "Mohakhali to Amin Bazar",
+    description: "Route from Mohakhali to Amin Bazar",
+  },
+  // add 5 more routes
+  {
+    id: "route2",
+    name: "Gulshan to Amin Bazar",
+    description: "Route from Gulshan to Amin Bazar",
+  },
+  {
+    id: "route3",
+    name: "Bonani to Amin Bazar",
+    description: "Route from Bonani to Amin Bazar",
+  },
+  {
+    id: "route4",
+    name: "Badda to Amin Bazar",
+    description: "Route from Badda to Amin Bazar",
+  },
+  {
+    id: "route5",
+    name: "Jatrabari to Amin Bazar",
+    description: "Route from Jatrabari to Amin Bazar",
+  },
+  {
+    id: "route6",
+    name: "Mohakhali to Gulshan",
+    description: "Route from Mohakhali to Gulshan",
   },
 ];
 
@@ -527,6 +569,14 @@ async function main() {
       });
       console.log(role);
     }
+  }
+
+  console.log("Seeding routes...");
+  for (const route of routeData) {
+    const newRoute = await prisma.route.create({
+      data: route,
+    });
+    console.log(newRoute);
   }
 
   console.log("Seeding users...");
