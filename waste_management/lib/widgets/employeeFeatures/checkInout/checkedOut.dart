@@ -4,6 +4,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
 import 'package:waste_management/constants/theming.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkOutConfirm.dart';
+import 'package:waste_management/widgets/employeeFeatures/checkInout/checkin.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/confirmPage.dart';
 
 class CheckOut extends StatefulWidget {

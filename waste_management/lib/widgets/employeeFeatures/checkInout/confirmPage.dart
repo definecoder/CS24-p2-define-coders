@@ -4,6 +4,7 @@ import 'package:waste_management/constants/theming.dart';
 import 'dart:async';
 
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkin.dart';
+import 'package:waste_management/widgets/employeeFeatures/taskList/taskListShow.dart';
 
 class ConfirmationPage extends StatefulWidget {
   const ConfirmationPage({super.key});
@@ -23,7 +24,7 @@ class _ConfirmationPageState extends State<ConfirmationPage>
     Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const CheckIn())
+          MaterialPageRoute(builder: (context) => const TaskListView())
       );
     });
   }

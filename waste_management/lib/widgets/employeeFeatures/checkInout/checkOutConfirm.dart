@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:waste_management/screens/homescreen/adminHomeScreen.dart';
 import 'package:waste_management/screens/welcome/loginscreen.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkedOut.dart';
+import 'package:waste_management/widgets/employeeFeatures/checkInout/checkin.dart';
 
 
 class CheckoutConfirm extends StatefulWidget {
@@ -22,7 +24,7 @@ class _CheckoutConfirmState extends State<CheckoutConfirm> {
     Timer(Duration(seconds: 6), () {
       Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const CheckOut())
+          MaterialPageRoute(builder: (context) => const HomeScreen())
       );
     });
 

@@ -5,6 +5,7 @@ import 'package:waste_management/screens/issueScreen/issueScreen.dart';
 import 'package:waste_management/screens/mapscreen/livelocation.dart';
 import 'package:waste_management/screens/welcome/splashscreen.dart';
 import 'package:provider/provider.dart';
+import 'package:waste_management/widgets/citizenFeatures/Forum/forumDashboard.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkedOut.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkin.dart';
 import 'package:waste_management/widgets/employeeFeatures/taskList/taskListShow.dart';
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
-        home: TaskListView()//CheckOut()//IssuePage()//const SplashScreen()
+        home:const SplashScreen() //ForumDashboard()//TaskListView()//CheckOut()//IssuePage()//
     );
   }
 }

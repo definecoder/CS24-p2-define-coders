@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 
 import 'package:waste_management/constants/theming.dart';
 import 'package:waste_management/models/employeTaskModel.dart';
+import 'package:waste_management/widgets/employeeFeatures/checkInout/checkedOut.dart';
 
 class TaskListView extends StatefulWidget {
   const TaskListView({super.key});
@@ -126,7 +127,7 @@ class _TaskListViewState extends State<TaskListView> {
                   Icons.search,
                   color: ksecondaryHeaderColor,
                 ),
-                fillColor: kPrimaryLightColor,
+                fillColor: const Color.fromRGBO(79, 111, 82, 0.7),
                 filled: true,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -209,7 +210,21 @@ class _TaskListViewState extends State<TaskListView> {
           ],
         ),
       ),
-
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your action here
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true, // Make it cover full screen
+            builder: (BuildContext context) {
+              return CheckOut();
+            },
+          );
+        },
+        child: Icon(Icons.add, color: ksecondaryHeaderColor,),
+        backgroundColor: kPrimaryColor,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 
