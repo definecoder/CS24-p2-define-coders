@@ -5,6 +5,7 @@ export const username='username';
 export const stsId='stsId';
 export const curActive = "curActivee";
 export const landfillId = "landfillId";
+export const contractorId = "contractorId";
 export const landfillName = "landfillName";
 export const companyName = "companyName";
 export const stsName = "stsName";

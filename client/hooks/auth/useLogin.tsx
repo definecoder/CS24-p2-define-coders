@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {admin, landfillManager, stsManager, unassigned} from '@/data/roles';
 import { setCookie } from '@/lib/cookieFunctions';
 import axios, { Axios, AxiosError } from 'axios';
-import { jwtToken, role , uid , stsId, username, curActive, landfillId, landfillName, stsName} from '@/data/cookieNames';
+import { jwtToken, role , uid , stsId, username, curActive, landfillId, landfillName, stsName, contractorId} from '@/data/cookieNames';
 import { apiRoutes } from "@/data/apiRoutes";
 import { message } from 'antd';
 
@@ -41,6 +41,7 @@ export default function useLogin() {
 
         setCookie(landfillName, res.data?.user?.landfill?.name, 1);
         setCookie(stsName, res.data?.user?.sts?.name, 1);
+        setCookie(contractorId, res.data?.user?.contractorId, 1);
         //setCookie(companyName, res.data?.user?.company?.name, 1);
 
         message.success("Login successful! Welcome to the EcoSync, " + res.data.user.username + "!");

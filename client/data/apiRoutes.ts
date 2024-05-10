@@ -41,6 +41,12 @@ export const apiRoutes = {
       edit: `${baseUrl}/contractor-managers/`,
     },
   },
+  employee: {
+    create: `${baseUrl}/auth/createempolyee`,
+    getAll: `${baseUrl}/employees`,
+    delete: `${baseUrl}/employees/`,
+    edit: `${baseUrl}/employees/`,
+  },
   landfill: {
     getbyId: `${baseUrl}/landfills/`,
     create: `${baseUrl}/landfills/create`,
