@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import errorWrapper from "../middlewares/errorWrapper";
-import { PrismaClient, User } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import {
   generateToken,
@@ -212,6 +212,19 @@ const logout = errorWrapper(
     const token = getToken(req) || "no token";
     invalidateToken(token);
     console.log("Logged Out Successfully");
+
+    if (req.user?.roleName === RoleName.CONTRACTOR_EMPLOYEE) {
+      await contractorLog(
+        `Logout`,
+        `User ${req.user.username}, Role: ${req.user.roleName} logged out`
+      );
+    }
+
+    await adminLog(
+      `Logout`,
+      `User ${req.user?.username}, Role: ${req.user?.roleName} logged out`
+    );
+
     res.json({ msg: "Logged Out Successfully" });
   },
   { statusCode: 500, message: `Logout Failed` }
