@@ -26,7 +26,7 @@ interface DialogWrapperProps {
   children: React.ReactNode;
 }
 
-export const AddNewContractorManager: React.FC<DialogWrapperProps> = ({
+export const AddNewCleaner: React.FC<DialogWrapperProps> = ({
   children,
 }) => {
   const [username, setUsername] = useState("");
@@ -51,9 +51,9 @@ export const AddNewContractorManager: React.FC<DialogWrapperProps> = ({
     };
 
     console.log(data);
-    (await createContractorManager(data))
-      ? message.success("Contractor Manager added successfully")
-      : message.error("Contractor Manager data invalid");
+    // (await createContractorManager(data))
+    //   ? message.success("Contractor Manager added successfully")
+    //   : message.error("Contractor Manager data invalid");
   };
 
   return (
@@ -61,15 +61,15 @@ export const AddNewContractorManager: React.FC<DialogWrapperProps> = ({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="w-[825px]">
         <DialogHeader>
-          <DialogTitle>ADD NEW CONTRACTOR MANAGER</DialogTitle>
+          <DialogTitle>ADD NEW CLEANER</DialogTitle>
           <DialogDescription>
-            Add new Contractor Manager here. Click save when you're done.
+            Add new Cleaner here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Manager Name
+                Name
             </Label>
             <Input
               id="name"
@@ -81,7 +81,7 @@ export const AddNewContractorManager: React.FC<DialogWrapperProps> = ({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="registrationNumber" className="text-right">
-              Email
+               Job Title
             </Label>
             <Input
               id="registrationNumber"
@@ -107,7 +107,7 @@ export const AddNewContractorManager: React.FC<DialogWrapperProps> = ({
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="contactNumber" className="text-right">
-              Contact Number
+              Payment Rate
             </Label>
             <Input
               id="contactNumber"
@@ -116,33 +116,7 @@ export const AddNewContractorManager: React.FC<DialogWrapperProps> = ({
               value={contactNumber}
               onChange={(e) => setContactNumber(e.target.value)}
             />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="assignedSTS" className="text-right ">
-              Contractor Company
-            </Label>
-            <Select
-              value={contractorId}
-              onValueChange={(e) => setContractorId(e)}
-            >
-              <SelectTrigger className="col-span-3">
-                <SelectValue
-                  id="assignedContractor"
-                  placeholder="Select Contractor from the list"
-                />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Contractor</SelectLabel>
-                  {contractorData.map((contractor, index: number) => (
-                    <SelectItem key={index} value={contractor.id || ""}>
-                      {contractor.name}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+          </div>          
         </div>
         <DialogFooter>
           <DialogClose asChild>

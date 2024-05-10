@@ -17,16 +17,8 @@ export default function useGetAllContractor() {
           Authorization: `Bearer ${await getCookie(jwtToken)}`,
         },
       });
-      const contractorList = res.data.map((sts: any) => {
-        return {
-          id: sts.id,
-          name: sts.name,
-          wardNumber: sts.wardNumber,
-          capacity: sts.capacity,
-          latitude: sts.latitude,
-          longitude: sts.longitude,
-          manager: sts.manager.map((manager: any) => manager.username),
-        };
+      const contractorList = res.data.map((contractor: any) => {
+        return {...contractor, assignedSTS: contractor.assignedSTS.name || "Not Assigned"};
       });
       await setContractorData(contractorList);
       console.log(contractorList);

@@ -28,5 +28,22 @@ export type Contractor = {
   contractDuration: string;
   area: string;
   stsId: string;
+  stsName?: string;
   manager?: ContractorManager;
 };
+
+export type Employee = {
+  id?: string;
+  username: string;
+  email: string;
+  password: string;
+  roleName: string;
+  dateOfBirth: string;
+  dateOfHire: string;
+  jobTitle: string;
+  paymentRatePerHour: number;
+  routeId: string;
+  contactNumber: string;
+  contractorId: string;    
+};
+
