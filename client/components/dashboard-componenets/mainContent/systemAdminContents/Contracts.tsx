@@ -10,6 +10,8 @@ import LandFillListTable from "@/components/dataTables/LandFillList";
 import AllVehicleList from "@/components/dataTables/AllVehicleList";
 import ContractLists from "@/components/dataTables/ContractLists";
 import ContractorLogTable from "@/components/dataTables/ContractorLogs";
+import { AddNewContractor } from "@/components/modals/ContractorControl/AddNewContractor";
+import { AddNewContractorManager } from "@/components/modals/ContractorControl/AddNewContractorManager";
 
 
 export default function AdminContractsPanel() {
@@ -19,7 +21,7 @@ export default function AdminContractsPanel() {
         <h1 className="text-lg font-semibold md:text-2xl hidden md:block">SYSTEM DATA</h1>
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
-          <StsCreateModal>
+          <AddNewContractor>
             <Button
               variant="outline"
               size="sm"
@@ -28,8 +30,8 @@ export default function AdminContractsPanel() {
               <Trash size={14} strokeWidth={3} className="mr-2" />
               ADD NEW COMPANY
             </Button>
-          </StsCreateModal>
-          <LandfillCreateModal>
+          </AddNewContractor>
+          <AddNewContractorManager>
             <Button
               variant="outline"
               size="sm"
@@ -38,7 +40,7 @@ export default function AdminContractsPanel() {
               <Warehouse size={16} className="mr-2" />
               ADD NEW CONTRACTOR MANAGER
             </Button>
-          </LandfillCreateModal>          
+          </AddNewContractorManager>          
         </div>
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">

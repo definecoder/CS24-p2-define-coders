@@ -51,6 +51,7 @@ import { EditSTSInfoModal } from "../modals/stsControl/EditSTSInfoModal";
 import { DeleteSTSModal } from "../modals/stsControl/DeleteSTSModal";
 import { ViewSTSInfoModal } from "../modals/stsControl/ViewSTSInfoModal";
 import { StsCreateModal } from "../modals/stsControl/StsModal";
+import useGetAllContractor from "@/hooks/dataQuery/useGetAllContractor";
 
 
 export const columns: ColumnDef<Contractor>[] = [
@@ -155,7 +156,7 @@ export const columns: ColumnDef<Contractor>[] = [
 
 export default function ContractLists() {
   const [data, setData] = React.useState<Contractor[]>([]);
-  const { fetchAllSTS, stsData } = useGetAllSTS();
+  const { fetchAllContractors, contractorData } = useGetAllContractor();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -165,12 +166,12 @@ export default function ContractLists() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
-    fetchAllSTS();
+    fetchAllContractors();
   }, []);
 
   React.useEffect(() => {
-    // setData(stsData);
-  }, [stsData]);
+    setData(contractorData);
+  }, [contractorData]);
 
   const table = useReactTable({
     data,
