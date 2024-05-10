@@ -3,7 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:waste_management/constants/theming.dart';
 import 'dart:async';
 
-import 'package:waste_management/widgets/employeeFeatures/checkin.dart';
+import 'package:waste_management/widgets/employeeFeatures/checkInout/checkin.dart';
 
 class ConfirmationPage extends StatefulWidget {
   const ConfirmationPage({super.key});

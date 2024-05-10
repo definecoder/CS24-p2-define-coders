@@ -3,7 +3,8 @@ import 'package:page_transition/page_transition.dart';
 
 import 'package:swipeable_button_view/swipeable_button_view.dart';
 import 'package:waste_management/constants/theming.dart';
-import 'package:waste_management/widgets/employeeFeatures/confirmPage.dart';
+import 'package:waste_management/widgets/employeeFeatures/checkInout/checkOutConfirm.dart';
+import 'package:waste_management/widgets/employeeFeatures/checkInout/confirmPage.dart';
 
 class CheckIn extends StatefulWidget {
   const CheckIn({super.key});
@@ -38,6 +39,7 @@ class _CheckInState extends State<CheckIn> {
               isFinished: isFinished,
               onFinish: () async {
                 // - - - Navigate to confirmation page - - -
+                // post request the api value.
                 await Navigator.push(
                     context,
                     PageTransition(
