@@ -280,6 +280,26 @@ const userData: Prisma.UserCreateInput[] = [
   },
 ];
 
+const contractorData: Prisma.ContractorCreateInput[] = [
+  {
+    name: "Contractor 2 Name",
+    registrationId: "ABSDC123456",
+    registrationDate: "2024-05-10T00:00:00Z",
+    tinNumber: "34334",
+    contactNumber: "+929323",
+    workforceSize: 100,
+    paymentPerTon: 10.5,
+    requiredWastePerDay: 500.0,
+    contractDuration: "1 year",
+    area: "City XYZ",
+    assignedSTS: {
+      connect: {
+        id: "sts1",
+      },
+    },
+  },
+];
+
 const vehicleData: Prisma.VehicleCreateInput[] = [
   {
     id: "vid1",
@@ -577,6 +597,14 @@ async function main() {
       data: route,
     });
     console.log(newRoute);
+  }
+
+  console.log("Seeding contractors...");
+  for (const contractor of contractorData) {
+    const newContractor = await prisma.contractor.create({
+      data: contractor,
+    });
+    console.log(newContractor);
   }
 
   console.log("Seeding users...");
