@@ -211,6 +211,7 @@ class _TaskListViewState extends State<TaskListView> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+
         onPressed: () {
           // Add your action here
           showModalBottomSheet(
@@ -221,7 +222,7 @@ class _TaskListViewState extends State<TaskListView> {
             },
           );
         },
-        child: Icon(Icons.add, color: ksecondaryHeaderColor,),
+        child: Icon(Icons.done_all, color: ksecondaryHeaderColor,),
         backgroundColor: kPrimaryColor,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,

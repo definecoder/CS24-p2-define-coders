@@ -4,6 +4,7 @@ import 'package:waste_management/constants/theming.dart';
 import 'package:waste_management/models/forumModel.dart';
 import 'package:waste_management/widgets/citizenFeatures/educationalBlog/blogArticle.dart';
 import 'package:waste_management/widgets/citizenFeatures/educationalBlog/blogCart.dart';
+import 'package:waste_management/widgets/citizenFeatures/educationalBlog/videoPlayer.dart';
 
 
 
@@ -61,9 +62,11 @@ class _BlogDashboardState extends State<BlogDashboard> {
                   commentPic2: Blog.commentPic2,
                   topic: Blog.topic,
 
-                )), // same as above
+                )
+                ), // same as above
                 //(route) => false
               );
+                 // MaterialPageRoute(builder: (context) => MyVideoPlayer()));
             },
             child: BlogCard(
               id: Blog.id,

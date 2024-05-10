@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:waste_management/constants/theming.dart';
-import 'package:waste_management/models/locationModel.dart';
-import 'package:waste_management/screens/mapscreen/mapController.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class GoogleMapLive extends StatefulWidget {
   const GoogleMapLive({Key? key}) : super(key: key);
@@ -17,62 +10,26 @@ class GoogleMapLive extends StatefulWidget {
 
 class _GoogleMapLiveState extends State<GoogleMapLive> {
   late GoogleMapController mapController;
-  late IO.Socket socket;
   LatLng _center = const LatLng(23.7285964, 90.3986780);
 
-  @override
-  void initState() {
-    super.initState();
-    // Initialize socket connection
-    socket = IO.io('${uri}',
-        IO.OptionBuilder()
-            .setTransports(['websocket'])
-            .disableAutoConnect()
-            .build());
-    setUpSocketListener();
-    socket.connect();
-    joinedMap();
-  }
+  // Arrays to store locations
+  List<LatLng> locations1 = [
+    LatLng(23.728558623, 90.39670703),
+    LatLng(23.73081768, 90.395338),
+    LatLng(23.73011041, 90.39988282),
+  ];
 
-  void setUpSocketListener() {
-    // Listen for location updates from the server
-    socket.on('location-update', (data) {
-      setState(() {
-        // Update map with new location data
-        _center = LatLng(data['latitude'], data['longitude']);
-      });
-    });
-  }
+  List<LatLng> locations2 = [
+    LatLng(23.726515698, 90.40380957),
+    LatLng(23.73396056, 90.40108444),
+    LatLng(23.731465857, 90.39252285),
+  ];
 
-  void joinedMap(){
-
-    var roomData = {
-      "stsid": "1"
-    };
-    socket.emit('join_room', roomData);
-
-  }
-
-  void sendLocation(){
-    var locationJson= {
-      "latitude": "23.7285964",
-      "longitude": "90.3986780",
-      "vehicleid": "1"
-
-    };
-    var locationController = Get.find<LocationController>();
-    locationController.locationNow.add(VehicleLocation.fromJson(locationJson));
-    printLocation();
-    socket.emit('mylocation',locationJson);
-
-  }
-
-  void printLocation() {
-    var locationController = Get.find<LocationController>();
-    for (var location in locationController.locationNow) {
-      print("Latitude: ${location.latitude}, Longitude: ${location.longitude}, Vehicle ID: ${location.vehicleid}");
-    }
-  }
+  List<LatLng> locations3 = [
+    LatLng(23.72268502, 90.40288698),
+    LatLng(23.729776526, 90.40052636),
+    LatLng(23.7292461, 90.40953878),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -84,32 +41,42 @@ class _GoogleMapLiveState extends State<GoogleMapLive> {
           zoom: 13,
         ),
         markers: {
-          Marker(
-            markerId: MarkerId('sourceLocation'),
-            position: _center,
-          ),
+          // Markers for locations1
+          for (int i = 0; i < locations1.length; i++)
+            Marker(
+              markerId: MarkerId('sourceLocation$i'),
+              position: locations1[i],
+              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+            ),
+          // Markers for locations2
+          for (int i = 0; i < locations2.length; i++)
+            Marker(
+              markerId: MarkerId('sourceLocation${i + locations1.length}'),
+              position: locations2[i],
+              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+            ),
+          // Markers for locations3
+          for (int i = 0; i < locations3.length; i++)
+            Marker(
+              markerId: MarkerId('sourceLocation${i + locations1.length + locations2.length}'),
+              position: locations3[i],
+              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+            ),
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your action here
-          sendLocation();
-        },
-        child: Icon(Icons.add, color: ksecondaryHeaderColor,),
-        backgroundColor: kPrimaryColor,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // Add your action here
+      //     // sendLocation();
+      //   },
+      //   child: Icon(Icons.add),
+      //   backgroundColor: Colors.blue,
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
     );
   }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
-  }
-
-  @override
-  void dispose() {
-    // Disconnect socket when widget is disposed
-    socket.disconnect();
-    super.dispose();
   }
 }

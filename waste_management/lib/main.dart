@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:waste_management/constants/theming.dart';
 import 'package:waste_management/providers/user_provider.dart';
 import 'package:waste_management/screens/issueScreen/issueScreen.dart';
@@ -6,6 +7,7 @@ import 'package:waste_management/screens/mapscreen/livelocation.dart';
 import 'package:waste_management/screens/welcome/splashscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:waste_management/widgets/citizenFeatures/Forum/forumDashboard.dart';
+import 'package:waste_management/widgets/citizenFeatures/educationalBlog/videoPlayer.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkedOut.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkin.dart';
 import 'package:waste_management/widgets/employeeFeatures/taskList/taskListShow.dart';
@@ -55,7 +57,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
-        home:const SplashScreen() //ForumDashboard()//TaskListView()//CheckOut()//IssuePage()//
+        home: const SplashScreen() //ForumDashboard()//TaskListView()//CheckOut()//IssuePage()//
     );
   }
 }
