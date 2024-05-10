@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:waste_management/models/issueModel.dart';
 
 class IssuePage extends StatefulWidget {
+  final Function(Issue) addIssue; // Function to add issue
+
+  IssuePage({required this.addIssue});
+
   @override
   _IssuePageState createState() => _IssuePageState();
 }
@@ -12,6 +17,30 @@ class _IssuePageState extends State<IssuePage> {
 
   String? _selectedIssue;
   bool _isAnonymous = false;
+
+  void _submitIssue(BuildContext context) {
+    // Create a new Issue object with the provided data
+    Issue newIssue = Issue(
+      id: DateTime.now().toString(), // Unique ID based on timestamp
+      type: _selectedIssue!,
+      issuePic: "assets/images/garbage9.png", // Default image path, you can change it as needed
+      description: _descriptionController.text,
+      latitude: _latitudeController.text,
+      longitude: _longitudeController.text,
+    );
+
+    // Call the addIssue function passed from IssueFeed
+    widget.addIssue(newIssue);
+
+    // Reset fields after submission
+    _latitudeController.clear();
+    _longitudeController.clear();
+    _descriptionController.clear();
+    _selectedIssue = null;
+    _isAnonymous = false;
+
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +64,9 @@ class _IssuePageState extends State<IssuePage> {
             _buildAnonymousOption(),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _submitIssue,
+              onPressed: (){
+                _submitIssue(context);
+              },
               child: Text('Submit'),
             ),
           ],
@@ -244,19 +275,7 @@ class _IssuePageState extends State<IssuePage> {
     );
   }
 
-  void _submitIssue() {
-    // Implement submission logic here
-    print('Issue: $_selectedIssue');
-    print('Location: ${_latitudeController.text}   longL: ${_longitudeController}');
-    print('Description: ${_descriptionController.text}');
-    print('Anonymous: $_isAnonymous');
-    // Reset fields after submission if needed
-    _latitudeController.clear();
-    _longitudeController.clear();
-    _descriptionController.clear();
-    _selectedIssue = null;
-    _isAnonymous = false;
-  }
+
 }
 
 

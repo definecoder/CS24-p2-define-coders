@@ -10,6 +10,7 @@ import 'package:waste_management/widgets/adminFeatures/Schedules.dart';
 import 'package:waste_management/widgets/adminFeatures/Users.dart';
 import 'package:waste_management/widgets/citizenFeatures/Forum/forumDashboard.dart';
 import 'package:waste_management/widgets/citizenFeatures/educationalBlog/blogDashboard.dart';
+import 'package:waste_management/widgets/citizenFeatures/issueScreen/issueFeed.dart';
 import 'package:waste_management/widgets/citizenFeatures/issueScreen/issueScreen.dart';
 import 'package:waste_management/widgets/citizenFeatures/volunteer/volunteer.dart';
 import 'package:waste_management/widgets/common/Profile.dart';
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // const Bills(),
     // Profile(),
   EventCalendar(),
-     IssuePage(),
+     IssueFeed(),
     ForumDashboard(),
     const GoogleMapLive(),
     const BlogDashboard()

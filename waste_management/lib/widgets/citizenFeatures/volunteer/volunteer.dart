@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:waste_management/widgets/citizenFeatures/volunteer/volunteerForm.dart';
 
 class EventCalendar extends StatefulWidget {
   const EventCalendar({Key? key}) : super(key: key);
@@ -34,62 +35,81 @@ class _EventCalendarState extends State<EventCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TableCalendar(
-          firstDay: DateTime.utc(2010, 10, 16),
-          lastDay: DateTime.utc(2030, 3, 14),
-          focusedDay: _focusedDay,
-          selectedDayPredicate: (day) {
-            return isSameDay(_selectedDay, day);
-          },
-          onDaySelected: _onDaySelected,
-          calendarFormat: _calendarFormat,
-          onFormatChanged: (format) {
-            setState(() {
-              _calendarFormat = format;
-            });
-          },
-          onPageChanged: (focusedDay) {
-            setState(() {
-              _focusedDay = focusedDay;
-            });
-          },
-          eventLoader: _getEventsForDay,
-          calendarBuilders: CalendarBuilders(
-            dowBuilder: (context, day) {
-              if (day.weekday == DateTime.sunday) {
-                final text = DateFormat.E().format(day);
-
-                return Center(
-                  child: Text(
-                    text,
-                    style: TextStyle(color: Colors.red),
-                  ),
-                );
-              }
+    return Scaffold(
+      body: Column(
+        children: [
+          TableCalendar(
+            firstDay: DateTime.utc(2010, 10, 16),
+            lastDay: DateTime.utc(2030, 3, 14),
+            focusedDay: _focusedDay,
+            selectedDayPredicate: (day) {
+              return isSameDay(_selectedDay, day);
             },
-          ),
-        ),
-        if (_selectedEvents.isNotEmpty)
-          Column(
-            children: [
-              SizedBox(height: 10),
-              Text('Events for ${DateFormat.yMMMMd().format(_selectedDay)}'),
-              SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: _selectedEvents.length,
-                itemBuilder: (context, index) {
-                  final event = _selectedEvents[index];
-                  return ListTile(
-                    title: Text(event.title),
+            onDaySelected: _onDaySelected,
+            calendarFormat: _calendarFormat,
+            onFormatChanged: (format) {
+              setState(() {
+                _calendarFormat = format;
+              });
+            },
+            onPageChanged: (focusedDay) {
+              setState(() {
+                _focusedDay = focusedDay;
+              });
+            },
+            eventLoader: _getEventsForDay,
+            calendarBuilders: CalendarBuilders(
+              dowBuilder: (context, day) {
+                if (day.weekday == DateTime.sunday) {
+                  final text = DateFormat.E().format(day);
+
+                  return Center(
+                    child: Text(
+                      text,
+                      style: TextStyle(color: Colors.red),
+                    ),
                   );
-                },
-              ),
-            ],
+                }
+              },
+            ),
           ),
-      ],
+          if (_selectedEvents.isNotEmpty)
+            Column(
+              children: [
+                SizedBox(height: 10),
+                Text('Events for ${DateFormat.yMMMMd().format(_selectedDay)}'),
+                SizedBox(height: 10),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _selectedEvents.length,
+                  itemBuilder: (context, index) {
+                    final event = _selectedEvents[index];
+                    return ListTile(
+                      title: Text(event.title),
+                    );
+                  },
+                ),
+              ],
+            ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your action here
+          Navigator.push(
+            context,
+
+              MaterialPageRoute(builder: (context) => VolunteerForm()));
+        },
+        child: Row(
+          children: [
+            Icon(Icons.add),
+            Text("Join")
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    
     );
   }
 
