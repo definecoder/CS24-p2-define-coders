@@ -5,6 +5,7 @@ import STSManagerSchedules from "../../components/dashboard-componenets/mainCont
 import STSManagerStorageData from "../../components/dashboard-componenets/mainContent/stsManagerContents/Storage";
 import STSManagerDumpEntries from "../../components/dashboard-componenets/mainContent/stsManagerContents/DumpEntry";
 import STSManagerSettings from "../../components/dashboard-componenets/mainContent/stsManagerContents/Settings";
+import RoutesPanel from "@/components/dashboard-componenets/mainContent/stsManagerContents/RoutesPanel";
 
 export function getContentsOfSTSManager(state: string) {
     switch (state) {
@@ -16,6 +17,8 @@ export function getContentsOfSTSManager(state: string) {
         return <STSManagerStorageData />;
       case stsManager + "-Dump Entry":
         return <STSManagerDumpEntries />;
+      case stsManager + "-Routes":
+        return <RoutesPanel />;
       case stsManager + "-Settings":
         return <STSManagerSettings />;
       default:
