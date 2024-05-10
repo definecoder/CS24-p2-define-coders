@@ -66,15 +66,18 @@ const getAllCollectionPlans = errorWrapper(
   }
 );
 
-const getCollectionPlansBySTS = async (req: Request, res: Response) => {
-  const stsId = req.params.stsId;
-  const collectionPlans = await prisma.collectionPlan.findMany({
-    where: {
-      stsId: stsId,
-    },
-  });
+const getCollectionPlansBySTS = errorWrapper(
+  async (req: Request, res: Response) => {
+    const stsId = req.params.stsId;
+    const collectionPlans = await prisma.collectionPlan.findMany({
+      where: {
+        stsId: stsId,
+      },
+    });
 
-  res.json(collectionPlans);
-};
+    res.json(collectionPlans);
+  },
+  { statusCode: 404, message: "Collection Plans not found" }
+);
 
 export { addCollectionPlan, getAllCollectionPlans, getCollectionPlansBySTS };
