@@ -30,6 +30,15 @@ class _TaskListViewState extends State<TaskListView> {
 
   }
 
+  void deleteNote(int index) {
+    setState(() {
+      Note note = filteredNotes[index];
+      filteredNotes.removeAt(index);
+      // sampleNotes.removeWhere((element) => element.id == note.id); // Don't remove from sampleNotes
+    });
+  }
+
+
 
 
   List<Note> sortNotesByModifiedTime(List<Note> notes) {
@@ -58,14 +67,15 @@ class _TaskListViewState extends State<TaskListView> {
           .toList();
     });
   }
+  int _counter = 0;
 
-  void deleteNote(int index) {
+  void _incrementCounter() {
     setState(() {
-      Note note = filteredNotes[index];
-      sampleNotes.remove(note);
-      filteredNotes.removeAt(index);
+      _counter++;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -144,31 +154,8 @@ class _TaskListViewState extends State<TaskListView> {
                         padding: const EdgeInsets.all(10.0),
                         child: ListTile(
                           onTap: () async {
-                            // final result = await Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (BuildContext context) =>
-                            //         EditScreen(note: filteredNotes[index]),
-                            //   ),
-                            // );
-                            // if (result != null) {
-                            //   setState(() {
-                            //     int originalIndex =
-                            //     sampleNotes.indexOf(filteredNotes[index]);
-                            //
-                            //     sampleNotes[originalIndex] = Note(
-                            //         id: sampleNotes[originalIndex].id,
-                            //         title: result[0],
-                            //         content: result[1],
-                            //         modifiedTime: DateTime.now());
-                            //
-                            //     filteredNotes[index] = Note(
-                            //         id: filteredNotes[index].id,
-                            //         title: result[0],
-                            //         content: result[1],
-                            //         modifiedTime: DateTime.now());
-                            //   });
-                            // }
+
+
                           },
                           title: RichText(
                             maxLines: 3,
@@ -209,7 +196,9 @@ class _TaskListViewState extends State<TaskListView> {
                               }
                             },
                             icon: const Icon(
-                              Icons.delete,
+                              Icons.arrow_circle_right_outlined,
+                              size: 35,
+
                             ),
                           ),
                         ),
@@ -235,7 +224,7 @@ class _TaskListViewState extends State<TaskListView> {
               color: Colors.grey,
             ),
             title: const Text(
-              'Are you sure you want to delete?',
+              'Is this task done, are you confirm?',
               style: TextStyle(color: Colors.white),
             ),
             content: Row(
@@ -243,6 +232,7 @@ class _TaskListViewState extends State<TaskListView> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
+
                         Navigator.pop(context, true);
                       },
                       style: ElevatedButton.styleFrom(
@@ -257,6 +247,7 @@ class _TaskListViewState extends State<TaskListView> {
                       )),
                   ElevatedButton(
                       onPressed: () {
+                        //_incrementCounter();
                         Navigator.pop(context, false);
                       },
                       style:
