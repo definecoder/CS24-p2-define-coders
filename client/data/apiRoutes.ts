@@ -82,4 +82,7 @@ export const apiRoutes = {
     getProfile: `${baseUrl}/profile`,
     edit: `${baseUrl}/profile`,
   },
+  logs: {
+    getAll: `${baseUrl}/logs/admin`,
+  }
 };
