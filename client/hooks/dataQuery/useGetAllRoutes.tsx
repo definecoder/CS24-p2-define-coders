@@ -33,11 +33,12 @@ export default function useGetAllRoutes() {
         },
       });
       const routesList = res.data.map((route: any) => {
-        return route?.stsId === getCookie("stsId") ? {
-            name: route?.name || "No Name",
-            areaName: route?.area?.name || "No Area",
-            description: route?.description || "No Description",
-        } : null;
+        return {
+          id: route?.id,
+          name: route?.name || "No Name",
+          areaName: route?.area?.name || "No Area",
+          description: route?.description || "No Description",
+      };
       });
       await setRoutesData(routesList);
       console.log(routesList);

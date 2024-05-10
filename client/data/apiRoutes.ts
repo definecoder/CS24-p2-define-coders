@@ -102,5 +102,11 @@ export const apiRoutes = {
   },
   logs: {
     getAll: `${baseUrl}/logs/admin`,
-  }
+  },
+  plans: {
+    create: `${baseUrl}/collection-plans/create`,
+    getAll: `${baseUrl}/plans`,
+    delete: `${baseUrl}/plans/`,
+    edit: `${baseUrl}/plans/`,
+  },
 };

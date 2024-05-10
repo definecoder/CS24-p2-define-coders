@@ -18,7 +18,7 @@ export default function useGetAllArea() {
         },
       });
       const areaList = res.data.map((area: any) => {
-        return area?.stsId === getCookie("stsId") ? area : null;
+        return area;
       });
       await setAreaData(areaList);
       console.log(areaList);
