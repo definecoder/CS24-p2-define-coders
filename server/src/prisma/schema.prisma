@@ -79,9 +79,12 @@ model Route {
     id          String  @id @default(uuid())
     name        String
     description String?
-    Area        Area?   @relation(fields: [areaId], references: [id])
+    area        Area?   @relation(fields: [areaId], references: [id])
     areaId      String?
-    User        User[]
+
+    sts      STS?    @relation(fields: [stsId], references: [id])
+    stsId    String?
+    emoloyee User[]
 }
 
 model Area {
@@ -89,6 +92,8 @@ model Area {
     name           String
     routes         Route[]
     CollectionPlan CollectionPlan[]
+    sts            STS?             @relation(fields: [stsId], references: [id])
+    stsId          String?
 }
 
 model CollectionPlan {
@@ -168,6 +173,8 @@ model STS {
     Bill       Bill[]
     Schedule   Schedule[]
     Contractor Contractor[]
+    Route      Route[]
+    Area       Area[]
 }
 
 model Landfill {

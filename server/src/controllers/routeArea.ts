@@ -4,11 +4,12 @@ import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
 const addRoute = async (req: Request, res: Response) => {
-  const { name, description } = req.body;
+  const { name, description, stsId } = req.body;
   const newRoute = await prisma.route.create({
     data: {
       name,
       description,
+      stsId,
     },
   });
 
@@ -36,10 +37,11 @@ const getRouteById = async (req: Request, res: Response) => {
 };
 
 const addArea = async (req: Request, res: Response) => {
-  const { name, description } = req.body;
+  const { name, stsId } = req.body;
   const newArea = await prisma.area.create({
     data: {
       name,
+      stsId,
     },
   });
 
