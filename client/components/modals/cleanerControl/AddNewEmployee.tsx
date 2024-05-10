@@ -16,7 +16,7 @@ import React, { useEffect, useState } from "react";
 import SetZone from "../../maps/SetZone";
 import useCreateSTS, { STS } from "@/hooks/entityCreation/useCreateSTS";
 import { message } from "antd";
-import { Contractor, ContractorManager } from "@/data/roles";
+import { Contractor, ContractorManager, contractorEmployee } from "@/data/roles";
 import useCreateContractor from "@/hooks/entityCreation/useCreateContractor";
 import useCreateContractorManager from "@/hooks/entityCreation/useCreateContractorManager";
 import useGetAllContractor from "@/hooks/dataQuery/useGetAllContractor";
@@ -56,6 +56,7 @@ export const AddNewEmployee: React.FC<DialogWrapperProps> = ({ children }) => {
         contactNumber: contactNumber,
         password: password,
         jobTitle: jobTitle,
+        roleName: contractorEmployee,
         paymentRatePerHour: paymentRate,
         contractorId: getCookie(contractorId),
     };

@@ -3,6 +3,7 @@ export const stsManager = "STS_MANAGER";
 export const landfillManager = "LAND_MANAGER";
 export const unassigned = "UNASSIGNED";
 export const contractorManager = "CONTRACTOR_MANAGER";
+export const contractorEmployee = "CONTRACTOR_EMPLOYEE";
 
 export const roleList = [unassigned, admin, landfillManager, stsManager];
 

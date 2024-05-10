@@ -52,11 +52,12 @@ import { DeleteSTSModal } from "../modals/stsControl/DeleteSTSModal";
 import { ViewSTSInfoModal } from "../modals/stsControl/ViewSTSInfoModal";
 import { StsCreateModal } from "../modals/stsControl/StsModal";
 import useGetAllContractor from "@/hooks/dataQuery/useGetAllContractor";
+import useGetAllEmployees from "@/hooks/dataQuery/useGetAllEmployee";
 
 
 export const columns: ColumnDef<Employee>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "username",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -65,14 +66,14 @@ export const columns: ColumnDef<Employee>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Cleaner Name
+            Employee Name
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("name")}</div>
+      <div className="text-center font-medium">{row.getValue("username")}</div>
     ),
   },
   {
@@ -98,7 +99,7 @@ export const columns: ColumnDef<Employee>[] = [
     ),
   },
   {
-    accessorKey: "workforceSize",
+    accessorKey: "paymentRatePerHour",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -114,11 +115,11 @@ export const columns: ColumnDef<Employee>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("workforceSize")}</div>
+      <div className="text-center font-medium">{row.getValue("paymentRatePerHour")}</div>
     ),
   },
   {
-    accessorKey: "assignedSTS",
+    accessorKey: "jobTitle",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -127,14 +128,14 @@ export const columns: ColumnDef<Employee>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Assigned STS
+            Job Title
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("assignedSTS")}</div>
+      <div className="text-center font-medium">{row.getValue("jobTitle")}</div>
     ),
   },
   {
@@ -156,7 +157,7 @@ export const columns: ColumnDef<Employee>[] = [
 
 export default function EmployeeList() {
   const [data, setData] = React.useState<Employee[]>([]);
-  //const { fetchAllContractors, contractorData } = useGetAllContractor();
+  const { employeeData, fetchAllEmployees } = useGetAllEmployees();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -165,13 +166,13 @@ export default function EmployeeList() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  // React.useEffect(() => {
-  //   fetchAllContractors();
-  // }, []);
+  React.useEffect(() => {
+    fetchAllEmployees();
+  }, []);
 
-  // React.useEffect(() => {
-  //   setData(contractorData);
-  // }, [contractorData]);
+  React.useEffect(() => {
+    setData(employeeData);
+  }, [employeeData]);
 
   const table = useReactTable({
     data,
@@ -196,17 +197,17 @@ export default function EmployeeList() {
       <div className="font-bold text-lg w-full text-center">LIST OF ALL EMPLOYEES</div>
       <div className="flex justify-between items-center py-4 gap-4">
         <Input
-          placeholder="Search by Contractor Name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder="Search by Employee Name..."
+          value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("username")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
          <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Filter Contractors <ChevronDownIcon className="ml-2 h-4 w-4" />
+              Filter Employees <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
