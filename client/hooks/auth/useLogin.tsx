@@ -41,6 +41,7 @@ export default function useLogin() {
 
         setCookie(landfillName, res.data?.user?.landfill?.name, 1);
         setCookie(stsName, res.data?.user?.sts?.name, 1);
+        //setCookie(companyName, res.data?.user?.company?.name, 1);
 
         message.success("Login successful! Welcome to the EcoSync, " + res.data.user.username + "!");
         return true;

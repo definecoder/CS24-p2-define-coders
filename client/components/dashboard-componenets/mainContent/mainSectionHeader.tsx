@@ -39,6 +39,7 @@ import { useContext } from "react";
 import { NavContext } from "@/hooks/contexts/useNavCtx";
 import { eraseCookie, getCookie } from "@/lib/cookieFunctions";
 import {
+  companyName,
   curActive,
   jwtToken,
   landfillName,
@@ -48,7 +49,7 @@ import {
   username,
 } from "@/data/cookieNames";
 import { get } from "http";
-import { admin, landfillManager, stsManager } from "@/data/roles";
+import { admin, contractorManager, landfillManager, stsManager } from "@/data/roles";
 import axios from "axios";
 import { message } from "antd";
 
@@ -128,11 +129,13 @@ export default function MainSectionHeader({
             <>{"NO LANDFILL ASSIGNED"}</>
           ))}
 
-        {getCookie(curActive)?.startsWith(admin) && 
-            <b>
-              SYSTEM ADMIN OF ECOSYNC
-            </b>}
+        {getCookie(curActive)?.startsWith(admin) && (
+          <b>SYSTEM ADMIN OF ECOSYNC</b>
+        )}
 
+        {getCookie(curActive)?.startsWith(contractorManager) && (
+          <b>CONTRACTOR MANAGER </b>
+        )}
       </div>
 
       {/* Profile Icon and dropdown menu */}
