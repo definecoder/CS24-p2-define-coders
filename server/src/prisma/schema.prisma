@@ -105,6 +105,8 @@ model CollectionPlan {
     numberOfLaborers      Decimal?
     numberOfVans          Decimal?
     expectedWaste         Decimal?
+    stsId                 String?
+    sts                   STS?      @relation(fields: [stsId], references: [id])
 }
 
 model Contractor {
@@ -168,13 +170,14 @@ model STS {
     manager         User[]
     Trip            Trip[]
 
-    createdAt  DateTime     @default(now())
-    updatedAt  DateTime     @updatedAt
-    Bill       Bill[]
-    Schedule   Schedule[]
-    Contractor Contractor[]
-    Route      Route[]
-    Area       Area[]
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+    Bill           Bill[]
+    Schedule       Schedule[]
+    Contractor     Contractor[]
+    Route          Route[]
+    Area           Area[]
+    CollectionPlan CollectionPlan[]
 }
 
 model Landfill {
