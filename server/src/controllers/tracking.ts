@@ -1,6 +1,4 @@
 import { Server, Socket } from "socket.io";
-import errorWrapper from "../middlewares/errorWrapper";
-import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 //
@@ -24,11 +22,31 @@ const track = (io: Server) => {
 };
 
 const handleSts = (socket: Socket) => {
-  // to be implemented
+  const id = socket.handshake.query.id;
+
+  socket.on("join_rooms", async (data) => {
+    if (id == undefined) {
+      return;
+    }
+    console.log("sts", id, "has joined");
+
+    socket.join(id);
+    console.log("joined sts room");
+  });
 };
 
 const handleLandfill = (socket: Socket) => {
-  // to be implemented
+  const id = socket.handshake.query.id;
+
+  socket.on("join_rooms", async (data) => {
+    if (id == undefined) {
+      return;
+    }
+    console.log("landfill", id, "has joined");
+
+    socket.join(id);
+    console.log("joined landfill room");
+  });
 };
 
 const handleVehicle = (socket: Socket) => {
