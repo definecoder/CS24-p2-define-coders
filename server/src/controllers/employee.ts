@@ -28,4 +28,29 @@ const getEmployeeById = async (req: Request, res: Response) => {
   res.status(200).json(employee);
 };
 
-export { getAllEmployees, getEmployeeById };
+const updateEmployee = async (req: Request, res: Response) => {
+  const { employeeId } = req.params;
+  const employeeInfo = req.body;
+  const employee = await prisma.user.update({
+    where: {
+      id: employeeId,
+    },
+    data: employeeInfo,
+  });
+
+  res.status(200).json(employee);
+};
+
+const deleteEmployee = async (req: Request, res: Response) => {
+  const { employeeId } = req.params;
+
+  await prisma.user.delete({
+    where: {
+      id: employeeId,
+    },
+  });
+
+  res.status(200).json({ message: "Employee deleted successfully" });
+};
+
+export { getAllEmployees, getEmployeeById, updateEmployee, deleteEmployee };
