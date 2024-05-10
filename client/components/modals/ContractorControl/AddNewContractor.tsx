@@ -12,12 +12,22 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SetZone from "../../maps/SetZone";
 import useCreateSTS, { STS } from "@/hooks/entityCreation/useCreateSTS";
 import { message } from "antd";
 import { Contractor } from "@/data/roles";
 import useCreateContractor from "@/hooks/entityCreation/useCreateContractor";
+import useGetAllSTS from "@/hooks/stsdata/useGetAllSTS";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
@@ -33,10 +43,13 @@ export const AddNewContractor: React.FC<DialogWrapperProps> = ({
   const [workforceSize, setWorkForceSize] = useState(0);
   const [paymentPerTon, setPaymentPerTon] = useState(0);
   const [requiredWastePerDay, setRequiredWastePerDay] = useState(0);
-  const [contractDuration, setContractDuration] = useState(0);
+  const [contractDuration, setContractDuration] = useState("");
   const [area, setArea] = useState("");
-  const [assignedSTS, setAssignedSTS] = useState("");
+  const [stsId, setStsId] = useState("");
   const { createContractor } = useCreateContractor();
+
+  const { stsList } = useGetAllSTS();
+  useEffect(() => {}, [stsList]);
 
   const handleSaveChanges = async () => {
     const data: Contractor = {
@@ -49,7 +62,7 @@ export const AddNewContractor: React.FC<DialogWrapperProps> = ({
       requiredWastePerDay,
       contractDuration,
       area,
-      assignedSTS,
+      stsId,
     };
 
     console.log(data);
@@ -164,10 +177,9 @@ export const AddNewContractor: React.FC<DialogWrapperProps> = ({
             <Input
               id="workforceSize"
               placeholder="Add Workforcesize here"
-              className="col-span-3"
-              type="number"
+              className="col-span-3"              
               value={contractDuration}
-              onChange={(e) => setContractDuration(parseInt(e.target.value))}
+              onChange={(e) => setContractDuration(e.target.value)}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -183,16 +195,30 @@ export const AddNewContractor: React.FC<DialogWrapperProps> = ({
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="assignedSTS" className="text-right">
+            <Label htmlFor="assignedSTS" className="text-right ">
               Assigned STS
             </Label>
-            <Input
-              id="assignedSTS"
-              placeholder="Add Workforcesize here"
-              className="col-span-3"
-              value={assignedSTS}
-              onChange={(e) => setAssignedSTS(e.target.value)}
-            />
+            <Select
+              value={stsId}
+              onValueChange={(e) => setStsId(e)}
+            >
+              <SelectTrigger className="col-span-3">
+                <SelectValue
+                  id="assignedSTS"
+                  placeholder="Select assigned STS from the list"
+                />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>STS</SelectLabel>
+                  {stsList.map((sts, index: number) => (
+                    <SelectItem key={index} value={sts.id}>
+                      {sts.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <DialogFooter>

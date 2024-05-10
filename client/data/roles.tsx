@@ -25,8 +25,8 @@ export type Contractor = {
   workforceSize: number;
   paymentPerTon: number;
   requiredWastePerDay: number;
-  contractDuration: number;
+  contractDuration: string;
   area: string;
-  assignedSTS: string;
+  stsId: string;
   manager?: ContractorManager;
 };

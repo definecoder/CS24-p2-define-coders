@@ -14,7 +14,6 @@ export default function useCreateContractor() {
     return (
         contractorData.name.length > 0 &&
         contractorData.contactNumber.length > 0 &&
-        contractorData.contactNumber.length > 0 &&
         contractorData.tinNumber.length !== null        
     );
   }  
