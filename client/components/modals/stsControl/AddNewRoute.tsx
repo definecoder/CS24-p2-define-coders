@@ -35,8 +35,8 @@ export const AddNewRouteModal: React.FC<DialogWrapperProps> = ({ children }) => 
   const [RouteName, setRouteName] = useState("");
   const [RouteDetails, setRouteDetails] = useState("");
   const { areaData, fetchAllArea } = useGetAllArea();
-  const handleSaveChanges = async () => {
-    axios.post(apiRoutes.route.create, { name:RouteName, stsId:getCookie(stsId), description: RouteDetails }, {
+  const handleSaveChanges = async () => {    
+    axios.post(apiRoutes.route.create, { name:RouteName, stsId:getCookie(stsId), description: RouteDetails, areaId: areaId }, {
       headers: {
         Authorization: `Bearer ${getCookie("token")}`,
         },
@@ -66,9 +66,9 @@ export const AddNewRouteModal: React.FC<DialogWrapperProps> = ({ children }) => 
       </DialogTrigger>
       <DialogContent className="w-[825px]">
         <DialogHeader>
-          <DialogTitle>Add New Area</DialogTitle>
+          <DialogTitle>Add New Route</DialogTitle>
           <DialogDescription>
-            Add new area here. Click save when you're done.
+            Add new route here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -78,7 +78,7 @@ export const AddNewRouteModal: React.FC<DialogWrapperProps> = ({ children }) => 
             </Label>
             <Input
               id="vehicleNumber"
-              placeholder="Area Name"
+              placeholder="Enter Route Name"
               value={RouteName}
               onChange={(e) => setRouteName(e.target.value)}
               className="col-span-3"
@@ -87,7 +87,7 @@ export const AddNewRouteModal: React.FC<DialogWrapperProps> = ({ children }) => 
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="role" className="text-right">
-                Role
+                Select Area
               </Label>
               <Select
                 value={areaId}
@@ -96,7 +96,7 @@ export const AddNewRouteModal: React.FC<DialogWrapperProps> = ({ children }) => 
                 <SelectTrigger className="col-span-3">
                   <SelectValue
                     id="role"
-                    placeholder="Select role for the user"
+                    placeholder="Select area of the route"
                   />
                 </SelectTrigger>
                 <SelectContent>
@@ -118,7 +118,7 @@ export const AddNewRouteModal: React.FC<DialogWrapperProps> = ({ children }) => 
             </Label>
             <Input
               id="vehicleNumber"
-              placeholder="Area Name"
+              placeholder="Enter Route Details"
               value={RouteDetails}
               onChange={(e) => setRouteDetails(e.target.value)}
               className="col-span-3"

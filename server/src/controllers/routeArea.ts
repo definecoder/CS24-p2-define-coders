@@ -4,12 +4,13 @@ import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
 const addRoute = async (req: Request, res: Response) => {
-  const { name, description, stsId } = req.body;
+  const { name, description, stsId, areaId } = req.body;
   const newRoute = await prisma.route.create({
     data: {
       name,
       description,
       stsId,
+      areaId
     },
   });
 
@@ -17,7 +18,13 @@ const addRoute = async (req: Request, res: Response) => {
 };
 
 const getAllRoutes = async (req: Request, res: Response) => {
-  const routes = await prisma.route.findMany();
+  const routes = await prisma.route.findMany(
+    {
+      include: {
+        area: true,
+      },
+    }
+  );
   res.status(200).json(routes);
 };
 
