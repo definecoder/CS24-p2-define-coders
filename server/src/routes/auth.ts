@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  createManager,
   createUser,
   login,
   logout,
@@ -14,6 +15,7 @@ import { PERMISSIONS } from "../permissions/permissions";
 
 const router = express.Router();
 
+router.route("/createmanager").post(authChecker, createManager);
 router
   .route("/create")
   .post(authChecker, authorizer(PERMISSIONS.CREATE_USER), createUser);

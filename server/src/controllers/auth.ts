@@ -12,6 +12,7 @@ import CustomError from "../services/CustomError";
 import { randomOTPGenerator, randomPasswordGenerator } from "../services/utils";
 import { sendMail, sendOTPMail } from "../services/mailService";
 import { PERMISSIONS, getPermittedRoleNames } from "../permissions/permissions";
+import { adminLog } from "../services/logdata";
 
 const prisma = new PrismaClient();
 
@@ -43,6 +44,45 @@ const createUser = errorWrapper(
       `Your account has been created by Admin! Here are the Credentials:`,
       `username: ${username}<br>email: ${email}<br> password: ${password}<br><br>Regards,<br>EcoSync Team`
     );
+
+    res.status(201).json({ user, token });
+  },
+  { statusCode: 500, message: `Couldn't create user` }
+);
+
+const createManager = errorWrapper(
+  async (req: Request, res: Response) => {
+    const { username, password, email, roleName, contactNumber, contractorId } =
+      req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        username,
+        email,
+        hashedPassword,
+        roleName,
+        contactNumber,
+        contractorId,
+      },
+    });
+
+    const token = generateToken(
+      {
+        id: user.id,
+        role: user.roleName,
+      },
+      "10h"
+    );
+
+    sendMail(
+      user,
+      `Welcome To EcoSync!`,
+      `Your account has been created by Admin! Here are the Credentials:`,
+      `username: ${username}<br>email: ${email}<br> password: ${password}<br><br>Regards,<br>EcoSync Team`
+    );
+
+    await adminLog(`Manager Entry`, `Manager ${user.username} added`);
 
     res.status(201).json({ user, token });
   },
@@ -215,6 +255,7 @@ const resetPasswordConfirm = errorWrapper(
 
 export {
   createUser,
+  createManager,
   login,
   logout,
   resetPasswordInit,

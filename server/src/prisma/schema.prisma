@@ -9,21 +9,27 @@ generator client {
 
 model User {
     id             String  @id @default(uuid())
-    username       String  @unique
+    username       String
     email          String  @unique
     hashedPassword String
-    profileName    String?
+    profileName    String? // full name for contractor manager
     profileImage   String?
-    role           Role    @relation(fields: [roleName], references: [name], onDelete: Cascade)
-    roleName       String  @default("UNASSIGNED")
-    sts            STS?    @relation(fields: [stsId], references: [id], onDelete: Cascade)
-    stsId          String?
+    accessLevel    String?
+
+    contactNumber String?
+
+    role     Role    @relation(fields: [roleName], references: [name], onDelete: Cascade)
+    roleName String  @default("UNASSIGNED")
+    sts      STS?    @relation(fields: [stsId], references: [id], onDelete: Cascade)
+    stsId    String?
 
     landfill   Landfill? @relation(fields: [landfillId], references: [id], onDelete: Cascade)
     landfillId String?
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
+    Contractor   Contractor? @relation(fields: [contractorId], references: [id])
+    contractorId String?
 
     @@index([username], name: "username_index")
     @@index([email], name: "email_index")
@@ -49,6 +55,37 @@ model Permission {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model ContractorLogs {
+    id          String @id @default(uuid())
+    type        String
+    description String
+}
+
+model AdminLogs {
+    id          String @id @default(uuid())
+    type        String
+    description String
+}
+
+model Contractor {
+    id                  String    @id @default(uuid()) // contractor id
+    name                String
+    registrationId      String
+    registrationDate    DateTime?
+    tinNumber           String?
+    contactNumber       String?
+    workforceSize       Decimal?
+    paymentPerTon       Decimal   @db.Decimal(10, 2)
+    requiredWastePerDay Decimal   @db.Decimal(10, 2)
+    contractDuration    String?
+    area                String?
+
+    assignedSTS STS?    @relation(fields: [stsId], references: [id], onDelete: Cascade)
+    stsId       String?
+
+    manager User[]
 }
 
 model Vehicle {
@@ -93,10 +130,11 @@ model STS {
     manager         User[]
     Trip            Trip[]
 
-    createdAt DateTime   @default(now())
-    updatedAt DateTime   @updatedAt
-    Bill      Bill[]
-    Schedule  Schedule[]
+    createdAt  DateTime     @default(now())
+    updatedAt  DateTime     @updatedAt
+    Bill       Bill[]
+    Schedule   Schedule[]
+    Contractor Contractor[]
 }
 
 model Landfill {
