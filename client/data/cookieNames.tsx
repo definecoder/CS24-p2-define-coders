@@ -6,5 +6,6 @@ export const stsId='stsId';
 export const curActive = "curActivee";
 export const landfillId = "landfillId";
 export const landfillName = "landfillName";
+export const companyName = "companyName";
 export const stsName = "stsName";
 export const otpToken = "otpToken";

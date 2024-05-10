@@ -40,23 +40,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useGetAllUser from "@/hooks/user_data/useGetAllUser";
-import { DeleteUserModal } from "../modals/userControls/DeleteUserModal";
-import { Copy, EditIcon, Plus } from "lucide-react";
-import { EditUserModal } from "../modals/userControls/EditUserInfoModal";
-import gettAllRoles from "@/hooks/user_data/useGetAllRole";
-import { Contractor, roleList } from "@/data/roles";
-import useGetAllSTS from "@/hooks/dataQuery/useGetAllSTS";
-import { EditSTSInfoModal } from "../modals/stsControl/EditSTSInfoModal";
-import { DeleteSTSModal } from "../modals/stsControl/DeleteSTSModal";
-import { ViewSTSInfoModal } from "../modals/stsControl/ViewSTSInfoModal";
-import { StsCreateModal } from "../modals/stsControl/StsModal";
-import useGetAllContractor from "@/hooks/dataQuery/useGetAllContractor";
+import useGetAllLogs from "@/hooks/dataQuery/useGetAllLogs";
 
+export type ContractorLog = {
+  type: string;
+  description: string;
+};
 
-export const columns: ColumnDef<Contractor>[] = [
+export const columns: ColumnDef<ContractorLog>[] = [
   {
-    accessorKey: "name",
+    accessorKey: "type",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -65,18 +58,18 @@ export const columns: ColumnDef<Contractor>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Contractor Name
+            Log Type
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("name")}</div>
+      <div className="text-center font-medium">{row.getValue("type")}</div>
     ),
   },
   {
-    accessorKey: "contactNumber",
+    accessorKey: "description",
     header: ({ column }) => {
       return (
         <div className="flex justify-center items-center">
@@ -85,78 +78,36 @@ export const columns: ColumnDef<Contractor>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Contact
+            Log Description
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
       );
     },
     cell: ({ row }) => (
-      <div className="text-center font-medium">
-        {row.getValue("contactNumber")}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "workforceSize",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Workforce Count
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("workforceSize")}</div>
-    ),
-  },
-  {
-    accessorKey: "assignedSTS",
-    header: ({ column }) => {
-      return (
-        <div className="flex justify-center items-center">
-          <Button
-            variant="ghost"
-            className="text-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Assigned STS
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="text-center font-medium">{row.getValue("assignedSTS")}</div>
+      <div className="text-center font-medium">{row.getValue("description")}</div>
     ),
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const contractor: Contractor = row.original;
+      const landfill: ContractorLog = row.original;
 
       return (
-        <div>          
-          {/* <ViewSTSInfoModal stsInfo={sts} /> 
-          <EditSTSInfoModal stsInfo={sts} /> 
-          <DeleteSTSModal stsInfo={sts} /> */}
+        <div>
+          {/* <ViewLandFIllInfoModal landfillInfo={landfill} />
+          <EditLandfillInfoModal landfillInfo={landfill} />
+          <DeleteLandfillModal landfillInfo={landfill} /> */}
         </div>
       );
     },
   },
 ];
 
-export default function ContractLists() {
-  const [data, setData] = React.useState<Contractor[]>([]);
-  const { fetchAllContractors, contractorData } = useGetAllContractor();
+export default function CleanerLog() {
+  const [data, setData] = React.useState<ContractorLog[]>([]);
+  const { contractorLog, fetchAllContractorLog } = useGetAllLogs();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -166,12 +117,12 @@ export default function ContractLists() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
-    fetchAllContractors();
+    fetchAllContractorLog();
   }, []);
 
   React.useEffect(() => {
-    setData(contractorData);
-  }, [contractorData]);
+    setData(contractorLog);
+  }, [contractorLog]);
 
   const table = useReactTable({
     data,
@@ -193,20 +144,20 @@ export default function ContractLists() {
   });
   return (
     <>
-      <div className="font-bold text-lg w-full text-center">LIST OF ALL CONTRACTORS</div>
+      <div className="font-bold text-lg w-full text-center">Cleaner Logs</div>
       <div className="flex justify-between items-center py-4 gap-4">
         <Input
-          placeholder="Search by Contractor Name..."
+          placeholder="Search by log description..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-         <DropdownMenu>
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Filter Contractors <ChevronDownIcon className="ml-2 h-4 w-4" />
+              Filter Logs <ChevronDownIcon className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

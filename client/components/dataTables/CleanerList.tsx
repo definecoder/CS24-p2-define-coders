@@ -65,7 +65,7 @@ export const columns: ColumnDef<Contractor>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Contractor Name
+            Cleaner Name
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -107,7 +107,7 @@ export const columns: ColumnDef<Contractor>[] = [
             className="text-center"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Workforce Count
+            Payment Rate (Per Hour)
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </Button>
         </div>
@@ -154,7 +154,7 @@ export const columns: ColumnDef<Contractor>[] = [
   },
 ];
 
-export default function ContractLists() {
+export default function CleanerLists() {
   const [data, setData] = React.useState<Contractor[]>([]);
   const { fetchAllContractors, contractorData } = useGetAllContractor();
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -193,7 +193,7 @@ export default function ContractLists() {
   });
   return (
     <>
-      <div className="font-bold text-lg w-full text-center">LIST OF ALL CONTRACTORS</div>
+      <div className="font-bold text-lg w-full text-center">LIST OF ALL CLEANERS</div>
       <div className="flex justify-between items-center py-4 gap-4">
         <Input
           placeholder="Search by Contractor Name..."

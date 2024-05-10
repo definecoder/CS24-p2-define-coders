@@ -12,7 +12,9 @@ import CustomError from "../services/CustomError";
 import { randomOTPGenerator, randomPasswordGenerator } from "../services/utils";
 import { sendMail, sendOTPMail } from "../services/mailService";
 import { PERMISSIONS, getPermittedRoleNames } from "../permissions/permissions";
+
 import { adminLog, contractorLog } from "../services/logdata";
+
 import { RoleName } from "../types/rolesTypes";
 
 const prisma = new PrismaClient();
@@ -62,7 +64,7 @@ const createManager = errorWrapper(
         username,
         email,
         hashedPassword,
-        roleName,
+        roleName: RoleName.CONTRACTOR_MANAGER,
         contactNumber,
         contractorId,
       },

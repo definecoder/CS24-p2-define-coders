@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
-import { Plus, Trash, Truck, Warehouse } from "lucide-react";
+import { Plus, Trash, Truck, UserCog, Warehouse } from "lucide-react";
 import { StsCreateModal } from "../../../modals/stsControl/StsModal";
 import { VehicleCreateModal } from "@/components/modals/VehicleModal";
 import { LandfillCreateModal } from "@/components/modals/landfillControl/LandfillModal";
@@ -10,35 +10,37 @@ import LandFillListTable from "@/components/dataTables/LandFillList";
 import AllVehicleList from "@/components/dataTables/AllVehicleList";
 import ContractLists from "@/components/dataTables/ContractLists";
 import ContractorLogTable from "@/components/dataTables/ContractorLogs";
+import { AddNewContractor } from "@/components/modals/ContractorControl/AddNewContractor";
+import { AddNewContractorManager } from "@/components/modals/ContractorControl/AddNewContractorManager";
 
 
 export default function AdminContractsPanel() {
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold md:text-2xl hidden md:block">SYSTEM DATA</h1>
+        <h1 className="text-lg font-semibold md:text-2xl hidden md:block">CONTRUCTOR DATA</h1>
         <div className="flex-grow-1"></div>
         <div className="flex gap-2">
-          <StsCreateModal>
+          <AddNewContractor>
             <Button
               variant="outline"
               size="sm"
               className={`w-full bg-[#1A4D2E] text-white flex item-center`}
             >              
-              <Trash size={14} strokeWidth={3} className="mr-2" />
+              <Plus size={14} strokeWidth={3} className="mr-2" />
               ADD NEW COMPANY
             </Button>
-          </StsCreateModal>
-          <LandfillCreateModal>
+          </AddNewContractor>
+          <AddNewContractorManager>
             <Button
               variant="outline"
               size="sm"
               className={`w-full bg-[#1A4D2E] text-white flex item-center`}
             >
-              <Warehouse size={16} className="mr-2" />
+              <UserCog size={16} className="mr-2" />
               ADD NEW CONTRACTOR MANAGER
             </Button>
-          </LandfillCreateModal>          
+          </AddNewContractorManager>          
         </div>
       </div>
       <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">

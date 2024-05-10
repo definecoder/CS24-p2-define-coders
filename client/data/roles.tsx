@@ -2,21 +2,22 @@ export const admin = "SYSTEM_ADMIN";
 export const stsManager = "STS_MANAGER";
 export const landfillManager = "LAND_MANAGER";
 export const unassigned = "UNASSIGNED";
-export const contractor = "CONTRACTOR";
+export const contractorManager = "CONTRACTOR_MANAGER";
 
 export const roleList = [unassigned, admin, landfillManager, stsManager];
 
 export type ContractorManager = {
-    id: string;
+    id?: string;
     username: string;
     email: string;
+    password?: string;
     contactNumber: string;
-    createdAt: string;    
-    ContractorId: string;
+    createdAt?: string;    
+    contractorId: string;
 };
 
 export type Contractor = {
-  id: string;
+  id?: string;
   name: string;
   registrationId: string;
   tinNumber: string;
@@ -24,8 +25,25 @@ export type Contractor = {
   workforceSize: number;
   paymentPerTon: number;
   requiredWastePerDay: number;
-  contractDuration: number;
+  contractDuration: string;
   area: string;
-  assignedSTS: string;
-  manager: ContractorManager;
+  stsId: string;
+  stsName?: string;
+  manager?: ContractorManager;
 };
+
+export type Employee = {
+  id?: string;
+  username: string;
+  email: string;
+  password: string;
+  roleName: string;
+  dateOfBirth: string;
+  dateOfHire: string;
+  jobTitle: string;
+  paymentRatePerHour: number;
+  routeId: string;
+  contactNumber: string;
+  contractorId: string;    
+};
+

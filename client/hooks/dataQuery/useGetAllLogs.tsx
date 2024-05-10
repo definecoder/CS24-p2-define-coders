@@ -13,20 +13,15 @@ export default function useGetAllLogs() {
 
   async function fetchAllContractorLog() {
     try {
-      const res = await axios.get(apiRoutes.contractor.getAll, {
+      const res = await axios.get(apiRoutes.logs.getAll, {
         headers: {
           Authorization: `Bearer ${await getCookie(jwtToken)}`,
         },
       });
-      const logList = res.data.map((sts: any) => {
+      const logList = res.data.map((log: any) => {
         return {
-          id: sts.id,
-          name: sts.name,
-          wardNumber: sts.wardNumber,
-          capacity: sts.capacity,
-          latitude: sts.latitude,
-          longitude: sts.longitude,
-          manager: sts.manager.map((manager: any) => manager.username),
+          type: log.type,
+          description: log.description,
         };
       });
       await setContractorLog(logList);

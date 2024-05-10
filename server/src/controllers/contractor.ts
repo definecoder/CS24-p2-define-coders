@@ -24,7 +24,11 @@ const addContractor = errorWrapper(
 
 const getAllContractors = errorWrapper(
   async (req: Request, res: Response) => {
-    const contractors = await prisma.contractor.findMany();
+    const contractors = await prisma.contractor.findMany({
+      include: {
+        assignedSTS: true,
+      },
+    });
     res.status(200).json(contractors);
   },
   { statusCode: 500, message: "Couldn't fetch contractors" }

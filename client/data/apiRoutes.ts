@@ -30,10 +30,16 @@ export const apiRoutes = {
     },
   },
   contractor: {
-    create: `${baseUrl}/contracts/create`,
-    getAll: `${baseUrl}/contracts`,
-    delete: `${baseUrl}/contracts/`,
-    edit: `${baseUrl}/contracts/`,
+    create: `${baseUrl}/contractors/create`,
+    getAll: `${baseUrl}/contractors`,
+    delete: `${baseUrl}/contractors/`,
+    edit: `${baseUrl}/contractors/`,
+    manager: {
+      create: `${baseUrl}/auth/createmanager`,
+      getAll: `${baseUrl}/contractor-managers`,
+      delete: `${baseUrl}/contractor-managers/`,
+      edit: `${baseUrl}/contractor-managers/`,
+    },
   },
   landfill: {
     getbyId: `${baseUrl}/landfills/`,
@@ -76,4 +82,7 @@ export const apiRoutes = {
     getProfile: `${baseUrl}/profile`,
     edit: `${baseUrl}/profile`,
   },
+  logs: {
+    getAll: `${baseUrl}/logs/admin`,
+  }
 };
