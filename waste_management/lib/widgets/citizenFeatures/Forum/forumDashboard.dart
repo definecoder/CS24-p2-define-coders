@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:waste_management/constants/theming.dart';
 import 'package:waste_management/models/forumModel.dart';
 import 'package:waste_management/widgets/citizenFeatures/Forum/forumWidgets.dart';
 
@@ -15,10 +16,8 @@ class _ForumDashboardState extends State<ForumDashboard> {
   String? _filePath;
 
   Future<void> _pickFile() async {
-    String? filePath = await FilePicker.platform.pickFiles().then((value) => value!.files.first.path);
-    setState(() {
-      _filePath = filePath;
-    });
+    final filePath = await FilePicker.platform.pickFiles();//.then((value) => value!.files.first.path);
+    //print(filePath.toString());
   }
 
   @override
@@ -101,6 +100,75 @@ class _ForumDashboardState extends State<ForumDashboard> {
         ],
       ),
     ),
+          Padding(
+            padding: const EdgeInsets.only(left:12.0, right: 12.0),
+            child: Container(
+
+              child: Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10), // Set the border radius
+                    ),
+
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: Row(children: [
+                      IconButton(
+                        icon: Icon(Icons.photo_library),
+                        onPressed: _pickFile,
+                      ),
+                      Text("Add Photo/file", style: TextStyle(fontSize: 14),)
+
+                                      ]
+                      ,),
+                    ),
+                  ),
+
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Location',
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+    Padding(
+      padding: const EdgeInsets.all( 8.0),
+      child: SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: ElevatedButton(
+      onPressed: () {
+      print('Hello World');
+      },
+      style: ElevatedButton.styleFrom(
+      backgroundColor: kPrimaryLightColor,
+      shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10.0),
+      ),
+      ),
+      child: Text(
+      'Post',
+      style: TextStyle(fontSize: 18, color: ksecondaryHeaderColor),
+      ),
+      ),
+      ),
+    ),
+
+
 
           content,
         ],

@@ -9,6 +9,7 @@ import 'package:waste_management/widgets/adminFeatures/Dashboard.dart';
 import 'package:waste_management/widgets/adminFeatures/Schedules.dart';
 import 'package:waste_management/widgets/adminFeatures/Users.dart';
 import 'package:waste_management/widgets/citizenFeatures/Forum/forumDashboard.dart';
+import 'package:waste_management/widgets/citizenFeatures/educationalBlog/blogDashboard.dart';
 import 'package:waste_management/widgets/common/Profile.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkin.dart';
 
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
      IssuePage(),
     ForumDashboard(),
     const GoogleMapLive(),
-    const AdminDashboard()
+    const BlogDashboard()
 
 
 
