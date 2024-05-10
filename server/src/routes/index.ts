@@ -17,6 +17,7 @@ import authChecker from "../middlewares/auth";
 import contractorRoute from "./contractor";
 import logRouter from "./logs";
 import routeAreaRouter from "./routeArea";
+import employeeRoute from "./employee";
 
 router.use("/auth", authRoute);
 router.use("/users", userRoute);
@@ -35,5 +36,6 @@ router.use("/schedules", scheduleRoute);
 router.use("/contractors", contractorRoute);
 router.use("/logs", logRouter);
 router.use("/route-areas", routeAreaRouter);
+router.use("/employees", employeeRoute);
 
 export default router;
