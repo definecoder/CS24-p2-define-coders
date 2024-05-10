@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:waste_management/constants/theming.dart';
 import 'package:waste_management/providers/user_provider.dart';
+import 'package:waste_management/screens/issueScreen/issueScreen.dart';
 import 'package:waste_management/screens/mapscreen/livelocation.dart';
 import 'package:waste_management/screens/welcome/splashscreen.dart';
 import 'package:provider/provider.dart';
+import 'package:waste_management/widgets/employeeFeatures/checkin.dart';
 
 
 void main() {
@@ -50,7 +52,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
-        home: GoogleMapLive() //const SplashScreen()
+        home: CheckIn()//IssuePage()//const SplashScreen()
     );
   }
 }

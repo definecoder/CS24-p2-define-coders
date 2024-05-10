@@ -43,6 +43,9 @@ dependencies:
   google_maps_flutter: ^2.6.1
   socket_io_client: ^2.0.3+1
   get: ^4.6.6
+  swipeable_button_view: ^0.0.2
+  page_transition: ^2.1.0
+  lottie: ^3.1.0
 
 dev_dependencies:
   flutter_test:
