@@ -5,13 +5,10 @@ import 'package:waste_management/screens/mapscreen/livelocation.dart';
 import 'package:waste_management/screens/welcome/splashscreen.dart';
 import 'package:provider/provider.dart';
 
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context)=> UserProvider())
-  ],
-
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
       child: const MyApp()));
 }
 
@@ -29,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-   // authService.getUserData(context);
+    // authService.getUserData(context);
   }
 
   @override
@@ -50,7 +47,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
-        home: GoogleMapLive() //const SplashScreen()
-    );
+        // home: GoogleMapLive() //const SplashScreen()
+        home: const SplashScreen());
   }
 }
