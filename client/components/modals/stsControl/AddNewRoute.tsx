@@ -19,18 +19,44 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import useGetSTSAvailableVehicles from "@/hooks/vehicles/useSTSAvailableVehicles";
 import { message } from "antd";
+import useGetAllArea from "@/hooks/dataQuery/useGetAllArea";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import axios from "axios";
+import { apiRoutes } from "@/data/apiRoutes";
+import { stsId } from "@/data/cookieNames";
+import { getCookie } from "@/lib/cookieFunctions";
 
 interface DialogWrapperProps {
   children: React.ReactNode;
 }
 
 export const AddNewRouteModal: React.FC<DialogWrapperProps> = ({ children }) => {
-  const [areaName, setAreaName] = useState("");
+  const [areaId, setAreaId] = useState("");
   const [RouteName, setRouteName] = useState("");
   const [RouteDetails, setRouteDetails] = useState("");
+  const { areaData, fetchAllArea } = useGetAllArea();
   const handleSaveChanges = async () => {
-    message.success(JSON.stringify({areaName, RouteName, RouteDetails}));
+    axios.post(apiRoutes.route.create, { name:RouteName, stsId:getCookie(stsId), description: RouteDetails }, {
+      headers: {
+        Authorization: `Bearer ${getCookie("token")}`,
+        },
+        }).then((res) => {
+          console.log(res.data);
+          message.success("Area added successfully!");    
+          window.location.reload();
+        }).catch((err) => {
+          console.log(err);
+          message.error("Failed to add area!");
+        });    
   };
+
+  useEffect(() => {
+    fetchAllArea();
+  }, []);
+
+  useEffect(() => {
+    console.log(areaData);
+  }, [areaData]);
 
   return (
     <Dialog>
@@ -59,20 +85,32 @@ export const AddNewRouteModal: React.FC<DialogWrapperProps> = ({ children }) => 
             />
           </div>
         </div>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-flow-row grid-cols-4 items-center gap-4">
-            <Label htmlFor="vehicleNumber" className="text-right col-span-1">
-              Area Name
-            </Label>
-            <Input
-              id="vehicleNumber"
-              placeholder="Area Name"
-              value={areaName}
-              onChange={(e) => setAreaName(e.target.value)}
-              className="col-span-3"
-            />
-          </div>
-        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="role" className="text-right">
+                Role
+              </Label>
+              <Select
+                value={areaId}
+                onValueChange={(e) => setAreaId(e)}
+              >
+                <SelectTrigger className="col-span-3">
+                  <SelectValue
+                    id="role"
+                    placeholder="Select role for the user"
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Roles</SelectLabel>
+                    {areaData?.map((area: any, index) => (
+                      <SelectItem key={index} value={area.id}>
+                        {area.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
         <div className="grid gap-4 py-4">
           <div className="grid grid-flow-row grid-cols-4 items-center gap-4">
             <Label htmlFor="vehicleNumber" className="text-right col-span-1">

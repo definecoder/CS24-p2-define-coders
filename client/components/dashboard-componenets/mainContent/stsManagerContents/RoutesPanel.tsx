@@ -8,9 +8,10 @@ import { getCookie } from "@/lib/cookieFunctions";
 
 import { AddNewAreaModal } from "@/components/modals/stsControl/addNewArea";
 import { AddNewRouteModal } from "@/components/modals/stsControl/AddNewRoute";
+import useGetAllArea from "@/hooks/dataQuery/useGetAllArea";
 
 export default function RoutesPanel() {
-  const { getstsDatabyID, stsData } = useGetstsDatabyID();
+  const { areaData, fetchAllArea } = useGetAllArea();
   const areas = [
     "akhalia",
     "akhalia",
@@ -83,10 +84,10 @@ export default function RoutesPanel() {
   ];
 
   useEffect(() => {
-    getstsDatabyID(getCookie(stsId));
+    fetchAllArea();
   }, []);
 
-  useEffect(() => {}, [stsData]);
+  useEffect(() => {}, [areaData]);
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
@@ -117,9 +118,9 @@ export default function RoutesPanel() {
               <h1 className="pl-6 pt-6 text-2xl font-bold">AREA LISTS</h1>
               <br />
               <div className="flex flex-wrap gap-4 mt-4 ml-4 pb-6">
-                {areas.map((area, index) => (
+                {areaData.map((area, index) => (
                   <div className="bg-slate-200 px-6 py-2 rounded-xl shadow-lg">
-                    <p className="text-sm font-semibold">{area}</p>
+                    <p className="text-sm font-semibold">{area.name}</p>
                   </div>
                 ))}
               </div>

@@ -15,12 +15,24 @@ export const apiRoutes = {
     delete: `${baseUrl}/users/`,
     edit: `${baseUrl}/users/`,
   },
+  area: {
+    create: `${baseUrl}/route-areas/add-area`,
+    getAll: `${baseUrl}/route-areas/area`,
+    delete: `${baseUrl}/areas/`,
+    edit: `${baseUrl}/areas/`,
+  },  
+  route: {
+    create: `${baseUrl}/route-areas/add-route`,
+    getAll: `${baseUrl}/route-areas/routes`,
+    delete: `${baseUrl}/areas/`,
+    edit: `${baseUrl}/areas/`,
+  },  
   sts: {
     create: `${baseUrl}/sts/create`,
     getAll: `${baseUrl}/sts`,
     delete: `${baseUrl}/sts/`,
     edit: `${baseUrl}/sts/`,
-    getById: `${baseUrl}/sts/`,
+    getById: `${baseUrl}/sts/`,    
     vehicle: {
       create: `${baseUrl}/sts-entry/create`,
       delete: `${baseUrl}/sts-entry/`,
