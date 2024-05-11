@@ -18,20 +18,18 @@ const track = (io: Server) => {
     } else if (connectionType == "landfill") {
       handleLandfill(socket);
     } else if (connectionType == "citizen") {
-      handleCitizen(socket);
+      // handleCitizen(socket);
     }
   });
 };
 
+// const handleCitizen = (socket: Socket) => {
 
-const handleCitizen = (socket: Socket) => {
+//   socket.on("join_rooms", async (data) => {
+//     socket.join("notification");
+//   }
 
-  socket.on("join_rooms", async (data) => {
-    socket.join("notification");
-  }
-
-
-}
+// }
 
 const handleSts = (socket: Socket) => {
   const id = socket.handshake.query.id;
