@@ -105,8 +105,9 @@ export const apiRoutes = {
   },
   plans: {
     create: `${baseUrl}/collection-plans/create`,
+    getSchedules: `${baseUrl}/collection-plans/all`,
     getAll: `${baseUrl}/plans`,
     delete: `${baseUrl}/plans/`,
     edit: `${baseUrl}/plans/`,
-  },
+  },  
 };

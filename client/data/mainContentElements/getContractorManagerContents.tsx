@@ -5,6 +5,7 @@ import UnassignedContactAdmiPanel from "../../components/dashboard-componenets/m
 import UnassignedSettingsPanel from "../../components/dashboard-componenets/mainContent/unassignedContents/Settings";
 import EmployeePanel from "@/components/dashboard-componenets/mainContent/contractManagerContents/Employees";
 import CollectionPlanPanel from "@/components/dashboard-componenets/mainContent/contractManagerContents/CollectionPlan";
+import ContractorManagerSchedule from "@/components/dashboard-componenets/mainContent/contractManagerContents/Schedule";
 
 export function getContentsOfContractorManager(state: string) {
     switch (state) {
@@ -17,7 +18,7 @@ export function getContentsOfContractorManager(state: string) {
       case contractorManager + "-Collection Plan":
         return <CollectionPlanPanel />;
       case contractorManager + "-Schedule":
-        return <UnassignedMyProfilePanel />;
+        return <ContractorManagerSchedule />;
       case contractorManager + "-Company Details":
         return <UnassignedMyProfilePanel />;
       default:

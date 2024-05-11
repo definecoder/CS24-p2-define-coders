@@ -58,6 +58,7 @@ const getAllCollectionPlans = errorWrapper(
         User: {
           include: {
             assignedRoute: true,
+            Contractor: true,
           },
         },
       },
