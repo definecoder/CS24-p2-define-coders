@@ -33,20 +33,20 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login() {
-    authService.signInUser(
-        context: context,
-        email: emailController.text,
-        password: passwordController.text
-    );
+    // authService.signInUser(
+    //     context: context,
+    //     email: emailController.text,
+    //     password: passwordController.text
+    // );
 
-    // Navigator.pushAndRemoveUntil(
-    //     context,
-    //     generateRoute(
-    //         RouteSettings(name: HomeScreen.routeName)
-    //     ),
-    //     //MaterialPageRoute(builder: (context) => HomeScreen()), same as above
-    //         (route) => false
-    //    );
+    Navigator.push(
+        context,
+        // generateRoute(
+        //     RouteSettings(name: HomeScreen.routeName)
+        // ),
+        MaterialPageRoute(builder: (context) => HomeScreen()), // same as above
+            //(route) => false
+       );
   }
 
 
