@@ -33,6 +33,8 @@ export const apiRoutes = {
     delete: `${baseUrl}/sts/`,
     edit: `${baseUrl}/sts/`,
     getById: `${baseUrl}/sts/`,   
+    makeBill: `${baseUrl}/contractor-bills/generate`,
+    getAllBills: `${baseUrl}/contractor-bills`,
     addIncomingDump: `${baseUrl}/sts-contractor-entry/create`, 
     vehicle: {
       create: `${baseUrl}/sts-entry/create`,

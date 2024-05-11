@@ -73,7 +73,12 @@ const generateBillFortheWeek = errorWrapper(
 
 const getAllContractorBills = errorWrapper(
   async (req: Request, res: Response) => {
-    const contractorBills = await prisma.contractorBill.findMany();
+    const contractorBills = await prisma.contractorBill.findMany({
+      include:{
+        sts:true,
+        contractor:true
+      }
+    });
     res.status(200).json(contractorBills);
   },
   { statusCode: 404, message: "Contractor Bills not found" }
