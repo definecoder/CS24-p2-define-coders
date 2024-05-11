@@ -5,6 +5,7 @@ class Issue {
   final String description;
   final String latitude;
   final String longitude;
+  final bool isAnonymous;
 
   Issue({
     required this.id,
@@ -13,6 +14,7 @@ class Issue {
     required this.description,
     required this.latitude,
     required this.longitude,
+    required this.isAnonymous
   });
 }
 

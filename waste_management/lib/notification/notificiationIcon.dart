@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:waste_management/constants/theming.dart';
+import 'package:waste_management/notification/notificationScreen.dart';
 
 class NotificationWidget extends StatefulWidget {
   @override
@@ -13,10 +15,22 @@ class _NotificationWidgetState extends State<NotificationWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Icon(
-          Icons.notification_important,
-          size: 32,
-          color: ksecondaryHeaderColor,// Adjust icon size as needed
+        GestureDetector(
+          onTap: (){
+            Navigator.push(
+              context,
+              // generateRoute(
+              //     RouteSettings(name: HomeScreen.routeName)
+              // ),
+              MaterialPageRoute(builder: (context) => NotificationScreen()), // same as above
+              //(route) => false
+            );
+          },
+          child: Icon(
+            Icons.notification_important,
+            size: 32,
+            color: ksecondaryHeaderColor,// Adjust icon size as needed
+          ),
         ),
         if (notificationCount == 0)
           Positioned(
