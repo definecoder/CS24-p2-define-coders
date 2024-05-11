@@ -158,6 +158,7 @@ model Contractor {
     createdAt          DateTime             @default(now())
     updatedAt          DateTime             @updatedAt
     STSContractorEntry STSContractorEntry[]
+    ContractorBill     ContractorBill[]
 }
 
 model Vehicle {
@@ -189,14 +190,19 @@ model Vehicle {
 }
 
 model STS {
-    id                String    @id @default(uuid())
+    id                String   @id @default(uuid())
     name              String?
     wardNumber        String?
-    capacity          Decimal?  @db.Decimal(10, 2)
-    currentTotalWaste Decimal?  @db.Decimal(10, 2)
-    latitude          Decimal
-    longitude         Decimal
-    Vehicle           Vehicle[]
+    capacity          Decimal? @db.Decimal(10, 2)
+    currentTotalWaste Decimal? @db.Decimal(10, 2)
+
+    requiredWastePerWeek Decimal? @db.Decimal(10, 2)
+    paymentPerTon        Decimal? @db.Decimal(10, 2)
+    fine                 Decimal? @db.Decimal(10, 2)
+
+    latitude  Decimal
+    longitude Decimal
+    Vehicle   Vehicle[]
 
     STSVehicleEntry STSVehicleEntry[]
     manager         User[]
@@ -211,6 +217,7 @@ model STS {
     Area               Area[]
     CollectionPlan     CollectionPlan[]
     STSContractorEntry STSContractorEntry[]
+    ContractorBill     ContractorBill[]
 }
 
 model Landfill {
@@ -257,12 +264,32 @@ model STSContractorEntry {
     contractor   Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
     contractorId String
 
-    wasteType   String?
+    wasteType String?
+
     wasteWeight Decimal?  @db.Decimal(10, 2)
-    entryTime   DateTime?
+    entryTime   DateTime? @default(now())
     exitTime    DateTime?
 
     vehicleNumber String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model ContractorBill {
+    id            String     @id @default(uuid())
+    contractor    Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+    contractorId  String
+    sts           STS        @relation(fields: [stsId], references: [id], onDelete: Cascade)
+    stsId         String
+    billNo        Int        @unique @default(autoincrement())
+    paymentPerTon Decimal?   @db.Decimal(10, 2)
+    deficit       Decimal?   @db.Decimal(10, 2)
+
+    weightRequired  Decimal? @db.Decimal(10, 2)
+    weightCollected Decimal? @db.Decimal(10, 2)
+    paymentAmount   Decimal? @db.Decimal(10, 2)
+    fine            Decimal? @db.Decimal(10, 2)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
