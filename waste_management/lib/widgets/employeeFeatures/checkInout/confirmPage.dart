@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:waste_management/constants/theming.dart';
+import 'package:waste_management/services/auth_service.dart';
 import 'dart:async';
 
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkin.dart';
@@ -16,10 +17,12 @@ class ConfirmationPage extends StatefulWidget {
 class _ConfirmationPageState extends State<ConfirmationPage>
     with TickerProviderStateMixin {
   late final AnimationController _controller;
+  final AuthServices authServices = AuthServices();
 
   @override
   void initState() {
     super.initState();
+    authServices.checkIn(context: context, flag: true);
     _controller = AnimationController(vsync: this);
     Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(
