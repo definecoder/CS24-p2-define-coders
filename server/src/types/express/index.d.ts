@@ -1,3 +1,4 @@
+import { Server } from "socket.io";
 import { JwtPayload } from "jsonwebtoken";
 import { User } from "../custom";
 
@@ -6,5 +7,6 @@ import { User } from "../custom";
 declare module "express-serve-static-core" {
   interface Request {
     user?: JwtPayload;
+    io?: Server;
   }
 }

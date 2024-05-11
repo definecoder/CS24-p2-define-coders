@@ -15,12 +15,24 @@ export const apiRoutes = {
     delete: `${baseUrl}/users/`,
     edit: `${baseUrl}/users/`,
   },
+  area: {
+    create: `${baseUrl}/route-areas/add-area`,
+    getAll: `${baseUrl}/route-areas/area`,
+    delete: `${baseUrl}/areas/`,
+    edit: `${baseUrl}/areas/`,
+  },  
+  route: {
+    create: `${baseUrl}/route-areas/add-route`,
+    getAll: `${baseUrl}/route-areas/routes`,
+    delete: `${baseUrl}/areas/`,
+    edit: `${baseUrl}/areas/`,
+  },  
   sts: {
     create: `${baseUrl}/sts/create`,
     getAll: `${baseUrl}/sts`,
     delete: `${baseUrl}/sts/`,
     edit: `${baseUrl}/sts/`,
-    getById: `${baseUrl}/sts/`,
+    getById: `${baseUrl}/sts/`,    
     vehicle: {
       create: `${baseUrl}/sts-entry/create`,
       delete: `${baseUrl}/sts-entry/`,
@@ -28,6 +40,24 @@ export const apiRoutes = {
       ongoing: `${baseUrl}/sts-entry/`,
       current: `${baseUrl}/sts-entry/`,
     },
+  },
+  contractor: {
+    create: `${baseUrl}/contractors/create`,
+    getAll: `${baseUrl}/contractors`,
+    delete: `${baseUrl}/contractors/`,
+    edit: `${baseUrl}/contractors/`,
+    manager: {
+      create: `${baseUrl}/auth/createmanager`,
+      getAll: `${baseUrl}/contractor-managers`,
+      delete: `${baseUrl}/contractor-managers/`,
+      edit: `${baseUrl}/contractor-managers/`,
+    },
+  },
+  employee: {
+    create: `${baseUrl}/auth/createempolyee`,
+    getAll: `${baseUrl}/employees`,
+    delete: `${baseUrl}/employees/`,
+    edit: `${baseUrl}/employees/`,
   },
   landfill: {
     getbyId: `${baseUrl}/landfills/`,
@@ -70,4 +100,14 @@ export const apiRoutes = {
     getProfile: `${baseUrl}/profile`,
     edit: `${baseUrl}/profile`,
   },
+  logs: {
+    getAll: `${baseUrl}/logs/admin`,
+  },
+  plans: {
+    create: `${baseUrl}/collection-plans/create`,
+    getSchedules: `${baseUrl}/collection-plans/all`,
+    getAll: `${baseUrl}/plans`,
+    delete: `${baseUrl}/plans/`,
+    edit: `${baseUrl}/plans/`,
+  },  
 };

@@ -7,11 +7,13 @@ import {
   LucideIcon,
   Package,
   Package2,
+  Pickaxe,
   Receipt,
   ScanFace,
   Settings,
   ShoppingCart,
   Truck,
+  UserCog,
   Users,
 } from "lucide-react";
 import { admin } from "../roles";
@@ -36,6 +38,14 @@ export const AdminSidebarItemList = [
   {
     Icon: Receipt,
     title: "Bills",
+  },
+  {
+    Icon: UserCog,
+    title: "Contracts",
+  },  
+  {
+    Icon: Pickaxe,
+    title: "Workforce",
   },
   {
     Icon: Settings,

@@ -5,10 +5,7 @@ import 'package:waste_management/screens/welcome/emailForVerify.dart';
 import 'package:waste_management/services/auth_service.dart';
 
 class MyVerify extends StatefulWidget {
-  MyVerify({super.key,
-  required this.email,
-    required this.otpToken
-  });
+  MyVerify({super.key, required this.email, required this.otpToken});
 
   String email;
   String otpToken;
@@ -24,19 +21,13 @@ class _MyVerifyState extends State<MyVerify> {
   final fillColor = Color.fromRGBO(243, 246, 249, 0);
   final borderColor = Color.fromRGBO(23, 171, 144, 0.4);
 
-  void ForgetPassInitiate(BuildContext context, String otp){
-
-
-  }
-
-
+  void ForgetPassInitiate(BuildContext context, String otp) {}
 
   @override
   void dispose() {
     super.dispose();
     pinController.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -113,10 +104,9 @@ class _MyVerifyState extends State<MyVerify> {
               ),
               Pinput(
                 length: 4,
-                 defaultPinTheme: defaultPinTheme,
-                 focusedPinTheme: focusedPinTheme,
-                 submittedPinTheme: submittedPinTheme,
-
+                defaultPinTheme: defaultPinTheme,
+                focusedPinTheme: focusedPinTheme,
+                submittedPinTheme: submittedPinTheme,
                 showCursor: true,
                 onCompleted: (pin) => print(pin),
               ),
@@ -131,24 +121,26 @@ class _MyVerifyState extends State<MyVerify> {
                         backgroundColor: Colors.green.shade600,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
-                    onPressed: () {},
-                    child: const Text("Verify Email Address", style: TextStyle(
-                        color: ksecondaryHeaderColor))),
+                    onPressed: () {
+                      authService.checkMailOTP(
+                          context: context,
+                          otp: pinController.text,
+                          forgetPassToken: widget.otpToken);
+                    },
+                    child: const Text("Verify Email Address",
+                        style: TextStyle(color: ksecondaryHeaderColor))),
               ),
               Row(
                 children: [
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>  MyPhone()
-                            )
-                        );
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => MyPhone()));
                       },
                       child: Text(
                         "Edit Email Address ?",
-                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
                       ))
                 ],
               )
