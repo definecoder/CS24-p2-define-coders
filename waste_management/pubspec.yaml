@@ -41,6 +41,17 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   pinput: ^4.0.0
   google_maps_flutter: ^2.6.1
+  socket_io_client: ^2.0.3+1
+  get: ^4.6.6
+  swipeable_button_view: ^0.0.2
+  page_transition: ^2.1.0
+  lottie: ^3.1.0
+  intl: ^0.19.0
+  carousel_slider: ^4.2.1
+  file_picker: ^8.0.3
+  video_player: ^2.8.6
+  flick_video_player: ^0.8.0
+  table_calendar: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +78,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/dummy/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
