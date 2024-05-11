@@ -20,6 +20,7 @@ import routeAreaRouter from "./routeArea";
 import employeeRoute from "./employee";
 import collectionPlanRoute from "./collectionPlans";
 import issueRoute from "./issue";
+import stsContractorRoute from "./stsContractor";
 
 router.use("/auth", authRoute);
 router.use("/users", userRoute);
@@ -41,5 +42,6 @@ router.use("/route-areas", routeAreaRouter);
 router.use("/employees", employeeRoute);
 router.use("/collection-plans", collectionPlanRoute);
 router.use("/issues", issueRoute);
+router.use("/sts-contractor-entry", stsContractorRoute);
 
 export default router;

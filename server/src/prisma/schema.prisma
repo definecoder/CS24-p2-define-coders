@@ -155,8 +155,9 @@ model Contractor {
 
     manager User[]
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt          DateTime             @default(now())
+    updatedAt          DateTime             @updatedAt
+    STSContractorEntry STSContractorEntry[]
 }
 
 model Vehicle {
@@ -201,14 +202,15 @@ model STS {
     manager         User[]
     Trip            Trip[]
 
-    createdAt      DateTime         @default(now())
-    updatedAt      DateTime         @updatedAt
-    Bill           Bill[]
-    Schedule       Schedule[]
-    Contractor     Contractor[]
-    Route          Route[]
-    Area           Area[]
-    CollectionPlan CollectionPlan[]
+    createdAt          DateTime             @default(now())
+    updatedAt          DateTime             @updatedAt
+    Bill               Bill[]
+    Schedule           Schedule[]
+    Contractor         Contractor[]
+    Route              Route[]
+    Area               Area[]
+    CollectionPlan     CollectionPlan[]
+    STSContractorEntry STSContractorEntry[]
 }
 
 model Landfill {
@@ -243,6 +245,24 @@ model STSVehicleEntry {
     weightOfWaste Decimal?  @db.Decimal(10, 2)
     entryTime     DateTime?
     exitTime      DateTime?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model STSContractorEntry {
+    id           String     @id @default(uuid())
+    sts          STS        @relation(fields: [stsId], references: [id], onDelete: Cascade)
+    stsId        String
+    contractor   Contractor @relation(fields: [contractorId], references: [id], onDelete: Cascade)
+    contractorId String
+
+    wasteType   String?
+    wasteWeight Decimal?  @db.Decimal(10, 2)
+    entryTime   DateTime?
+    exitTime    DateTime?
+
+    vehicleNumber String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
