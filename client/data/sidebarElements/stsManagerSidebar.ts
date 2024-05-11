@@ -41,8 +41,8 @@ export const STSManagerSidebarItemList = [
       title: "Routes"
     },
     { 
-      Icon: HomeIcon,
-      title: "Waste Collection"
+      Icon: Receipt,
+      title: "Bills"
     },
     {
       Icon: Settings,

@@ -148,9 +148,9 @@ export default function ContractorLogTable() {
       <div className="flex justify-between items-center py-4 gap-4">
         <Input
           placeholder="Search by log description..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("description")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("description")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

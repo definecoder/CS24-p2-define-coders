@@ -20,7 +20,7 @@ export function getContentsOfSTSManager(state: string) {
         return <STSManagerDumpEntries />;
       case stsManager + "-Routes":
         return <RoutesPanel />;
-      case stsManager + "-Waste Collection":
+      case stsManager + "-Bills":
         return <STSWasteCollection />;
       case stsManager + "-Settings":
         return <STSManagerSettings />;
