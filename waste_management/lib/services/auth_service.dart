@@ -13,8 +13,55 @@ import 'package:waste_management/router.dart';
 import 'package:waste_management/screens/homescreen/adminHomeScreen.dart';
 import 'package:waste_management/screens/welcome/loginscreen.dart';
 import 'package:waste_management/screens/welcome/otpVerify.dart';
+import 'package:waste_management/widgets/citizenFeatures/issueScreen/issueFeed.dart';
 
 class AuthServices {
+
+  void issuePost({
+    required BuildContext context,
+    required String type,
+    required String description,
+    required String latitude,
+    required String longitude,
+    required bool isAnonymous,
+  }) async {
+    try {
+      print(type);
+      print(description);
+      final res = await http.post(Uri.parse('$uri/issues/create'),
+          body: jsonEncode({
+            "issueType": type,
+            "description": description,
+            "latitude": latitude,
+            "longitude": longitude,
+            "isAnonymous": isAnonymous
+          }),
+          headers: <String, String>{
+            // "Access-Control-Allow-Origin": "*",
+            'Content-Type': 'application/json; charset=UTF-8',
+            // 'Accept': '*/*'
+          });
+
+
+
+//      print(res.body);
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () async {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => IssueFeed()
+                )
+            );
+          });
+    } catch (e) {
+      print(e.toString());
+      showSnackBar(context, e.toString());
+    }
+  }
+
   void mailVerify({
     required BuildContext context,
     required String email,
@@ -137,4 +184,6 @@ class AuthServices {
       showSnackBar(context, e.toString());
     }
   }
+
+
 }

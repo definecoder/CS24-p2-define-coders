@@ -17,16 +17,16 @@ import 'package:waste_management/widgets/citizenFeatures/volunteer/volunteer.dar
 import 'package:waste_management/widgets/common/Profile.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkin.dart';
 
-class HomeScreen extends StatefulWidget {
+class EmployeeDashboard extends StatefulWidget {
   static const String routeName = '/admin-home-screen';
-  const HomeScreen({super.key});
+  const EmployeeDashboard({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<EmployeeDashboard> createState() => _EmployeeDashboardState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int _page = 2;
+class _EmployeeDashboardState extends State<EmployeeDashboard> {
+  int _page = 1;
   List<Widget> pages = [
 
     // const UserManage(),
@@ -34,11 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
     // const AdminDashboard(),
     // const Bills(),
     // Profile(),
-  EventCalendar(),
-     IssueFeed(),
-    ForumDashboard(),
+    EventCalendar(),
+
+    CheckIn(),
     const GoogleMapLive(),
-    const BlogDashboard()
+
 
 
 
@@ -116,10 +116,10 @@ class _HomeScreenState extends State<HomeScreen> {
         index: 2,
         items: <Widget>[
           Icon(Icons.people_outlined, size: 30, color: ksecondaryHeaderColor,),
-          Icon(Icons.report_problem_outlined, size: 30, color: ksecondaryHeaderColor,),
+
           Icon(Icons.home, size: 30, color: ksecondaryHeaderColor,),
           Icon(Icons.place_rounded, size: 30, color: ksecondaryHeaderColor,),
-          Icon(Icons.message_outlined, size: 30, color: ksecondaryHeaderColor,),
+
         ],
         onTap: (index) {
           setState(() {

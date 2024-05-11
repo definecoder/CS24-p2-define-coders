@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import * as React from "react";
 import EmptyFillContainer from "../../cards/EmptyFillContainer";
 import { Plus, Trash, Truck, Warehouse } from "lucide-react";
 import ContractLists from "@/components/dataTables/ContractLists";
@@ -8,8 +9,17 @@ import { AddNewContractorManager } from "@/components/modals/ContractorControl/A
 import CleanerLists from "@/components/dataTables/CleanerList";
 import { AddNewCleaner } from "@/components/modals/cleanerControl/AddNewCleaner";
 import CleanerLog from "@/components/dataTables/CleanerLog";
+import useGetIssue from "@/hooks/issues/useGetIssue";
+import IssueCard from "../../cards/IssueCard";
+
 
 export default function AdminWorkforcePanel() {
+  const { issueData, getAllIssue } = useGetIssue();
+
+  React.useEffect(() => {
+    getAllIssue();
+  }, []);
+
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  max-h-[calc(100vh-60px)] overflow-scroll">
       <div className="flex items-center justify-between">
@@ -38,9 +48,21 @@ export default function AdminWorkforcePanel() {
             </EmptyFillContainer>
           </div>
           <div className="md:col-span-2 min-h-48">
-            <EmptyFillContainer>
+            {/* <EmptyFillContainer>
               <CleanerLog />
-            </EmptyFillContainer>
+            </EmptyFillContainer> */}
+            <div>
+      {issueData.map((issue, index) => (
+        <IssueCard
+          key={index}
+          issueType={issue.issueType}
+          description={issue.description}
+          latitude={issue.latitude}
+          longitude={issue.longitude}
+          isAnonymous={issue.isAnonymous}
+        />
+      ))}
+    </div>
           </div>
         </div>
       </div>

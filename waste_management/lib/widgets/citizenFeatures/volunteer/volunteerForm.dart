@@ -99,27 +99,25 @@ class _VolunteerFormState extends State<VolunteerForm> {
         ],
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
-      child: Expanded(
-        child: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(0, 3),
-              ),
-            ],
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-          ),
-          child: TextField(
-            controller: _longitudeController,
-            decoration: InputDecoration(
-              labelText: 'Location Area',
-              border: OutlineInputBorder(),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 3),
             ),
+          ],
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+        ),
+        child: TextField(
+          controller: _longitudeController,
+          decoration: InputDecoration(
+            labelText: 'Location Area',
+            border: OutlineInputBorder(),
           ),
         ),
       ),
