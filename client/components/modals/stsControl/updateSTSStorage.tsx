@@ -78,9 +78,9 @@ export const UpdateStsStorage = () => {
         }        
       );
       console.log(response);
-      if (response.status === 200) {
-        message.success("Dump Entry Successful");
-        getUserDetails();
+      if (response.status === 200 || response.status === 201) {
+        message.success("Dump Entry Successful");        
+        window.location.reload();
       } else {
         message.error("Dump Entry Failed");
       }
