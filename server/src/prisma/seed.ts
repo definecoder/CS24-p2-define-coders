@@ -161,37 +161,90 @@ const roleAssignments = [
   },
 ];
 
+const areaData: Prisma.AreaCreateInput[] = [
+  {
+    id: "area1",
+    name: "Mohakhali",
+  },
+  {
+    id: "area2",
+    name: "Gulshan",
+  },
+  {
+    id: "area3",
+    name: "Bonani",
+  },
+  {
+    id: "area4",
+    name: "Badda",
+  },
+  {
+    id: "area5",
+    name: "Jatrabari",
+  },
+];
+
 const routeData: Prisma.RouteCreateInput[] = [
   {
     id: "route1",
     name: "Mohakhali to Amin Bazar",
     description: "Route from Mohakhali to Amin Bazar",
+    area: {
+      connect: {
+        id: "area1",
+      },
+    },
   },
   // add 5 more routes
   {
     id: "route2",
     name: "Gulshan to Amin Bazar",
     description: "Route from Gulshan to Amin Bazar",
+    area: {
+      connect: {
+        id: "area1",
+      },
+    },
   },
   {
     id: "route3",
     name: "Bonani to Amin Bazar",
     description: "Route from Bonani to Amin Bazar",
+    area: {
+      connect: {
+        id: "area1",
+      },
+    },
   },
   {
     id: "route4",
     name: "Badda to Amin Bazar",
     description: "Route from Badda to Amin Bazar",
+    area: {
+      connect: {
+        id: "area2",
+      },
+    },
   },
   {
     id: "route5",
     name: "Jatrabari to Amin Bazar",
     description: "Route from Jatrabari to Amin Bazar",
+    area: {
+      connect: {
+        id: "area2",
+      },
+    },
   },
   {
     id: "route6",
     name: "Mohakhali to Gulshan",
     description: "Route from Mohakhali to Gulshan",
+    area: {
+      connect: {
+        id: "area2",
+      },
+    },
   },
 ];
 
@@ -532,6 +585,7 @@ const tripData: Prisma.TripCreateInput[] = [
 
 const contractorData: Prisma.ContractorCreateInput[] = [
   {
+    id: "con1",
     name: "Contractor 2 Name",
     registrationId: "ABSDC123456",
     registrationDate: "2024-05-10T00:00:00Z",
@@ -548,6 +602,50 @@ const contractorData: Prisma.ContractorCreateInput[] = [
       },
     },
   },
+];
+
+const employeeData: Prisma.UserCreateInput[] = [
+  {
+    username: "employee4",
+    email: "employee4@example.com",
+    hashedPassword: hashedP,
+    role: {
+      connect: {
+        name: RoleName.CONTRACTOR_EMPLOYEE,
+      },
+    },
+    dateOfBirth: "1990-01-01T00:00:00Z",
+    contactNumber: "012321312",
+    dateOfHire: "2024-05-10T00:00:00Z",
+    jobTitle: "E Job Title",
+    paymentRatePerHour: 20.0,
+    Contractor: {
+      connect: {
+        id: "con1",
+      },
+    },
+  },
+  // add 5 more employees
+  ...Array.from({ length: 5 }, (_, i) => ({
+    username: `employee${i + 5}`,
+    email: `employee${i + 5}@example.com`,
+    hashedPassword: hashedP,
+    role: {
+      connect: {
+        name: RoleName.CONTRACTOR_EMPLOYEE,
+      },
+    },
+    dateOfBirth: "1990-01-01T00:00:00Z",
+    contactNumber: "012321312",
+    dateOfHire: "2024-05-10T00:00:00Z",
+    jobTitle: "E Job Title",
+    paymentRatePerHour: 20.0,
+    Contractor: {
+      connect: {
+        id: "con1",
+      },
+    },
+  })),
 ];
 
 async function main() {
@@ -589,6 +687,14 @@ async function main() {
       });
       console.log(role);
     }
+  }
+
+  console.log("Seeding areas...");
+  for (const area of areaData) {
+    const newArea = await prisma.area.create({
+      data: area,
+    });
+    console.log(newArea);
   }
 
   console.log("Seeding routes...");
@@ -653,6 +759,14 @@ async function main() {
       data: contractor,
     });
     console.log(newContractor);
+  }
+
+  console.log("Seeding employees...");
+  for (const employee of employeeData) {
+    const newEmployee = await prisma.user.create({
+      data: employee,
+    });
+    console.log(newEmployee);
   }
 
   console.log("Seeding completed!");
