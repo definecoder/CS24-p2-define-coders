@@ -30,7 +30,7 @@ type ScheduleEntry = {
 
 export function ScheduleByContractor({ date }: { date: string}) {  
 
-    const [companyName, setCOmpanyName] = useState("");
+    const [companyName, setCompanyName] = useState("");
     const [scheduleData, setScheduleData] = useState<any[]>([]);
 
   async function fetchSchedule() {
@@ -52,8 +52,9 @@ export function ScheduleByContractor({ date }: { date: string}) {
         numberOfVans: d.numberOfVans,
         expectedWaste: d.expectedWaste,        
       }));
-      setCOmpanyName(res.data[0].Contractor.companyName);
+      setCompanyName(res?.data[0]?.Contractor?.companyName);
       setScheduleData(data);
+      console.log(data, companyName);
     } catch (error: any) {
       message.error(error?.response?.data?.message || error);
     }
@@ -90,7 +91,7 @@ export function ScheduleByContractor({ date }: { date: string}) {
             <TableBody>
               {scheduleData.map((data, i) => (
                 <TableRow key={i} className="text-center">
-                  <TableCell>{data.collectionStartTime}</TableCell>
+                  <TableCell>{new Date(data.collectionStartTime).toLocaleString()}</TableCell>
                   <TableCell>{data.durationForCollection}</TableCell>
                   <TableCell>{data.numberOfLaborers}</TableCell>
                   <TableCell>{data.numberOfVans}</TableCell>
@@ -108,7 +109,7 @@ export function ScheduleByContractor({ date }: { date: string}) {
                     (total, data) => total + parseInt(data.numberOfLaborers),
                     0
                   )}{" "}
-                  tons
+                  Persons
                 </TableCell>
               </TableRow>
             </TableFooter>

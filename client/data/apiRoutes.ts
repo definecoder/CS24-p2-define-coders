@@ -32,7 +32,8 @@ export const apiRoutes = {
     getAll: `${baseUrl}/sts`,
     delete: `${baseUrl}/sts/`,
     edit: `${baseUrl}/sts/`,
-    getById: `${baseUrl}/sts/`,    
+    getById: `${baseUrl}/sts/`,   
+    addIncomingDump: `${baseUrl}/sts-contractor-entry/create`, 
     vehicle: {
       create: `${baseUrl}/sts-entry/create`,
       delete: `${baseUrl}/sts-entry/`,
