@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import errorWrapper from "../middlewares/errorWrapper";
-import { PrismaClient, User } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import {
   generateToken,
@@ -12,6 +12,10 @@ import CustomError from "../services/CustomError";
 import { randomOTPGenerator, randomPasswordGenerator } from "../services/utils";
 import { sendMail, sendOTPMail } from "../services/mailService";
 import { PERMISSIONS, getPermittedRoleNames } from "../permissions/permissions";
+
+import { adminLog, contractorLog } from "../services/logdata";
+
+import { RoleName } from "../types/rolesTypes";
 
 const prisma = new PrismaClient();
 
@@ -49,6 +53,101 @@ const createUser = errorWrapper(
   { statusCode: 500, message: `Couldn't create user` }
 );
 
+const createManager = errorWrapper(
+  async (req: Request, res: Response) => {
+    const { username, password, email, roleName, contactNumber, contractorId } =
+      req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        username,
+        email,
+        hashedPassword,
+        roleName: RoleName.CONTRACTOR_MANAGER,
+        contactNumber,
+        contractorId,
+      },
+    });
+
+    const token = generateToken(
+      {
+        id: user.id,
+        role: user.roleName,
+      },
+      "10h"
+    );
+
+    sendMail(
+      user,
+      `Welcome To EcoSync!`,
+      `Your account has been created by Admin! Here are the Credentials:`,
+      `username: ${username}<br>email: ${email}<br> password: ${password}<br><br>Regards,<br>EcoSync Team`
+    );
+
+    await adminLog(`Manager Entry`, `Manager ${user.username} added`);
+
+    res.status(201).json({ user, token });
+  },
+  { statusCode: 500, message: `Couldn't create user` }
+);
+
+const createEmployee = errorWrapper(
+  async (req: Request, res: Response) => {
+    const {
+      username,
+      password,
+      email,
+      roleName,
+      contactNumber,
+      contractorId,
+      dateOfBirth,
+      dateOfHire,
+      jobTitle,
+      paymentRatePerHour,
+      routeId,
+    } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        username,
+        email,
+        hashedPassword,
+        roleName,
+        contactNumber,
+        dateOfBirth,
+        dateOfHire,
+        jobTitle,
+        paymentRatePerHour,
+        routeId,
+        contractorId,
+      },
+    });
+
+    const token = generateToken(
+      {
+        id: user.id,
+        role: user.roleName,
+      },
+      "10h"
+    );
+
+    sendMail(
+      user,
+      `Welcome To EcoSync!`,
+      `Your account has been created by Contractor Manager! Here are the Credentials:`,
+      `username: ${username}<br>email: ${email}<br> password: ${password}<br><br>Regards,<br>EcoSync Team`
+    );
+
+    await adminLog(`Employee Entry`, `Employee ${user.username} added`);
+    await contractorLog(`Employee Entry`, `Employee ${user.username} added`);
+
+    res.status(201).json({ user, token });
+  },
+  { statusCode: 500, message: `Couldn't create user` }
+);
+
 const login = errorWrapper(
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
@@ -60,6 +159,7 @@ const login = errorWrapper(
       include: {
         landfill: true,
         sts: true,
+        Contractor: true,
       },
     });
 
@@ -77,6 +177,18 @@ const login = errorWrapper(
 
     // console.log(roles);
     // console.log(user.roleName);
+
+    adminLog(
+      `Login`,
+      `User ${user.username}, Role: ${user.roleName} logged in`
+    );
+
+    if (user.roleName === RoleName.CONTRACTOR_EMPLOYEE) {
+      contractorLog(
+        `Login`,
+        `User ${user.username}, Role: ${user.roleName} logged in`
+      );
+    }
 
     if (!roles.includes(user.roleName)) {
       throw new CustomError("You are not allowed to login", 403);
@@ -100,6 +212,19 @@ const logout = errorWrapper(
     const token = getToken(req) || "no token";
     invalidateToken(token);
     console.log("Logged Out Successfully");
+
+    if (req.user?.roleName === RoleName.CONTRACTOR_EMPLOYEE) {
+      await contractorLog(
+        `Logout`,
+        `User ${req.user.username}, Role: ${req.user.roleName} logged out`
+      );
+    }
+
+    await adminLog(
+      `Logout`,
+      `User ${req.user?.username}, Role: ${req.user?.roleName} logged out`
+    );
+
     res.json({ msg: "Logged Out Successfully" });
   },
   { statusCode: 500, message: `Logout Failed` }
@@ -215,6 +340,8 @@ const resetPasswordConfirm = errorWrapper(
 
 export {
   createUser,
+  createManager,
+  createEmployee,
   login,
   logout,
   resetPasswordInit,

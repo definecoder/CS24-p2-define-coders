@@ -1,8 +1,10 @@
 import {
     Bell,
     CalendarCheck,
+    Car,
     Database,
     Home,
+    HomeIcon,
     LayoutDashboard,
     LineChart,
     LucideIcon,
@@ -34,6 +36,14 @@ export const STSManagerSidebarItemList = [
       Icon: Truck,
       title: "Dump Entry",
     },    
+    {
+      Icon: Car,
+      title: "Routes"
+    },
+    { 
+      Icon: HomeIcon,
+      title: "Waste Collection"
+    },
     {
       Icon: Settings,
       title: "Settings",

@@ -8,22 +8,36 @@ generator client {
 }
 
 model User {
-    id             String  @id @default(uuid())
-    username       String  @unique
-    email          String  @unique
-    hashedPassword String
-    profileName    String?
-    profileImage   String?
-    role           Role    @relation(fields: [roleName], references: [name], onDelete: Cascade)
-    roleName       String  @default("UNASSIGNED")
-    sts            STS?    @relation(fields: [stsId], references: [id], onDelete: Cascade)
-    stsId          String?
+    id                 String          @id @default(uuid())
+    username           String
+    email              String          @unique
+    hashedPassword     String
+    profileName        String? // full name for contractor manager, and employeee
+    profileImage       String?
+    accessLevel        String?
+    dateOfBirth        DateTime?
+    dateOfHire         DateTime?
+    jobTitle           String?
+    paymentRatePerHour Decimal?
+    assignedRoute      Route?          @relation(fields: [routeId], references: [id])
+    routeId            String?
+    collectionPlan     CollectionPlan? @relation(fields: [collectionPlanId], references: [id])
+    collectionPlanId   String?
+
+    contactNumber String?
+
+    role     Role    @relation(fields: [roleName], references: [name], onDelete: Cascade)
+    roleName String  @default("UNASSIGNED")
+    sts      STS?    @relation(fields: [stsId], references: [id], onDelete: Cascade)
+    stsId    String?
 
     landfill   Landfill? @relation(fields: [landfillId], references: [id], onDelete: Cascade)
     landfillId String?
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
+    Contractor   Contractor? @relation(fields: [contractorId], references: [id])
+    contractorId String?
 
     @@index([username], name: "username_index")
     @@index([email], name: "email_index")
@@ -46,6 +60,100 @@ model Permission {
     name        String  @unique
     description String?
     roles       Role[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model ContractorLogs {
+    id          String   @id @default(uuid())
+    type        String
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
+model Issue {
+    id          String   @id @default(uuid())
+    issueType   String
+    description String
+    latitude    Decimal
+    longitude   Decimal
+    isAnonymous Boolean
+    issuePic    String   @default("https://thumbs.dreamstime.com/b/pile-garbage-home-junk-left-front-house-street-plastic-bags-dumper-truck-to-collect-pile-115303584.jpg")
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
+model AdminLogs {
+    id          String   @id @default(uuid())
+    type        String
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
+
+model Route {
+    id          String  @id @default(uuid())
+    name        String
+    description String?
+    area        Area?   @relation(fields: [areaId], references: [id])
+    areaId      String?
+
+    sts      STS?    @relation(fields: [stsId], references: [id])
+    stsId    String?
+    emoloyee User[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Area {
+    id             String           @id @default(uuid())
+    name           String
+    routes         Route[]
+    CollectionPlan CollectionPlan[]
+    sts            STS?             @relation(fields: [stsId], references: [id])
+    stsId          String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model CollectionPlan {
+    id                    String    @id @default(uuid())
+    area                  Area      @relation(fields: [areaId], references: [id])
+    areaId                String
+    collectionStartTime   DateTime?
+    durationForCollection Decimal?
+    numberOfLaborers      Decimal? // 
+    numberOfVans          Decimal?
+    expectedWaste         Decimal?
+    stsId                 String?
+    sts                   STS?      @relation(fields: [stsId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    User      User[]
+}
+
+model Contractor {
+    id                  String    @id @default(uuid()) // contractor id
+    name                String
+    registrationId      String
+    registrationDate    DateTime?
+    tinNumber           String?
+    contactNumber       String?
+    workforceSize       Decimal?
+    paymentPerTon       Decimal   @db.Decimal(10, 2)
+    requiredWastePerDay Decimal   @db.Decimal(10, 2)
+    contractDuration    String?
+    area                String?
+
+    assignedSTS STS?    @relation(fields: [stsId], references: [id], onDelete: Cascade)
+    stsId       String?
+
+    manager User[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -93,10 +201,14 @@ model STS {
     manager         User[]
     Trip            Trip[]
 
-    createdAt DateTime   @default(now())
-    updatedAt DateTime   @updatedAt
-    Bill      Bill[]
-    Schedule  Schedule[]
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+    Bill           Bill[]
+    Schedule       Schedule[]
+    Contractor     Contractor[]
+    Route          Route[]
+    Area           Area[]
+    CollectionPlan CollectionPlan[]
 }
 
 model Landfill {
@@ -117,6 +229,10 @@ model Landfill {
     Bill      Bill[]
     Vehicle   Vehicle[]
 }
+
+// model STSContractorEntry{
+
+// }
 
 model STSVehicleEntry {
     id            String    @id @default(uuid())

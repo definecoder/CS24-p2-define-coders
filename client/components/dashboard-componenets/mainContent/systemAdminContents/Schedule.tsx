@@ -58,12 +58,13 @@ export default function AdminSchedulePanel() {
               ))}
             </SelectGroup>
           </SelectContent>
-        </Select>        
+        </Select>
         AND DATE :
         <Popover>
-          <PopoverTrigger asChild>          
+          <PopoverTrigger asChild>
             <Button variant={"outline"} className="flex gap-2">
-              <CalendarSearchIcon /> {formatDate(date?.toDateString()) || "Select a Date" }
+              <CalendarSearchIcon />{" "}
+              {formatDate(date?.toDateString()) || "Select a Date"}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
@@ -74,7 +75,7 @@ export default function AdminSchedulePanel() {
               className="rounded-md border"
             />
           </PopoverContent>
-        </Popover>        
+        </Popover>
       </div>
 
       <div className="flex flex-col items-center justify-center w-full">

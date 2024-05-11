@@ -11,13 +11,10 @@ import 'package:waste_management/widgets/employeeFeatures/checkInout/checkedOut.
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkin.dart';
 import 'package:waste_management/widgets/employeeFeatures/taskList/taskListShow.dart';
 
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context)=> UserProvider())
-  ],
-
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (context) => UserProvider())],
       child: const MyApp()));
 }
 
@@ -35,7 +32,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-   // authService.getUserData(context);
+    // authService.getUserData(context);
   }
 
   @override
@@ -58,5 +55,6 @@ class _MyAppState extends State<MyApp> {
         ),
         home: const SplashScreen() //ForumDashboard()//TaskListView()//CheckOut()//IssuePage()//
     );
+
   }
 }
