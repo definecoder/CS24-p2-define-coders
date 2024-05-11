@@ -109,5 +109,9 @@ export const apiRoutes = {
     getAll: `${baseUrl}/plans`,
     delete: `${baseUrl}/plans/`,
     edit: `${baseUrl}/plans/`,
-  },  
+  }, 
+  issue: {
+    create: `${baseUrl}/issues/all`,
+  
+  }, 
 };
