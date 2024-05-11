@@ -21,6 +21,7 @@ class _IssueFeedState extends State<IssueFeed> {
       description: 'Overflowing bins on the street corner',
       latitude: '23.789',
       longitude: '90.412',
+      isAnonymous: false
     ),
     Issue(
       id: '2',
@@ -29,6 +30,7 @@ class _IssueFeedState extends State<IssueFeed> {
       description: 'Public littering near the park',
       latitude: '23.791',
       longitude: '90.415',
+      isAnonymous: false
     ),
   ];
 

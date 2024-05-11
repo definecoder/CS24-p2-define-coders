@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:waste_management/constants/theming.dart';
 import 'package:waste_management/router.dart';
 import 'package:waste_management/screens/homescreen/adminHomeScreen.dart';
+import 'package:waste_management/screens/homescreen/employeeHomeScreen.dart';
 import 'package:waste_management/screens/welcome/emailForVerify.dart';
 import 'package:waste_management/services/auth_service.dart';
 import 'package:waste_management/widgets/authWidgets/button_widget.dart';
@@ -47,6 +48,23 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (context) => HomeScreen()), // same as above
             //(route) => false
        );
+  }
+
+  void loginEmployee() {
+    // authService.signInUser(
+    //     context: context,
+    //     email: emailController.text,
+    //     password: passwordController.text
+    // );
+
+    Navigator.push(
+      context,
+      // generateRoute(
+      //     RouteSettings(name: HomeScreen.routeName)
+      // ),
+      MaterialPageRoute(builder: (context) => HomeEmployee()), // same as above
+      //(route) => false
+    );
   }
 
 
@@ -131,8 +149,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: MediaQuery.of(context).size.width,
                     child: ButtonWidget(
                       textSize: 20,
-                      btnText: "Login",
+                      btnText: "Login as Citizen",
                       onPress: login,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 60,
+                    width: MediaQuery.of(context).size.width,
+                    child: ButtonWidget(
+                      textSize: 20,
+                      btnText: "Login as Employee",
+                      onPress: loginEmployee,
                     ),
                   ),
                   const SizedBox(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waste_management/models/issueModel.dart';
+import 'package:waste_management/services/auth_service.dart';
 
 class IssuePage extends StatefulWidget {
   final Function(Issue) addIssue; // Function to add issue
@@ -14,12 +15,22 @@ class _IssuePageState extends State<IssuePage> {
   final TextEditingController _latitudeController = TextEditingController();
   final TextEditingController _longitudeController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-
+  final AuthServices authService = AuthServices();
   String? _selectedIssue;
   bool _isAnonymous = false;
 
+
+
+
   void _submitIssue(BuildContext context) {
     // Create a new Issue object with the provided data
+      authService.issuePost(context: context,
+          type: _selectedIssue!,
+          description: _descriptionController.text,
+          latitude: _latitudeController.text,
+          longitude: _longitudeController.text,
+          isAnonymous: _isAnonymous);
+
     Issue newIssue = Issue(
       id: DateTime.now().toString(), // Unique ID based on timestamp
       type: _selectedIssue!,
@@ -27,6 +38,7 @@ class _IssuePageState extends State<IssuePage> {
       description: _descriptionController.text,
       latitude: _latitudeController.text,
       longitude: _longitudeController.text,
+      isAnonymous: false
     );
 
     // Call the addIssue function passed from IssueFeed

@@ -34,7 +34,9 @@ class _VolunteerFormState extends State<VolunteerForm> {
 
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _submitIssue,
+              onPressed: (){
+                _submitIssue(context);
+              },
               child: Text('Submit'),
             ),
           ],
@@ -184,18 +186,20 @@ class _VolunteerFormState extends State<VolunteerForm> {
 
 
 
-  void _submitIssue() {
+  void _submitIssue(BuildContext context) {
     // Implement submission logic here
-    print('Issue: $_selectedIssue');
-    print('Location: ${_latitudeController.text}   longL: ${_longitudeController}');
-    print('Description: ${_descriptionController.text}');
-    print('Anonymous: $_isAnonymous');
-    // Reset fields after submission if needed
-    _latitudeController.clear();
-    _longitudeController.clear();
-    _descriptionController.clear();
-    _selectedIssue = null;
-    _isAnonymous = false;
+    // print('Issue: $_selectedIssue');
+    // print('Location: ${_latitudeController.text}   longL: ${_longitudeController}');
+    // print('Description: ${_descriptionController.text}');
+    // print('Anonymous: $_isAnonymous');
+    // // Reset fields after submission if needed
+    // _latitudeController.clear();
+    // _longitudeController.clear();
+    // _descriptionController.clear();
+    // _selectedIssue = null;
+    // _isAnonymous = false;
+
+    Navigator.pop(context);
   }
 }
 

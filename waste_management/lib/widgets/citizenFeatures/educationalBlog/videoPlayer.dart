@@ -16,7 +16,7 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    flickManager = FlickManager(videoPlayerController: VideoPlayerController.networkUrl(Uri.parse("https://cdn.discordapp.com/attachments/1190253751903207538/1238581046828732529/IMPROPER_WASTE_DISPOSAL_EFFECTS_AND_SOLUTIONS.mp4?ex=663fcdfd&is=663e7c7d&hm=a9b710a3edfe79ccdd6c6a06e6e2d57bc910963ecc04e70065e750a2d0bb361a&")));
+    flickManager = FlickManager(videoPlayerController: VideoPlayerController.networkUrl(Uri.parse("https://cdn.discordapp.com/attachments/1190253751903207538/1238647584617271316/Plastic_rubbish_been_dump_in_the_amazon_river.mp4?ex=66400bf5&is=663eba75&hm=dfc233cf1500cbf47de979c95cde7aa68199f69ac2f5887b9157ae377ad44329&")));
   }
   
   

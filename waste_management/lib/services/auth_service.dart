@@ -13,58 +13,12 @@ import 'package:waste_management/router.dart';
 import 'package:waste_management/screens/homescreen/adminHomeScreen.dart';
 import 'package:waste_management/screens/welcome/loginscreen.dart';
 import 'package:waste_management/screens/welcome/otpVerify.dart';
+import 'package:waste_management/widgets/citizenFeatures/issueScreen/issueCard.dart';
+import 'package:waste_management/widgets/citizenFeatures/issueScreen/issueFeed.dart';
 
 class AuthServices{
 
-  // void signUpUser({
-  //   required BuildContext context,
-  //   required String email,
-  //   required String password,
-  //   required String name,
-  //   required String messid,
-  // }) async {
-  //   try{
-  //     User user = User(
-  //         id: '',
-  //         name: name,
-  //         email: email,
-  //         password: password,
-  //         messid: messid,
-  //         messname: '',
-  //         token: ''
-  //     );
-  //
-  //     http.Response res=  await http.post(Uri.parse('$uri/api/signup'),
-  //         body: user.toJson(),
-  //         headers: <String, String>{
-  //           'Content-Type' : 'application/json; charset=UTF-8',
-  //
-  //         }
-  //     );
-  //     print("Sign up info");
-  //     print(res.body);
-  //
-  //
-  //
-  //     httpErrorHandle(
-  //         response: res,
-  //         context: context,
-  //         onSuccess: (){
-  //           //print("Account opened");
-  //           showSnackBar(context, 'Account created! Log in with same email and password');
-  //         }
-  //     );
-  //
-  //
-  //   }catch(e){
-  //     print(e.toString());
-  //     // ScaffoldMessenger.of(context).showSnackBar(
-  //     //     SnackBar(
-  //     //         content: Text("Try again with right information" )));
-  //
-  //
-  //   }
-  // }
+
 
   void mailVerify({
     required BuildContext context,
@@ -164,6 +118,64 @@ class AuthServices{
                 ),
                 //MaterialPageRoute(builder: (context) => HomeScreen()), same as above
                     (route) => false);
+          }
+      );
+    }catch(e){
+      print(e.toString());
+      showSnackBar(context, e.toString());
+    }
+  }
+
+
+  void issuePost({
+    required BuildContext context,
+    required String type,
+
+    required String description,
+    required String latitude,
+    required String longitude,
+    required bool isAnonymous,
+
+  }) async {
+    try{
+      print(type);
+      print(description);
+      print(latitude);
+      print(longitude);
+      print(isAnonymous);
+
+      final  res=  await http.post(Uri.parse('$uri/issues/create'),
+          body: jsonEncode({
+            'issueType': type,
+            'description': description,
+            'latitude': latitude,
+            'longitude': longitude,
+            'isAnonymous': isAnonymous
+          }),
+          headers: <String, String>{
+            // "Access-Control-Allow-Origin": "*",
+            'Content-Type' : 'application/json; charset=UTF-8',
+            // 'Accept': '*/*'
+          }
+      );
+      print(type);
+
+
+
+
+//      print(res.body);
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () async {
+
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>  IssueFeed()
+                )
+            );
+
           }
       );
     }catch(e){
