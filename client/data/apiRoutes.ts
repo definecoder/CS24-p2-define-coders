@@ -111,4 +111,8 @@ export const apiRoutes = {
     delete: `${baseUrl}/plans/`,
     edit: `${baseUrl}/plans/`,
   },  
+  issue: {
+    create: `${baseUrl}/issues/all`,
+ 
+  },  
 };
