@@ -7,6 +7,10 @@ import cors from "cors";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { track } from "./controllers/tracking";
+import { getIPAddress } from "./services/utils";
+
+
+getIPAddress();
 
 const PORT = process.env.PORT || 3000;
 const app = express();

@@ -22,6 +22,13 @@ export default function useGetAllLogs() {
         return {
           type: log.type,
           description: log.description,
+          time: new Date(log.createdAt).toLocaleString(
+            "en-US",
+            {              
+              hour: "2-digit",
+              minute: "2-digit",             
+            }
+          ),
         };
       });
       await setContractorLog(logList);

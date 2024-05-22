@@ -8,7 +8,11 @@ const prisma = new PrismaClient();
 
 const getAdminLogs = errorWrapper(
   async (req: Request, res: Response) => {
-    const logs = await prisma.adminLogs.findMany();
+    const logs = await prisma.adminLogs.findMany({
+      orderBy:{
+        createdAt : 'desc'
+      }
+    });
     res.status(200).json(logs);
   },
   { statusCode: 500, message: "Couldn't get admin logs" }
