@@ -3,6 +3,7 @@ import 'package:page_transition/page_transition.dart';
 
 import 'package:swipeable_button_view/swipeable_button_view.dart';
 import 'package:waste_management/constants/theming.dart';
+import 'package:waste_management/services/auth_service.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkOutConfirm.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/confirmPage.dart';
 
@@ -15,6 +16,7 @@ class CheckIn extends StatefulWidget {
 
 class _CheckInState extends State<CheckIn> {
   bool isFinished = false;
+
 
   @override
   Widget build(BuildContext context) {

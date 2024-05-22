@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:waste_management/screens/homescreen/adminHomeScreen.dart';
 import 'package:waste_management/screens/welcome/loginscreen.dart';
+import 'package:waste_management/services/auth_service.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkedOut.dart';
 import 'package:waste_management/widgets/employeeFeatures/checkInout/checkin.dart';
 
@@ -15,12 +16,14 @@ class CheckoutConfirm extends StatefulWidget {
 }
 
 class _CheckoutConfirmState extends State<CheckoutConfirm> {
+  final AuthServices authServices = AuthServices();
 
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    authServices.checkIn(context: context, flag: false);
     Timer(Duration(seconds: 6), () {
       Navigator.pushReplacement(
           context,

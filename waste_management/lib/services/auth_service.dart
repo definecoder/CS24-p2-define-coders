@@ -17,6 +17,43 @@ import 'package:waste_management/widgets/citizenFeatures/issueScreen/issueFeed.d
 
 class AuthServices {
 
+  void checkIn({
+    required BuildContext context,
+    required bool flag,
+
+  }) async {
+    try {
+
+      final res = await http.post(Uri.parse('$uri/logs/checkin'),
+          body: jsonEncode({
+            "flag": flag
+          }),
+          headers: <String, String>{
+            // "Access-Control-Allow-Origin": "*",
+            'Content-Type': 'application/json; charset=UTF-8',
+            // 'Accept': '*/*'
+          });
+
+
+
+//      print(res.body);
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () async {
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => CheckI()
+            //     )
+            // );
+          });
+    } catch (e) {
+      print(e.toString());
+      showSnackBar(context, e.toString());
+    }
+  }
+
   void issuePost({
     required BuildContext context,
     required String type,
