@@ -2,7 +2,7 @@
 
 # **EcoSync** by DEFINE CODERS
 
-EcoSync is a full-stack application built with Next.js, Express.js, Prisma, and PostgreSQL. This was developed by team define codes for CODE SAMURAI 2024. This project handles waste collection and management for Dhaka North City Corporation. 
+EcoSync is a full-stack application built with Next.js, Express.js, Prisma, and PostgreSQL. This was developed by the team to define codes for CODE SAMURAI 2024. This project handles waste collection and management for Dhaka North City Corporation. 
 
 ## Project Structure
 
@@ -10,9 +10,9 @@ The project is divided into two main directories:
 
 - `/client` - Contains the Next.js frontend application.
 - `/server` - Contains the Express.js backend server, which uses Prisma for ORM and PostgreSQL as the database.
-- `/waste_management` - Contains the mobile app for the customres and employers
+- `/waste_management` - Contains the mobile app for the customers and employers
 
-## RUNNING THE PROJECT USING DOCKER COMPOSE (RECCOMANDED)
+## RUNNING THE PROJECT LOCALLY
 
 1. Clone the repository:
 
@@ -25,7 +25,7 @@ cd .\client\
 npm i
 npm run dev
 ```
-3. Open a new terminal in the project root directory and Run backend using:
+3. Open a new terminal in the project root directory and Run the backend using:
 ```bash
 cd .\server\
 npm i
